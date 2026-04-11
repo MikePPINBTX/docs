@@ -1,0 +1,85 @@
+# Account Setup & Branding
+
+Your first step in 1nSpecT is configuring your company profile and branding. This information appears on every report PDF, email communication, and client-facing portal your clients will see.
+
+---
+
+## Logging In
+
+1. Navigate to [app.1nspect.app](https://app.1nspect.app) (or your custom domain if configured).
+2. Enter your email and password, then tap **Sign In**.
+3. On first login you will land on the **Dashboard**.
+
+> If you do not have credentials, contact your account administrator. Self-service signup is available at the start of a free trial.
+
+---
+
+## Company Profile
+
+Go to **Settings → Company Profile** to configure your business identity.
+
+### Required Fields
+
+| Field | Description |
+|-------|-------------|
+| **Company Name** | Appears in report headers, emails, and the client portal |
+| **Owner / Inspector Name** | Used in contract templates as `$InspectorName` |
+| **License Number** | TREC license or equivalent; appears in contracts and reports as `$InspectorLicense` |
+| **Phone** | Displayed in report footers and client emails |
+| **Email** | Reply-to address for client communications |
+| **Website** | Optional; displayed in report footers |
+
+### Address
+Your business address is used in contract documents and certain email templates.
+
+---
+
+## Branding
+
+Go to **Settings → Branding** to customize the visual identity of all client-facing output.
+
+### Logo
+Upload a PNG or SVG logo (recommended size: **400 × 120 px**, transparent background). This logo appears:
+- In the header of every PDF report
+- In client-facing email communications
+- On the client signing portal
+
+### Colors
+1nSpecT uses three brand colors across all generated output:
+
+| Setting | Where it appears |
+|---------|-----------------|
+| **Primary Color** | Report section headers, table borders, primary buttons |
+| **Secondary Color** | Accent bars, subsection dividers |
+| **Accent Color** | Highlights, badges, AI-generated content markers |
+
+Enter hex values (e.g. `#3232A8`) or use the color picker. Changes apply to all **new** PDFs generated after saving — existing published reports are not retroactively updated.
+
+### Typography
+Set the default font family and size for report body text. The report PDF renderer supports:
+- System fonts (Arial, Georgia, Times New Roman)
+- Google Fonts (loaded at PDF generation time — requires internet on the backend)
+
+### Preview
+After saving your branding settings, open any inspection and click **Generate PDF Preview** from the Report Workspace to see your branding applied to a live report.
+
+---
+
+## Report Header & Footer
+
+Go to **Settings → Report Design** to configure what appears in the running header and footer of multi-page reports.
+
+The report header on section pages can include:
+- Company logo (left)
+- Report title and property address (center)
+- Rating legend (I / NI / NP / D) (right)
+
+The footer on all pages includes:
+- Page number (auto-calculated)
+- Company name and license number
+
+---
+
+## Next Step
+
+Once your company profile and branding are saved, proceed to [Build Your First Template](./02-build-your-first-template.md).

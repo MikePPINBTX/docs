@@ -1,0 +1,184 @@
+# AI Features Guide
+
+1nSpecT uses AI throughout the inspection and report workflow to reduce writing time, improve narrative quality, and surface deficiencies the inspector might miss. This guide covers every AI-powered feature, what it does, when to use it, and what it costs.
+
+---
+
+## IT Tokens — The AI Currency
+
+Every AI operation consumes **IT (Inspection Tokens)**. Your subscription includes a monthly allotment. Tokens refresh with your billing cycle. You can view your current balance in **Settings → Subscription & Tokens**.
+
+| Feature | Cost |
+|---------|------|
+| AI Generate (text-only) | 4 IT |
+| Vision Analysis (photo) | 8 IT |
+| Library Search (🪄 semantic) | 1 IT |
+| FREE (Library) chips | 0 IT |
+| AI Draft (batch, per finding) | 4 IT each |
+| Batch SPO generation | 4 IT per section |
+
+> **Zero-cost tip:** Build your narrative library over time. The more narratives you save, the more FREE chips appear — reducing your AI spend on repeat finding types.
+
+---
+
+## AI Generate — Text-Only Narrative
+
+**Where:** Inspection Capture Screen → ✨ button (Vision toggle OFF)
+
+**What it does:** Takes your caption and section context and generates a full CAR-format narrative:
+- **Condition** — what was observed
+- **Action** — what repair or evaluation is recommended
+- **Recommendation** — who should perform the work and why it matters
+
+**Best for:** Common, well-described findings where your caption clearly communicates the deficiency. Example: "Double-tapped breaker at main panel" → full narrative generated in 2 seconds.
+
+**Tips:**
+- Write a specific caption — the more detail you give, the better the narrative
+- Select the correct section and subsection before generating — the AI uses this context to calibrate severity and recommended action
+- The AI follows TREC Standards of Practice language by default for Texas residential inspections
+- Generated narratives always require your review — treat them as a strong first draft
+
+**Cost:** 4 IT
+
+---
+
+## Vision Analysis — Photo-Grounded Narrative
+
+**Where:** Inspection Capture Screen → enable the 🔬 toggle → ✨ AI Generate
+
+**What it does:** Sends your photo to a multimodal AI model along with the caption. The AI analyzes what is visually present in the photo and generates a narrative grounded in the actual image — not just the caption.
+
+**Best for:**
+- Complex or ambiguous deficiencies where the visual context is critical
+- Situations where the caption alone doesn't fully describe what you're seeing
+- Verifying that the narrative matches the photo before saving
+
+**How it works:**
+1. Capture a photo
+2. Write a caption describing what you're looking at
+3. Enable the 🔬 Vision toggle
+4. Tap ✨ AI Generate
+5. The photo is analyzed and a narrative is returned within 10–15 seconds
+
+**Vision Analysis with Co-Inspector** — see the [Co-Inspector](#co-inspector) section below.
+
+**Cost:** 8 IT
+
+---
+
+## Co-Inspector — Secondary Deficiency Detection
+
+**Where:** Activates automatically after Vision Analysis if additional deficiencies are detected
+
+**What it does:** After generating the primary narrative, the AI scans the photo for additional deficiencies that are *not* the primary finding. If it finds any (up to 3), a review modal slides up.
+
+**Strict criteria — the AI only flags:**
+- Clearly visible safety hazards
+- Definitive structural deficiencies
+- Active moisture, rot, or mold
+
+**The AI will NOT flag:** code compliance items (GFCI, AFCI), missing labels, cosmetic issues, deferred maintenance, or anything requiring knowledge of build date or local codes.
+
+**The workflow:**
+1. Vision Analysis completes → primary narrative populates
+2. If secondary findings exist → review modal appears automatically
+3. For each proposed finding:
+   - Tap **+ Queue** to accept it (adds a pill to the pending queue)
+   - Tap **✕ Skip** to dismiss it
+4. Finish your current finding → Save + New
+5. Tap a green **📋 pill** to pre-populate the next form with that finding's caption and narrative
+6. Capture a photo of that specific deficiency → adjust section/subsection → Save
+7. Repeat until all pills are consumed
+
+**Important:** Co-Inspector findings are suggestions only. Always verify the finding visually before saving. The AI targets >85% confidence findings only, but you are the licensed inspector — your judgment is final.
+
+**Cost:** Included in the 8 IT Vision Analysis cost — no additional charge for secondary findings.
+
+---
+
+## Library Search — Semantic Narrative Matching
+
+**Where:** Inspection Capture Screen → 🪄 Magic Wand button
+
+**What it does:** Takes your caption and uses AI semantic ranking to find the most relevant narratives in your library — even if the wording doesn't exactly match. Returns up to 3 suggestions.
+
+**Best for:** Finding a past narrative for a finding type you've documented before, when you can't remember the exact wording.
+
+**Cost:** 1 IT
+
+---
+
+## FREE Library Chips — Zero-Cost Local Search
+
+**Where:** Appear automatically below the caption field as you type
+
+**What it does:** Runs a keyword match against your narrative library locally on the device. Completely offline-capable. Returns matching narratives as tappable chips.
+
+**Best for:** Common repeat findings where you have library entries — roof shingles, GFCI outlets, water heater age, etc.
+
+**Cost:** 0 IT — always free
+
+---
+
+## Narrative Library
+
+**Where:** Settings → Narrative Library (web admin) / saved from the Capture Screen (mobile)
+
+The narrative library is your personal collection of reusable inspection narratives, organized by section and finding type. Every narrative you save becomes available as a FREE chip in future inspections.
+
+**Building your library:**
+- After writing or editing a narrative on mobile, tap **Save to Narrative Library**
+- In the web admin, you can manage, edit, and delete library entries
+- Narratives are scoped to your account — not shared across subscribers
+
+**Library search hierarchy (mobile):**
+1. Local keyword match → FREE chips (0 IT, offline)
+2. Semantic search via 🪄 → ranked results (1 IT, requires network)
+
+---
+
+## AI Draft — Batch Narrative Generation
+
+**Where:** Report Workspace → AI Draft tab
+
+**What it does:** Generates full CAR narratives for all findings that have a **Field Note** (a brief on-site observation note) but no narrative yet. Useful when inspectors jot quick field notes on mobile and the full narrative writing happens in the office during report review.
+
+**How to use:**
+1. Open the Report Workspace for a completed inspection
+2. Go to the **AI Draft** tab
+3. Review the list of findings eligible for drafting (have field note, no narrative)
+4. Click **Draft All** or draft individual findings
+5. Review each generated narrative — approve, edit, or reject
+
+**Field Notes vs. Captions:** The Field Note is a private, unformatted observation note the inspector writes on mobile (separate from the caption). It gives the AI more raw material to work with. Example field note: *"rust at base, looks like slow leak, maybe 2-3 years old"* → AI generates a full professional narrative about corrosion at the water heater base with recommended evaluation.
+
+**Cost:** 4 IT per drafted finding
+
+---
+
+## System Performance Opinion (SPO)
+
+**Where:** Report Workspace → Summary tab → System Performance Opinion section
+
+**What it does:** Generates a section-level performance summary for each major system (Structural, Electrical, Plumbing, HVAC, Roofing). The SPO synthesizes all the deficiency ratings across the subsections of that system into a single professional paragraph — giving the client an at-a-glance assessment of each major system.
+
+**How it works:**
+1. The AI reads all findings and ratings for a given section
+2. It identifies the severity distribution (how many I / NI / NP / D ratings)
+3. It synthesizes a narrative that accurately represents the overall system condition
+4. For Structural Systems, the SPO includes **Movement Indicator** analysis — a TREC-calibrated assessment of foundation performance based on all structural subsection findings
+
+**The SPO is standards-aware:** It uses the severity thresholds defined in your SOP rules to calibrate language — a section with 2 minor deficiencies gets different language than one with 5 major deficiencies.
+
+**Cost:** 4 IT per section SPO
+
+---
+
+## AI Knowledge Base & SOP Awareness
+
+The AI narratives are calibrated to:
+
+- **TREC Standards of Practice** (Texas residential) — severity language, recommended actions, and inspector liability language follow TREC SOP
+- **Section context** — Electrical narratives mention qualified electricians; Plumbing narratives mention licensed plumbers; Structural narratives reference foundation specialists
+- **Confidence thresholds** — The Co-Inspector only flags findings it is >85% confident about; ambiguous observations are omitted to protect inspector liability
+- **No code compliance** — The AI does not cite specific building codes (GFCI requirements, clearances, load calculations) because code compliance requires knowledge of permit date, local amendments, and AHJ interpretation. Inspectors should add code references manually if required by their SOP.

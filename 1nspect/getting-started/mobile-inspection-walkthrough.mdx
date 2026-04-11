@@ -1,0 +1,171 @@
+# Mobile Inspection Walkthrough
+
+The 1nSpecT mobile app is the inspector's on-site tool for capturing photos, video, deficiency findings, and AI-assisted narratives. This guide walks through a complete inspection from opening the app to saving the last finding.
+
+---
+
+## Opening an Inspection
+
+1. Log in to the 1nSpecT mobile app with your inspector credentials.
+2. On the **Home** screen, tap the inspection you want to open from the **Active Inspections** list.
+3. Tap **Start Inspection** to enter the inspection.
+
+---
+
+## The Inspection Capture Screen
+
+The Capture Screen is where you record every finding. It is organized top-to-bottom:
+
+```
+[ Photo / Video preview area ]
+[ 📷  🎥  📁  — capture controls ]
+[ Pending Co-Inspector pills (if any) ]
+[ Section navigation bar ]
+[ Subsection navigation bar ]
+[ Caption field ]
+[ AI tools row: ✨ AI Generate | 🪄 Library Search | 🔬 Vision Analysis ]
+[ Narrative field ]
+[ Field Note (optional) ]
+[ Rating buttons: I  NI  NP  D ]
+[ Save  |  Save + New ]
+```
+
+---
+
+## Capturing Media
+
+### Take a Photo
+Tap the **📷** button to open the device camera. After capturing, the photo appears in the preview area at the top of the screen.
+
+### Take a Video
+Tap the **🎥** button to record a short video clip. A thumbnail is shown in the preview area with a play indicator.
+
+### Import from Library
+Tap the **📁** button to select a photo or video from your device's photo library. Useful for importing photos taken with a separate camera.
+
+### Edit / Markup
+After capturing a photo, tap **Edit** to annotate it with shapes, arrows, and text using the Markup tool. Markup is embedded in the photo and stored with the finding.
+
+### Shrink / Expand
+Use the **Shrink** and **Expand** buttons to resize the photo preview area while you work. Shrink gives more screen space to the form fields; Expand gives a larger photo reference.
+
+---
+
+## Selecting Section & Subsection
+
+Tap a section in the **section navigation bar** (e.g. "Electrical") then tap the specific subsection (e.g. "Main Panel") in the subsection bar. Your selection persists until you change it.
+
+> Always select the correct section and subsection before saving a finding — this determines where the deficiency appears in the report.
+
+---
+
+## Writing the Caption
+
+The **Caption** field is a short (6–15 word) description of the finding, written in inspector shorthand. Example:
+
+> `Damaged shingles at rear slope — granule loss visible`
+
+The caption becomes the title of the deficiency card in the PDF report.
+
+---
+
+## AI Narrative Tools
+
+Three AI tools are available to help write the finding narrative:
+
+### ✨ AI Generate (Text-Only)
+Generates a full CAR-format narrative (Condition + Action + Recommendation) from the caption alone using your section context. Does not require a photo. Costs 4 IT tokens.
+
+### 🪄 Library Search (Semantic)
+Searches your narrative library for the closest matching narratives using AI semantic ranking. Returns up to 3 suggestions. Costs 1 IT token. Suggestions appear as chips below the caption field.
+
+**FREE (Library)** chips are local keyword matches from your library — no AI cost.
+
+### 🔬 Vision Analysis (Multimodal)
+Analyzes the captured photo using AI to generate a narrative grounded in what is visually present. Requires a photo. Costs 8 IT tokens.
+
+Toggle the **🔬** switch to enable Vision mode before tapping **✨ AI Generate**.
+
+---
+
+## Co-Inspector (AI Secondary Findings)
+
+When Vision Analysis runs, the AI may spot additional deficiencies visible in the same photo. If it does:
+
+1. A **review modal** slides up automatically showing up to 3 proposed findings.
+2. For each proposed finding:
+   - Tap **+ Queue** to accept it and add it to your pending queue.
+   - Tap **✕ Skip** to dismiss it.
+3. Accepted findings appear as green **📋 caption** pills between the capture controls and the section nav.
+4. Finish your current finding → tap **Save + New** → the form clears.
+5. Tap a pill to pre-populate the caption and narrative for that queued finding.
+6. Take a new photo of that finding, adjust the section/subsection, and save.
+7. Repeat until all pills are cleared.
+
+> Co-Inspector findings are suggestions only — always verify visually before saving. The AI targets only high-confidence safety hazards, structural deficiencies, and active moisture/rot.
+
+---
+
+## Narrative Library Chips
+
+If your narrative library contains matching entries, **FREE (Library)** chips appear below the caption field automatically as you type. Tap a chip to insert it into the narrative field. No AI tokens consumed.
+
+---
+
+## Rating the Finding
+
+Tap one of the four rating buttons:
+
+| Rating | Meaning |
+|--------|---------|
+| **I** | Inspected — no deficiency noted |
+| **NI** | Not Inspected — explain why in the narrative |
+| **NP** | Not Present — component not found at property |
+| **D** | Deficient — deficiency noted; narrative required |
+
+> **NI reminder:** If you tap NI, a reminder toast appears prompting you to include the reason and recommendations in the narrative.
+
+---
+
+## Saving a Finding
+
+- **Save** — saves the current finding and stays on the same form (fields preserved) for any follow-up notes.
+- **Save + New** — saves the current finding and clears all fields to begin the next capture.
+
+A finding requires at minimum: a selected subsection and a caption. Photo, narrative, and rating are strongly recommended.
+
+---
+
+## Saving to Narrative Library
+
+After writing a narrative you want to reuse in future inspections:
+- Tap **Save to Narrative Library** below the narrative field.
+- The narrative is saved directly to your library at zero IT cost.
+- It will appear as a **FREE (Library)** chip in future inspections when the caption matches.
+
+---
+
+## Reviewing Your Findings
+
+From the inspection home screen, tap **Review** to see all captured findings organized by section and subsection. You can:
+- Edit any finding
+- Delete a finding
+- Flag a finding for the Summary section of the report
+- Reorder findings within a subsection
+
+---
+
+## Finishing the Inspection
+
+When all findings are captured:
+1. Tap **Finish Inspection** from the inspection home screen.
+2. Review the completion checklist (all required sections rated, narrative coverage).
+3. Tap **Complete** to mark the inspection as finished.
+
+The inspection status changes to `complete` and the report becomes available for review in the **Report Workspace** on the web admin.
+
+---
+
+## Next Step
+
+Once the inspection is complete, open the web admin and [Generate Your First Report](./05-generate-your-first-report.md).

@@ -1,0 +1,135 @@
+# Generate Your First Report
+
+Once an inspection is marked complete, the Report Workspace in the web admin is where you review, refine, and publish the final report — and deliver it to your clients.
+
+---
+
+## Opening the Report Workspace
+
+1. In the web admin, navigate to **Orders** → open the order → click the inspection.
+2. Click **Report Workspace** (or navigate directly via **Inspections → [Inspection] → Report**).
+
+---
+
+## Report Workspace Overview
+
+The Report Workspace is organized into tabs:
+
+| Tab | Purpose |
+|-----|---------|
+| **Findings** | Review and edit all captured deficiencies, organized by section |
+| **Narratives** | Edit individual finding narratives with rich text formatting |
+| **AI Draft** | Batch-generate narratives for findings that have field notes but no narrative yet |
+| **Summary** | Edit the executive summary section of the report |
+| **Ratings** | View and adjust section-level ratings |
+| **Preview** | Generate and view a PDF preview |
+| **Publish** | Publish the report and trigger delivery to clients |
+
+---
+
+## Reviewing Findings
+
+In the **Findings** tab, all captured deficiencies are listed by section and subsection.
+
+For each finding you can:
+- **Edit the caption** — update the short title
+- **Edit the narrative** — open the rich text editor for full formatting
+- **Move** — reassign a finding to a different section or subsection
+- **Flag for Summary** — mark the finding to appear in the executive summary
+- **Delete** — remove a finding from the report
+
+---
+
+## AI Draft Narratives
+
+If your inspectors used the mobile app's **Field Note** feature (a brief on-site observation note), the AI Draft tool can batch-generate full CAR narratives from those field notes.
+
+1. Go to the **AI Draft** tab.
+2. Click **Draft All** to generate narratives for every finding that has a field note but no narrative.
+3. Review each generated narrative — approve or edit as needed.
+4. Narratives with only a caption (no field note) are excluded from batch drafting; write these manually.
+
+Cost: 4 IT tokens per drafted finding.
+
+---
+
+## The Executive Summary
+
+The **Summary** tab contains the executive summary that appears on the first content pages of the PDF report.
+
+### Summary Sections
+- **System Performance Opinion (SPO):** Auto-generated paragraph evaluating the overall condition of major systems (Structural, Electrical, Plumbing, HVAC, Roofing). The SPO synthesizes your deficiency ratings across all subsections of each system.
+- **Summary Deficiencies:** The findings you flagged as "summary items" in the Findings tab appear here as a concise list.
+- **Inspector Observations:** Optional free-text area for overall property impressions.
+- **Additional Information / Preamble:** Configurable standard language (limitation of liability, standards disclosure, scope of inspection).
+
+### Skipping the Preamble
+If the client has already received the preamble language in the pre-inspection agreement, you can toggle **Skip Additional Info** to omit the preamble from this report.
+
+---
+
+## Generating a PDF Preview
+
+1. Go to the **Preview** tab.
+2. Click **Generate Preview**.
+3. The PDF opens in a new browser tab — review it for layout, branding, page breaks, and content.
+
+The preview is not stored permanently. Click **Generate Preview** again after making edits to refresh it.
+
+---
+
+## Cover Photo
+
+The cover page of the report displays a property photo.
+
+- On mobile: the inspector can designate any captured photo as the cover photo from the Review screen.
+- On web: you can upload a cover photo directly from the Report Workspace (drag-and-drop the image onto the cover photo placeholder in the Preview tab).
+
+---
+
+## Publishing the Report
+
+When the report is ready:
+
+1. Go to the **Publish** tab.
+2. Click **Publish Report**.
+3. The system:
+   - Generates the final signed PDF
+   - Uploads it to Google Cloud Storage
+   - Sets `reportStatus = 'published'` on the inspection record
+   - Fires the `report.published` workflow event
+
+The `report.published` event triggers your configured email delivery workflow — sending the full report to the client and (if configured) a separate agent-facing summary to the buyer's agent.
+
+---
+
+## Report Delivery
+
+Report emails are sent according to your **Communications Workflow** settings:
+
+| Recipient | Default content |
+|-----------|----------------|
+| **Client(s)** | Full PDF report + repair request instructions |
+| **Buyer's Agent** | Summary-only version (without pricing, without repair request) |
+
+> Delivery addresses and email templates are configured in **Settings → Communications → Workflow**.
+
+---
+
+## The Realtor Portal
+
+After publishing, the buyer's agent receives a **magic link** to the Realtor Portal — a read-only, branded web page showing the inspection summary findings. The portal does not require the agent to create an account.
+
+The portal link is valid for 90 days after report publication.
+
+---
+
+## Next Steps
+
+You have now completed the core 1nSpecT workflow: **Account setup → Template → Order → Inspection → Report**. 
+
+Explore the feature guides to go deeper:
+- [AI Features Guide](../features/ai-features.md)
+- [Pricing Manager](../features/pricing-manager.md)
+- [Communications & Workflow](../features/communications.md)
+- [Contracts](../features/contracts.md)

@@ -1,0 +1,170 @@
+# Communications & Workflow
+
+1nSpecT's communications system sends the right email to the right person at the right time — automatically. Every email is tied to an inspection event (booking confirmed, contract signed, report published, etc.) and fires according to your configured workflow.
+
+---
+
+## How the Workflow Engine Works
+
+The workflow engine listens for **trigger events** on inspection records. When a trigger fires, it evaluates all enabled workflow steps that match that trigger and executes them — immediately or on a scheduled delay.
+
+**The key principle:** You configure the steps once. The engine runs them for every inspection automatically.
+
+---
+
+## Trigger Events
+
+| Trigger | When it fires |
+|---------|--------------|
+| `booking.confirmed` | Order is created and saved |
+| `contract.sent` | Contract bundle is sent to client |
+| `contract.signed` | Client completes signing on the portal |
+| `payment.received` | Payment is marked (manual or Stripe) |
+| `inspection.reminder` | N hours/days before scheduled date |
+| `inspection.completed` | Inspection marked complete |
+| `report.published` | Report is published from Report Workspace |
+| `order.closed` | Order marked closed |
+| `order.cancelled` | Order cancelled |
+
+---
+
+## Configuring Workflow Steps
+
+Go to **Settings → Communications → Workflow** to manage your steps.
+
+### Creating a Step
+
+1. Click **+ Add Step**
+2. Choose the **Trigger** from the dropdown
+3. Set the **Offset** — when to send relative to the trigger:
+   - `0` = immediately when trigger fires
+   - `+2h` = 2 hours after trigger
+   - `-48h` = 48 hours before scheduled date (used with inspection.reminder)
+   - `+7d` = 7 days after trigger
+4. Choose **Recipients** — who receives this email:
+   - Client (primary)
+   - Co-client
+   - Buyer's Agent / Realtor
+   - Assigned Inspector
+5. Select the **Email Template** to send
+6. Optionally add a **Condition** (e.g. only fire if contract is not yet signed)
+7. Set **Service Types** — `*` for all services, or limit to specific service types
+8. Toggle **Enabled** and save
+
+### Visual Timeline
+
+The workflow settings page shows all your steps arranged as a visual timeline relative to the inspection date. This lets you see exactly when every email fires from a client's perspective before you book a single job.
+
+---
+
+## Recommended Workflow Setup
+
+For a standard residential inspection, configure these steps as a minimum:
+
+| Step | Trigger | Offset | Recipients | Template |
+|------|---------|--------|-----------|----------|
+| Booking confirmation | `booking.confirmed` | 0 | Client | Booking Confirmation |
+| Send contract | `booking.confirmed` | 0 | Client | Contract & Agreement |
+| Contract signed confirmation | `contract.signed` | 0 | Client + Inspector | Signing Confirmation |
+| Payment request | `contract.signed` | 0 | Client | Payment Request |
+| Inspection reminder | `inspection.reminder` | -48h | Client | 48-Hour Reminder |
+| Inspection day reminder | `inspection.reminder` | -2h | Client | Day-Of Reminder |
+| Report delivery | `report.published` | 0 | Client | Report Delivery |
+| Agent report delivery | `report.published` | 0 | Buyer's Agent | Agent Summary |
+| Follow-up / review request | `inspection.completed` | +24h | Client | Follow-Up & Review |
+
+---
+
+## Email Templates
+
+Go to **Settings → Communications → Templates** to create and manage email templates.
+
+### Template Variables
+
+Use these placeholders in your templates — they are replaced with real inspection data when the email sends:
+
+**Client:**
+`$ClientFirstName` `$ClientLastName` `$ClientNames` `$Client2FirstName`
+
+**Property & Inspection:**
+`$InspectionAddress` `$InspectionDate` `$InspectionTime`
+
+**Inspector & Company:**
+`$InspectorName` `$InspectorLicense` `$CompanyName` `$CompanyLogo`
+
+**Fees:**
+`$InspectionFee` `$BaseFee` `$ServiceFee` `$InspectionFeeTable`
+
+**Links:**
+`$ContractLink` — client portal signing link
+`$ReportLink` — client report download link
+`$AgentReportLink` — agent-specific report link
+`$PortalLink` — realtor portal magic link
+
+**Payment handles:**
+`$VenmoHandle` `$ZelleContact` `$CashAppHandle`
+
+### Template Editor
+
+The template editor is a rich text editor (TipTap) supporting:
+- Bold, italic, underline formatting
+- Headings and bullet lists
+- Tables
+- Images (company logo recommended in header)
+- Variable token insertion via the `{ }` dropdown
+
+### From Address & Reply-To
+
+Emails send from your configured sender address (set in **Settings → Email**). Configure the Reply-To to your business email so client replies come to you directly, not to a no-reply address.
+
+---
+
+## Report Delivery — Client vs. Agent
+
+1nSpecT separates report delivery into two distinct emails:
+
+**Client delivery** (`report.published` → Client recipient):
+- Full PDF report attached
+- Repair request instructions
+- All deficiency details visible
+
+**Agent delivery** (`report.published` → Buyer's Agent recipient):
+- Summary-only view (linked to Realtor Portal)
+- Does not include pricing, inspector contact, or repair request
+- Magic link to the branded Realtor Portal (valid 90 days)
+
+This separation protects the client's relationship with the inspector and prevents the agent from forwarding the full report to the seller before the buyer has reviewed it.
+
+---
+
+## Contract Reminder Automation
+
+The workflow engine handles contract reminder loops automatically. If a client has not signed their contract and the inspection is within 48 hours:
+
+- A contract reminder email fires automatically every 4 hours
+- Stops as soon as `contractSignedAt` is set on the inspection record
+- Configure this as a workflow step with trigger `contract.sent`, offset `+4h`, condition `contractSignedAt == null`
+
+This closes the most common pre-inspection liability gap — jobs completed without a signed agreement.
+
+---
+
+## Service-Type Extensions
+
+The base workflow applies to all inspections. Service types can ADD or SUPPRESS individual steps without rebuilding the entire workflow.
+
+**Example:** New Construction Final inspections should send an 11-month warranty reminder. Instead of a separate workflow for New Construction, add one step:
+- Trigger: `inspection.completed`
+- Offset: `+11mo`
+- Service Types: `New Construction`
+- Template: Warranty Reminder
+
+All other steps (booking confirmation, contract, reminders, report delivery) inherit from the base workflow automatically.
+
+---
+
+## Suppressing Automation
+
+For manually imported orders (migrated from another system) where you don't want automated emails to fire, set `skipWorkflow: true` on the inspection record. This suppresses all workflow automation for that specific inspection.
+
+Access this from the order detail page → **More Options → Skip Automated Communications**.

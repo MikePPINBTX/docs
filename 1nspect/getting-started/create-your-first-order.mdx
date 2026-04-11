@@ -1,0 +1,106 @@
+# Create Your First Order
+
+An **Order** is the master record for an inspection engagement. It holds the property address, client details, services requested, pricing, scheduling, and links to all contracts, inspections, and reports for that job.
+
+---
+
+## Opening the Order Wizard
+
+From the Dashboard or the **Orders** list, click **+ New Order**. This opens the multi-step Order Creation Wizard.
+
+---
+
+## Step 1 — Client Information
+
+Enter the primary client's details:
+
+| Field | Notes |
+|-------|-------|
+| **First Name / Last Name** | Used in contracts (`$ClientFirstName`, `$ClientLastName`) and all communications |
+| **Email** | All automated emails (confirmation, contract link, report delivery) go here |
+| **Phone** | Optional; used in reminders if SMS is configured |
+| **Co-Client** | For married couples or joint buyers — a second set of name + email fields |
+
+**Autocomplete:** Start typing a name or email — if this client has an existing record in your Contacts, their details auto-populate. A new Contact record is created automatically if no match is found.
+
+**Realtor / Buyer's Agent:** Enter the agent's name and email here. The agent receives a separate report delivery email (without the full repair request) per the delivery workflow configuration.
+
+---
+
+## Step 2 — Property
+
+| Field | Notes |
+|-------|-------|
+| **Street Address** | Full street address of the inspected property |
+| **City, State, ZIP** | Required for report headers and contract templates |
+| **Property Type** | Residential, Commercial, New Construction, etc. — drives service availability |
+| **Year Built** | Optional; used by AI narrative prompts for context-aware deficiency descriptions |
+
+---
+
+## Step 3 — Services
+
+Select the inspection services requested for this order.
+
+### Primary Service
+Choose the main inspection type (e.g. Standard Residential, New Construction Phase Inspection). This determines which inspection template the inspector will use on mobile.
+
+### Ancillary Services
+Add-on services billed separately (e.g. Sewer Scope, Thermal Imaging, Pool/Spa, Mold Screen). Each ancillary service has its own fee and can be assigned to a specific phase in a multi-phase order.
+
+---
+
+## Step 4 — Pricing
+
+Pricing is calculated automatically based on the services selected and your configured pricing rules (set up in **Settings → Pricing**).
+
+| Line Item | Description |
+|-----------|-------------|
+| **Base Fee** | Primary inspection service fee |
+| **Ancillary Fees** | Per-service add-on fees |
+| **Discount** | Dollar or percentage discount applied to the order |
+| **Total** | Grand total displayed to client and used in contract `$InspectionFee` variable |
+
+> You can manually override any fee amount before saving the order.
+
+### Square Footage Pricing
+If your pricing rules use square footage tiers, enter the property's approximate square footage in the property step — the pricing engine calculates the applicable tier automatically.
+
+---
+
+## Step 5 — Scheduling
+
+| Field | Notes |
+|-------|-------|
+| **Inspection Date** | Calendar picker — checks against your availability if Google Calendar is connected |
+| **Start Time** | Inspection start time |
+| **Assigned Inspector** | Select from your inspector roster |
+
+### Multi-Phase Orders
+For New Construction or phased projects, you can add multiple inspection phases under one master order. Each phase has its own date, time, and inspector assignment. Phase gating ensures Phase 2 cannot begin until Phase 1 is marked complete.
+
+---
+
+## Step 6 — Review & Create
+
+Review all order details before saving. Click **Create Order** to:
+
+1. Save the master order and child inspection record(s) to Firestore
+2. Trigger the `booking.confirmed` workflow event — which sends the contract bundle and confirmation email automatically (if configured in your Communications Workflow)
+
+---
+
+## After Creating the Order
+
+Once created, the order appears in your **Orders** list and the inspection appears in the **Inspection Queue**. From the order detail page you can:
+
+- **Send Contract** — manually trigger the contract bundle if it wasn't sent automatically
+- **View Inspection** — navigate to the inspection record to see status, deficiencies, and report
+- **Edit Order** — add services, adjust pricing, or reschedule
+- **Mark as Paid** — record manual payment (Venmo, Zelle, check, cash)
+
+---
+
+## Next Step
+
+With your order created and contract on its way to the client, your inspector is ready to [Conduct the Inspection on Mobile](./04-mobile-inspection-walkthrough.md).

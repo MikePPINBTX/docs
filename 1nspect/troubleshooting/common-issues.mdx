@@ -1,0 +1,157 @@
+# Common Issues & Troubleshooting
+
+This guide covers the most frequently encountered issues across mobile and web. Each section identifies the symptom, likely cause, and resolution steps.
+
+---
+
+## Mobile App
+
+### Photos not syncing / "Upload pending" badge stuck
+
+**Symptom:** Photos show an upload spinner or "pending" badge that never clears.
+
+**Causes & Fixes:**
+1. **No internet connection** — The app queues uploads and retries automatically when connectivity returns. Check your network. Inspection data (text fields, ratings) is saved locally even without a connection.
+2. **App in background too long** — iOS may suspend background tasks. Bring the app to the foreground and stay on the inspection screen for 30–60 seconds.
+3. **Photo file too large** — The app resizes photos before upload. If a video file exceeds the size limit, it may fail silently. Try capturing a shorter video clip.
+4. **Re-authentication needed** — If your session has expired, a prompt to re-login will appear. After logging back in, tap the finding to retry the upload.
+
+---
+
+### AI Generate returns "Insufficient IT Tokens"
+
+**Symptom:** A 402 error message appears when tapping ✨ AI Generate, 🪄 Library Search, or 🔬 Vision Analysis.
+
+**Cause:** Your IT (Inspection Token) balance has reached zero.
+
+**Fix:** Purchase a token top-up pack from **Settings → Subscription & Tokens**, or contact your account administrator. Your current balance is shown at the top of the Settings screen.
+
+**Token costs for reference:**
+- AI Generate (text) — 4 IT
+- Vision Analysis — 8 IT
+- Library Search (🪄) — 1 IT
+- FREE (Library) chips — 0 IT
+
+---
+
+### Vision Analysis returns "Photo Required"
+
+**Symptom:** Tapping ✨ AI Generate with the 🔬 Vision toggle enabled shows an alert saying a photo is required.
+
+**Cause:** Vision Analysis requires a captured photo to analyze. The Vision toggle was enabled but no photo was taken yet.
+
+**Fix:** Capture a photo first, then tap AI Generate. Alternatively, disable the Vision toggle to use text-only generation without a photo.
+
+---
+
+### Section / Subsection not appearing in navigation bar
+
+**Symptom:** A section or subsection you expect to see is missing from the navigation bar on the Capture Screen.
+
+**Causes & Fixes:**
+1. **Template not published** — Go to web admin → Templates → confirm the template is set to Published.
+2. **Inspection assigned to wrong template** — Check the inspection's template assignment in the web admin. If it was created before a new template was published, it may use an older version.
+3. **Subsection marked inactive** — In the Template editor, verify the subsection's Active toggle is on.
+4. **App cache** — Force-close and reopen the app to refresh the template data.
+
+---
+
+### Finding saved to wrong section
+
+**Symptom:** A deficiency appears under the wrong section in the Report Workspace.
+
+**Fix:** In the web admin Report Workspace → Findings tab, click the finding → use the **Move** action to reassign it to the correct section and subsection. This does not affect the photo or narrative.
+
+---
+
+### "No narrative returned from Vision Analysis"
+
+**Symptom:** Vision Analysis completes but the narrative field remains empty, or an error toast appears.
+
+**Causes & Fixes:**
+1. **Caption too short** — The Vision model requires a caption with meaningful context. Ensure the caption is at least 5–6 words describing what you're looking at.
+2. **Network timeout** — Vision Analysis has a 30-second timeout. On slow connections, it may time out. Try again on a stronger signal.
+3. **Transient API error** — Retry. If the error persists across multiple attempts, the AI service may have a temporary outage. Text-only AI Generate will still work.
+
+---
+
+## Web Admin
+
+### Contract not sent after booking
+
+**Symptom:** Order was created but the client did not receive a contract email.
+
+**Causes & Fixes:**
+1. **No `contract.sent` workflow step configured** — Go to **Settings → Communications → Workflow**. Verify there is an enabled step with trigger `booking.confirmed` that sends the contract bundle. If no such step exists, create one.
+2. **Client email address incorrect** — Check the order's client email. If it's wrong, correct it and use the **Send Contract** button on the order detail page to manually send.
+3. **Client email in spam** — Ask the client to check their spam folder. The email comes from your configured sender address (e.g. `reports@1nspect.app`).
+4. **`skipWorkflow` flag set** — Manually imported orders may have `skipWorkflow: true` set, which suppresses all automated emails. Check the order record.
+
+---
+
+### Contract signed but no confirmation email sent
+
+**Symptom:** Client signed the contract but neither the client nor the inspector received a confirmation email.
+
+**Cause:** The `contract.signed` workflow trigger fired, but no workflow step is configured to handle it.
+
+**Fix:** Go to **Settings → Communications → Workflow** → create a new step:
+- Trigger: `Contract Signed`
+- Offset: `0` (immediate)
+- Recipients: `Client` and/or `Assigned Inspector`
+- Template: Your confirmation email template
+
+---
+
+### PDF report not generating / "No template found"
+
+**Symptom:** Clicking Generate Preview returns an error, or the PDF is blank.
+
+**Causes & Fixes:**
+1. **Template not assigned to inspection** — The inspection may have been created before the template was published, or assigned to a deprecated template. In the web admin, open the inspection and re-assign it to the correct published template.
+2. **Canvas settings missing** — A newly cloned template may not have canvas design settings. Go to Templates → Canvas tab and confirm primary/secondary/accent colors are set.
+3. **No sections with findings** — If no findings were captured, some PDF sections may render as empty. This is expected — the PDF only includes sections where ratings or findings exist.
+
+---
+
+### Report Workspace shows no findings
+
+**Symptom:** The Report Workspace Findings tab is empty even though the inspector captured findings on mobile.
+
+**Causes & Fixes:**
+1. **Inspection not synced** — The inspector may not have had a network connection when saving findings. Ask the inspector to open the inspection on mobile with a network connection and wait for the sync indicator to clear.
+2. **Viewing wrong inspection** — Confirm the web admin is showing the correct inspection ID. Multi-phase orders have multiple child inspection records.
+3. **Findings still uploading** — If photos are large, the full sync may take a few minutes. Refresh the Report Workspace page.
+
+---
+
+### Pricing calculator shows $0
+
+**Symptom:** The Order Wizard pricing step shows $0 for all services.
+
+**Cause:** No pricing rules have been configured yet.
+
+**Fix:** Go to **Settings → Pricing Manager** and create at least one pricing rule for your primary service. See the [Pricing Manager guide](../features/pricing-manager.md) for setup instructions.
+
+---
+
+### Client portal shows "Portal not found"
+
+**Symptom:** The client clicks their contract link and sees a "Portal not found" error.
+
+**Causes & Fixes:**
+1. **Contract not yet sent** — The portal link is only valid after `POST /api/contracts/send/:inspectionId` runs. Confirm the contract bundle was sent (check `contractSentAt` on the inspection record via the order detail page).
+2. **Email address changed** — The portal slug is derived from the client's email address. If the email was changed after the contract was sent, the link in the original email no longer matches. Re-send the contract.
+3. **Wrong tenant** — Confirm the app domain in the email link matches your deployed environment. Sandbox links will not resolve in production.
+
+---
+
+## Escalation
+
+If none of the above steps resolve your issue:
+
+1. In the Help widget (bottom-right of any screen), describe the issue. The AI support agent will attempt to diagnose it using your active inspection and account context.
+2. If the agent cannot resolve it, tap **Create Support Ticket**. A ticket is created automatically with your account details and session context attached.
+3. Support responds via email, typically within 4 business hours.
+
+For billing or account-level issues, email **support@1nspect.app** directly.

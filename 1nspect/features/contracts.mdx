@@ -1,0 +1,167 @@
+# Contracts & E-Signatures
+
+1nSpecT includes a built-in e-signature system. You write your agreements once, they are sent automatically with every booking, and clients sign digitally from any device — no third-party signing account required.
+
+---
+
+## How It Works
+
+1. You create one or more agreement templates in the Contracts editor
+2. When an order is booked, the workflow engine sends the contract bundle automatically
+3. The client receives an email with a link to their signing portal
+4. The client reviews the agreement and signs (drawn signature or typed name)
+5. A signed PDF is generated and stored — with full audit trail
+6. The `contract.signed` event fires → triggers the next workflow step (payment request, etc.)
+
+---
+
+## Creating Agreement Templates
+
+Go to **Settings → Contracts** to manage your agreement templates.
+
+### The Agreement Editor
+
+The editor is a full rich text environment (TipTap) supporting:
+- Formatted text (bold, italic, headings, bullets)
+- Tables — useful for fee schedules, scope of work lists
+- Images — embed your company logo or signature line graphics
+- Variable tokens — inserted via the `{ }` dropdown
+
+### Signature Field Tags
+
+Place these tags anywhere in your agreement to mark where signatures, dates, and initials will be stamped:
+
+| Tag | What it becomes when signed |
+|-----|---------------------------|
+| `[[sig\|req\|signer1]]` | Client's drawn or typed signature image |
+| `[[date\|req\|signer1]]` | Date the client signed |
+| `[[initials\|req\|signer1]]` | Client's initials |
+| `[[sig\|req\|signer2]]` | Co-client signature |
+| `[[date\|req\|signer2]]` | Co-client sign date |
+| `[[initials\|req\|signer2]]` | Co-client initials |
+
+Insert these tags using the **Signature Fields** dropdown in the editor toolbar — don't type them manually.
+
+### Variable Tokens
+
+Use the same variables available in email templates to auto-populate inspection details into the agreement:
+
+`$ClientNames` `$InspectionAddress` `$InspectionDate` `$InspectionFee` `$InspectionFeeTable` `$InspectorName` `$InspectorLicense` `$CompanyName` `$CompanyLogo` `$ContractDate`
+
+The `$InspectionFeeTable` token inserts a formatted itemized breakdown of all services and fees — useful for agreements that reference the inspection fee.
+
+---
+
+## Scoping Templates to Services
+
+Each template has a **Scope Rule** that determines which inspections it applies to:
+
+| Scope | When it's included in the bundle |
+|-------|--------------------------------|
+| `All Orders` | Every inspection, regardless of services |
+| `Service: [specific service]` | Only when that service is in the order |
+
+**Example setup:**
+- Primary Service Agreement → `All Orders`
+- Data Privacy Notice → `All Orders`
+- Sewer Scope Addendum → `Service: Sewer Scope`
+- Pool/Spa Addendum → `Service: Pool/Spa Inspection`
+
+When the contract bundle is sent, only the applicable templates are included. A standard residential inspection with no add-ons gets 2 documents; one with a sewer scope gets 3.
+
+---
+
+## Multi-Document Bundles
+
+All applicable agreements are merged into a single signing session. The client receives one link and signs all documents in one pass — not separate links for each agreement.
+
+Documents are separated by a page break and labeled with the agreement name. The signature fields appear in the order the templates are sorted (drag to reorder in the Contracts settings).
+
+---
+
+## Sending Contracts
+
+**Automatic (recommended):** Configure a workflow step with trigger `booking.confirmed` → action `Send Contract Bundle`. The bundle is generated and sent automatically when every order is created.
+
+**Manual:** From the order detail page, click **Send Contract**. Use this for re-sending, late additions, or orders created before the workflow was configured.
+
+---
+
+## The Client Signing Portal
+
+The client receives an email with a link to their signing portal. The portal:
+
+- Works on any device — desktop, tablet, or phone
+- Requires no login or account creation
+- Shows all inspections from that client for your company (useful for repeat clients)
+- Displays an iframe preview of the unsigned PDF before signing
+
+### Signing the Agreement
+
+1. Client clicks the link in the email
+2. Reviews the agreement in the document preview
+3. Clicks **Review & Sign**
+4. Enters their full legal name
+5. Chooses a signature method:
+   - **Draw** — freehand signature on a canvas
+   - **Type** — name rendered in a cursive script font
+6. Clicks **Sign Agreement**
+7. A signed PDF is generated and available immediately
+
+### Portal URL Behavior
+
+The portal URL is deterministic — the same client email + your company always generates the same portal link. This means:
+
+- A client who has had multiple inspections with you sees all of them in one portal
+- If a client's email changes, the old portal link stops working for new inspections (re-send the contract to generate a new link)
+- The link has no expiration date
+
+---
+
+## The Signed PDF
+
+After signing, a PDF is generated containing:
+
+- The full agreement text with all variables resolved
+- The client's signature image stamped in place of the `[[sig]]` tag
+- The signed date in place of the `[[date]]` tag
+- An **audit line** beneath each signature: *"Digitally signed by [Name] on [Date] · IP: [IP Address]"*
+
+The signed PDF is stored in Google Cloud Storage and accessible from:
+- The order detail page → **View Signed Contract**
+- The client portal → **Download Signed Agreement**
+
+---
+
+## Audit Trail & Legal Validity
+
+Every signing event captures:
+
+| Data | Stored where |
+|------|-------------|
+| Signer's full legal name | Firestore + embedded in PDF |
+| Timestamp (ISO, server time) | Firestore + embedded in PDF |
+| IP address | Firestore + embedded in PDF |
+| Browser / device (user agent) | Firestore |
+| Signature image (PNG) | Firestore + embedded in PDF |
+
+This audit trail meets the requirements of the **E-SIGN Act** (federal) and **UETA** (adopted in all 50 states) for electronic signature validity in the United States.
+
+> **Note:** 1nSpecT's e-signature system is designed for inspection service agreements. It is not certified for real estate contracts, loan documents, or other instruments that require specific state-mandated signature procedures. Consult your legal counsel if unsure whether a specific document type requires a different signing method.
+
+---
+
+## After Signing
+
+When the client signs:
+
+1. `contractStatus` updates to `signed` on the inspection record
+2. `contractData` (audit envelope) is written to Firestore
+3. The signed PDF is generated and stored in GCS
+4. The `contract.signed` workflow trigger fires automatically
+5. Your configured post-signing workflow steps execute (confirmation email, payment request, etc.)
+
+The order detail page shows the contract status badge:
+- `Not Sent` — contract bundle has not been sent
+- `Pending Signature` — sent, awaiting client signature
+- `Signed` — signed, PDF available

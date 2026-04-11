@@ -1,0 +1,113 @@
+# Build Your First Inspection Template
+
+Templates define the structure of an inspection — the sections, subsections, and data fields that your inspectors work through on-site. 1nSpecT ships with a pre-built **TREC Texas Residential** template. You can use it as-is, customize it, or build a completely custom template from scratch.
+
+---
+
+## Navigating to Templates
+
+1. In the web admin, click **Templates** in the left sidebar.
+2. You will see a list of all templates associated with your account.
+3. Click **+ New Template** or tap an existing template to edit it.
+
+---
+
+## Template Structure
+
+Every template is organized as a two-level hierarchy:
+
+```
+Template
+ └── Section  (e.g. "I. Structural Systems")
+      └── Subsection  (e.g. "I.A. Foundations")
+           └── Fields  (informational data capture fields)
+```
+
+### Sections
+Sections correspond to the major divisions of your inspection report (e.g. Structural Systems, Electrical, Plumbing). Each section gets its own PDF chapter with a color-coded header.
+
+### Subsections
+Subsections are the individual inspection areas within a section. Each subsection generates a rating row in the PDF (Inspected / Not Inspected / Not Present / Deficient) and can contain any number of data capture fields.
+
+### Fields
+Fields capture structured data per subsection. Field types available:
+
+| Type | Use |
+|------|-----|
+| `informational` | Text, number, or select inputs shown in the tech-spec grid of the PDF |
+| `rating` | Drives the I / NI / NP / D rating boxes (handled automatically by the mobile app) |
+| `comment` | Free-text area for inspector narrative notes |
+| `photo_container` | Anchor point for photo attachments |
+| `signature` | Signature capture (used in client-facing agreements, not inspection fields) |
+
+---
+
+## Using the Schema Builder
+
+The Schema Builder is the visual editor for building your template structure.
+
+### Adding a Section
+1. Click **+ Add Section** at the bottom of the section list.
+2. Enter a section name (e.g. "Electrical Systems") and an optional short name for PDF headers.
+3. Click **Save Section**.
+
+### Adding a Subsection
+1. Expand a section by clicking its row.
+2. Click **+ Add Subsection**.
+3. Enter a subsection name. Short names (under 20 characters) are displayed on the mobile inspector app's navigation bar.
+4. Click **Save**.
+
+### Adding Fields to a Subsection
+1. Expand a subsection.
+2. Click **+ Add Field**.
+3. Choose a field type, enter a label, and set whether the field is required.
+4. **Informational fields** will appear in the tech-spec grid in the PDF report for that subsection.
+
+### Reordering
+Drag sections, subsections, and fields to reorder them. The PDF renders in the exact array order of the template schema.
+
+---
+
+## The TREC Texas Residential Template
+
+If you are performing residential inspections in Texas, the pre-built TREC template is ready to use. It includes:
+
+- All required TREC sections (Structural Systems through Optional Systems)
+- TREC-compliant I / NI / NP / D rating schema
+- Pre-configured subsections matching TREC Standards of Practice
+- Informational fields for system age, capacity, fuel type, etc.
+
+> **Tip:** You can clone the TREC template and customize it rather than editing the master, so you always have a clean copy to revert to.
+
+---
+
+## Canvas Design Settings
+
+After building your template structure, use the **Canvas** tab to control how the PDF report renders for that template.
+
+Key canvas settings:
+
+| Setting | Description |
+|---------|-------------|
+| **Margins** | Page margins in pixels (96 px = 1 inch) for preamble, section, and summary pages |
+| **Primary / Secondary / Accent colors** | Override global branding for this specific template |
+| **Rating column layout** | Width of the I/NI/NP/D column in section pages |
+| **Finding card style** | Border, background, and typography for deficiency cards |
+| **Photo grid** | Caption position (above/below), grid columns |
+
+Changes to Canvas settings affect all **future** PDF generations for that template.
+
+---
+
+## Publishing a Template
+
+When your template is ready:
+1. Click the **Publish** toggle on the template detail page.
+2. Published templates become available to inspectors on the mobile app when creating a new inspection.
+3. Unpublished (draft) templates are only visible to admins.
+
+---
+
+## Next Step
+
+With your template built, you are ready to [Create Your First Order](./03-create-your-first-order.md).
