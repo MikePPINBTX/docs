@@ -1,0 +1,163 @@
+---
+id: inspector-starting-an-inspection
+title: Starting an Inspection
+persona: [inspector]
+surfaces: [mobile]
+category: inspector
+related: [inspector-home-and-assigned-inspections, inspector-capture-screen, inspector-photos-and-media, inspector-ai-during-capture]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Starting an Inspection
+
+After you tap **Start Inspection** on an assigned inspection (or **Resume Inspection** on an in-progress one), the app opens the inspection **setup form** — the screen titled **New Inspection**. This form is where you confirm the basic facts about the property and capture the few pieces of information the inspection cannot run without: the cover photo, weather conditions, AI baseline materials, and template assignments.
+
+When you tap **Start Inspection** at the bottom of this form, you advance to the [Capture Screen](/1nspect/inspector/capture-screen), where the field work actually happens.
+
+This article walks through every section of the setup form, top to bottom.
+
+---
+
+## Two ways you arrive at this screen
+
+You see the setup form in two scenarios:
+
+1. **First time starting an assigned inspection** — most of the fields are pre-filled from the assignment your administrator created in the web admin. You confirm the data, fill in anything missing, capture the cover photo, and start.
+2. **Resuming an inspection** — same form, with all your prior answers already in place. Edit anything that needs updating, then advance to the Capture Screen to continue capturing findings.
+
+The app distinguishes these by an internal `isResuming` flag — the form looks identical either way; you just see your previous answers when resuming.
+
+---
+
+## Form layout
+
+The setup form is a single scrollable screen with seven sections. Required fields are marked with a red asterisk (`*`).
+
+[SCREENSHOT: new-inspection-setup.png — mobile, the inspection setup form scrolled to show Client Information section at top and the Property Address section partially visible below.]
+
+### 1. Client Information
+
+| Field | Required | Notes |
+|---|---|---|
+| **Client Name** | ✅ | The primary client on the inspection — usually the home buyer or seller |
+| **Client Email** | — | Used for report delivery and communications |
+| **Client Phone** | — | Used by the office for follow-up; optional on this form |
+
+### 2. Additional Client (Optional)
+
+A second client (spouse, co-buyer, business partner). Three fields, all optional:
+
+- Client 2 Name (placeholder hint: *"Spouse, co-buyer, etc."*)
+- Client 2 Email
+- Client 2 Phone
+
+### 3. Property Address
+
+| Field | Required | Notes |
+|---|---|---|
+| **Street Address** | ✅ | The full street line (e.g. *"123 Main Street"*) |
+| City | — | (e.g. *"Austin"*) |
+| State | — | Two-letter code (e.g. *"TX"*) |
+| Zip Code | — | (e.g. *"78701"*) |
+
+### 4. Property Baseline (for AI Findings)
+
+These fields feed the AI tools so they can calibrate narratives (e.g. *"a slab foundation built in 1985"* vs *"a pier-and-beam built in 2020"*). Inspectors who skip this section get more generic AI output — for best AI quality, fill them in.
+
+| Field | Required | Notes |
+|---|---|---|
+| Year Built | — | e.g. *"1985"* |
+| **Square Feet** | ✅ | e.g. *"2400"* — used by pricing and the AI baseline |
+| Foundation Type | — | Dropdown (Slab is the default) |
+| Exterior Cladding | — | Dropdown (Brick Veneer is the default) |
+| Roof Covering | — | Dropdown (Composition Shingle is the default) |
+
+Below the fields is a **🤖 Review Full AI Baseline** expandable row. Tap to view what the AI has inferred from the data so far — system ages, expected lifespans, regional considerations. This is read-only; it's a preview of context the AI will use during capture.
+
+### 5. Date, Weather & Template
+
+| Field | Required | Notes |
+|---|---|---|
+| **Inspection Date** | ✅ | Tap **Change Date** to open the picker. Three quick options: **Today**, **Tomorrow**, or **Choose Date** (full calendar). |
+| Start Weather | — | Free text — e.g. *"75°F, partly cloudy, 8mph NE wind"* — informs the report |
+| End Weather | — | Captured when you finish; weather can change during an inspection |
+| **Inspection Template** | ✅ | Dropdown — usually already filled by the administrator. Determines which sections and subsections appear on the Capture Screen. |
+| Narrative Collection | — | Your custom narrative library to use on this inspection. If your office has set one up, choose it here so the AI prefers your saved narratives. |
+| Caption Library | — | Your reusable caption shortcuts (one tap = a phrase like "Damaged shingles at rear slope"). |
+
+> **If templates or collections won't load:** an error banner appears with a Retry button. Most often this means a network glitch — tap Retry. If the failure persists, contact your administrator.
+
+### 6. Additional Information / Parties Present / Cover Photo
+
+| Field | Required | Notes |
+|---|---|---|
+| Additional Information / Client Concerns | — | Free text — anything the client asked you to focus on, accessibility notes, etc. |
+| Parties Present | — | Multi-select dropdown — Client · Realtor · Seller · Builder · Insurance · Other. Used in the report's header and the agreement. |
+| **Property Cover Photo** | strongly recommended | The hero photo that goes on the front page of the PDF report. Tap **Add Cover Photo** to take or import a photo. Once captured, the buttons change to **Change** and **Remove**. |
+
+### 7. Start Inspection
+
+The big primary-blue **Start Inspection** button at the bottom of the form advances you to the [Capture Screen](/1nspect/inspector/capture-screen). The button text changes during the transition to a spinner while the app prepares the local database.
+
+---
+
+## Field validation
+
+If you tap **Start Inspection** with required fields blank, you'll see:
+
+> **Missing Information**
+> Please fill in Client Name and Property Address.
+
+Both **Client Name** and **Street Address** must be filled before you can advance. Square Feet is marked required but is enforced more leniently — the app will warn but may still let you proceed depending on template.
+
+The other required fields (Inspection Template, Inspection Date) usually arrive pre-filled from the assigned inspection, so you'll rarely have to fill them yourself.
+
+---
+
+## What gets captured before you start
+
+When you tap Start Inspection, the app silently records:
+
+- The `startedAt` timestamp (used later in the [Avg Inspection Time](/1nspect/features/communications) and inspector-productivity reports)
+- Your current GPS location (throttled by the GPS service — used for the report's location confirmation)
+- The cover photo (uploaded immediately to cloud storage in the background)
+
+You do not have to do anything for these — they happen automatically.
+
+---
+
+## Pickers and modal screens
+
+The dropdowns on this form open as full-screen pickers rather than inline dropdowns. They all share a common pattern:
+
+[SCREENSHOT: template-picker.png — mobile, the template picker showing Cancel/Done in the header and a list of templates with descriptions.]
+
+- **Cancel** in the top-left dismisses without changing
+- **Done** in the top-right confirms the highlighted choice
+- Each option is tap-to-select; multi-select pickers (Parties Present) show checkmarks
+
+The Date picker is slightly different — three quick-pick buttons (Today / Tomorrow / Choose Date) before opening the full calendar grid.
+
+---
+
+## What if you don't have an assigned inspection?
+
+The setup form is reachable only by tapping an assigned (or in-progress) inspection from [Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections), or by tapping an archived inspection in [Archived Inspections](/1nspect/inspector/archived-inspections) to review it. There is no path to "create a brand-new inspection from scratch" on mobile — that intentionally lives on the web admin.
+
+If you find yourself wanting to create an inspection on the spot at the property (the homeowner says "can you do mine while you're here?"), use the **[Field Quote](/1nspect/inspector/field-quote)** tool to generate a quote on the spot. Your administrator can then create the order in the web admin in seconds and it will appear on your Assigned Inspections list within seconds.
+
+---
+
+## After tapping Start Inspection
+
+You arrive at the [Capture Screen](/1nspect/inspector/capture-screen) — the full-screen workspace where you spend most of your inspection time. The setup form is rarely revisited on a single inspection; if you do need to come back to edit the cover photo or weather, you can swipe back from the Capture Screen header.
+
+---
+
+## Related articles
+
+- [Home & Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections) — where you started before this form opened
+- [Capture Screen](/1nspect/inspector/capture-screen) — what opens when you tap Start Inspection at the bottom
+- [Photos & Media](/1nspect/inspector/photos-and-media) — including how the cover photo is captured and reused
+- [AI During Capture](/1nspect/inspector/ai-during-capture) — how the property baseline data feeds AI narratives

@@ -1,0 +1,156 @@
+---
+id: admin-operator-overview
+title: Web Admin Overview
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-inspections-list, admin-operator-order-creation-wizard, admin-operator-reports-and-publishing, gs-01-account-and-branding]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Web Admin Overview
+
+The 1nspecT web admin is where the inspection business runs — every screen the company-owner or operator uses to schedule, draft, publish, bill, and follow up on inspections. It is the **production console**, distinct from the mobile app (which is the on-site field-capture tool). This article tours the layout, explains the sidebar, and points you to the right deep-dive for each surface.
+
+If you are new to 1nspecT, run through the [Getting Started](/1nspect/getting-started/account-and-branding) walkthroughs first — they go end-to-end from account setup to first published report. This page is the reference map for return visits.
+
+---
+
+## Who uses this
+
+**Inspection-business owners and operators.** Your administrator account was created either at sign-up (if you bought the platform yourself) or by your company owner. Roles include:
+
+| Role | Common name | Sees |
+|---|---|---|
+| **Owner** | Boss / operator | Everything — including the Platform Admin shortcuts for owner-only features |
+| **Operator** | Scheduler / office manager | Day-to-day operations — orders, scheduling, contracts, reports, communications |
+| **Inspector** | Field inspector | Mainly read access to their assigned inspections plus the [Mobile App](/1nspect/inspector/overview) |
+
+This guide focuses on the **Owner** and **Operator** views. Inspector-on-mobile documentation lives in the [Inspector section](/1nspect/inspector/overview).
+
+---
+
+## Signing in
+
+Web admin lives at **`https://app.1nspect.app`** (or your white-label custom domain if your account uses one). Sign in with the same email and password you use on the mobile app.
+
+After sign-in:
+
+- **First load** lands you on the [Dashboard](#) at the route `/`.
+- Subsequent loads remember your last page within the session.
+- Inactivity timeout returns you to the login screen after a long idle period.
+
+---
+
+## The sidebar — 9 primary surfaces
+
+[SCREENSHOT: web-admin-sidebar.png — desktop, the left-side navigation showing 9 items with icons: Dashboard, Inspections, Templates, Narrative Management, Contacts, Cover Designer, Reports, Business Ops, Settings.]
+
+The sidebar is the master navigation. Each item is a top-level surface; deeper pages live as sub-routes under each.
+
+| # | Item | Route | What lives here |
+|---|---|---|---|
+| 1 | **Dashboard** | `/` | KPI tiles, pipeline funnel, top agents, action items, warranty engine pipeline. See the [BI Dashboard architecture](../../../bi-dashboard/ARCHITECTURE.md) for the data model. |
+| 2 | **Inspections** | `/inspections` | The master order/inspection list. Click an order to drill into [Inspection Details](/1nspect/admin-operator/inspection-details). Create a new order with the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard). |
+| 3 | **Templates** | `/templates/builder` | Build and edit the inspection templates used on mobile. See [Templates Overview](/1nspect/admin-operator/templates/overview). |
+| 4 | **Narrative Management** | `/narratives` → `/intelligence-hub` | The "Intelligence Hub" — narrative library, smart comments, option lists, keyword management. See [Intelligence Hub Overview](/1nspect/admin-operator/intelligence-hub/overview). |
+| 5 | **Contacts** | `/contacts` | Clients, agents, vendors, team members — every person tied to an order. See [Contacts](/1nspect/admin-operator/contacts). |
+| 6 | **Cover Designer** | `/cover-designer` | Branded cover-page designer for inspection reports. See [Cover Designer](/1nspect/admin-operator/cover-designer). |
+| 7 | **Reports** | `/reports` | Business intelligence reports: Monthly Reconciliation, Outstanding A/R, Service Mix, Agent Referral, Inspector Productivity, Activity Log, Tax Summary. See [Reports & Publishing](/1nspect/admin-operator/reports-and-publishing). |
+| 8 | **Business Ops** | `/company-settings` | Company info + pricing + workflow engine + communications + contracts. See [Company Info](/1nspect/admin-operator/company-and-pricing/company-info), [Pricing Manager](/1nspect/admin-operator/company-and-pricing/pricing-manager). |
+| 9 | **Settings** | `/settings` | Account-level settings: profile, branding, integrations, security, subscription & tokens. See [Settings](/1nspect/admin-operator/company-and-pricing/company-settings). |
+
+> **Owner-only:** If you are signed in as Owner, a **Platform Admin** badge appears next to your name in the top bar. It exposes a `/super-admin/factory` shortcut for tenant provisioning and other owner-level controls. Operators do not see this badge.
+
+---
+
+## Mental model
+
+The platform organizes your business around three nouns and one verb:
+
+- **Order** — the master engagement: one property + one client + one or more services. An order may contain multiple inspections (multi-phase) and multiple contracts.
+- **Inspection** — one site visit. Single-phase orders have one inspection; new-construction orders have multiple (Phase 1, Phase 2, Final).
+- **Report** — the deliverable. One PDF report per inspection, plus a Realtor Portal view, plus a Client Portal view.
+- **Publish** — the verb that takes a completed inspection from internal review to client delivery.
+
+Everything in the sidebar serves one of these:
+
+| Sidebar item | Serves |
+|---|---|
+| Dashboard | Insight across all orders, inspections, reports |
+| Inspections | Order + Inspection workflow |
+| Templates | What an inspection captures |
+| Narrative Management | What a report says |
+| Contacts | Who the order is for |
+| Cover Designer | How the report looks |
+| Reports | Business performance after the work is done |
+| Business Ops | The settings that shape how everything runs |
+| Settings | Your account + integrations |
+
+---
+
+## A typical operator's day
+
+1. **Morning** — open the [Dashboard](#) to see what's due, what's in pipeline, what needs attention.
+2. **Action Items** panel surfaces: stale quotes to follow up, unsigned contracts to nudge, unpaid invoices.
+3. **New booking arrives** — the inspector sent a Field Quote from mobile. Click the lead, convert it via the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard).
+4. **Field inspection happens** — the inspector works on mobile. Findings stream into Firestore in near-real-time.
+5. **Afternoon** — inspector marks the inspection complete on mobile. The [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) workspace becomes available on web.
+6. **Review the report** — walk through findings, polish narratives, run AI Draft on field-noted items, generate SPOs, build the Summary.
+7. **Publish** — generate the PDF, email it to the client, fire the publish workflow that notifies the agent and prompts for payment.
+8. **End of day** — check [Reports](/1nspect/admin-operator/reports-and-publishing) → Outstanding A/R to follow up on aging invoices.
+9. **End of month** — pull the [Monthly Reconciliation](/1nspect/admin-operator/reports-and-publishing) report to match Stripe deposits to your bank.
+
+---
+
+## Public-facing routes (not in the sidebar)
+
+These routes exist for non-logged-in users (clients, agents, public bookers). You won't navigate to them from the sidebar; they're surfaced via links and emails.
+
+| Route | What it shows | Audience |
+|---|---|---|
+| `/login` | Sign-in form | Operators |
+| `/signup` | Self-service sign-up | New tenants |
+| `/verified` | Email-verification landing page | New signups |
+| `/calendar-connected` | Google Calendar OAuth callback landing | Operators |
+| `/report/:slug` (mode=client) | Client-side report view | Homeowner clients |
+| `/report/:slug/agent` (mode=agent) | Agent-side report view | Buyer's agents |
+| `/portal/:tenantSlug` | Realtor portal home | Agents |
+| `/client-portal/:portalSlug` | Per-client portal | Clients |
+| `/quote/:tenantId/:leadId` | Customer-facing quote page | Quote recipients |
+| `/book` and `/book/:slug` | Public booking form | Anyone visiting the inspection company's website |
+| `/player` | Standalone video player | Embedded in reports |
+
+You will rarely visit these directly; they show up as links in the emails the workflow engine sends.
+
+---
+
+## Tech and version notes
+
+| | |
+|---|---|
+| Brand | **1nspecT** |
+| Web admin app | `@onespectit/web-admin` |
+| Stack | Vite + React + MUI + Tiptap + Firebase + React Query |
+| Backend API | NestJS (`@onespectit/backend-api`) on Cloud Run |
+| Data store | Firestore (state of record) — no separate relational database for business data |
+| Auth | Firebase Auth (same as mobile) |
+| Multi-tenant | Yes — tenant isolation enforced at the Firestore document-path level |
+
+---
+
+## Where to read next
+
+| You want to... | Read |
+|---|---|
+| Set up your account from scratch | [Getting Started → Account & Branding](/1nspect/getting-started/account-and-branding) |
+| See today's orders and find a specific one | [Inspections List](/1nspect/admin-operator/inspections-list) |
+| Create a new order | [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) |
+| Edit a finalized inspection's report | [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) |
+| Configure how reports look | [Cover Designer](/1nspect/admin-operator/cover-designer) and [Templates Overview](/1nspect/admin-operator/templates/overview) |
+| Set up your narrative library | [Intelligence Hub Overview](/1nspect/admin-operator/intelligence-hub/overview) |
+| Configure pricing | [Pricing Manager](/1nspect/admin-operator/company-and-pricing/pricing-manager) |
+| Configure email workflows | [Communications](/1nspect/features/communications) |
+| Set up e-signatures | [Contracts](/1nspect/features/contracts) |
+| Pull a financial report | [Reports & Publishing](/1nspect/admin-operator/reports-and-publishing) |

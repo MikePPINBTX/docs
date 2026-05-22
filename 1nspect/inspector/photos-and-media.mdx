@@ -1,0 +1,214 @@
+---
+id: inspector-photos-and-media
+title: Photos & Media
+persona: [inspector]
+surfaces: [mobile]
+category: inspector
+related: [inspector-capture-screen, inspector-photo-markup, inspector-ai-during-capture, inspector-offline-and-sync]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Photos & Media
+
+This article covers every way photos and video are captured, edited, and uploaded in 1nspecT mobile. The Capture Screen has three media inputs (📷 photo, 🎥 video, 📁 library import) and four media actions (Edit, Retake, Expand/Shrink). What happens on screen, what happens on the device, and what happens in the cloud are all covered here.
+
+For the full Capture Screen layout, see [Capture Screen](/1nspect/inspector/capture-screen). For the markup editor that opens when you tap **Edit**, see [Photo Markup](/1nspect/inspector/photo-markup).
+
+---
+
+## The three capture controls
+
+The row of three buttons just below the photo preview area on the [Capture Screen](/1nspect/inspector/capture-screen):
+
+| Button | Action | Permission |
+|---|---|---|
+| **📷** | Open device camera in photo mode | Camera |
+| **🎥** | Open device camera in video mode | Camera + Microphone |
+| **📁** | Open device's photo library to import existing media | Photo Library |
+
+If a required permission is missing, tapping the button surfaces an alert:
+
+> **Permission needed**
+> Sorry, we need camera permissions to take photos.
+
+To grant later: open the device Settings → 1nspecT → enable Camera / Microphone / Photos. Return to the app and try again. The app does not pester you to re-grant — it asks once per permission, then defers to system Settings.
+
+---
+
+## Taking a photo
+
+1. Tap **📷** on the Capture Screen.
+2. The device camera opens.
+3. Frame and capture.
+4. The photo is added to the current finding's preview area.
+
+### What happens after capture (automatic)
+
+The app does several things behind the scenes:
+
+1. **Downscales** the photo to ~1024 px on the longer side at **0.7 JPEG quality**. This is the single biggest factor keeping inspections lean — a 12 MP raw photo becomes a ~150 KB JPEG.
+2. **Saves to device** at `FileSystem.documentDirectory/deficiency_photos/` so the photo persists across app launches and across loss of network.
+3. **Enters the upload queue.** The photo uploads to cloud storage on the next Wi-Fi tick (or cellular, if you've enabled it in [Settings & Tokens](/1nspect/inspector/settings-and-tokens)).
+4. **Generates a thumbnail** for the preview area.
+
+### "Need higher resolution for this one shot"
+
+The automatic downscale is global — every photo taken from the **📷** button gets the same treatment. For a finding where you need higher resolution (a serial number plate, a barely-visible crack, evidence for an insurance claim), use **📁 Library Import** instead — library-imported photos keep their original resolution.
+
+---
+
+## Recording a video
+
+1. Tap **🎥** on the Capture Screen.
+2. The device camera opens in video mode.
+3. Record (tap to start, tap to stop).
+4. The thumbnail appears in the preview area with a `🎥 Video` label and a "Tap to play video" hint.
+
+### Video length and size
+
+- **Length:** the app does not impose a hard time limit on recording, but **practical limits apply** because of upload size. Anything over ~30 seconds will be a multi-megabyte upload that may stall on cellular. Keep clips short — most useful inspection videos are 5–15 seconds.
+- **Size:** if a recorded video exceeds the upload size limit, the upload will fail silently (a known issue documented in [Troubleshooting → Photos not syncing](/1nspect/troubleshooting/common-issues#photos-not-syncing--upload-pending-badge-stuck)). Recapture a shorter version if you suspect this.
+- **Audio:** captured at the device default. Speak briefly if you want to narrate something the visual can't show.
+
+### Playing a video later
+
+Tap the video thumbnail in the preview area. The app's video player opens. The same player is used on the [Review Screen](/1nspect/inspector/review-screen) when you walk through findings later.
+
+---
+
+## Importing from the device library
+
+1. Tap **📁** on the Capture Screen.
+2. The device photo library opens.
+3. Select a photo or video.
+4. The selected media is added to the current finding's preview area.
+
+### Why import instead of capture?
+
+- **Higher resolution:** imported photos keep their original size (the 1024 px downscale does not apply to library imports).
+- **Photos taken with a different camera:** if your phone is in your pocket and you used a DSLR or a separate camera, AirDrop or Photo Stream the file to the device library, then import.
+- **Earlier same-day photos:** if you captured a photo before opening the app (e.g. driving up, a striking visual), you can pull it in later.
+
+### Note on imported media size
+
+Imported full-resolution photos can be 5–10 MB each. The upload queue handles them just fine, but they take longer to upload over cellular. If your cellular sync is on (default off — see [Settings & Tokens](/1nspect/inspector/settings-and-tokens)) a 6-photo basement walk imported at full resolution can use 30+ MB of cellular data.
+
+---
+
+## Edit (markup)
+
+When media is attached to a finding, an **Edit** button appears over the preview area. Tapping it opens the [Photo Markup](/1nspect/inspector/photo-markup) modal, where you can annotate the photo with arrows, shapes, lines, and color.
+
+After Markup, the annotated image is flattened (the annotations are baked into the JPEG) and stored as the finding's photo. The original-unannotated photo is replaced — there is no separate "original + markup overlay" pair retained. If you want to keep the original, capture the photo twice (once unannotated, once with markup, on the same finding).
+
+See [Photo Markup](/1nspect/inspector/photo-markup) for the full markup tool reference.
+
+---
+
+## Retake
+
+The **Retake** button discards the current photo or video and immediately re-opens the camera in the same mode. Useful when:
+
+- The first shot is blurry or out of frame
+- You realized after capture that the shot doesn't show what you want
+- You took a video when you wanted a photo (or vice versa)
+
+A retake **does not require confirmation** — it discards the prior media immediately. If you want to keep the prior shot and add another, save the current finding with the first shot, then start a new finding for the second.
+
+---
+
+## Expand and Shrink
+
+[SCREENSHOT: expand-shrink-toggle.png — mobile, the Capture Screen showing the photo preview area in the "Expanded" state with the form section condensed below.]
+
+A small toggle on the preview area changes how much screen the photo takes up:
+
+| State | What it looks like |
+|---|---|
+| **Normal** (default) | Photo preview takes about a third of the screen height; form fields below get the rest |
+| **Expand** | Photo preview takes most of the screen — useful for verifying details on what you captured. Form fields scroll. |
+| **Shrink** | Photo preview shrinks to a small reference thumbnail — useful for inspectors who want maximum room for the form fields and narrative |
+
+The button labels swap as the state changes (e.g. Normal mode shows "Expand" and "Shrink"; Expanded mode shows "Normal"). The preference is session-only — it resets when you finish an inspection.
+
+---
+
+## Cover photo
+
+The cover photo is the hero image on the front page of the final PDF report. There are two ways to designate one:
+
+1. **At inspection setup time** — the [Starting an Inspection](/1nspect/inspector/starting-an-inspection) form has a **Property Cover Photo** field. Add it there before you start capturing.
+2. **From the Review Screen during or after capture** — long-press any captured photo to designate it as the cover photo. The previous cover (if any) is replaced.
+3. **On the web admin** — for inspectors who prefer to choose the cover photo after the inspection, your office can drag a photo onto the cover-photo placeholder in the Report Workspace.
+
+The cover photo is the only photo that ever appears in the **report header**. All other photos appear within their respective deficiency cards in the report body.
+
+---
+
+## Where photos live on the device
+
+Photos and videos are stored in two places on the device:
+
+| Location | What's there |
+|---|---|
+| **App documents directory** — `FileSystem.documentDirectory/deficiency_photos/` | Compressed JPEGs (~150 KB each) keyed to the deficiency ID. Persists across app launches; persists across loss of network. |
+| **Device photo library** | Only if you **explicitly** import from there. Photos captured via 📷 are NOT saved to the device library — they live only in the app's documents directory. |
+
+### Why not save to the device photo library by default?
+
+Two reasons:
+
+- **Privacy.** Client property photos shouldn't sit in your personal camera roll alongside family photos.
+- **Sync hygiene.** The app's upload queue is the source of truth for photo state. Adding the device library as a second source creates conflicts (what if you delete from one but not the other?).
+
+If you specifically want a copy in your library (e.g. for personal reference), you can save individual photos via your device's share sheet from the Review Screen.
+
+---
+
+## Upload queue behaviour
+
+The upload queue is the unsung hero of 1nspecT mobile. It handles every photo and video upload to the cloud with these rules:
+
+| Rule | Detail |
+|---|---|
+| **Wi-Fi-only by default** | Photos and videos upload only on Wi-Fi unless you've toggled "Upload Media over Cellular" in [Settings & Tokens](/1nspect/inspector/settings-and-tokens) |
+| **Per-photo retry with backoff** | Failed uploads retry automatically with increasing delays — you don't need to babysit |
+| **Order independence** | Photos upload in parallel, not strict capture order. A photo from finding #3 can complete before a photo from finding #2. |
+| **Survives app backgrounding** | If the app is backgrounded mid-upload, the queue resumes when the app returns to the foreground |
+| **Inspection data is separate** | The text data (captions, narratives, ratings) syncs through a different channel and is **never** held back by stalled photo uploads |
+| **GCS as the destination** | Photos land in Google Cloud Storage; the web admin reads them from there for the report |
+
+The visible UI signal that the queue is working: a small "Upload pending" badge on individual photos in the [Review Screen](/1nspect/inspector/review-screen). When the badge clears, that photo is in the cloud.
+
+> **What if the badge never clears?** See [Troubleshooting → Photos not syncing](/1nspect/troubleshooting/common-issues#photos-not-syncing--upload-pending-badge-stuck) for the diagnostic flow.
+
+---
+
+## Practical tips
+
+- **Take wide-shot orientation photos first**, then close-ups. The wide shot establishes location (which house, which wall); the close-ups document the deficiency. The Vision Scan AI is calibrated to look for high-confidence safety issues — wider shots reduce false suggestions.
+- **For label/spec photos** (water heater plate, electrical panel sticker), keep them flat-on and well-lit. The Sys Info AI will OCR them, but only if the text is readable to a human first.
+- **Markup matters more than caption sometimes.** If the finding requires the client to see *exactly which* part of an outlet has the issue, an arrow on the photo is faster than a sentence in the narrative.
+- **Don't try to capture audio narration as video.** The video upload size will balloon and the audio quality is poor. Type the narrative — it's faster and reaches the report better.
+- **For multi-component findings** (e.g. three deficient breakers in one panel), take one wide photo of the whole panel as the finding's hero photo, then describe each issue in the narrative. Don't take three findings for one panel unless the issues are truly independent.
+
+---
+
+## What you can't do (yet)
+
+- **Multi-photo per finding.** Each finding holds **one** photo or one video. To capture multiple shots of the same issue, save additional findings under the same subsection. (Multi-photo per finding is a roadmap item.)
+- **GIF or burst capture.** Standard photo + video only.
+- **In-app cropping** after capture. Use the device's photo editor (via the share sheet), then re-import, if cropping is needed.
+- **Drone photos via drone app.** Use **📁 Library Import** after the drone media lands in your device library.
+
+---
+
+## Related articles
+
+- [Capture Screen](/1nspect/inspector/capture-screen) — where the photo and video controls live
+- [Photo Markup](/1nspect/inspector/photo-markup) — annotating captured photos
+- [AI During Capture → Vision Scan](/1nspect/inspector/ai-during-capture#vision-scan-multimodal-analysis) — how the AI uses the photo
+- [Offline & Sync](/1nspect/inspector/offline-and-sync) — how the upload queue handles network loss
+- [Review Screen](/1nspect/inspector/review-screen) — where to designate cover photo and verify all media uploaded
+- [Settings & Tokens](/1nspect/inspector/settings-and-tokens) — the Cellular Sync toggle

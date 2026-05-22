@@ -1,0 +1,176 @@
+---
+id: workflows-template-to-finished-report
+title: Template to Finished Report
+persona: [admin-operator]
+surfaces: [web, mobile]
+category: workflows
+related: [admin-operator-templates-overview, admin-operator-inspection-reviewer, admin-operator-reports-and-publishing, gs-02-build-your-first-template]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Template to Finished Report
+
+This workflow article traces the journey from **template design** to **finished report PDF** — how a template's schema, canvas, and visual-page rules become the actual document the client downloads. It's the structural counterpoint to [Booking to Published Report](/1nspect/workflows/booking-to-published-report) (which is the order lifecycle); this one is the document lifecycle.
+
+---
+
+## The 7-step template-to-report flow
+
+```
+1. Build Schema      → 2. Canvas Design  → 3. Page Styling →
+4. Inspection Capture → 5. Report Workspace → 6. PDF Render → 7. Client Receives
+```
+
+---
+
+## Step 1 — Build Schema
+
+**Where:** [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review) or [Template Editor](/1nspect/admin-operator/templates/template-editor)
+
+**What you do:** Define the structure of the inspection — sections, subsections, fields.
+
+**Two paths:**
+
+| Path | Speed | Use when |
+|---|---|---|
+| **Initialize TREC Template** | Fastest — instant | Standard Texas residential inspections |
+| **PDF Upload + AI extraction** | ~60 seconds, 3 IT | You have an existing PDF (legacy, competitor, state form) |
+| **Build manually** | Slow | Highly custom inspection or no template starting point |
+
+After Step 1, your template has the schema — what mobile inspectors see, what shows up as fields on the report. Without canvas + styling (Steps 2–3), the report renders with platform defaults.
+
+---
+
+## Step 2 — Canvas Design
+
+**Where:** [Template Designer](/1nspect/admin-operator/templates/template-designer)
+
+**What you do:** Configure the visual canvas — the rating scale (TREC vs Binary), default cover, margins (96 px = 1 inch), colors that override tenant defaults, finding card style, photo grid layout (1/2/3 columns), and finding card border/background.
+
+**Why it matters:** Canvas changes affect every rendered PDF from this template. Set up once, every inspection inherits.
+
+**Picking the rating scale here is critical:** TREC Standard (I/NI/NP/D) is the default for Texas residential; Binary Pass/Fail is used for commercial or specialty inspections.
+
+---
+
+## Step 3 — Page Styling
+
+**Where:** [Visual Page Designer](/1nspect/admin-operator/templates/visual-page-designer)
+
+**What you do:** Configure per-page rendering — page header (logo + company info + alignment), major section headers (font, weight, alignment, background color), subsection headers, page footer (page number + company info + license number).
+
+**Common design patterns:**
+
+- **Minimalist** — white headers, dark text, thin bottom border
+- **Bold brand color** — solid primary-color section bars, white text
+- **Subtle gray band** — light-gray header background, dark text, no border
+
+Pick once. Every report from this template uses the same page chrome.
+
+---
+
+## Step 4 — Inspection Capture
+
+**Where:** [Mobile Capture Screen](/1nspect/inspector/capture-screen)
+
+**What inspectors do:** Use the mobile app to capture findings against the template's schema. Each finding inherits its section/subsection from the schema.
+
+The template controls what inspectors see:
+
+| Schema element | Mobile UI |
+|---|---|
+| Section | Top-row horizontal nav on Capture Screen |
+| Subsection | Second-row horizontal nav |
+| Rating field | The I/NI/NP/D pills (or Pass/Fail per Step 2) |
+| Photo placeholder | Photo capture area |
+| Informational field | Dropdown using [Option Lists](/1nspect/admin-operator/intelligence-hub/option-lists) |
+| Comment field | Caption + narrative fields |
+
+If the schema is missing a section the inspector needs, the inspector cannot add it from mobile — they message you to extend the template, you publish, and on next inspection-open the new section appears.
+
+---
+
+## Step 5 — Report Workspace
+
+**Where:** [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) on web
+
+**What you do:** After the inspector marks complete, walk through every finding in the 4-column workspace. Polish narratives, run AI Draft on field-noted findings (2 IT each), generate SPOs per system (10 IT each), build the executive summary, run AI Priority Analysis.
+
+**The template's role here:** Pre-defined sections and subsections organize the findings; the Inspection Reviewer's left column groups by section per the template's hierarchy.
+
+---
+
+## Step 6 — PDF Render
+
+**Where:** Server-side, triggered by **Generate PDF Preview** or **Publish**
+
+**How it works:**
+
+1. The backend's PDF pipeline reads the inspection + the template snapshot
+2. The cover designed in [Cover Designer](/1nspect/admin-operator/cover-designer) renders as page 1
+3. The Visual Page Designer rules render the page header on every body page
+4. Section headers render per the Visual Page Designer config
+5. Findings render as cards using the Template Designer's finding-card style
+6. Photos render using the Template Designer's photo grid (1/2/3 columns, caption above or below)
+7. Executive summary renders findings flagged "Include in summary," ranked if AI Priority Analysis was run
+8. SPOs appear in the section overview of the executive summary
+9. Page footer renders with page number + company info + license
+
+**Variables resolved at render time:**
+
+`$ClientNames`, `$InspectionAddress`, `$InspectionDate`, `$InspectorName`, `$InspectorLicense`, `$CompanyName`, `$CompanyLogo`, `$InspectionFeeTable`, `$ContractDate`
+
+Page-level variables are resolved per the [Company Info](/1nspect/admin-operator/company-and-pricing/company-info) and [Company Settings](/1nspect/admin-operator/company-and-pricing/company-settings) values.
+
+---
+
+## Step 7 — Client Receives
+
+**Where:** Client's email inbox + [Client Portal](/1nspect/features/portals)
+
+**What happens:** The `report.published` workflow trigger fires; configured email steps send the report to the client (`$ReportLink`) and agent (`$AgentReportLink`).
+
+The client clicks the link and lands on the Client Portal where they can:
+
+- Download the PDF
+- View the report inline
+- Build a Repair Request
+- See payment options
+- Sign any post-inspection documents
+
+The agent gets a summary-only Realtor Portal view (no pricing, no repair request).
+
+---
+
+## Template snapshot — the key concept
+
+The template's schema and canvas are captured at **inspection-creation time** (Step 4) as a snapshot on the inspection record. Why this matters:
+
+| Scenario | What happens |
+|---|---|
+| You edit the template after an inspection started | The in-progress inspection keeps the snapshot — no surprise mid-capture |
+| You edit the template before an inspection is published | The inspection report renders against the snapshot, NOT the current template — preserves consistency |
+| You re-publish an old report with a newer template | The re-publish optionally refreshes the snapshot (operator decision) |
+
+Snapshots let you evolve templates without breaking in-flight work.
+
+---
+
+## Iteration tips
+
+- **First template:** start with **Initialize TREC**. Don't over-customize until you've shipped a few real reports.
+- **Branding pass:** customize the cover first ([Cover Designer](/1nspect/admin-operator/cover-designer)) and section header style ([Visual Page Designer](/1nspect/admin-operator/templates/visual-page-designer)). These have the most visible impact.
+- **Schema iteration:** add/remove fields as you find gaps. Inspectors will tell you what's missing within the first 5 inspections.
+- **Test before going live:** use **Generate PDF Preview** on a real inspection before publishing real reports against a new template.
+
+---
+
+## Related articles
+
+- [Templates Overview](/1nspect/admin-operator/templates/overview) — the map of template tools
+- [Template Designer](/1nspect/admin-operator/templates/template-designer) — Step 2 deep dive
+- [Visual Page Designer](/1nspect/admin-operator/templates/visual-page-designer) — Step 3 deep dive
+- [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) — Step 5
+- [Build Your First Template](/1nspect/getting-started/build-your-first-template) — onboarding for Steps 1–3
+- [Booking to Published Report](/1nspect/workflows/booking-to-published-report) — the order lifecycle (this is the document lifecycle)

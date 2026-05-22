@@ -1,0 +1,207 @@
+---
+id: admin-operator-templates-template-designer
+title: Template Designer
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-templates-overview, admin-operator-templates-visual-page-designer, admin-operator-cover-designer]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Template Designer
+
+Template Designer (route `/templates/designer` or `/templates/designer/:templateId`) is the **visual canvas** for inspection templates. It's where you choose the rating scale, set the default cover, and configure the look-and-feel of report PDFs at the template level. The deeper per-page rules live in [Visual Page Designer](/1nspect/admin-operator/templates/visual-page-designer); per-element design (fonts, colors) is on [Template Editor](/1nspect/admin-operator/templates/template-editor).
+
+This is the largest of the template editors — 1,841 lines of source — because it manages canvas state, live preview, and the rating-scale + cover bindings.
+
+---
+
+## When you arrive here
+
+You reach Template Designer by:
+
+- Clicking **Open Designer** from [Template Editor](/1nspect/admin-operator/templates/template-editor)
+- Clicking **Visual Designer** card on the [Templates hub](/1nspect/admin-operator/templates/pdf-mapper)
+- Navigating directly to `/templates/designer/:templateId` (if you know the template ID)
+
+The page loads the template by ID. The header banner reads: *"📝 Note: Editing template ID: {templateId}. Changes are saved to the database when you click the Save button."*
+
+If you reach `/templates/designer` without a template ID, you'll land on a picker that lets you select which template to design.
+
+---
+
+## Screen layout
+
+[SCREENSHOT: template-designer-canvas.png — desktop, the Template Designer showing a header configuration bar at the top, a large canvas in the center, and a side panel of design controls.]
+
+The Designer has three primary areas:
+
+1. **Top configuration bar** — Inspection Standard, Rating Scale, Default Cover
+2. **Canvas** — Live preview of how the report will render
+3. **Side panel** — Design controls (margins, photo grid, finding card style, etc.)
+
+---
+
+## Top configuration bar
+
+### Inspection Standard
+
+A picker showing the active inspection standard. Editing here updates the same standard field as [Template Editor](/1nspect/admin-operator/templates/template-editor) → Template Information.
+
+Why it's here: the standard drives the **rating scale** options and the **default sections** for new template work. Changing it surfaces a confirmation if the template already has data that would conflict.
+
+### Rating Scale
+
+A drop-down with two options:
+
+| Option | Pills shown to inspectors |
+|---|---|
+| **TREC Standard (I / NI / NP / D)** | Inspected · Not Inspected · Not Present · Deficient |
+| **Binary Pass / Fail** | Pass · Fail |
+
+The chosen rating scale propagates to:
+
+- The mobile [Capture Screen](/1nspect/inspector/capture-screen) rating row
+- The mobile [Ratings Screen](/1nspect/inspector/ratings-screen) chips
+- The PDF report's rating column
+
+Switching scales after findings have already been captured can leave existing ratings in an unmapped state. Use the migration script (or contact support) if you need to switch on a live template.
+
+### Default Cover
+
+A picker showing every cover designed in [Cover Designer](/1nspect/admin-operator/cover-designer).
+
+| Option | Behavior |
+|---|---|
+| **None** | No cover page; report PDF starts on the first content page |
+| A named cover | That cover renders as the report's first page |
+
+Selecting a cover here overrides the template-level default set in [Template Editor](/1nspect/admin-operator/templates/template-editor). Some inspectors prefer to set the cover in only one place; choose whichever is more convenient for you.
+
+---
+
+## Canvas (live preview)
+
+A large pre-rendered preview of how the report will look. The canvas updates as you change controls in the side panel.
+
+Limitations:
+
+- The canvas approximates the final PDF — true server-side rendering may differ slightly in font kerning and image sharpness
+- To see the actual generated PDF, save the template and use **Generate PDF Preview** from any inspection using this template (e.g. via [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer))
+
+The canvas reflects:
+
+- Cover page (from Default Cover)
+- Section header style (color, weight, alignment)
+- Rating row layout (per-rating-scale)
+- Finding card style (border, background, photo grid)
+- Margins and spacing
+- Page-break rules
+
+---
+
+## Side panel — design controls
+
+The exact controls depend on which template element is selected (canvas elements are clickable). Common groupings:
+
+### Margins
+
+| Field | Notes |
+|---|---|
+| Preamble pages | Pixel margin (96 px = 1 inch) for cover and front-matter pages |
+| Section pages | Margin for body pages |
+| Summary pages | Margin for the executive summary |
+
+### Colors
+
+These override tenant defaults at the template level:
+
+| Field | Where it appears |
+|---|---|
+| Primary Color | Section headers, table borders, primary buttons |
+| Secondary Color | Accent bars, subsection dividers |
+| Accent Color | Highlights, badges, AI-generated content markers |
+
+### Rating column
+
+| Field | Notes |
+|---|---|
+| Rating column width (px) | How much of the section page is reserved for the I/NI/NP/D rating boxes |
+| Show rating legend in header | Toggle to show/hide the I-NI-NP-D legend in the running header |
+
+### Finding card
+
+| Field | Notes |
+|---|---|
+| Border weight | Thickness of the deficiency card border (px) |
+| Background tint | Light fill behind the finding card content |
+| Heading style | Typography for the caption (size, weight) |
+
+### Photo grid
+
+| Field | Notes |
+|---|---|
+| Columns | 1 / 2 / 3 — number of photos per row in a finding card |
+| Caption position | Above / Below the photo |
+| Gap | Spacing between photos in pixels |
+
+---
+
+## Saving
+
+The Designer is **explicit-save**, not auto-save. A prominent **Save** button (top-right or footer) commits all changes. Until saved:
+
+- The canvas reflects unsaved changes (visual preview is live)
+- The database still holds the previous version
+- Other users opening the template see the old version
+
+A small unsaved-changes indicator near the page header warns you. Navigating away prompts confirmation.
+
+---
+
+## Loading state
+
+If the template data hasn't fully loaded yet, an info alert appears: *"Loading template..."*
+
+Common causes of slow loading:
+
+- Templates with large schemas (50+ subsections) take a moment
+- Slow tenant network connection
+- Backend cold start (rare)
+
+If loading hangs for >10 seconds, refresh the page.
+
+---
+
+## Validation
+
+The Designer validates several invariants before allowing Save:
+
+| Validation | Message if fails |
+|---|---|
+| Rating scale must not be empty | "Choose a rating scale" |
+| Margins must be positive | "Margin values must be positive numbers" |
+| Photo grid columns 1–3 | "Photo grid columns must be 1, 2, or 3" |
+| Colors must be valid hex | "Invalid color value: [color]" |
+
+Failed validations prevent Save until corrected.
+
+---
+
+## What this page does NOT do
+
+- **It does not edit the schema.** Sections, subsections, and fields are managed in [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review) or the deeper schema editor.
+- **It does not edit per-page styling like headers/footers.** That's [Visual Page Designer](/1nspect/admin-operator/templates/visual-page-designer).
+- **It does not design cover pages.** Use [Cover Designer](/1nspect/admin-operator/cover-designer) — this page only picks from already-designed covers.
+- **It does not preview AI narratives.** Use [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) on a real inspection.
+
+---
+
+## Related articles
+
+- [Templates Overview](/1nspect/admin-operator/templates/overview)
+- [Template Editor](/1nspect/admin-operator/templates/template-editor) — settings + branding
+- [Visual Page Designer](/1nspect/admin-operator/templates/visual-page-designer) — per-page styling
+- [Cover Designer](/1nspect/admin-operator/cover-designer) — designing the covers picked here
+- [Build Your First Template](/1nspect/getting-started/build-your-first-template) — onboarding tutorial

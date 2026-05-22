@@ -1,0 +1,193 @@
+---
+id: workflows-assigning-and-handoff
+title: Assigning Inspectors & Handoff
+persona: [admin-operator]
+surfaces: [web, mobile]
+category: workflows
+related: [admin-operator-order-creation-wizard, admin-operator-inspection-details, inspector-home-and-assigned-inspections, features-multi-tenant-and-team]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Assigning Inspectors & Handoff
+
+This workflow article covers everything related to **assignment and handoff** — how an order moves from the office to an inspector's mobile device, how multi-inspector teams collaborate via the Team QR feature, and what happens when an inspector is reassigned mid-engagement.
+
+---
+
+## When you use these flows
+
+- **Daily** — assigning each new order to an available inspector
+- **Multi-inspector teams** — coordinating field work with the Team QR feature
+- **Reassignment** — when an inspector calls in sick, has a conflict, or a job needs reassignment
+- **New hire** — onboarding a new inspector and routing their first jobs
+
+---
+
+## Single-inspector assignment
+
+The basic flow:
+
+1. **In the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard)** → Step 2 (Full Order Creation), the **Assigned Inspector** field. Pick from the dropdown of your team's inspectors.
+2. **Save**. The order is written to Firestore with `assignedInspectorName` set.
+3. **The mobile app picks it up.** The inspector's [Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections) screen has a real-time Firestore listener — the new order appears within seconds of save.
+4. **The inspector starts work.** Their mobile app's Start Inspection button is enabled (after contract gate passes).
+
+### Visibility rules
+
+The mobile [Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections) list filters on **all** of these (BITE 68.3):
+
+- `assignedInspectorName` = the signed-in inspector's identity
+- `status` in (`assigned`, `in_progress`)
+- Contract activity: `skipWorkflow: true` OR `contractStatus` is set to something other than `pending_review`
+- Scheduled within 30 days
+
+An inspection assigned to someone else, or with no contract activity, or more than 30 days out, is invisible to the inspector.
+
+---
+
+## Reassignment
+
+**When:** Original inspector can't make the appointment.
+
+**How:**
+
+1. Open the order in [Inspection Details](/1nspect/admin-operator/inspection-details)
+2. Change the **Assigned Inspector** field (or use the per-row Assign action on the [Inspections List](/1nspect/admin-operator/inspections-list))
+3. Save
+
+**System changes:**
+
+- `assignedInspectorName` updates to the new inspector
+- The old inspector's [Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections) loses this card within seconds
+- The new inspector's list gains it within seconds
+- An optional notification email fires (if you've wired one to a `inspection.assignment_changed` trigger or similar)
+
+**Local data:** If the original inspector had already opened the inspection (downloading template + narrative library), the local data remains on their device. It does no harm but takes up storage. Inspectors can delete from [Archived Inspections](/1nspect/inspector/archived-inspections) periodically.
+
+---
+
+## Multi-phase orders — different inspectors per phase
+
+For New Construction or other multi-phase orders, you can assign **different inspectors to different phases**:
+
+| Phase | Assigned to |
+|---|---|
+| Phase 1 (Foundation) | Inspector A |
+| Phase 2 (Frame & Mech) | Inspector A |
+| Final | Inspector B |
+
+Each phase is an independent child inspection with its own `assignedInspectorName`. Change one without affecting the others.
+
+### Phase gating
+
+By default, Phase 2 cannot begin until Phase 1 is `completed`. This is enforced on the mobile [Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections) screen — Phase 2's card is visible but the Start button is disabled with a tooltip.
+
+To override (allow concurrent phases), there's a `disablePhaseGating` flag on the order — configurable in the Order Wizard or via support for legacy orders.
+
+---
+
+## Team QR — multi-inspector concurrent capture
+
+For large properties where two or three inspectors work together on the same inspection, the Team QR feature lets all of them capture against the **same inspection record**.
+
+### Enabling
+
+In the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) → Step 2, toggle **Allow Team Inspection: ON**.
+
+This sets `allowTeamInspection: true` on the inspection. The primary assigned inspector sees the **Team QR** button on their [Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections) card.
+
+### Joining
+
+The primary inspector taps **Team QR** to display a QR code modal:
+
+```
+🔬 Team Inspection QR Code
+1937 Kalli Jo Ln, Austin TX
+
+[ ▓▓▓▓▓▓▓▓▓ ]
+[ ▓ QR Code ▓ ]
+[ ▓▓▓▓▓▓▓▓▓ ]
+
+Share this QR code with team members to join the inspection
+```
+
+The QR contains JSON: `{"type": "inspection", "inspectionId": "<id>", "timestamp": <unix-ms>}`.
+
+Secondary inspectors:
+
+1. Open the 1nspecT mobile app, signed in as themselves
+2. Tap the **QR scan** action (typically in the Home or Assigned Inspections view)
+3. Scan the displayed code
+4. The mobile app **joins them to the inspection** — they can capture findings against it
+
+### Sync mode for team inspections
+
+When a team inspection has multiple active inspectors, [EcoSync](/1nspect/inspector/offline-and-sync) switches from **Solo-Eco** (15-min heartbeat) to **Team-Live** (real-time sync). All inspectors see each other's findings within seconds.
+
+### Team-Live battery cost
+
+The 15-minute heartbeat is significantly more battery-efficient than real-time. On a long inspection, expect Team-Live to drain ~30% more battery than Solo-Eco. Bring a charger or limit team inspections to shorter properties.
+
+---
+
+## What gets captured per inspector
+
+When multiple inspectors capture on the same inspection:
+
+| Field | How it resolves |
+|---|---|
+| `assignedInspectorName` | Stays as the primary inspector (the one assigned in the Order Wizard) |
+| Per-finding `capturedBy` | The inspector who saved that specific finding |
+| `inspections.startedAt` | First inspector to tap Start |
+| `inspections.completedAt` | Last inspector — only the primary can tap Finalize |
+
+For the report, the primary inspector is the "Inspector of Record" appearing on the cover and signature line. Other team inspectors are credited internally but not shown on the report by default.
+
+---
+
+## Calendar integration during assignment
+
+If [Calendar Integration](/1nspect/features/calendar-integration) is connected, the Order Creation Wizard checks the assigned inspector's calendar for conflicts. The dropdown surfaces:
+
+| Indicator | Meaning |
+|---|---|
+| ✅ Available | No conflicts at the proposed time |
+| ⚠ Busy | Existing event during the inspection window |
+| 🔄 Tentative | Existing event marked tentative |
+
+If you assign anyway with a conflict, a confirmation alert appears. After save, an event auto-creates on the inspector's calendar.
+
+---
+
+## Handoff: when the inspector finishes
+
+After the inspector marks the inspection complete on mobile:
+
+1. The inspection moves out of [Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections) and into [Archived Inspections](/1nspect/inspector/archived-inspections) on their device
+2. The web admin's [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) becomes available
+3. The operator (typically not the inspector) picks up the report-finalization work
+4. The inspector's mobile work is done — they're free for the next job
+
+This is the "handoff moment" between field capture and report finalization. The same person can do both, or different people can — the platform doesn't enforce role separation here.
+
+---
+
+## Errors and recovery
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| Inspector doesn't see assigned inspection | Network issue or wrong identity match | Verify the inspector's name matches `assignedInspectorName` exactly. Field is case-sensitive in older orders. |
+| Team QR scan doesn't join | Secondary inspector signed into wrong tenant | Both inspectors must be on the same tenant |
+| Multi-phase Start button still disabled | Phase 1 isn't marked `completed` yet | Have the Phase 1 inspector tap Finalize first |
+| Reassignment doesn't sync | Firestore latency or stale listener | Pull-to-refresh on Assigned Inspections |
+
+---
+
+## Related articles
+
+- [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) — where assignment happens
+- [Mobile Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections) — the inspector's view
+- [Multi-Tenant & Team](/1nspect/features/multi-tenant-and-team) — feature reference for team coordination
+- [Calendar Integration](/1nspect/features/calendar-integration) — availability checks
+- [Offline & Sync](/1nspect/inspector/offline-and-sync) — Solo-Eco vs Team-Live mode behavior

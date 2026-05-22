@@ -1,0 +1,297 @@
+---
+id: troubleshooting-mobile
+title: Mobile Troubleshooting
+persona: [inspector]
+surfaces: [mobile]
+category: troubleshooting
+related: [troubleshooting-common-issues, troubleshooting-sync-and-offline, inspector-overview, inspector-settings-and-tokens]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Mobile Troubleshooting
+
+Mobile-specific issues — sign-in, capture, AI, and device-level concerns. For shared mobile + web issues, see [Common Issues & Troubleshooting](/1nspect/troubleshooting/common-issues). For sync-specific issues, see [Sync & Offline Issues](/1nspect/troubleshooting/sync-and-offline).
+
+---
+
+## Sign-in problems
+
+### "This account is not yet active"
+
+**Symptom:** You sign in with correct credentials but see *"This account is not yet active. Please contact your company administrator for access."*
+
+**Cause:** Firebase Auth accepted your credentials, but your tenant access has not been provisioned in `user_registry`.
+
+**Fix:**
+
+1. Contact your company administrator
+2. Ask them to verify your account is provisioned in the web admin
+3. After they confirm, sign out and back in on mobile
+
+This message and your attempt are auto-logged for the platform — your administrator can verify the timestamp.
+
+---
+
+### "Incorrect email or password"
+
+**Causes & fixes:**
+
+- **Wrong password** — tap **Forgot password?** to reset
+- **Wrong email** — the field is case-insensitive but watch for typos in domain (`gnail.com` vs `gmail.com`)
+- **Account on a different tenant** — confirm with admin which email address is registered
+- **Caps Lock** — verify keyboard state
+
+---
+
+### "Too many failed attempts"
+
+**Cause:** Firebase rate-limited your account for security.
+
+**Fix:** Wait 5–15 minutes. Use **Forgot password?** to reset if you've truly forgotten.
+
+---
+
+### "Network error. Check your connection and try again."
+
+**Cause:** Device can't reach Firebase Auth.
+
+**Fix:**
+
+1. Verify you have signal (Wi-Fi or cellular)
+2. Try a different network (some carriers block Firebase Auth ports — rare)
+3. Toggle airplane mode off/on
+4. Try again
+
+---
+
+## Camera & media problems
+
+### "Permission needed — Sorry, we need camera permissions"
+
+**Fix:**
+
+1. iOS: Settings → 1nspecT → Camera → toggle ON
+2. Android: Settings → Apps → 1nspecT → Permissions → Camera → Allow
+
+Re-open the app. Retry capture.
+
+---
+
+### "Permission needed — Sorry, we need camera roll permissions"
+
+Same fix path but for Photos / Media library:
+
+1. iOS: Settings → 1nspecT → Photos → All Photos (or Selected Photos)
+2. Android: Settings → Apps → 1nspecT → Permissions → Photos and Videos → Allow
+
+---
+
+### Photos look low-resolution in the report
+
+**Cause:** All photos taken via the 📷 button are downscaled to ~1024 px at 0.7 JPEG quality.
+
+**Fix when you need high resolution:** Use **📁 Library Import** instead of taking with the in-app camera. Imported photos keep their original resolution.
+
+---
+
+### Video won't upload — fails silently
+
+**Cause:** Video file is over the platform size limit.
+
+**Fix:**
+
+- Recapture a shorter video (< 30 seconds is reliable)
+- If you must keep the long version, use the device's photo app to record + import via 📁 — the platform handles imports slightly differently
+
+---
+
+## Inspection problems
+
+### Section / Subsection missing from the Capture Screen nav
+
+**Causes & fixes:**
+
+1. **Template not Published** — operator goes to [Template Builder](/1nspect/admin-operator/templates/template-builder), toggles Published ON
+2. **Old template snapshot** — your inspection captured the template at creation time. New sections in the template don't appear in already-started inspections. Start a new inspection if you need the new section
+3. **Subsection marked inactive** — operator verifies the subsection's Active toggle is on
+4. **App cache stale** — force-close the app and reopen
+
+---
+
+### Inspection won't start — "Start Inspection" button is disabled
+
+**Cause:** Gating prevents start until prerequisites are met. The disabled button label tells you why:
+
+| Label | Meaning |
+|---|---|
+| **Setup Required** | Template AND narrative collection not yet assigned. Contact operator. |
+| **Contract Not Signed** | The contract was sent but client hasn't signed. Wait for client or have operator follow up. |
+| (none — fully enabled) | Tap to start |
+
+---
+
+### "Inspection in progress" prompt when starting a new one
+
+**Cause:** You have an unfinished inspection on the device. The app prompts:
+
+> **Current Inspection in Progress**
+> You have an inspection in progress. What would you like to do?
+> [Continue Current] [Start New Anyway] [Cancel]
+
+**Fix:** **Continue Current** to finish the open one, or **Start New Anyway** to save the in-progress one and switch.
+
+---
+
+### Findings not saving — "Database not initialized"
+
+**Symptom:** When tapping Save + New, you see: *"Database not initialized. Your deficiency is still on screen — please try again."*
+
+**Cause:** Local storage init race condition (rare).
+
+**Fix:**
+
+1. Tap Save + New again — usually succeeds on retry
+2. If the alert persists, the finding is still safely in memory; capture a screenshot, then force-close and reopen the app
+3. The finding may need to be re-entered
+
+---
+
+### Rating not sticking on a subsection
+
+**Cause:** Your inspection record has both `I` and `D` set, and the UI is showing one as primary.
+
+**Fix:** TREC explicitly permits both — see [Capture Screen](/1nspect/inspector/capture-screen). The UI is showing both correctly; the dual-rating is by design.
+
+---
+
+## AI problems
+
+### "Insufficient IT Tokens"
+
+**Symptom:** Tapping an AI button shows: *"Insufficient IT Tokens. Vision Analysis requires 8 IT. Purchase a top-up pack in Settings."*
+
+**Cause:** Tenant's IT balance is too low for the operation.
+
+**Fix:**
+
+- Have your administrator top up in the web admin → Settings → Subscription & Tokens
+- In the meantime, continue inspecting without AI (template fallback narratives work fine)
+
+The "Settings" in the alert refers to **web admin settings**, not mobile Config.
+
+---
+
+### "Photo Required" when running Vision Analysis
+
+**Cause:** Vision toggled ON but no photo captured.
+
+**Fix:** Capture a photo first, then tap ✦ AI Generate. Or turn the 👁 Vision toggle off to use text-only generation.
+
+---
+
+### AI Generate returns generic / wrong narrative
+
+**Causes & fixes:**
+
+1. **Caption too vague** — write a more specific caption (6–15 words mentioning the component, the condition, and the location)
+2. **Wrong section/subsection selected** — the AI uses section context. Re-select and regenerate
+3. **Template's inspection standard is wrong** — verify in template settings; should be `TREC` for Texas residential
+
+---
+
+### "⚠️ AI Offline — A template CAR narrative has been pre-filled"
+
+**Cause:** AI service is unreachable.
+
+**Fix:** None needed — the template narrative is pre-filled and editable. No IT cost was deducted. AI will work again once the service returns.
+
+---
+
+### Co-Inspector findings keep appearing for the same issue
+
+**Cause:** Co-Inspector targets >85% confidence findings; sometimes it flags the same area across photos.
+
+**Fix:**
+
+- Use ✕ Skip on duplicates
+- If a finding genuinely is the same as the primary, edit the caption to indicate (e.g. *"Same issue, different angle"*)
+
+---
+
+## App behavior
+
+### App crashes on launch
+
+**Causes & fixes:**
+
+- **Corrupted local data** — uninstall and reinstall. (You may lose un-synced local-only data — verify all inspections show as synced in Review tab before doing this)
+- **Old version** — open the App Store / Play Store, update to latest
+- **iOS / Android version too old** — 1nspecT supports iOS 15+, Android 9+
+
+---
+
+### Splash screen ("1nspect" + spinner) stuck
+
+**Cause:** Firebase Auth resolution is hanging.
+
+**Fix:**
+
+1. Wait 30 seconds; sometimes networks are slow
+2. Force-close (swipe app away on iOS, recent apps menu on Android) and reopen
+3. If persistent, check network — Firebase Auth requires a working internet connection on launch
+
+---
+
+### Tabs not responding / app feels frozen
+
+**Fix:**
+
+1. Force-close and reopen
+2. If still unresponsive, restart the device
+3. If persistent after restart, uninstall and reinstall
+
+---
+
+### "Application Error" red screen
+
+**Cause:** A React Native error boundary caught an unhandled error.
+
+**Fix:**
+
+1. Scroll down to read the error message and stack trace
+2. Screenshot the error
+3. Email support@mymavtech.com (use the [Contact Support](/1nspect/inspector/settings-and-tokens) action if accessible) with the screenshot and what you were doing
+
+---
+
+## Performance issues
+
+### App is slow when scrolling Review tab
+
+**Cause:** Inspections with 100+ findings can lag on older devices.
+
+**Fix:**
+
+- Use the section filter in Review to load fewer findings at a time
+- Mark complete and finalize — the [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) on web handles large inspections better
+
+---
+
+### Photo gallery hangs when opening 📁
+
+**Cause:** Device library has thousands of photos; library access is slow.
+
+**Fix:**
+
+- Limit the app's Photos permission to "Selected Photos" — only the photos you've explicitly granted are scanned
+- iOS: Settings → 1nspecT → Photos → Selected Photos
+
+---
+
+## Related articles
+
+- [Common Issues & Troubleshooting](/1nspect/troubleshooting/common-issues) — shared mobile + web issues
+- [Sync & Offline Issues](/1nspect/troubleshooting/sync-and-offline) — anything to do with cloud sync
+- [Mobile App Overview](/1nspect/inspector/overview)
+- [Settings & Tokens](/1nspect/inspector/settings-and-tokens) — Contact Support action

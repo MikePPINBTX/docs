@@ -1,0 +1,242 @@
+---
+id: admin-operator-inspection-details
+title: Inspection Details
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-inspections-list, admin-operator-inspection-reviewer, admin-operator-order-creation-wizard, features-contracts, features-communications]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Inspection Details
+
+The Inspection Details page (route `/inspections/:id`) is the operator-facing dashboard for **one order** or **one inspection**. It's where you check status, edit metadata, view the order's history of triggered workflow events, manage contracts and payments, and launch into report editing.
+
+The page renders differently depending on whether the record is a **master order** (which contains multiple inspections) or a **single inspection**. Both layouts are documented below.
+
+---
+
+## Reaching this page
+
+- **From the [Inspections List](/1nspect/admin-operator/inspections-list)** — click any row
+- **From the Dashboard** — click an upcoming-inspection card
+- **From an email** — many automated notifications deep-link here
+
+---
+
+## Header — the common top section
+
+[SCREENSHOT: inspection-details-header.png — desktop, the top of the Inspection Details page showing the order number in large type, property address, client name, and a payment status pill with paid/unpaid summary.]
+
+Every variant shows the same header:
+
+| Element | Source |
+|---|---|
+| **Order Number** (h4, monospace) | `inspectionNumber` |
+| **Property Address** (h6, secondary color) | `inspectionAddress` + city + state |
+| **Client Name** (body) | `clientName` |
+| **Payment summary** | `amountDue`, `amountPaid`, color-coded (red if balance due, green if paid) |
+
+If the record fails to load (network error or missing document), an error card surfaces the cause and lists the specific document path that was searched.
+
+---
+
+## Master order layout — 4 tabs
+
+When the record is a **master order** (`isOrderMaster === true`), the body renders as a 4-tab interface:
+
+| Tab | What's there |
+|---|---|
+| **Overview** | Order summary + status banners + total fees breakdown |
+| **Client & Realtor Info** | All contact details, edit-in-place |
+| **Inspections** | List of child inspections (phases), tap any to open that inspection's details |
+| **History** | Chronological log of workflow events fired for this order |
+
+### Overview tab
+
+The Overview tab shows status banners at the top (variable, conditional) followed by the Order Summary card:
+
+#### Status banners
+
+| Banner | When it appears | Action it suggests |
+|---|---|---|
+| ✅ **All inspections are complete.** Mark this order as complete to close it out. | Every child inspection has status `completed` | Click the "Mark Complete" action |
+| ⚠ **Contracts pending review.** Confirm phase dates and assign ancillary services before sending agreements to the client. | Order has `contractStatus: pending_review` | Open the Communications tab to send |
+| ❌ **Contract voided.** | Manual void was performed | Re-send if needed |
+
+#### Order Summary card
+
+| Field | Source |
+|---|---|
+| Order Number | `inspectionNumber` (monospace) |
+| Created | `createdAt`, formatted long-date |
+| Property | `inspectionAddress` + city + state |
+| Inspections | Count from `inspectionIds[].length` |
+| Total Fees | `totalAmount`, formatted as currency |
+| Paid | `amountPaid`, green if matches total |
+| Balance Due | `amountDue`, red if non-zero |
+
+### Inspections tab
+
+Each child inspection appears as a row showing:
+
+- Inspection ID (monospace)
+- Status pill
+- Scheduled date and assigned inspector
+- A "Open" button → opens that inspection's own Inspection Details page
+
+Empty state: *"No inspections found for this order."*
+
+### History tab
+
+Chronological list of workflow trigger events fired for this order:
+
+| Event | What it means |
+|---|---|
+| `booking.confirmed` | Order saved, contract bundle queued |
+| `contract.sent` | Contract bundle emailed to client |
+| `contract.signed` | Client signed |
+| `payment.received` | Payment recorded (manual or Stripe) |
+| `inspection.scheduled` / `rescheduled` | Schedule changes |
+| `inspection.completed` | Inspector marked complete |
+| `report.published` | Report PDF generated and emailed |
+| `order.closed` / `cancelled` | Final disposition |
+
+Each event row shows the timestamp, the trigger name, and any payload metadata (e.g. which email template fired).
+
+---
+
+## Single inspection layout — 6 tabs
+
+When the record is a **single inspection** (a child of a master, or a legacy standalone), the layout has 6 tabs:
+
+| Tab | What's there |
+|---|---|
+| **Overview** | Inspection summary, status, weather, parties present |
+| **Client & Realtor Info** | Contact details |
+| **Inspection Details** | The captured findings — count, deficiency summary, link to [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) |
+| **Reports** | Generated PDFs, version history, regenerate options |
+| **History** | Workflow event log scoped to this inspection |
+| **Communications** | Email log, manual send / resend, message threads with the client |
+
+### Inspection Details tab
+
+Shows:
+
+- The template used (with link to the Template Builder)
+- Count of findings by section
+- Count of summary-flagged findings
+- A prominent **Open in Inspection Reviewer** button → launches the full report-editing workspace
+
+### Reports tab
+
+Lists every report PDF generated for this inspection:
+
+- Version (1, 2, 3 — each Publish increments)
+- Generated timestamp
+- File size
+- Actions: Download, Email to Client, Email to Agent, Regenerate
+
+The currently-published version is highlighted. Older versions remain accessible for audit.
+
+### Communications tab
+
+Two-pane:
+
+- **Email log** — every automated and manual email sent for this inspection
+- **Send custom email** — compose a one-off email to the client, agent, or both
+
+The email log shows the template used, the recipients, the send time, and delivery status (sent / delivered / bounced).
+
+---
+
+## Editing fields
+
+Most fields on this page support **inline edit**:
+
+1. Hover the field
+2. Click the pencil icon that appears
+3. Edit and Save (Enter) or Cancel (Esc)
+
+Inline edits write directly to Firestore. The change appears in:
+
+- The mobile app within seconds (Firestore real-time listener)
+- The Inspections List on next refresh
+- The History tab as an `inspection.updated` event
+
+### Fields you can edit inline
+
+- Client name, email, phone
+- Co-client info
+- Realtor info
+- Property address fields
+- Property baseline fields (year built, sqft, foundation, cladding, roof)
+- Scheduled date and time
+- Assigned inspector
+- Notes
+
+### Fields you CAN'T edit here
+
+- Order Number (system-generated)
+- Template assignment (open [Templates Overview](/1nspect/admin-operator/templates/overview) to change)
+- Pricing line items (open the order in [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) edit mode)
+- Workflow event log (read-only)
+
+---
+
+## Order-level actions
+
+A row of action buttons on the right side of the header:
+
+| Button | What it does |
+|---|---|
+| **Send Contract** | Manually trigger the contract bundle (skips the workflow engine — useful when `skipWorkflow` is on) |
+| **Send Quote** | Re-send the quote email — opens a confirmation |
+| **Record Payment** | Manual payment dialog (Venmo / Zelle / check / cash) |
+| **Edit Order** | Open the order in [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) edit mode |
+| **Mark Cancelled** | Set status to cancelled (with confirmation) |
+| **Mark Complete** | Available only when all inspections are complete |
+
+### Record Payment dialog
+
+When you click Record Payment, a dialog opens:
+
+| Field | Notes |
+|---|---|
+| Amount | Pre-fills with the full balance due |
+| Method | Stripe / Venmo / Zelle / Check / Cash / Other |
+| Reference | Free text — check number, Venmo transaction ID, etc. |
+| Date | Defaults to today |
+| Mark order as Paid | Auto-checks if amount = balance due |
+
+Saving fires `payment.received` → any configured workflow steps run.
+
+---
+
+## Error states
+
+| State | Display | Cause |
+|---|---|---|
+| **Inspection not found** | An error card: *"Record not found in `inspections` or `leads` collections for ID: [id]"* | Invalid URL or deleted record |
+| **Network error** | Standard error alert | Firestore unreachable |
+| **Permission denied** | "You do not have access to this inspection" | Trying to view another tenant's record (shouldn't happen via UI) |
+
+---
+
+## What this page does NOT do
+
+- **It does not show individual deficiencies in detail.** That's [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer).
+- **It does not let you edit the report PDF.** Reports are rendered server-side from inspection data.
+- **It does not run the report workflow.** Publishing happens in [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer).
+- **It does not show inspector productivity stats.** That's [Reports & Publishing → Inspector Productivity](/1nspect/admin-operator/reports-and-publishing).
+
+---
+
+## Related articles
+
+- [Inspections List](/1nspect/admin-operator/inspections-list) — where you found this order
+- [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) — opens when you click "Open in Inspection Reviewer"
+- [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) — opens via "Edit Order"
+- [Contracts](/1nspect/features/contracts) — what "Send Contract" does
+- [Communications](/1nspect/features/communications) — workflow triggers shown in History

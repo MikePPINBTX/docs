@@ -1,0 +1,167 @@
+---
+id: inspector-login-and-identity
+title: Login & Identity
+persona: [inspector]
+surfaces: [mobile]
+category: inspector
+related: [inspector-overview, inspector-settings-and-tokens, troubleshooting-common-issues]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Login & Identity
+
+This article covers signing into the 1nspecT mobile app, what to do when your account is not yet active, the password reset flow, and how 1nspecT handles your inspector identity across app launches.
+
+---
+
+## How accounts work
+
+1nspecT mobile is a **business-to-business companion app**. Your inspector account is created and provisioned by your **company administrator** on the web admin — there is no sign-up flow inside the app. The administrator assigns you a role, adds you to the team, and your account becomes available immediately.
+
+If you operate as a one-person inspection company, you are both the administrator and the inspector. Set yourself up on the web admin first (`app.1nspect.app`), then log into the mobile app with the same email and password.
+
+If you do not yet have an account, tap **Contact your administrator** on the login screen. That opens a new email to `info@mymavtech.com` so you can request access. (If the email app doesn't open, the app falls back to an alert showing the same address.)
+
+---
+
+## The login screen
+
+[SCREENSHOT: login-screen.png — mobile, the 1nspecT login screen with logo, "INSPECTOR LOGIN" tagline, email and password fields, Sign In button, Forgot password link, and the Contact your administrator link at the bottom.]
+
+The login screen has these elements, top to bottom:
+
+| Element | Purpose |
+|---|---|
+| **1nspecT logo** | Brand mark — confirms you are in the correct app |
+| **"INSPECTOR LOGIN"** tagline | Labels this as the inspector entry point |
+| **Email** field | Your work email, the same one your administrator added in the web admin |
+| **Password** field | Your account password (hidden by default) |
+| **Sign In** button | Authenticates with Firebase and checks your account status |
+| **Forgot password?** link | Sends a password reset email to the address you entered above |
+| Footer notice | "Access is by invitation only. Contact your administrator to request an account." |
+| **Contact your administrator** link | Opens a pre-filled email to `info@mymavtech.com` |
+
+### Signing in
+
+1. Enter your **email** — the field accepts any case; the app lowercases it when authenticating.
+2. Enter your **password**.
+3. Tap **Sign In**. A spinner replaces the button text while the request is in flight.
+4. On success, the app advances to **Home** automatically. There is no manual "next screen" — Firebase persists the session and the app routes you forward.
+
+---
+
+## "This account is not yet active"
+
+If your password is correct but your administrator has not finished setting up your tenant access, you will see:
+
+> **This account is not yet active.**
+> Please contact your company administrator for access.
+
+This means Firebase accepted your credentials, but no inspector profile is registered for your account on the 1nspecT platform yet. Specifically, the app looked for a record at `user_registry/{your-uid}` and didn't find one.
+
+When this happens:
+
+- You are automatically signed out — your session is not kept open.
+- The attempt is reported to MavTech support so platform admins can confirm whether something is misconfigured.
+- The fix is on the administrator side: they need to complete the user provisioning step in the web admin. Tell them you saw this message and they should be able to resolve it in a minute or two.
+
+This is different from "wrong password" — the credentials are right, the account just hasn't been activated for inspection work yet.
+
+---
+
+## "Forgot password"
+
+If you cannot remember your password:
+
+1. Enter your **email** in the Email field.
+2. Tap **Forgot password?**.
+3. The app calls Firebase to send a reset email to the address you typed.
+4. A confirmation alert appears: *"Reset Email Sent — Check {your email} for a password reset link."*
+5. Open the email on any device, follow the link, set a new password.
+6. Return to the app and sign in with the new password.
+
+If you tap **Forgot password?** without typing an email first, the app reminds you: *"Enter your email address above, then tap Forgot Password."* That is the standard flow — the reset email goes to whatever email you typed in the field.
+
+---
+
+## Error messages
+
+If sign-in fails, the app shows one of these messages in the red banner at the top of the card. Match the message to the cause to know what to do.
+
+| Message | What it means | What to do |
+|---|---|---|
+| **Please enter your email and password.** | One of the fields is empty | Fill both fields and tap Sign In again |
+| **Invalid email address.** | The email you typed isn't a valid email format | Check for typos — common ones are missing the `@` or the `.com` |
+| **Incorrect email or password.** | Either field is wrong (the app deliberately doesn't tell you which) | Verify both. If unsure, tap **Forgot password?** to reset |
+| **Too many failed attempts. Try again later or reset your password.** | Firebase has rate-limited your account for security | Wait 5–15 minutes, or reset your password |
+| **Network error. Check your connection and try again.** | The device can't reach Firebase | Verify Wi-Fi or cellular signal. Airplane mode can do this; so can corporate networks |
+| **This account has been disabled. Contact your administrator.** | Your administrator has disabled your account in the web admin | Reach out to your administrator |
+| **This account is not yet active.** | Authentication worked but no tenant profile is provisioned yet | Ask your administrator to complete user setup |
+| **Sign-in failed. Please try again.** | A different Firebase error — usually transient | Try again. If it persists, capture a screenshot and contact support |
+
+---
+
+## Staying signed in across app launches
+
+After your first successful sign-in, 1nspecT keeps you signed in. The next time you open the app:
+
+- You will see a brief **1nspect** splash screen with a spinner while Firebase resolves your saved session.
+- This is usually under 500 milliseconds.
+- You land on **Home** without needing to log in again.
+
+Your session does not have a fixed expiration — it persists until you sign out, your administrator disables your account, or Firebase invalidates the session (rare; happens if you sign in on too many devices or your password is changed elsewhere).
+
+---
+
+## Signing out
+
+Sign out lives on the **Config (Settings)** screen, not on the login screen. To sign out:
+
+1. Tap the **Config** tab in the bottom bar.
+2. Scroll to **Account** at the bottom of Settings.
+3. Tap **Sign Out**.
+
+> **Important:** any in-progress inspection on this device stays on this device after sign-out. When you sign back in (or another inspector signs in on the same device), the local data is still there. The cloud is the source of truth — sign-out does **not** wipe local work.
+
+If you want to switch inspectors on a shared device, both inspectors should complete and sync their inspections before swapping accounts. See [Offline & Sync](/1nspect/inspector/offline-and-sync) for the sync rules.
+
+---
+
+## Account identity vs inspection assignment
+
+Worth understanding because it can be confusing:
+
+- Your **account** identifies who you are when you sign in (one email + password per inspector).
+- An **assigned inspection** is a specific job your administrator routes to you in the web admin. You see your assigned inspections under **Home → Assigned Inspections**.
+
+These are independent. Multiple inspectors at the same company can sign into the mobile app at the same time on different devices, and each only sees the inspections assigned to their own account. There is no "shared mailbox" — assignment is per-inspector.
+
+---
+
+## Privacy and data on your device
+
+When you sign in, the app caches:
+
+- Your authentication token (managed by Firebase, kept in secure device storage)
+- Your assigned inspections list
+- Templates needed for your active inspection
+- Photos and findings you've captured but not yet uploaded
+
+Nothing about other inspectors at your company is stored on your device. Signing out does not delete this cache — the data remains in case you sign back in and want to resume.
+
+To fully clear local data:
+
+- iOS: delete the app and reinstall
+- Android: Settings → Apps → 1nspecT → Storage → Clear Data, then reinstall
+
+Both of those are destructive — they will erase any local-only inspections that haven't synced. Do not do this until you have confirmed every inspection has uploaded.
+
+---
+
+## Related articles
+
+- [Mobile App Overview](/1nspect/inspector/overview)
+- [Settings & Tokens](/1nspect/inspector/settings-and-tokens) — where Sign Out lives
+- [Offline & Sync](/1nspect/inspector/offline-and-sync) — what the app does with local data
+- [Common Issues & Troubleshooting](/1nspect/troubleshooting/common-issues) — for additional login problems

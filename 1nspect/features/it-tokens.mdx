@@ -1,0 +1,168 @@
+---
+id: features-it-tokens
+title: IT Tokens — The AI Currency
+persona: [admin-operator, inspector]
+surfaces: [web, mobile]
+category: features
+related: [features-ai-features, admin-operator-company-and-pricing-company-settings, inspector-settings-and-tokens]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# IT Tokens — The AI Currency
+
+**IT (Inspection Tokens)** are the metered currency for every AI operation on 1nspecT. Every AI call — narrative generation, vision analysis, schema extraction, polish, SPO synthesis — deducts IT from your tenant's balance. When the balance hits zero, AI calls are blocked until you top up; non-AI operations keep working.
+
+This article is the canonical reference: what costs what, where the balance lives, how to top up, and how to economize.
+
+---
+
+## Why a metered currency?
+
+AI operations call cloud LLMs (Google Gemini, Vertex AI) that cost real money per request. The IT token system means:
+
+- **You pay only for what you use** — no flat AI subscription baked into the platform price
+- **You can plan AI spend** — a typical inspection uses 30–80 IT depending on Vision usage
+- **High-cost operations are gated** — Vision (8 IT) and Voice DNA (50 IT) pre-flight-check the balance
+- **Free operations stay free** — FREE Library chips, repair-request generation, and several utilities cost 0 IT
+
+The bucket is **tenant-wide**, not per-user. All inspectors share the balance.
+
+---
+
+## Where the balance lives
+
+The IT balance is visible only on the **web admin** — there is intentionally no balance display on the mobile app. To check:
+
+1. Sign in to the web admin as Owner
+2. Navigate to **Settings → Subscription & Tokens**
+3. The current balance and recent usage history appear
+
+Mobile inspectors see token data only via the **Insufficient IT Tokens** error when a call is blocked.
+
+---
+
+## Complete operation cost reference
+
+The authoritative table.
+
+### Inspector-facing operations (mobile)
+
+| Operation | Codename | Cost | Where |
+|-----------|----------|------|-------|
+| AI Generate (text-only) | `generate-narrative` | **2 IT** | Capture Screen → ✦ AI Generate (Vision OFF) |
+| Vision Analysis | `vision-analyze` | **8 IT** | Capture Screen → ✦ AI Generate (Vision ON) |
+| Library Search 🪄 | `semantic-search` | **1 IT** | Capture Screen → 🪄 button |
+| FREE Library chips | _(local)_ | **0 IT** | Capture Screen — automatic on caption typing |
+| Save to Narrative Library | `provision-library-entry` | **1 IT** | Capture Screen → Save to Library |
+| System Info Tag (photo) | `extract-metadata-photo` | **3 IT** | Capture Screen → ℹ️ Sys Info (with label) |
+| System Info Tag (text) | `extract-metadata-text` | **1 IT** | Capture Screen → ℹ️ Sys Info (text-only) |
+
+### Admin-facing operations (web)
+
+| Operation | Codename | Cost | Where |
+|-----------|----------|------|-------|
+| AI Draft (per finding) | `generate-narrative` | **2 IT** | Report Workspace → AI Draft tab |
+| Polish Narrative | `polish-narrative` | **2 IT** | Inspection Reviewer → narrative editor → Polish |
+| Polish Report | `polish-report` | **10 IT** | Inspection Reviewer → Polish Report action |
+| System Performance Opinion | `generate-spo` | **10 IT** | Ratings Screen / Reviewer → SPO card |
+| Bundle Findings | `bundle-findings` | **2 IT** | Reviewer — automatic at finding consolidation |
+| Voice DNA — extract persona | `extract-persona` | **50 IT** | Onboarding — one-time per inspector |
+| Schema extraction (OCR) | `extract-structured-ocr` | **3 IT** | Templates → PDF upload → AI extract |
+
+### Free operations (0 IT)
+
+| Operation | Codename |
+|-----------|----------|
+| Repair Request generation | `repair-request` |
+| Property Baseline | `property-baseline` |
+| PDF schema extraction (no OCR) | `extract-pdf-schema` |
+| Structured text extraction | `extract-structured-text` |
+
+---
+
+## Typical inspection cost
+
+| Activity | Per-instance | Typical count | Total IT |
+|---|---|---|---|
+| Photos + ratings (no AI) | 0 | 30–80 findings | 0 |
+| FREE Library chip selections | 0 | 15–30 selections | 0 |
+| AI Generate (text-only) | 2 | 5–15 findings | 10–30 |
+| Vision Analysis | 8 | 0–5 findings (selective) | 0–40 |
+| Save to Library | 1 | 2–5 saves | 2–5 |
+| Sys Info on equipment | 3 | 2–4 labels | 6–12 |
+| Operator: AI Draft | 2 | 2–8 findings | 4–16 |
+| Operator: SPO per system | 10 | 5 systems | 50 |
+| **Total typical** | | | **80–155 IT** |
+
+A heavy-AI inspection (Vision everywhere) can run 200–300 IT. A light-AI inspection (mostly FREE chips) can run under 50 IT.
+
+---
+
+## How balance updates work
+
+- **Pre-flight check (Vision):** before sending the photo to the model, the backend verifies balance ≥ 8 IT
+- **Deduct on success:** most operations deduct **after** a successful AI call. Failed calls don't deduct.
+- **Atomic:** the deduction is part of the same Firestore transaction as the result
+- **Fire-and-forget for fast operations:** some 1-IT operations deduct asynchronously to avoid latency
+
+---
+
+## Topping up
+
+1. Owner signs into web admin
+2. **Settings → Subscription & Tokens**
+3. **Purchase Top-Up** — choose a pack size
+4. **Stripe checkout** — pay with the platform's payment processor
+5. **Balance updates within seconds**
+
+Pack sizes typically range from small (~500 IT) to bulk (~25,000 IT). Larger packs have a lower per-IT cost.
+
+---
+
+## Subscription vs top-ups
+
+| Mode | How it works | When |
+|---|---|---|
+| **Subscription bundle** | Your monthly subscription includes a baseline IT allotment | High-volume tenants (50+ inspections/month) |
+| **Top-up packs** | Bought ad-hoc | Low-volume or seasonal tenants |
+
+Most tenants run both. Unused subscription IT typically doesn't roll over — review your plan terms.
+
+---
+
+## Economy tips
+
+- **Build the narrative library.** Every saved narrative becomes a future FREE chip. After 3–6 months of library investment, FREE chips cover 60–80% of common findings.
+- **Use Vision selectively.** Save it for findings where the photo really tells the story.
+- **Polish only once.** Each Polish Narrative call costs 2 IT — don't run repeatedly.
+- **SPO generation late.** Wait until all findings are in before generating SPOs.
+- **Sys Info only when age matters.** For obviously-new equipment, skip the AI call.
+
+---
+
+## When balance is exhausted
+
+| Operation tried | What happens |
+|---|---|
+| Vision Analysis | Blocked with the *"Insufficient IT Tokens"* alert |
+| AI Generate | Falls back to a **template CAR narrative** (free) |
+| Library Search | Error toast; FREE chips continue working |
+| Sys Info | Error toast; informational fields can be filled manually |
+
+The **inspection itself never blocks** on IT. AI is pure accelerator; the platform fully functions without it.
+
+---
+
+## Audit trail
+
+Every IT deduction is logged on `aiUsage` for the inspection. Review per-inspection AI spend in [Inspection Details → History](/1nspect/admin-operator/inspection-details). Cross-inspection AI spend lives in [Reports → Inspector Productivity](/1nspect/admin-operator/reports-and-publishing).
+
+---
+
+## Related articles
+
+- [AI Features Guide](/1nspect/features/ai-features) — operations in detail
+- [Mobile Settings & Tokens](/1nspect/inspector/settings-and-tokens) — mobile view
+- [Company Settings](/1nspect/admin-operator/company-and-pricing/company-settings) — Subscription & Tokens lives here
+- [AI During Capture](/1nspect/inspector/ai-during-capture) — per-operation mechanics

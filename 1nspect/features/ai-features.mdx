@@ -1,6 +1,17 @@
+---
+id: features-ai-features
+title: AI Features Guide
+persona: [inspector, admin-operator]
+surfaces: [mobile, web]
+category: features
+related: [features-it-tokens, inspector-ai-during-capture, admin-operator-reports-and-publishing]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
 # AI Features Guide
 
-1nSpecT uses AI throughout the inspection and report workflow to reduce writing time, improve narrative quality, and surface deficiencies the inspector might miss. This guide covers every AI-powered feature, what it does, when to use it, and what it costs.
+1nspecT uses AI throughout the inspection and report workflow to reduce writing time, improve narrative quality, and surface deficiencies the inspector might miss. This guide covers every AI-powered feature, what it does, when to use it, and what it costs.
 
 ---
 
@@ -10,12 +21,12 @@ Every AI operation consumes **IT (Inspection Tokens)**. Your subscription includ
 
 | Feature | Cost |
 |---------|------|
-| AI Generate (text-only) | 4 IT |
+| AI Generate (text-only) | 2 IT |
 | Vision Analysis (photo) | 8 IT |
 | Library Search (🪄 semantic) | 1 IT |
 | FREE (Library) chips | 0 IT |
-| AI Draft (batch, per finding) | 4 IT each |
-| Batch SPO generation | 4 IT per section |
+| AI Draft (batch, per finding) | 2 IT each |
+| Batch SPO generation | 10 IT per section |
 
 > **Zero-cost tip:** Build your narrative library over time. The more narratives you save, the more FREE chips appear — reducing your AI spend on repeat finding types.
 
@@ -38,7 +49,7 @@ Every AI operation consumes **IT (Inspection Tokens)**. Your subscription includ
 - The AI follows TREC Standards of Practice language by default for Texas residential inspections
 - Generated narratives always require your review — treat them as a strong first draft
 
-**Cost:** 4 IT
+**Cost:** 2 IT
 
 ---
 
@@ -152,7 +163,7 @@ The narrative library is your personal collection of reusable inspection narrati
 
 **Field Notes vs. Captions:** The Field Note is a private, unformatted observation note the inspector writes on mobile (separate from the caption). It gives the AI more raw material to work with. Example field note: *"rust at base, looks like slow leak, maybe 2-3 years old"* → AI generates a full professional narrative about corrosion at the water heater base with recommended evaluation.
 
-**Cost:** 4 IT per drafted finding
+**Cost:** 2 IT per drafted finding
 
 ---
 
@@ -170,7 +181,7 @@ The narrative library is your personal collection of reusable inspection narrati
 
 **The SPO is standards-aware:** It uses the severity thresholds defined in your SOP rules to calibrate language — a section with 2 minor deficiencies gets different language than one with 5 major deficiencies.
 
-**Cost:** 4 IT per section SPO
+**Cost:** 10 IT per section SPO
 
 ---
 
@@ -182,3 +193,53 @@ The AI narratives are calibrated to:
 - **Section context** — Electrical narratives mention qualified electricians; Plumbing narratives mention licensed plumbers; Structural narratives reference foundation specialists
 - **Confidence thresholds** — The Co-Inspector only flags findings it is >85% confident about; ambiguous observations are omitted to protect inspector liability
 - **No code compliance** — The AI does not cite specific building codes (GFCI requirements, clearances, load calculations) because code compliance requires knowledge of permit date, local amendments, and AHJ interpretation. Inspectors should add code references manually if required by their SOP.
+
+
+---
+
+## Complete AI Operation Cost Reference
+
+The following table lists every AI operation 1nspecT performs and its current IT token cost. The codename column matches the operation key in `apps/backend-api/src/billing/token.service.ts` so platform admins and integrators can correlate billing events to user actions.
+
+### Inspector-facing operations (mobile)
+
+| Operation | Codename | Cost | Surface |
+|-----------|----------|------|---------|
+| AI Generate (text-only) | `generate-narrative` | 2 IT | Capture screen → ✨ button (Vision OFF) |
+| Vision Analysis | `vision-analyze` | 8 IT | Capture screen → ✨ button (Vision ON) |
+| Library Search 🪄 | `semantic-search` | 1 IT | Capture screen → 🪄 magic-wand button |
+| FREE Library chips | _(local)_ | 0 IT | Capture screen — automatic on caption typing |
+| Save to Narrative Library | `provision-library-entry` | 1 IT | Capture screen → Save to Narrative Library |
+| System Info Tag (photo) | `extract-metadata-photo` | 3 IT | Capture screen → System Info Tag (with label photo) |
+| System Info Tag (text) | `extract-metadata-text` | 1 IT | Capture screen → System Info Tag (text-only fallback) |
+
+### Admin-facing operations (web)
+
+| Operation | Codename | Cost | Surface |
+|-----------|----------|------|---------|
+| AI Draft (per finding) | `generate-narrative` | 2 IT | Report Workspace → AI Draft tab |
+| Polish Narrative | `polish-narrative` | 2 IT | Report Workspace → narrative editor |
+| Polish Report | `polish-report` | 10 IT | Report Workspace → Polish Report action |
+| System Performance Opinion (per section) | `generate-spo` | 10 IT | Report Workspace → Summary tab |
+| Bundle Findings | `bundle-findings` | 2 IT | Report Workspace — finding consolidation |
+| Voice DNA — extract inspector persona | `extract-persona` | 50 IT | Onboarding flow — one-time per inspector |
+| Schema extraction (OCR + structured) | `extract-structured-ocr` | 3 IT | Template upload → schema review |
+
+### Free operations (0 IT)
+
+| Operation | Codename | Why it's free |
+|-----------|----------|---------------|
+| Repair Request generation | `repair-request` | Bundled into report.published downstream |
+| Property Baseline | `property-baseline` | Reference data lookup |
+| PDF schema extraction | `extract-pdf-schema` | Template authoring tool |
+| Structured text extraction (no OCR) | `extract-structured-text` | Pure text parsing |
+
+### How to read your usage
+
+The IT balance shown in **Settings → Subscription & Tokens** is the live remaining balance. Each AI call deducts atomically — if your balance is below the operation's cost when you tap the button, the call is blocked with a clear message naming the operation, the cost, and your current balance.
+
+> **Vision Analysis pre-flight:** Vision specifically pre-checks your balance before sending the photo to the model. If you have less than 8 IT, the call is rejected immediately so you do not wait for the network round-trip and the photo upload before seeing the error.
+
+### Rate limiting
+
+AI operations are throttled at the controller level. Burst requests above the rate limit return HTTP 429 with a Retry-After header. The mobile and web clients handle this transparently — you may see a brief "AI is busy" message and a retry.

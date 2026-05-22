@@ -1,0 +1,127 @@
+---
+id: admin-operator-intelligence-hub-overview
+title: Intelligence Hub Overview
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-intelligence-hub-narrative-library, admin-operator-intelligence-hub-smart-comments, admin-operator-intelligence-hub-option-lists]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Intelligence Hub Overview
+
+The Intelligence & Library Hub (route `/intelligence-hub`, also reachable from `/narratives`) is the **content backbone** of your inspection business. It's where you build the reusable text, dropdown options, and classification rules that make AI-assisted narratives meaningful, save inspector typing time on mobile, and keep the language of your reports consistent across inspectors and inspections.
+
+The sidebar item that opens here is labeled **Narrative Management**, but the page title and the conceptual umbrella for everything underneath is **Intelligence & Library Hub**.
+
+This article is the orientation map. For each sub-surface, see the individual articles below.
+
+---
+
+## When you use it
+
+- **First-week setup** — seed the narrative library with your best language; create option lists for repeated dropdowns
+- **As inspections complete** — narratives saved on-the-fly from mobile flow into the library here; periodic curation keeps quality high
+- **Quarterly** — review keyword rules, deprecate stale narratives, archive unused option lists
+
+After initial setup, most maintenance is light. The hub's value compounds: every saved narrative is a future FREE chip on mobile.
+
+---
+
+## What lives here
+
+The hub is a card-based landing page that links to five tools, each described in its own article:
+
+| Surface | Route | What it does |
+|---|---|---|
+| **Narrative Library** | `/narrative-library` | The master list of narrative collections — each collection groups narratives by template or use case. See [Narrative Library](/1nspect/admin-operator/intelligence-hub/narrative-library). |
+| **Narrative Collection Detail** | `/collection-detail` | Edit a single collection — add, filter, edit, delete narratives within it. See [Narrative Collections](/1nspect/admin-operator/intelligence-hub/narrative-collections). |
+| **Smart Comments** | `/smart-comments` | Configure how comments and findings render — color schemes, photo placement, keyword classification. See [Smart Comments](/1nspect/admin-operator/intelligence-hub/smart-comments). |
+| **Option Lists** | `/option-lists` | Reusable dropdowns for informational fields (Foundation Type, Cladding, etc.). See [Option Lists](/1nspect/admin-operator/intelligence-hub/option-lists). |
+| **Keyword Management** | (within Smart Comments) | Classification rules that color-code comments by category. See [Keyword Management](/1nspect/admin-operator/intelligence-hub/keyword-management). |
+
+---
+
+## How these pieces work together
+
+Think of the Intelligence Hub as a **three-layer content system**:
+
+```
+                    ┌─────────────────────────────────────┐
+                    │   Smart Comments (rendering rules)  │
+                    │   ─ photo placement                 │
+                    │   ─ color schemes                   │
+                    │   ─ keyword categorization          │
+                    └──────────────┬──────────────────────┘
+                                   │ applies to
+                                   ▼
+            ┌──────────────────────────────────────────────────┐
+            │   Narrative Library + Collections (the text)     │
+            │   ─ photo captions                               │
+            │   ─ deficiency comments                          │
+            │   ─ report area comments                         │
+            └─────────────────────┬────────────────────────────┘
+                                  │ used in
+                                  ▼
+            ┌──────────────────────────────────────────────────┐
+            │   Inspection findings on mobile + web admin      │
+            │   ─ FREE chips, 🪄 Library Search                │
+            │   ─ AI Generate uses these as style references   │
+            └──────────────────────────────────────────────────┘
+                                  │
+                                  │ informational fields
+                                  ▼
+                       ┌──────────────────────┐
+                       │   Option Lists       │
+                       │   (dropdown sources) │
+                       └──────────────────────┘
+```
+
+- **Option Lists** populate the dropdown values for informational fields ("Foundation Type: [Slab / Pier-and-Beam / Crawl Space / Basement]")
+- **Narrative Collections** hold the actual reusable narratives, segmented by type (Photo Caption / Deficiency Comment / Report Area Comment)
+- **Smart Comments** controls how those narratives appear visually in the rendered report — colors per category, photo placement
+- **Keyword Management** sits inside Smart Comments to classify which narratives match which color category
+
+---
+
+## A typical workflow
+
+1. **Create option lists** for any informational fields your templates use (Foundation Type, Roof Material, etc.) — see [Option Lists](/1nspect/admin-operator/intelligence-hub/option-lists)
+2. **Create a narrative collection** per template or inspection type — see [Narrative Library](/1nspect/admin-operator/intelligence-hub/narrative-library)
+3. **Add narratives** to each collection, organized by Section and Report Area, with at least the most common findings — see [Narrative Collections](/1nspect/admin-operator/intelligence-hub/narrative-collections)
+4. **Configure Smart Comments** to set photo placement and color categories — see [Smart Comments](/1nspect/admin-operator/intelligence-hub/smart-comments)
+5. **Add keyword rules** that categorize comments by severity / type — see [Keyword Management](/1nspect/admin-operator/intelligence-hub/keyword-management)
+6. **Assign the collection** to your inspection orders via the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) → Narrative Collection field
+7. **As inspections run**, inspectors save high-quality narratives back to the library via the mobile Capture Screen's Save to Library action
+
+---
+
+## Role requirements
+
+Most Intelligence Hub features are **Owner-only or Admin-only**. If you're signed in as an Inspector role, the hub shows:
+
+> **Owner or Admin role required**
+
+Sign in as an Owner or contact your administrator to enable Admin permissions on your account.
+
+---
+
+## What this section does NOT do
+
+- **It does not edit individual inspections.** That's [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer).
+- **It does not configure templates.** That's [Templates Overview](/1nspect/admin-operator/templates/overview).
+- **It does not send communications.** That's [Comms Cockpit](/1nspect/admin-operator/comms-cockpit).
+- **It does not handle AI prompts directly.** AI behaviors are platform-level; the library is what the AI's library-search and FREE-chip features draw from.
+
+---
+
+## Related articles
+
+- [Narrative Library](/1nspect/admin-operator/intelligence-hub/narrative-library) — the collections list
+- [Narrative Collections](/1nspect/admin-operator/intelligence-hub/narrative-collections) — editing within one collection
+- [Smart Comments](/1nspect/admin-operator/intelligence-hub/smart-comments) — render-time configuration
+- [Option Lists](/1nspect/admin-operator/intelligence-hub/option-lists) — reusable dropdowns
+- [Keyword Management](/1nspect/admin-operator/intelligence-hub/keyword-management) — comment categorization rules
+- [Mobile AI During Capture](/1nspect/inspector/ai-during-capture) — how mobile inspectors interact with this library
+- [Web Admin Overview](/1nspect/admin-operator/overview) — sidebar context

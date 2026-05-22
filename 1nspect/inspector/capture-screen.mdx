@@ -1,0 +1,344 @@
+---
+id: inspector-capture-screen
+title: Capture Screen
+persona: [inspector]
+surfaces: [mobile]
+category: inspector
+related: [inspector-photos-and-media, inspector-ai-during-capture, inspector-ratings-screen, inspector-review-screen, inspector-photo-markup]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Capture Screen
+
+The Capture Screen is the heart of the 1nspecT mobile app. It's the full-screen workspace where you actually capture findings — photos, captions, narratives, ratings — for every section of an inspection. You will spend most of your inspection time on this one screen.
+
+This article is the definitive reference for everything on the Capture Screen. If you're new, run through the [Mobile Inspection Walkthrough](/1nspect/getting-started/mobile-inspection-walkthrough) first for a guided practice flow, then come back here for the deeper detail.
+
+---
+
+## When you see this screen
+
+You reach the Capture Screen by tapping **Start Inspection** at the bottom of the [Starting an Inspection](/1nspect/inspector/starting-an-inspection) setup form. The Capture Screen is presented as a full-screen modal — it covers the bottom tab bar so you can focus on the inspection without the tabs distracting.
+
+To leave the Capture Screen (intentionally), use the back arrow in the header. The app keeps your work safe — local data is autosaved as you go, so you can return at any time via **Config → 🚀 Resume Active Inspection** or via the **In Progress** card on [Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections).
+
+---
+
+## Anatomy of the screen
+
+[SCREENSHOT: capture-screen-full.png — mobile, the full Capture Screen showing all sections in order, top to bottom: photo preview area, capture controls, pending Co-Inspector pills, section nav, subsection nav, caption field, library chips, AI tools row, narrative field, field note, rating buttons, flag pills, save row.]
+
+Top to bottom:
+
+1. **Photo / video preview area** — large area at the top showing the current finding's media
+2. **Capture controls** — three buttons: 📷 Photo · 🎥 Video · 📁 Library Import
+3. **Pending Co-Inspector pills** *(if any)* — green chips for AI-suggested findings you queued for follow-up
+4. **Section navigation bar** — horizontal scroll of report sections (e.g. Roofing, Structural, Electrical)
+5. **Subsection navigation bar** — horizontal scroll of subsections within the active section
+6. **Caption field** — short title for this finding (6–15 words)
+7. **FREE (Library) chips** — auto-suggested narrative chips from your library as you type the caption
+8. **AI Tools row** — `✦ AI Generate`, `👁 Vision Scan`, `🪄 Library`, `ℹ️ Sys Info`
+9. **Narrative field** — the full finding text (CAR format)
+10. **Field Note** — private inspector notes, never shown in the report
+11. **Rating buttons** — Inspected / Not Inspect. / Deficient / Not Present
+12. **Flag pills** — 🔗 Link to master · ⚠️ Include in report summary
+13. **Save row** — `💾 Save + New` · `✔ Save + Finish` · `🗑 Delete`
+
+Each section is covered in detail below.
+
+---
+
+## 1. Photo / video preview area
+
+The preview area shows the currently attached media for the finding being captured.
+
+### States the preview shows
+
+| State | What you see |
+|---|---|
+| No media yet | A camera icon and the text *"No media captured"* with subtext *"Choose an option below to add media"* |
+| Photo attached | Full image preview |
+| Video attached | A thumbnail with a "Tap to play video" overlay and a `🎥 Video` label |
+
+### Controls on the preview area
+
+When media is present, four secondary buttons appear over the preview:
+
+| Button | Action |
+|---|---|
+| **Edit** | Opens [Photo Markup](/1nspect/inspector/photo-markup) — annotate the photo with arrows, shapes, and lines |
+| **Retake** | Discard the current photo/video and capture again |
+| **Expand** / **Shrink** | Toggle the preview between normal, expanded (more screen space), and shrunk (more form room) |
+
+The Shrink/Expand toggle is genuinely useful — on a long capture session you can expand the preview to validate what you photographed, then shrink to get the form fields back. The setting persists per session.
+
+See [Photos & Media](/1nspect/inspector/photos-and-media) for the full media capture workflow.
+
+---
+
+## 2. Capture controls
+
+A row of three round buttons below the preview area:
+
+| Button | What it does |
+|---|---|
+| **📷** | Open the device camera to take a photo. Requires camera permission on first use. |
+| **🎥** | Open the device camera in video mode. Requires camera + microphone permission. |
+| **📁** | Open the device's photo library to import an existing photo or video. Requires camera-roll permission. |
+
+> **Permissions:** if you decline a permission the first time, the app shows a *"Permission needed"* alert each time and gracefully aborts the action. To grant later, open device Settings → 1nspecT → Camera / Microphone / Photos and enable.
+
+After a successful photo capture, the app **automatically downscales** the image to ~1024 px wide at 0.7 JPEG quality and writes it to the device's documents directory before adding it to the finding. The original-resolution shot is not kept — this is intentional, to keep the upload queue lean. If you need higher resolution for a specific finding (e.g. a serial-number photo), import from the device library instead.
+
+---
+
+## 3. Pending Co-Inspector pills
+
+[SCREENSHOT: coinspector-pills.png — mobile, Capture Screen showing 2 green chips with the 📋 icon between the capture controls and the section nav bar. First chip caption: "GFCI missing at exterior outlet". Second: "Worn fascia at front elevation".]
+
+If you ran **Vision Scan** (the 👁 button) on a previous finding and the AI proposed additional deficiencies it spotted in the same photo, accepted ones appear here as green pills, each starting with a **📋** icon. Tap a pill to **pre-populate** the form with that pending finding's caption and narrative, then capture a new photo of *that specific* deficiency, adjust the section/subsection, and save it.
+
+See [AI During Capture → Co-Inspector](/1nspect/inspector/ai-during-capture#co-inspector) for the full workflow.
+
+---
+
+## 4. Section navigation bar
+
+The horizontal bar showing the report's main sections (Roofing, Structural, Electrical, Plumbing, etc., depending on your template). The active section is highlighted.
+
+- **Tap** a section to switch the active section. The subsection bar (below) updates to show that section's subsections.
+- **Scroll horizontally** if your template has more sections than fit on screen.
+
+The section determines where the finding will appear in the final PDF report. **Always confirm you're on the right section** before saving — moving a finding later (via the Review screen) is possible but adds steps.
+
+---
+
+## 5. Subsection navigation bar
+
+Below the section bar, the horizontal bar of subsections within the active section. Examples within "Electrical":
+
+- Service Entry
+- Main Panel
+- Branch Circuits
+- Outlets & Fixtures
+- Smoke Detectors
+
+Tap a subsection to select it. The current selection persists across saves until you change it — useful when capturing multiple findings within the same area.
+
+> **Naming:** the subsection name shown on this bar is the **short name** from the template schema (typically under 20 characters to fit). The full name appears on the PDF report.
+
+---
+
+## 6. Caption field
+
+A short text input — **6–15 words** is the sweet spot — describing the finding in inspector shorthand.
+
+**Examples:**
+
+- `Damaged shingles at rear slope — granule loss visible`
+- `Double-tapped breaker at main panel`
+- `Open ground at exterior GFCI outlet`
+
+The caption serves three purposes:
+
+1. **It's the title of the deficiency card in the final PDF report.**
+2. **It's the input the AI uses for `✦ AI Generate` and `🪄 Library Search`.** A specific caption produces a sharper AI narrative; a vague caption produces a vague one.
+3. **It triggers the FREE Library chips** (see below) — as you type, the app keyword-matches your narrative library and offers matches.
+
+The caption field accepts a *"Search captions..."* lookup if your inspection has a caption library assigned — useful for inspectors who reuse the same captions across jobs.
+
+---
+
+## 7. FREE (Library) chips
+
+[SCREENSHOT: free-library-chips.png — mobile, just below the caption field, a row labeled "FREE (Library)" with 2 tappable green chips matching the typed caption.]
+
+As you type the caption, the app runs a **local keyword match** against your narrative library and offers matches as tappable chips, labeled **FREE (Library)**. Tap a chip to insert that narrative into the **Narrative** field.
+
+- **Cost:** 0 IT — completely free, runs entirely on-device
+- **Works offline** — no network required
+- **Best for:** common repeat findings where your library already has the language you need (roof shingles, GFCI outlets, double-tapped breakers, water heater age, etc.)
+
+If no chips appear, your library has no keyword match yet. Use `✦ AI Generate` or `🪄 Library Search` (semantic) for AI-assisted alternatives.
+
+---
+
+## 8. AI Tools row
+
+The row of AI action buttons. All cost IT tokens (except FREE Library chips above). The full reference is in [AI During Capture](/1nspect/inspector/ai-during-capture); a quick map here:
+
+| Button | What it does | Cost |
+|---|---|---|
+| **✦ AI Generate** | Generates a CAR narrative from the caption + section context | 2 IT |
+| **👁 Vision Scan** *(toggle + NEW badge)* | When toggled on, routes the next AI Generate through the multimodal photo-grounded model | 8 IT (replaces the 2 IT text cost) |
+| **🪄 Library** | Semantic AI search of your narrative library; returns up to 3 ranked matches | 1 IT |
+| **ℹ️ Sys Info** | OCR-extract manufacturer / model / age from an equipment label photo | 3 IT (photo) or 1 IT (text fallback) |
+
+The Vision Scan toggle is **off by default**. Turn it on **before** tapping AI Generate to use the photo-grounded path. There's a small **NEW** badge on Vision Scan because it's the newest AI capability.
+
+> **Error states you may see:**
+> - *"Photo Required — Vision Analysis requires a photo. Capture a photo first, or disable the Vision toggle..."* — capture a photo before running Vision
+> - *"Insufficient IT Tokens — Vision Analysis requires 8 IT..."* — your tenant balance is too low; your administrator tops up on the web admin
+> - *"⚠️ AI Offline — AI service unreachable. A template CAR narrative has been pre-filled..."* — graceful fallback when the AI service is unreachable
+
+---
+
+## 9. Narrative field
+
+The full inspector prose explaining the finding. This is the body text on the deficiency card in the final report.
+
+The narrative field supports:
+
+- **Manual typing** of free-form text
+- **AI insertion** — generated narratives populate this field directly
+- **Library insertion** — tapping a FREE chip or a Library Search result fills this field
+- **In-field search** — a "*Search narratives...*" affordance lets you find a narrative from your library without leaving the field
+
+A small **Save to Library** action below the narrative (toast confirms after a brief delay) **saves** your current narrative back to the library for future reuse. Saving de-identifies the text (removes addresses, client names, etc.) before storage. Cost: **1 IT**.
+
+---
+
+## 10. Field Note (optional)
+
+A private, unformatted observation note that is **never shown in the report**.
+
+Placeholder text reads: *"Optional: inspector context for AI (e.g. 'not likely required at time of construction') — never shown in report"*.
+
+Field notes serve two purposes:
+
+1. **Personal context for yourself** during long inspections — "this was a 1960s addition" — that you don't want in the customer-facing report.
+2. **AI Draft fuel.** If you skip writing the full narrative on-site and instead jot a field note, your office can use the [AI Draft](/1nspect/features/ai-features) tool on the web admin to batch-generate full CAR narratives from your field notes after the fact. Costs 2 IT per drafted finding, runs from the Report Workspace.
+
+If you write a full narrative on-site, you can skip the field note entirely.
+
+---
+
+## 11. Rating buttons — CONDITION RATING
+
+A row of four rating buttons. **Every required subsection must have a rating** before the inspection can be finished.
+
+| Button | Rating | Meaning |
+|---|---|---|
+| **Inspected** | I | Inspected — no deficiency noted |
+| **Not Inspect.** | NI | Not Inspected — explain in narrative (e.g. occupied attic, no access) |
+| **Deficient** | D | Deficient — deficiency noted, narrative required |
+| **Not Present** | NP | Not Present — component not found at the property |
+
+> The button label **Not Inspect.** is truncated to fit the row — the full rating is "Not Inspected".
+
+A subsection can carry **both `I` Inspected AND `D` Deficient** ratings simultaneously — for example, *"I inspected the panel and noticed a deficiency in one breaker."* — which TREC permits. The mobile UI accepts this multi-rating model.
+
+> **NI reminder:** tapping NI surfaces a reminder toast prompting you to include the reason and any recommendations in the narrative field. Reports are stronger when an NI explains *why* the component couldn't be inspected.
+
+---
+
+## 12. Flag pills
+
+[SCREENSHOT: flag-pills.png — mobile, two small pill-shaped toggles below the rating row: 🔗 Link to master (chain icon) and ⚠️ Include in report summary (warning icon).]
+
+Two small toggleable pills below the rating row:
+
+| Pill | What it does |
+|---|---|
+| **🔗 Link to master** | For multi-phase inspections (e.g. New Construction Phase 2 inheriting from Phase 1) — links this finding back to a master finding on the parent inspection. Most single-inspection orders don't use this. |
+| **⚠️ Include in report summary** | Flags this finding to appear in the executive Summary section of the report. Use for major deficiencies — anything you want the client to see on the summary page. |
+
+Tap to toggle on/off. Tapping the same pill again turns it off.
+
+---
+
+## 13. Save row
+
+[SCREENSHOT: save-row.png — mobile, three buttons at the bottom of the Capture Screen: 💾 Save + New (primary navy, fills most of the row), ✔ Save + Finish (neutral border), and 🗑 (red icon, square delete button on the far right).]
+
+Three buttons at the bottom of the screen:
+
+| Button | Action |
+|---|---|
+| **💾 Save + New** *(primary navy)* | Saves the current finding to local storage + Firestore, then **clears all fields** so you can start a new finding immediately. The section and subsection selection are preserved so you stay in the same area. **This is the most common action — most findings end with this button.** |
+| **✔ Save + Finish** *(neutral)* | Saves the current finding and **returns you to the inspection home screen** so you can wrap up. Use this when you've just captured your last finding for the day. |
+| **🗑 Delete** *(red icon)* | Deletes the current finding without saving. Confirmation alert before destruction. Useful if you started writing a finding and realized it wasn't deficient after all. |
+
+During a save, the active button briefly shows a spinner ("Saving…"); the other buttons are disabled to prevent double-tapping.
+
+### What a save records
+
+When you tap Save + New or Save + Finish, the app commits:
+
+- The current section and subsection
+- The caption
+- The narrative (and the field note, if you wrote one)
+- All attached photos (uploads to cloud queue in background) and videos
+- The rating (I / NI / NP / D)
+- The flag pill states (link-to-master, include-in-summary)
+- The system info tag, if you used Sys Info
+- A `createdAt` timestamp + your inspector identity
+
+All written to local storage **synchronously** (you won't lose anything to a network drop) and then to Firestore in the background.
+
+---
+
+## Bottom navigation tabs
+
+Below the save row, the standard 5-tab navigation is still accessible:
+
+| Tab | Where you go |
+|---|---|
+| **Home** | Back to the Home screen — the inspection stays in progress |
+| **Review** | The [Review Screen](/1nspect/inspector/review-screen) for the current inspection — all findings listed for editing |
+| **Ratings** | The [Ratings Screen](/1nspect/inspector/ratings-screen) — fast-rate every required subsection |
+| **Quote** | The [Field Quote](/1nspect/inspector/field-quote) tool — switch contexts without leaving the inspection |
+| **Config** | [Settings](/1nspect/inspector/settings-and-tokens) — also accessible from the Resume Active Inspection shortcut |
+
+> **The Capture Screen is a full-screen modal**, so when you tap another tab the app stays in the same inspection — switching tabs doesn't lose your in-progress finding.
+
+---
+
+## What gets captured automatically
+
+Several things happen behind the scenes during capture that you don't have to manage:
+
+| Behaviour | What |
+|---|---|
+| **Photo downscale** | All photos are resized to ~1024 px wide at 0.7 JPEG quality |
+| **Storage location** | Photos persist in `FileSystem.documentDirectory/deficiency_photos/` |
+| **Upload queue** | Photos enter a network-aware queue. Uploads run on Wi-Fi by default; cellular only if you've enabled it in [Settings & Tokens](/1nspect/inspector/settings-and-tokens) |
+| **Retry policy** | Failed uploads retry with exponential backoff. The inspection data (text + ratings) syncs separately from media |
+| **GPS** | Throttled per-finding location capture for the report's location confirmation |
+| **Autosave** | Local storage writes happen on every Save + New and Save + Finish; you don't lose work to backgrounding |
+
+---
+
+## Errors and recovery
+
+| Alert text | Cause | What to do |
+|---|---|---|
+| **Permission needed — Sorry, we need camera permissions...** | Camera permission denied | Open device Settings → 1nspecT → Camera, enable, retry |
+| **Permission needed — Sorry, we need camera roll permissions...** | Photo Library permission denied | Open device Settings → 1nspecT → Photos, enable, retry |
+| **Failed to load template navigation. Please try again.** | Template data couldn't load (rare network issue) | Pull back to Assigned Inspections, tap the inspection again to re-download |
+| **Database not initialized. Your deficiency is still on screen — please try again.** | Race condition in local storage init | Tap the same Save button again; the finding is preserved in memory |
+| **Failed to save deficiency. Please try again.** | Storage or sync error | Retry; if persistent, take a screenshot and contact support from Config → Contact Support |
+| **Missing Information — Please provide: caption, rating** | Save attempted without required fields | Fill the listed fields and retry |
+
+---
+
+## Tips from inspectors
+
+- **Set section/subsection FIRST, then capture.** Easier than relocating findings later.
+- **One photo = one finding** for most deficiencies — keeps the report clean.
+- **Use Vision Scan only when the photo really tells the story.** For a serial-number photo, plain `Sys Info` is faster and cheaper.
+- **Caption first, narrative last.** AI Generate works best when the caption has shape. Don't pre-fill the narrative — let AI populate it.
+- **Save + New aggressively.** Each saved finding is durable and synced. Avoid stacking 30 in-memory findings in case the app gets backgrounded.
+- **For long inspections, use Shrink mode** to give the form more room while still seeing the photo for reference.
+
+---
+
+## Related articles
+
+- [Photos & Media](/1nspect/inspector/photos-and-media) — full media capture workflow
+- [AI During Capture](/1nspect/inspector/ai-during-capture) — every AI tool in detail
+- [Photo Markup](/1nspect/inspector/photo-markup) — annotating captured photos
+- [Ratings Screen](/1nspect/inspector/ratings-screen) — the fast-rate view for confirming all subsections are rated
+- [Review Screen](/1nspect/inspector/review-screen) — finding-by-finding editing of everything captured here
+- [Mobile Inspection Walkthrough](/1nspect/getting-started/mobile-inspection-walkthrough) — end-to-end practice

@@ -41,17 +41,99 @@
             ]
           },
           {
+            "group": "Web Admin",
+            "pages": [
+              "1nspect/admin-operator/overview",
+              {
+                "group": "Foundation",
+                "pages": [
+                  "1nspect/admin-operator/inspections-list",
+                  "1nspect/admin-operator/order-creation-wizard",
+                  "1nspect/admin-operator/inspection-details",
+                  "1nspect/admin-operator/inspection-reviewer"
+                ]
+              },
+              {
+                "group": "Operations",
+                "pages": [
+                  "1nspect/admin-operator/comms-cockpit",
+                  "1nspect/admin-operator/contracts-cockpit",
+                  "1nspect/admin-operator/payments-and-contracts",
+                  "1nspect/admin-operator/reports-and-publishing",
+                  "1nspect/admin-operator/cover-designer",
+                  "1nspect/admin-operator/contacts"
+                ]
+              },
+              {
+                "group": "Templates",
+                "pages": [
+                  "1nspect/admin-operator/templates/overview",
+                  "1nspect/admin-operator/templates/template-builder",
+                  "1nspect/admin-operator/templates/template-editor",
+                  "1nspect/admin-operator/templates/template-designer",
+                  "1nspect/admin-operator/templates/schema-upload-and-review",
+                  "1nspect/admin-operator/templates/visual-page-designer",
+                  "1nspect/admin-operator/templates/pdf-mapper"
+                ]
+              },
+              {
+                "group": "Intelligence Hub",
+                "pages": [
+                  "1nspect/admin-operator/intelligence-hub/overview",
+                  "1nspect/admin-operator/intelligence-hub/narrative-library",
+                  "1nspect/admin-operator/intelligence-hub/narrative-collections",
+                  "1nspect/admin-operator/intelligence-hub/smart-comments",
+                  "1nspect/admin-operator/intelligence-hub/option-lists",
+                  "1nspect/admin-operator/intelligence-hub/keyword-management"
+                ]
+              },
+              {
+                "group": "Company & Pricing",
+                "pages": [
+                  "1nspect/admin-operator/company-and-pricing/company-info",
+                  "1nspect/admin-operator/company-and-pricing/company-settings",
+                  "1nspect/admin-operator/company-and-pricing/pricing-manager",
+                  "1nspect/admin-operator/company-and-pricing/pricing-settings"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Workflows",
+            "pages": [
+              "1nspect/workflows/booking-to-published-report",
+              "1nspect/workflows/template-to-finished-report",
+              "1nspect/workflows/assigning-and-handoff",
+              "1nspect/workflows/aging-equipment-flagging"
+            ]
+          },
+          {
             "group": "Features",
             "pages": [
               "1nspect/features/ai-features",
+              "1nspect/features/it-tokens",
+              "1nspect/features/trec-sop-compliance",
               "1nspect/features/communications",
-              "1nspect/features/contracts"
+              "1nspect/features/contracts",
+              "1nspect/features/portals",
+              "1nspect/features/public-booking",
+              "1nspect/features/calendar-integration",
+              "1nspect/features/multi-tenant-and-team"
             ]
           },
           {
             "group": "Troubleshooting",
             "pages": [
-              "1nspect/troubleshooting/common-issues"
+              "1nspect/troubleshooting/common-issues",
+              "1nspect/troubleshooting/web-admin",
+              "1nspect/troubleshooting/mobile",
+              "1nspect/troubleshooting/sync-and-offline"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "1nspect/glossary"
             ]
           }
         ]
@@ -60,9 +142,22 @@
         "tab": "Mobile App",
         "groups": [
           {
-            "group": "Coming Soon",
+            "group": "Inspector Guide",
             "pages": [
-              "mobile/overview"
+              "1nspect/inspector/overview",
+              "1nspect/inspector/login-and-identity",
+              "1nspect/inspector/home-and-assigned-inspections",
+              "1nspect/inspector/starting-an-inspection",
+              "1nspect/inspector/capture-screen",
+              "1nspect/inspector/photos-and-media",
+              "1nspect/inspector/ai-during-capture",
+              "1nspect/inspector/photo-markup",
+              "1nspect/inspector/ratings-screen",
+              "1nspect/inspector/field-quote",
+              "1nspect/inspector/review-screen",
+              "1nspect/inspector/archived-inspections",
+              "1nspect/inspector/settings-and-tokens",
+              "1nspect/inspector/offline-and-sync"
             ]
           }
         ]

@@ -1,0 +1,157 @@
+---
+id: admin-operator-company-and-pricing-company-settings
+title: Company Settings (Business Operations)
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-company-and-pricing-company-info, admin-operator-company-and-pricing-pricing-manager, admin-operator-overview]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Company Settings (Business Operations)
+
+The Company Settings page (route `/company-settings`) is titled **Business Operations** in the UI. The sidebar's "Business Ops" link opens this page. It's the **operational identity** layer — your public booking slug, PWA logo, review platform links — that builds on the basic identity in [Company Info](/1nspect/admin-operator/company-and-pricing/company-info).
+
+This page is also the parent surface for accessing pricing — it sits at the top of the "Business Ops" sidebar group along with [Pricing Manager](/1nspect/admin-operator/company-and-pricing/pricing-manager) and [Pricing Settings](/1nspect/admin-operator/company-and-pricing/pricing-settings).
+
+---
+
+## When you use it
+
+- **First-week setup** — set your tenant slug to enable public booking; set the review-platform links
+- **Adding NPS surveys** — the review-platform links you set here are what the post-NPS thank-you page uses for review CTAs
+- **Switching review platforms** — moving from Yelp-primary to Google-primary, etc.
+- **PWA branding update** — refreshing the icon clients see when they install the platform on their phone
+
+---
+
+## Screen layout
+
+[SCREENSHOT: business-operations-page.png — desktop, the Business Operations page titled "Business Operations" with sections for tenant slug, office address, PWA logo, and review links.]
+
+| Element | Purpose |
+|---|---|
+| **Page title** — *"Business Operations"* | Header |
+| **Tenant slug** | Defines the public booking URL (`/book/{slug}`) |
+| **Office Address** | Shared with [Company Info](/1nspect/admin-operator/company-and-pricing/company-info); editable from either page |
+| **PWA Logo URL** | The icon clients see when they install the platform as a PWA on their phone |
+| **Review Links** | URLs for Google Review and Yelp — used in post-inspection emails |
+
+---
+
+## Tenant slug
+
+The tenant slug is the **URL-friendly identifier** for your public booking form. The full URL becomes:
+
+```
+https://app.1nspect.app/book/{slug}
+```
+
+Where `{slug}` is the value you set here. Example: if your slug is `propertypulse-inspection`, the public booking URL is `https://app.1nspect.app/book/propertypulse-inspection`.
+
+| Field | Notes |
+|---|---|
+| **Tenant slug** | Placeholder: *"yourcompanyname"*. Lowercase letters, numbers, and hyphens only. |
+
+If unset, the warning surfaces:
+
+> **Set a slug to enable the public booking form.**
+
+Without a slug, the public booking form route returns a not-found page. Set the slug, then promote the URL on your website, business cards, and email signatures — clients can self-serve quote requests.
+
+> **Tip:** slugs are unique platform-wide. Pick something distinctive to your business; common words may already be taken by another tenant.
+
+---
+
+## Office Address
+
+The same address fields as [Company Info](/1nspect/admin-operator/company-and-pricing/company-info). Editing here updates the same Firestore record — there's no conflict. Some operators prefer to edit here because the page also has the slug and review links.
+
+| Field | Placeholder |
+|---|---|
+| Street Address | *"Street Address"* |
+| City | *"City"* |
+| State | *"State"* |
+| ZIP | *"ZIP"* |
+
+---
+
+## PWA Logo
+
+| Field | Notes |
+|---|---|
+| **PWA Logo URL** | A public HTTPS URL to a PNG or SVG. Placeholder: *"https://example.com/logo.png"* |
+
+This logo appears as the **PWA icon** when clients install the platform on their phone home screen via "Add to Home Screen" in their browser. Most operators upload the logo to their own CDN or use a Firebase Storage URL.
+
+Hint shown below the field:
+
+> *"This logo will appear as the PWA icon when installed on mobile devices."*
+
+If unset, the platform uses the standard 1nspecT icon — fine for tenants that don't promote PWA installation but a missed branding opportunity for tenants that do.
+
+---
+
+## Review Links
+
+This is the section most-likely to have ROI on your time. The Review Links you set here are referenced from email templates and the post-NPS survey thank-you page as `$GoogleReviewLink` and `$YelpLink`. Filling these in turns every published-report email into a soft pitch for a public review.
+
+| Field | Format | Notes |
+|---|---|---|
+| **Google Review Link** | `https://g.page/r/YOUR_REVIEW_ID/review` | Direct-to-review URL. Get yours from your Google Business Profile. |
+| **Yelp Review Link** | `https://www.yelp.com/biz/your-business-slug` | Your Yelp page URL. |
+
+Hint shown below the section:
+
+> *"Used as `$GoogleReviewLink` and `$YelpLink` in post-inspection email templates."*
+
+### Per the NPS architecture
+
+When the NPS survey ships (a future sprint per the [BI Dashboard architecture doc](../../../../../bi-dashboard/ARCHITECTURE.md)), the post-survey thank-you page will render review CTAs to **all respondents** regardless of NPS score (per Google's anti-review-gating policy). The CTAs pull their URLs from these two fields.
+
+> **Get your Google review URL:** Sign in to Google Business Profile → search for your business → "Get more reviews" → copy the short URL (looks like `https://g.page/r/...`). Without that direct-review URL, customers who click the link land on your profile and have to tap "Write a review" themselves — adds friction.
+
+### Future platforms
+
+Per the NPS architecture, additional platforms (Facebook, Angi, BBB, Nextdoor, InterNACHI directory) will eventually have configurable URL fields here. The current UI surfaces Google and Yelp only — additional platforms are configured via the [Comms Cockpit](/1nspect/admin-operator/comms-cockpit) custom variable system.
+
+---
+
+## Saving
+
+Explicit save with a confirmation banner. Changes apply immediately to:
+
+- The public booking form (slug change is instant)
+- The PWA install experience (cache may need to be cleared in the browser)
+- Email templates referencing `$GoogleReviewLink` or `$YelpLink` (next email send picks up the new URLs)
+- The post-NPS thank-you page (when NPS ships)
+
+---
+
+## Errors and recovery
+
+| Alert | Cause | Fix |
+|---|---|---|
+| **Failed to save settings** | Network or auth | Retry |
+| **Slug already taken** | Another tenant has claimed this slug | Pick a more specific slug |
+| **Invalid slug characters** | Used uppercase or special characters | Lowercase letters, numbers, and hyphens only |
+| **Invalid URL** | A review URL doesn't start with `https://` | Use a full URL with protocol |
+
+---
+
+## What this page does NOT do
+
+- **It does not handle pricing.** That's [Pricing Manager](/1nspect/admin-operator/company-and-pricing/pricing-manager) and [Pricing Settings](/1nspect/admin-operator/company-and-pricing/pricing-settings).
+- **It does not configure email templates.** That's [Comms Cockpit](/1nspect/admin-operator/comms-cockpit).
+- **It does not handle the platform-wide subscription / IT tokens.** That's the global [Settings](/1nspect/admin-operator/company-and-pricing/company-settings) → Subscription & Tokens area (different page).
+- **It does not edit contacts.** That's [Contacts](/1nspect/admin-operator/contacts).
+
+---
+
+## Related articles
+
+- [Company Info](/1nspect/admin-operator/company-and-pricing/company-info) — sister page for basic identity (logo, support email, theme color)
+- [Pricing Manager](/1nspect/admin-operator/company-and-pricing/pricing-manager) — service-level pricing accessed from this page's sidebar
+- [Comms Cockpit](/1nspect/admin-operator/comms-cockpit) — where `$GoogleReviewLink` and `$YelpLink` are used in templates
+- [BI Dashboard Architecture → NPS Reviews](../../../bi-dashboard/ARCHITECTURE.md) — how the review links integrate with the future NPS survey

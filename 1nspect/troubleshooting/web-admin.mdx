@@ -1,0 +1,307 @@
+---
+id: troubleshooting-web-admin
+title: Web Admin Troubleshooting
+persona: [admin-operator]
+surfaces: [web]
+category: troubleshooting
+related: [troubleshooting-common-issues, troubleshooting-sync-and-offline, admin-operator-overview]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Web Admin Troubleshooting
+
+Web-admin-specific issues — sign-in, navigation, the workspace, reports, and configuration. For shared mobile + web issues see [Common Issues](/1nspect/troubleshooting/common-issues). For sync issues see [Sync & Offline Issues](/1nspect/troubleshooting/sync-and-offline).
+
+---
+
+## Sign-in problems
+
+### Sign-in page never loads
+
+**Cause:** Network can't reach Firebase Auth or the platform's backend.
+
+**Fix:**
+
+1. Verify your internet connection
+2. Try a different browser or incognito mode (rules out browser extensions)
+3. Try `https://app.1nspect.app` directly (your custom domain may be misconfigured if you use white-label)
+4. Check status.1nspect.app or contact support
+
+---
+
+### "Access denied" after sign-in
+
+**Cause:** Your account is provisioned for a different tenant than the one you're trying to access.
+
+**Fix:**
+
+- Verify the URL — `app.1nspect.app` is the standard; white-label tenants have their own
+- Contact your administrator to confirm tenant assignment
+- If you switched companies recently, your old account may still be active; sign out and sign in with the right credentials
+
+---
+
+### Pending verification banner
+
+**Symptom:** A yellow banner across the top says: *"Please verify your email to access all features."*
+
+**Cause:** Your Firebase Auth email is not yet verified.
+
+**Fix:**
+
+1. Check your email for a verification link
+2. Click the link → lands on `/verified`
+3. Sign back in to the web admin
+
+If the verification email never arrived, click **Resend** in the banner.
+
+---
+
+## Navigation problems
+
+### Sidebar items missing
+
+**Causes & fixes:**
+
+- **Inspector role** can only see Dashboard and a limited subset
+- **Operator role** sees most items but not Platform Admin
+- **Only Owner** sees everything plus Platform Admin badge
+
+If your role looks wrong, contact your administrator to verify your role assignment.
+
+---
+
+### Page won't load — blank screen
+
+**Causes & fixes:**
+
+- **Browser cache stale** — hard refresh (Cmd+Shift+R / Ctrl+Shift+F5)
+- **JavaScript error** — open browser DevTools → Console tab → look for red errors. Screenshot and send to support.
+- **Network blocked** — corporate networks sometimes block Firebase. Try a personal hotspot to isolate
+
+---
+
+### Dashboard shows synthetic placeholder data
+
+**Cause:** Your tenant is still on the legacy Dashboard placeholder.
+
+**Fix:** The new BI Dashboard ships with the `dashboardV2` feature flag. Contact your administrator to enable it for your tenant, or wait for the platform-wide default switch.
+
+---
+
+## Inspection list / details
+
+### Inspection isn't appearing in the list
+
+**Causes & fixes:**
+
+- **Status filter excludes it** — change the status filter to "All"
+- **Date filter too narrow** — widen the date range
+- **Wrong view mode** — leads are under the **Quotes** toggle; confirmed orders are under **Inspections**
+- **Just created** — Firestore latency. Pull-to-refresh or wait 5–10 seconds
+
+---
+
+### Master order shows blank "Scheduled" column
+
+**Cause:** Multi-phase order with no scheduled-date children OR all children completed (next-upcoming logic finds nothing).
+
+**Fix:** Open the master to see phase-by-phase status. The blank Scheduled column is expected behavior when all phases are done.
+
+---
+
+### "Inspection not found" when clicking a row
+
+**Cause:** The record was deleted (or the URL points at a stale ID).
+
+**Fix:** Return to the [Inspections List](/1nspect/admin-operator/inspections-list) and click the row from the live list.
+
+---
+
+### Inline edits don't save
+
+**Cause:** Network glitch during the auto-save.
+
+**Fix:**
+
+1. Refresh the page
+2. Re-enter the change
+3. If still failing, copy your edit text to the clipboard, refresh, paste
+
+---
+
+## Inspection Reviewer
+
+### "No deficiencies found"
+
+**Cause:** The inspector hasn't synced yet, OR the inspection genuinely has zero findings (the inspector rated everything as I/NI/NP with no D-rated findings AND no captures).
+
+**Fix:**
+
+- Confirm with the inspector that they finalized the inspection on mobile
+- Wait 1–2 minutes for sync
+- Pull-to-refresh
+
+---
+
+### Narrative editor crashes / freezes
+
+**Causes & fixes:**
+
+- **Very long narrative** (10,000+ characters) — split into multiple paragraphs; the editor handles this better than one mega-paragraph
+- **Embedded images too large** — large inline images bog the editor. Use the inspection's photo capture instead of embedding into the narrative
+- **Browser issue** — try Chrome or Firefox if you're on Safari
+
+---
+
+### Auto-save not working
+
+**Symptom:** The Save indicator near the editor title never shows "Saved".
+
+**Cause:** Network or auth issue during background save.
+
+**Fix:**
+
+1. Confirm your network is up
+2. Force a save with Cmd+S / Ctrl+S
+3. Refresh the page — the narrative should still be saved (auto-save fires on a 1.5s debounce; the last keystroke was likely captured)
+4. If the narrative isn't there after refresh, the save genuinely failed — re-enter and force-save
+
+---
+
+### Photo carousel won't load images
+
+**Cause:** Photos are still in the mobile upload queue, or GCS request failed.
+
+**Fix:**
+
+1. Verify on mobile that photos show as uploaded (no "Upload pending" badge in the Review tab)
+2. Hard-refresh the Reviewer
+3. If still failing, contact support — the photos may be in GCS but the URL signing is failing
+
+---
+
+### Publish button is missing or disabled
+
+**Causes & fixes:**
+
+- **You're on a published inspection** — the button changes to "Re-publish" after the first publish
+- **No findings captured** — the platform allows publish with zero findings but warns; check pre-flight warnings
+- **Permission issue** — Inspector role can't publish; Operator or Owner can
+
+---
+
+## Templates
+
+### Template Builder shows "No templates"
+
+**Cause:** First-time tenant or all templates deleted.
+
+**Fix:** Click **+ Initialize TREC Template** to seed the standard template.
+
+---
+
+### AI schema extraction returns nothing useful
+
+**Causes & fixes:**
+
+- **PDF was scanned at low resolution** — re-upload a higher-quality scan
+- **PDF is image-only without OCR** — the platform's OCR handles this but slowly; wait the full 90 seconds before declaring failure
+- **PDF has unconventional layout** — multi-column, decorative fonts, or non-standard hierarchies confuse the extraction. Build manually instead
+
+---
+
+### "Template not found" when assigning to an order
+
+**Cause:** Template is in Draft state (not Published) or was deleted.
+
+**Fix:** Go to [Template Editor](/1nspect/admin-operator/templates/template-editor), toggle Published ON, save.
+
+---
+
+## Contracts / Payments
+
+### Client says they never received the contract
+
+**Causes & fixes:**
+
+- **Email in spam** — ask client to check spam/junk folder
+- **Wrong email on the order** — verify the client email field; correct and re-send via **Send Contract** on [Inspection Details](/1nspect/admin-operator/inspection-details)
+- **Workflow step disabled** — verify the `booking.confirmed` workflow step is enabled in [Comms Cockpit](/1nspect/admin-operator/comms-cockpit)
+- **`skipWorkflow` set** — manually imported orders may have this flag set, suppressing all automated emails. Check order settings.
+
+---
+
+### Stripe Connect won't connect
+
+**Symptom:** Clicking **Connect Stripe Account** errors out or hangs.
+
+**Causes & fixes:**
+
+- **Browser popup blocker** — the OAuth flow opens in a popup; allow popups for `app.1nspect.app`
+- **Already-connected Stripe** in a different account — disconnect first
+- **Stripe down** — check status.stripe.com
+
+---
+
+### Manual payment marked but balance still shows
+
+**Cause:** Stale page state.
+
+**Fix:** Refresh; the balance should update. If not, the payment may not have saved — re-record.
+
+---
+
+## Reports
+
+### "No data for selected period"
+
+**Cause:** No inspections in the filtered period.
+
+**Fix:** Widen the date range or check filters.
+
+---
+
+### Monthly Reconciliation shows $0 Stripe fees
+
+**Causes:**
+
+- **You don't use Stripe Connect** — all payments are manual; fees are correctly $0
+- **Historical data lacks fees** — orders predating the Stripe-fee persistence feature show $0. Contact support for backfill from Stripe API.
+
+---
+
+### CSV export downloads empty file
+
+**Cause:** Filter returns zero rows.
+
+**Fix:** Confirm filters are returning data in the UI before exporting.
+
+---
+
+## Performance
+
+### Page slow to load
+
+**Causes & fixes:**
+
+- **Large tenant** (thousands of orders) — the page loads everything client-side currently. Server-side pagination is roadmapped.
+- **Slow Firestore region** — your tenant's region may not be optimal; contact support for regional optimization
+- **Browser extensions** — disable ad-blockers and developer extensions; some interfere with Firebase
+
+---
+
+### Workspace lag in Inspection Reviewer
+
+**Cause:** Very large inspection (200+ findings) with many photos.
+
+**Fix:** Use the section filter in column 1 to load fewer findings at a time. Multi-section reviewing in one pass is harder; do it section by section.
+
+---
+
+## Related articles
+
+- [Common Issues & Troubleshooting](/1nspect/troubleshooting/common-issues) — shared mobile + web
+- [Sync & Offline Issues](/1nspect/troubleshooting/sync-and-offline) — cloud sync diagnostics
+- [Web Admin Overview](/1nspect/admin-operator/overview)

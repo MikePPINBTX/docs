@@ -1,0 +1,199 @@
+---
+id: admin-operator-company-and-pricing-pricing-manager
+title: Pricing Manager
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-company-and-pricing-pricing-settings, admin-operator-company-and-pricing-company-settings, admin-operator-order-creation-wizard]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Pricing Manager
+
+Pricing Manager (route `/pricing`) is the **service-level pricing editor** — what services your business offers, what they're called, what they cost, what model they use (flat fee vs square-footage tier vs hourly), and how they appear on the public booking form.
+
+This page works in concert with [Pricing Settings](/1nspect/admin-operator/company-and-pricing/pricing-settings): Pricing Manager defines **services and their billing configuration**; Pricing Settings defines the **base-pricing tiers and surcharges** that the services reference.
+
+For the conceptual model of how pricing flows through an order, see [Order Creation Wizard → Pricing](/1nspect/admin-operator/order-creation-wizard#14-pricing).
+
+---
+
+## When you use it
+
+- **First-week setup** — define every primary and ancillary service your business offers
+- **Adding a new service** — onboarding Thermal Imaging, Sewer Scope, etc.
+- **Repricing** — annual fee adjustment, seasonal promotions
+- **Sunsetting** — disabling services you no longer offer
+
+---
+
+## Screen layout
+
+[SCREENSHOT: pricing-manager-page.png — desktop, the Pricing Manager page showing a Service Types sidebar on the left, the selected service's edit form in the center, and an Add Service action at the top.]
+
+Two main panes:
+
+1. **Service Types sidebar** (left) — list of all defined services, with an **+ Add** action
+2. **Service editor** (center / right) — the selected service's full configuration
+
+The page title is **Pricing Manager**.
+
+---
+
+## Service Types sidebar
+
+The sidebar lists every configured service with an indicator showing whether it's:
+
+- **Primary** service (can be the lead service on an order)
+- **Ancillary** service (an add-on to a primary)
+
+### Empty state
+
+If no services are configured:
+
+> **No services configured**
+> Click **+ Add** to begin.
+
+The Order Creation Wizard cannot offer services until at least one is defined.
+
+### After save
+
+A confirmation surfaces on save: *"Saved!"* (briefly). The sidebar updates the service list immediately.
+
+---
+
+## Service editor — fields per service
+
+When you select a service in the sidebar, the editor shows its configuration.
+
+### Identity
+
+| Field | Notes |
+|---|---|
+| **Service Label** | The customer-facing name (e.g. *"Standard Residential Inspection"*) |
+| **ID Suffix** | A short code that appears in order numbers — e.g. `RS` for Residential, `NC` for New Construction. Placeholder: *"e.g. RS"* |
+| **Sort Order** | Position on the booking form. Placeholder: *"e.g. 1"*. Hint: *"Order on booking form (1 = first)"* |
+
+The ID suffix becomes part of the order number — e.g. `2026-0062-RS` is a 2026 order #62 for a Residential service.
+
+### Pricing Model
+
+A drop-down — common values:
+
+| Model | Use case |
+|---|---|
+| **Flat fee** | Single price regardless of property size |
+| **Tiered (sq ft)** | Different fee per square-footage range (configured in [Pricing Settings](/1nspect/admin-operator/company-and-pricing/pricing-settings)) |
+| **Hourly** | Time-based billing — useful for consulting or non-standard inspections |
+| **Per unit** | Fixed price per unit (e.g. per door for thermal scanning) |
+| **Per item** | Per discrete item (e.g. per appliance for warranty inspections) |
+
+The model determines which sub-fields appear:
+
+- **Flat fee** → just enter the fee
+- **Tiered** → references the tier table in Pricing Settings; this service inherits the base structure
+- **Hourly** → hourly rate + minimum hours
+- **Per unit / Per item** → per-unit price + default unit count
+
+### Customer-facing pricing — `appliedFee` vs `baseFee` (BITE 92.2)
+
+For ancillary services that are **pass-through** (the inspector pays a subcontractor and bills the client), the pricing distinguishes:
+
+| Field | What it is |
+|---|---|
+| `baseFee` | The actual cost to your business |
+| `appliedFee` | The customer-facing price, including the processing-fee gross-up |
+| `isPassThrough` | Boolean flag — when true, the gross-up applies |
+
+Pass-through services like Sewer Scope (where you subcontract to a plumber) typically have a higher `appliedFee` than `baseFee` to cover credit-card processing on the marked-up total.
+
+The Order Wizard and mobile Field Quote display `appliedFee` (the customer-facing price); your books see `baseFee` as cost-of-goods.
+
+### Description & metadata
+
+| Field | Notes |
+|---|---|
+| Description | Long-form description shown on the booking form and in confirmation emails |
+| Default duration (minutes) | Used by the calendar integration to block off time |
+| Required for primary service | If checked, this ancillary is auto-added to orders with the parent primary |
+
+### Discount rules
+
+Each service can opt into the tenant-level discount rules configured in [Pricing Settings](/1nspect/admin-operator/company-and-pricing/pricing-settings):
+
+| Toggle | Behavior |
+|---|---|
+| **Discountable** | If on, tenant-level discount rules apply to this service line |
+| **Override discount %** | If set, applies a service-specific discount even when no tenant rule matches |
+
+---
+
+## Adding a service
+
+Click **+ Add** in the sidebar. A new service entry is created with default values. Customize:
+
+1. Set the **Service Label** (required)
+2. Choose **Primary** or **Ancillary** in the service-type toggle
+3. Set the **ID Suffix**, **Sort Order**, and **Pricing Model**
+4. Fill in the pricing fields for the chosen model
+5. Save
+
+After save, the service is immediately available in:
+
+- The [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) service-selection pills
+- The mobile [Field Quote](/1nspect/inspector/field-quote) tool
+- The public booking form (if your tenant slug is set in [Company Settings](/1nspect/admin-operator/company-and-pricing/company-settings))
+
+---
+
+## Deleting a service
+
+Use the per-service delete action in the editor. Confirmation alert.
+
+### What happens to orders that used the service
+
+- **Completed orders** keep their snapshot — the historical record retains the service name and price
+- **In-progress orders** keep the service but cannot be re-priced (the pricing engine fails to look up a deleted service)
+- **New orders** can no longer select the service
+
+> **Prefer disabling over deleting.** Set the service to inactive (where supported) — the service is hidden from new orders but historical records remain intact.
+
+---
+
+## Saving
+
+The Pricing Manager has explicit save. After save:
+
+> *"Pricing schedule saved successfully."*
+
+The success banner appears briefly. Subsequent uses of the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) and mobile Field Quote pick up the new prices on next load.
+
+---
+
+## Errors and recovery
+
+| Alert | Cause | Fix |
+|---|---|---|
+| **Loading pricing schedule…** | Initial load in progress | Wait for the load |
+| **Failed to save pricing schedule** | Network or auth | Retry |
+| **Service Label required** | Empty label | Fill the label |
+| **ID Suffix conflict** | Two services share the same suffix | Make suffixes unique |
+| **Tier referenced but not configured** | Tiered model selected without tier setup in Pricing Settings | Open [Pricing Settings](/1nspect/admin-operator/company-and-pricing/pricing-settings) to configure tiers first |
+
+---
+
+## What this page does NOT do
+
+- **It does not configure base-pricing tiers.** That's [Pricing Settings](/1nspect/admin-operator/company-and-pricing/pricing-settings).
+- **It does not handle surcharges or discounts.** Those are in [Pricing Settings](/1nspect/admin-operator/company-and-pricing/pricing-settings).
+- **It does not collect payment.** Payment configuration is in [Payments Settings](/1nspect/admin-operator/payments-and-contracts).
+
+---
+
+## Related articles
+
+- [Pricing Settings](/1nspect/admin-operator/company-and-pricing/pricing-settings) — base-pricing tiers, surcharges, discount rules
+- [Order Creation Wizard → Pricing](/1nspect/admin-operator/order-creation-wizard) — how these services are picked per order
+- [Mobile Field Quote](/1nspect/inspector/field-quote) — how these services appear in mobile pricing
+- [Company Settings (Business Operations)](/1nspect/admin-operator/company-and-pricing/company-settings) — sibling page in the Business Ops sidebar group

@@ -1,0 +1,207 @@
+---
+id: features-portals
+title: Client & Realtor Portals
+persona: [admin-operator]
+surfaces: [web]
+category: features
+related: [admin-operator-reports-and-publishing, features-communications, features-contracts, features-public-booking]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Client & Realtor Portals
+
+1nspecT exposes **two customer-facing portals** that are not part of the operator's web admin but are essential to the client/agent experience. Both are accessed via magic-links in automated emails — no account creation required, no password.
+
+| Portal | URL pattern | Audience | What's there |
+|---|---|---|---|
+| **Client Portal** | `/client-portal/:portalSlug` | The homeowner / buyer | Sign contracts, view their report, build repair request, pay invoice |
+| **Realtor Portal** | `/portal/:tenantSlug` | The buyer's agent | Summary-only view of the report, no pricing |
+
+This article documents what each portal does, the magic-link mechanics, and how to configure them.
+
+---
+
+## Client Portal
+
+The Client Portal is the customer-facing hub for every interaction a homeowner has with your inspection.
+
+### How clients reach it
+
+A magic-link is auto-generated and emailed when:
+
+- Contract bundle is sent (`contract.sent` trigger) — link to sign
+- Report is published (`report.published` trigger) — link to view
+- Payment is requested (any payment-request workflow step) — link to pay
+
+The portal URL has the form `https://app.1nspect.app/client-portal/{portalSlug}`, where the slug is **deterministic** — derived from the client's email address + your tenant. The same client returning to your business sees their previous history.
+
+### What clients can do
+
+Different sections of the portal activate depending on the inspection state:
+
+#### Contract signing
+
+If a contract bundle is pending signature:
+
+- Review the merged-PDF bundle (every applicable agreement)
+- Choose a signature method: **Draw** (freehand on canvas) or **Type** (cursive script)
+- Sign once for the entire bundle
+- Receive a confirmation page with the signed PDF download
+
+#### Report viewing
+
+After publish:
+
+- Inline-render the report PDF
+- Download the PDF
+- Read the executive summary
+- Navigate sections
+
+#### Repair Request Builder
+
+A guided UI that walks the homeowner through every deficient finding and lets them mark which ones they want resolved before closing. The output is a formatted repair-request document the client can send to the seller's agent. Generated server-side via the `repair-request` operation (0 IT — included).
+
+#### Payment
+
+If Stripe Connect is configured:
+
+- See outstanding balance
+- Pay via card or ACH (handled by Stripe)
+- Receive an automatic email receipt
+
+If only manual payment handles are set:
+
+- See your Venmo / Zelle / Cash App information with copy-to-clipboard
+
+### Configuration
+
+The Client Portal's branding inherits from your tenant — logo, colors, company name. To customize:
+
+- [Company Info](/1nspect/admin-operator/company-and-pricing/company-info) — logo, support email, PWA theme color
+- [Company Settings](/1nspect/admin-operator/company-and-pricing/company-settings) — PWA logo URL, review links
+
+The portal's behavior is tied to your workflow configuration — see [Comms Cockpit](/1nspect/admin-operator/comms-cockpit) for which emails carry portal links.
+
+### URL behavior
+
+- **Persistent across inspections.** The same client email + tenant always resolves to the same portal slug. A repeat client returning sees all their inspections in one portal.
+- **No expiration on the portal itself.** Links remain valid indefinitely. (Individual artifacts inside, like signed contracts, have their own retention.)
+- **Email-bound.** If a client's email changes, old links stop working for new bookings. Re-send communications to generate a new portal link.
+
+---
+
+## Realtor Portal
+
+The Realtor Portal is the buyer's-agent-facing view of the inspection — intentionally **summary-only**.
+
+### How agents reach it
+
+When the `report.published` trigger fires and your workflow has an "Agent Delivery" step, the agent receives an email with a magic-link to `https://app.1nspect.app/portal/{tenantSlug}?token={magicToken}`.
+
+### Why a separate portal
+
+The Realtor Portal is designed to **protect the inspector's relationship with the client**:
+
+- Agents see findings overview without pricing
+- Agents see severity but not the repair request
+- Agents cannot forward the full report to the seller before the buyer has reviewed
+- Agents can refer future clients via a built-in "Refer a Friend" CTA
+
+### What agents see
+
+| Element | Detail |
+|---|---|
+| **Inspection summary** | Property address, date, inspector name |
+| **Findings by section** | Counts of I / NI / NP / D per section |
+| **Executive summary findings** | Captions only — no narrative detail |
+| **Cover photo** | The property hero photo |
+| **No pricing** | Hidden by design |
+| **No repair request** | Hidden by design |
+| **No raw narratives** | The full report stays with the client |
+
+### Magic-link expiration
+
+| Type | Validity |
+|---|---|
+| Magic-link (one-time use) | 90 days |
+| Portal session (after first use) | 90 days |
+
+After 90 days the agent must request a fresh link via "I can't access this report" — they contact your office, you re-send.
+
+### Agent attribution
+
+Every Realtor Portal session is tracked. The [Reports → Agent Referral](/1nspect/admin-operator/reports-and-publishing) report shows:
+
+- How many reports each agent has been delivered
+- How many they actively opened
+- Total revenue attributed (orders where they're the referring agent)
+- Average close-rate
+
+This data drives the [Dashboard → Top Agents](../../bi-dashboard/ARCHITECTURE.md) widget and informs relationship investment.
+
+### Configuration
+
+The Realtor Portal inherits the same tenant branding as the Client Portal. The agent-delivery email template in [Comms Cockpit](/1nspect/admin-operator/comms-cockpit) should:
+
+- Use `$AgentReportLink` as the link URL (NOT `$ReportLink`)
+- Have **Recipient: Buyer's Agent**
+- Fire on `report.published` with offset `0`
+
+See [Communications](/1nspect/features/communications) for the canonical agent-delivery workflow setup.
+
+---
+
+## Token-based authentication
+
+Both portals use **token-based authentication** — no username/password required. Each link contains a signed token that resolves to a specific portal session.
+
+| Property | Detail |
+|---|---|
+| **Token format** | JWT signed with the tenant's portal-key |
+| **Token lifetime** | 90 days from first use |
+| **Re-issuance** | Each new email regenerates the token |
+| **Revocation** | Operator can revoke a session from [Inspection Details](/1nspect/admin-operator/inspection-details) → Communications → Revoke Portal |
+| **No password reset** | The link IS the credential; if lost, request a new link |
+
+---
+
+## Audit and analytics
+
+Every portal session is logged:
+
+- First-open timestamp
+- Subsequent-open timestamps
+- Actions taken (contract signed, repair request built, report downloaded)
+
+Access from [Inspection Details](/1nspect/admin-operator/inspection-details) → History tab.
+
+---
+
+## Errors and recovery
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| **"Portal not found"** | Slug is wrong or contract not yet sent | Operator re-sends contract or report |
+| **"Link expired"** | 90 days passed | Operator re-sends to regenerate |
+| **"Signature page won't load"** | Browser/extension blocking the canvas | Have the client try a different browser; offer Type signature |
+| **"Cannot pay — Stripe error"** | Stripe Connect not configured or client's card declined | Verify [Payments Settings](/1nspect/admin-operator/payments-and-contracts); offer manual payment |
+
+---
+
+## What portals do NOT do
+
+- **They do not handle account creation.** Magic-link only — no self-service signup.
+- **They do not show internal data.** Inspector names with personal contact info, your costs, IT token usage — all hidden.
+- **They do not edit data.** Clients can sign and pay but cannot edit inspection findings. Agents can refer but cannot edit the report.
+- **They do not handle inspector-side data.** Inspector-facing surfaces live in the [Mobile App](/1nspect/inspector/overview) and the operator [Web Admin](/1nspect/admin-operator/overview).
+
+---
+
+## Related articles
+
+- [Generate Your First Report](/1nspect/getting-started/generate-your-first-report) — onboarding walkthrough that produces a first portal link
+- [Contracts & E-Signatures](/1nspect/features/contracts) — the signing-portal mechanics
+- [Public Booking](/1nspect/features/public-booking) — pre-portal customer-facing surface
+- [Communications](/1nspect/features/communications) — workflow setup for client/agent emails
+- [Inspection Details → Communications](/1nspect/admin-operator/inspection-details) — portal session logs

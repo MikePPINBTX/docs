@@ -1,0 +1,206 @@
+---
+id: inspector-field-quote
+title: Field Quote
+persona: [inspector]
+surfaces: [mobile]
+category: inspector
+related: [inspector-overview, inspector-home-and-assigned-inspections, admin-operator-order-creation-wizard]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Field Quote (Quick Quote)
+
+The Field Quote tab — titled **Quick Quote** in the header — is your on-the-spot pricing tool. When a homeowner asks *"Can you do mine too?"* mid-inspection, or when an agent calls while you're driving, Field Quote lets you generate an itemized quote, get it priced against your pricing rules, and text it to the client in under a minute.
+
+The tool was built for one-handed thumb use — large inputs, autocomplete, sticky footer with the running total.
+
+---
+
+## When to use it
+
+- **The neighbor walks up during an inspection** with a property they want quoted
+- **An agent texts you mid-day** asking what a house in Cedar Park would cost
+- **You're in the truck** between jobs and want to confirm a price before calling a client back
+- **A repeat client emails** about a different property
+
+Behind the scenes, sending a quote creates a **lead** in the web admin — your office sees it within seconds and can convert it into a proper order from there.
+
+---
+
+## Opening Quick Quote
+
+Two paths to the tool:
+
+1. **Tap the Quote tab** in the bottom tab bar (the 💵 icon, labeled **Quote**).
+2. **Tap Field Quote** on the Home screen (the third button).
+
+Both routes open the same screen. If you have an inspection in progress, a **🚀 RESUME ACTIVE INSPECTION** button appears at the bottom of Quick Quote so you can jump back to your active job without losing your way.
+
+[SCREENSHOT: field-quote-screen.png — mobile, the Quick Quote screen showing the Property Address section at the top with autocomplete dropdown visible, the sticky footer at the bottom showing "Estimated Total $0.00" before any service is selected.]
+
+---
+
+## The three-step flow
+
+Quick Quote is one scrollable screen organized into three logical sections plus a sticky footer.
+
+### Step 1 — Property address
+
+Type the address into the **Start typing an address...** field. After ~3 characters, a dropdown appears with suggestions matched from Google Places (routed through the 1nspecT backend so your token isn't burned client-side).
+
+| Action | What happens |
+|---|---|
+| Tap a suggestion | Address, city, state, and zip auto-fill from Google's place details |
+| Keep typing past the dropdown | Manual entry — fill city/state/zip yourself |
+
+Below the address row, three smaller fields: **City**, **ST** (two-letter state), and **ZIP**. The state defaults to **TX**; change if elsewhere.
+
+### Step 2 — Property Insights (AI-powered)
+
+After the address is entered, tap the green **✨ Property Insights** button. The AI fetches public records for the address and fills in:
+
+- **Sq Ft** — total finished square footage
+- **Year Built** — year of construction
+- **Foundation Type** — Slab / Pier and Beam / Crawl Space / Basement
+
+You can edit any field after the AI fills it. If the AI can't find data:
+
+> **No Property Data Found**
+> AI could not find public records for this address. Please enter Sqft, Year Built, and Foundation Type manually.
+
+Manual fallback is fine — Property Insights is a time-saver, not a requirement.
+
+### Step 3 — Service selection
+
+**Primary Service** — multi-select pills showing every primary service from your tenant's pricing schedule. Tap any combination:
+
+- Single tap = one primary (typical resale inspection)
+- Multiple taps = phase inspections (New Construction Phase 1 + Phase 2 + Final)
+
+**Add-On Services** *(if your pricing schedule has them)* — a grid of ancillary cards: Sewer Scope, Pool/Spa, Thermal, WDI/Termite, etc. Each card shows the customer-facing price (which includes processing-fee gross-up for pass-through services, per BITE 92.2). Tap to toggle.
+
+**Discount (Optional)** *(if your schedule has discount rules)* — a picker dropdown listing all configured discounts (percentage or fixed). Defaults to **No discount**.
+
+As you change selections, the **Estimated Total** in the sticky footer recalculates immediately — there's a quick "..." while the backend prices it.
+
+### Step 4 — Client phone
+
+Enter the client's phone number. The keyboard is set to phone-pad, and the field accepts any common format (the app strips formatting before constructing the SMS URL).
+
+A hint below the field: *"Quote will be texted from your personal number via SMS."*
+
+---
+
+## The sticky footer
+
+[SCREENSHOT: field-quote-footer.png — mobile, the bottom of the Quick Quote screen showing the breakdown (surcharges and a discount line), the Estimated Total $887.20, the duration hint "~3h 30m estimated", and the green Send Quote via SMS button.]
+
+The footer is always visible while you scroll. It shows:
+
+| Element | Detail |
+|---|---|
+| **Itemized breakdown** *(only when there are surcharges or a discount)* | Per-line entries: `+ Distance fee · $25.00`, `− Repeat client · −$50.00`, etc. |
+| **Estimated Total** | The grand total — base + ancillaries + surcharges − discount, with the appliedFee gross-up |
+| **Duration hint** | *"~3h 30m estimated"* — derived from the pricing rules' duration model |
+| **Send Quote via SMS** button (green) | Disabled until you have an address, at least one primary, and a phone number |
+
+The total dynamically updates whenever you change any input upstream — service selection, sqft, foundation type, discount, address. No manual recalculate button needed.
+
+---
+
+## Sending the quote
+
+Tap **Send Quote via SMS**. Three things happen in sequence:
+
+1. **A lead is created** in the web admin via `POST /api/quotes/mobile-create` — atomically written so the lead and its index entry are both in place before SMS opens
+2. **A quote URL is generated**: `https://app.1nspect.app/quote/{tenantSlug}/{leadId}`
+3. **Your SMS app opens** with the recipient pre-filled to the client's number and the body pre-filled to:
+
+   ```
+   Quote for 1937 Kalli Jo Ln, NB: https://app.1nspect.app/quote/<your-tenant>/<lead-id>
+   ```
+
+You tap **Send** in your SMS app like any other text — 1nspecT doesn't send the SMS itself; it just opens the compose window so the message goes from **your personal number**. The client gets a familiar-looking text from a number they recognize.
+
+After successful send:
+
+> **Quote Sent!**
+> The lead has been created and your SMS app opened.
+
+The form clears so you can quote another property immediately if needed.
+
+---
+
+## What the client sees
+
+When the client taps the URL, the [Quote View page](/1nspect/admin-operator/overview) opens with:
+
+- The property address
+- An itemized list of selected services with prices
+- The grand total
+- An **Accept Quote** button — if they tap it, the lead becomes a confirmed booking on the web admin
+
+If they don't accept, the lead sits in the web admin's lead queue. Your office can follow up from there.
+
+---
+
+## When the AI is unavailable
+
+If the AI Property Insights service is down or the AI can't find records for the address:
+
+| Alert | Cause | What to do |
+|---|---|---|
+| **Insights Unavailable — AI service is temporarily unavailable. Enter details manually and continue.** | AI backend returned 5xx | Fill Sq Ft / Year Built / Foundation manually and proceed |
+| **No Property Data Found — AI could not find public records...** | AI ran but returned no usable data | Fill manually; works for older properties or rural addresses |
+| **Authentication expired. Please sign out and back in.** | Your auth token expired during the call | Sign out from Config and sign back in |
+| **Network Error — Could not reach the insights service.** | Device has no signal or AI service is unreachable | Switch to Wi-Fi if available, retry, or enter manually |
+
+In every case, you can complete the quote manually — Property Insights is an accelerator, not a dependency.
+
+---
+
+## When sending fails
+
+| Alert | Cause | What to do |
+|---|---|---|
+| **Missing Address** | Address field empty | Type or autocomplete an address |
+| **Select Service — Please select at least one primary inspection service.** | No primary selected | Tap at least one primary pill |
+| **Phone Required — Please enter the client phone number.** | Phone field empty | Add the client's phone |
+| **SMS not supported on this device** | Tablet or device without SMS | Copy the quote URL manually and send via another channel |
+| **Sign in required to create quote** | Auth token expired | Sign out and back in from Config |
+| Generic Error alert | Server-side failure creating the lead | Retry; if persistent, check that your office's pricing rules are configured for the selected services |
+
+---
+
+## Returning to an in-progress inspection
+
+If you have an inspection in progress and you went to Quote to handle a quick request, the **🚀 RESUME ACTIVE INSPECTION** button at the bottom of the Quote screen jumps you straight back to the Capture Screen for that inspection. Your work is preserved — switching to Quote doesn't lose any in-progress finding.
+
+---
+
+## What Field Quote does NOT do
+
+- **It does not create an inspection.** The lead has to be converted into an order by your administrator in the web admin (a one-click action).
+- **It does not collect payment.** Payment happens later through the contract bundle and invoice.
+- **It does not check the inspector's calendar.** The quote is property + services only; scheduling is web-admin work.
+- **It does not autocomplete client name or co-client.** Quick Quote captures only the phone — the rest of the client info is filled when the lead is converted to an order on web.
+
+---
+
+## Tips from inspectors
+
+- **Use Property Insights first.** It pre-fills sqft and foundation type — both directly affect pricing, so getting them right matters. Costs nothing extra (the AI cost is bundled into the platform).
+- **Be honest about square footage if the AI is wrong.** Use the listing or county records if you have them — clients notice when their quote says 2,400 sqft and they have a 3,200 sqft home.
+- **Phase-inspection multi-select is real.** New Construction Phase 1 + Phase 2 + Final adds up correctly in the total. You don't have to send three separate quotes.
+- **Check the breakdown before sending.** The footer's itemized list shows every surcharge and discount applied — easier to explain to the client at the door than after the SMS goes out.
+- **Customer expects to negotiate?** Tap the Discount dropdown and apply one of your office's pre-configured discount rules. The total reprices live.
+
+---
+
+## Related articles
+
+- [Mobile App Overview](/1nspect/inspector/overview) — where Field Quote sits in the app
+- [Home & Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections) — the other entry point (the Field Quote button on Home)
+- [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) — what your office sees when they convert your lead into an order *(article forthcoming in Chunk 3)*
+- [Pricing Manager](/1nspect/features/communications) — how pricing rules drive the totals *(detailed reference in Chunk 4)*

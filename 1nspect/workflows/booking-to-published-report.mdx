@@ -1,0 +1,276 @@
+---
+id: workflows-booking-to-published-report
+title: Booking to Published Report (End-to-End)
+persona: [admin-operator, inspector]
+surfaces: [web, mobile]
+category: workflows
+related: [gs-03-create-your-first-order, gs-04-mobile-inspection-walkthrough, gs-05-generate-your-first-report, admin-operator-overview]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Booking to Published Report (End-to-End)
+
+This article is the **canonical end-to-end walkthrough** for an inspection on 1nspecT — every screen, every state change, every email, from the first quote to the published PDF in the client's inbox. It ties together every other article in this guide into one timeline.
+
+If you're new to 1nspecT, run through the [Getting Started](/1nspect/getting-started/account-and-branding) walkthroughs in order first. This page assumes you're familiar with the basic surfaces and is a comprehensive cross-reference.
+
+---
+
+## The 11-step lifecycle
+
+A typical inspection moves through these states, in order:
+
+```
+1. Lead       → 2. Quote      → 3. Booked    → 4. Contract Sent →
+5. Signed     → 6. Scheduled  → 7. In-Progress → 8. Completed   →
+9. Drafted    → 10. Published → 11. Paid
+```
+
+Each step has triggers, surfaces, and emails associated with it. Walk through each below.
+
+---
+
+## Step 1 — Lead
+
+**State:** A potential client expressed interest but hasn't been quoted yet.
+
+**How it starts:**
+
+- **Public booking form** — homeowner visits `https://app.1nspect.app/book/{your-slug}` and fills out an interest form
+- **Mobile [Field Quote](/1nspect/inspector/field-quote)** — inspector enters the address and client phone on-site
+- **Manual entry** — operator clicks **+ New Order** on the [Inspections List](/1nspect/admin-operator/inspections-list) or starts the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard)
+
+**Storage:** A document in `artifacts/{tenant}/public/data/leads`.
+
+**Triggers fired:** `quote.submitted` (public booking) or `quote.sent` (manual operator-initiated)
+
+**Visible on:** Inspections List → **Quotes** view-mode toggle.
+
+---
+
+## Step 2 — Quote
+
+**State:** A priced quote has been sent to the client.
+
+**Operator action:** Save the lead with pricing OR send the quote via SMS from mobile.
+
+**Email sent:** A magic-link to `/quote/{tenantId}/{leadId}` — the customer-facing quote page.
+
+**Customer experience:** Client opens the quote, sees the itemized services and price, can **Accept Quote** or just review.
+
+**Triggers fired:** `quote.sent` when the quote email goes out.
+
+---
+
+## Step 3 — Booked (Quote Accepted)
+
+**State:** Client accepted the quote.
+
+**How it happens:**
+
+- Client clicks **Accept Quote** on the public quote page → fires `quote.accepted`
+- Or operator manually converts a quote to an order via [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard)
+
+**System changes:**
+
+- The `lead` becomes an `order` — a new document in `artifacts/{tenant}/public/data/inspections`
+- Child inspection documents are created for each phase (for multi-phase orders)
+- The `booking.confirmed` trigger fires
+
+**Emails sent:** Whatever you've wired in [Comms Cockpit](/1nspect/admin-operator/comms-cockpit) for `booking.confirmed` — typically:
+
+- Booking Confirmation to the client (+ co-client)
+- Contract Bundle to the client (if your workflow includes it)
+- Internal notification to the assigned inspector
+
+---
+
+## Step 4 — Contract Sent
+
+**State:** The contract bundle has been generated and emailed to the client.
+
+**How it happens:** Automatically via the workflow step wired to `booking.confirmed` (or manually via **Send Contract** on [Inspection Details](/1nspect/admin-operator/inspection-details)).
+
+**System changes:**
+
+- A bundle PDF is generated from your [Contracts Cockpit](/1nspect/admin-operator/contracts-cockpit) templates
+- The bundle includes every agreement whose **Scope Rule** matches this order's services
+- `contractStatus` is set to `pending_signature`
+- The `contract.sent` trigger fires
+
+**Client experience:** Client receives an email with a magic-link to the client signing portal (`/client-portal/{portalSlug}`). They review and sign.
+
+**Visible to operator:**
+
+- [Inspection Details](/1nspect/admin-operator/inspection-details) shows `contractStatus: pending_signature`
+- [Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections) (mobile) shows the inspection as **Contract Not Signed** (disabled Start button)
+
+---
+
+## Step 5 — Signed
+
+**State:** Client has digitally signed the contract bundle.
+
+**System changes:**
+
+- Each signature is captured with timestamp, IP, and user agent (audit trail)
+- A signed PDF is generated and stored in Google Cloud Storage
+- `contractStatus` updates to `signed`
+- `contractSignedAt` records the timestamp
+- The `contract.signed` trigger fires
+
+**Emails sent:**
+
+- Signing confirmation to client (+ inspector)
+- Payment request (if your workflow includes it)
+
+**Mobile effect:** Inspector's [Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections) card becomes enabled — the **Start Inspection** button is no longer blocked by the contract gate.
+
+---
+
+## Step 6 — Scheduled
+
+**State:** Inspection has a confirmed date and time, assigned inspector.
+
+**How it happens:** The scheduling fields on the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) → Step 2 are filled, OR the operator updates them later via [Inspection Details](/1nspect/admin-operator/inspection-details).
+
+**Triggers fired:**
+
+- `inspection.scheduled` — first time a date is set
+- `inspection.rescheduled` — date or time changes after initial scheduling
+- `inspection.reminder` — fires per your workflow's offset rules (e.g. `-48h` for 48-hour reminder, `-2h` for day-of)
+
+**Calendar integration:** If [Google Calendar](/1nspect/features/calendar-integration) is connected, the event appears on the inspector's calendar.
+
+---
+
+## Step 7 — In-Progress
+
+**State:** Inspector is on-site capturing the inspection.
+
+**How it happens:** Inspector taps **Start Inspection** on the mobile [Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections) screen. The setup form on [Starting an Inspection](/1nspect/inspector/starting-an-inspection) loads; tap **Start Inspection** at the bottom.
+
+**System changes:**
+
+- `inspections.status` becomes `in_progress`
+- `inspections.startedAt` records the timestamp
+- The mobile [Capture Screen](/1nspect/inspector/capture-screen) opens
+- AI Property Insights and AI Baseline are pre-fetched
+
+**Inspector workflow:** Capture photos, write captions/narratives, set ratings (I/NI/NP/D), save each finding. Most of the inspector's day is spent here.
+
+**Sync:** [EcoSync](/1nspect/inspector/offline-and-sync) writes findings to local storage immediately; cloud sync happens on its 15-min heartbeat (Solo-Eco) or real-time (Team-Live).
+
+---
+
+## Step 8 — Completed
+
+**State:** Inspector has captured all findings and marked the inspection complete.
+
+**How it happens:** Inspector taps **Finalize Inspection** on the mobile [Review Screen](/1nspect/inspector/review-screen).
+
+**System changes:**
+
+- `inspections.status` becomes `completed`
+- `inspections.completedAt` records the timestamp
+- The inspection moves out of [Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections) and into [Archived Inspections](/1nspect/inspector/archived-inspections)
+- The `inspection.completed` trigger fires
+
+**Emails sent:** Whatever you've wired for `inspection.completed` — commonly a follow-up to the client.
+
+**Web admin effect:** The inspection becomes available in the [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) workspace.
+
+---
+
+## Step 9 — Drafted (Report Workspace)
+
+**State:** Operator is reviewing findings, polishing narratives, building the executive summary.
+
+**Operator workflow:** Open the inspection in [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer). For each finding:
+
+- Review the inspector's caption + narrative
+- Run AI Draft on findings with field notes but no narrative (2 IT each)
+- Edit photos via the markup view
+- Move findings between sections if needed
+- Flag findings for the executive summary
+
+Generate SPOs per major system in [Ratings Screen](/1nspect/inspector/ratings-screen) (10 IT each).
+
+Generate AI Priority Analysis for summary findings.
+
+---
+
+## Step 10 — Published
+
+**State:** Final report PDF is generated and delivered to the client and agent.
+
+**How it happens:** Operator clicks **Publish** in [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer).
+
+**System changes:**
+
+- Server-side PDF rendering composes everything into the final report
+- PDF uploads to Google Cloud Storage
+- `reportStatus = 'published'`
+- `report.published` trigger fires
+
+**Emails sent:**
+
+- **Client Delivery** — full PDF + repair-request access (uses `$ReportLink`)
+- **Agent Delivery** — summary-only via Realtor Portal magic link (uses `$AgentReportLink`)
+
+**Client experience:** Client clicks `$ReportLink` and lands on the [Client Portal](/1nspect/features/portals) — downloads the PDF, builds a repair request, sees payment options.
+
+**Agent experience:** Agent clicks `$AgentReportLink` and lands on the [Realtor Portal](/1nspect/features/portals) — summary-only view, no pricing, magic-link valid 90 days.
+
+---
+
+## Step 11 — Paid
+
+**State:** Client has paid the invoice.
+
+**How it happens:**
+
+- **Automatic** — Client pays via Stripe Connect. The `charge.succeeded` webhook fires, the platform records the payment, and `payment.received` fires.
+- **Manual** — Operator clicks **Record Payment** on [Inspection Details](/1nspect/admin-operator/inspection-details), enters amount and method (Venmo / Zelle / Check / Cash), saves.
+
+**System changes:**
+
+- `paymentStatus` becomes `paid`
+- `paymentReceivedAt` records the timestamp
+- For Stripe, `stripeFeeCents` and `stripePayoutId` are stored (used by [Monthly Reconciliation](/1nspect/admin-operator/reports-and-publishing))
+- `payment.received` trigger fires
+
+**Emails sent:** Optional thank-you / receipt per your workflow.
+
+**Order closure:** Once paid + report published + all phases complete, the operator can mark the order as `order.closed`. This is a manual step from [Inspection Details](/1nspect/admin-operator/inspection-details).
+
+---
+
+## Side-flows that branch off
+
+Not every order follows the happy path. Common branches:
+
+| Branch | What triggers it | What happens |
+|---|---|---|
+| **Reschedule** | Client or operator changes date | `inspection.rescheduled` fires; calendar event updates; reminder emails reschedule |
+| **Cancel** | Client backs out or operator cancels | Status becomes `cancelled`; `order.cancelled` fires; refund process (if paid) is initiated manually |
+| **Re-publish** | Operator edits a finalized inspection | Report version increments; `report.published` fires again (consider conditional rules to skip re-delivery) |
+| **Ancillary upload** | Subcontractor uploads a sewer-scope PDF | `report.ancillary_uploaded` fires; ancillary PDF is appended to the main report bundle |
+| **Warranty engine** | Inspection was new-construction, 11 months pass | Warranty pipeline surfaces it on the dashboard; outreach email is drafted |
+
+---
+
+## Where the timeline lives
+
+The full chronological log of every event is on [Inspection Details](/1nspect/admin-operator/inspection-details) → **History** tab. You can also pull [Reports → Activity Log](/1nspect/admin-operator/reports-and-publishing) for an across-orders view.
+
+---
+
+## Related articles
+
+- [Getting Started](/1nspect/getting-started/account-and-branding) — for the onboarding path
+- [Communications & Workflow](/1nspect/features/communications) — the trigger/event reference
+- [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) — the Step 9–10 workspace
+- [Mobile Inspection Walkthrough](/1nspect/getting-started/mobile-inspection-walkthrough) — Steps 7–8 from the inspector's view
+- [Monthly Reconciliation Report](/1nspect/admin-operator/reports-and-publishing) — Step 11 accounting

@@ -1,0 +1,271 @@
+---
+id: admin-operator-inspection-reviewer
+title: Inspection Reviewer (Report Workspace)
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-inspection-details, admin-operator-reports-and-publishing, features-ai-features, gs-05-generate-your-first-report]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Inspection Reviewer (Report Workspace)
+
+The Inspection Reviewer is the **report-finalization workspace** on the web admin. It's where you walk through every finding the inspector captured on mobile, polish narratives, run AI Draft for any field-noted findings, edit photos, organize the summary, generate the PDF, and publish to the client.
+
+This article documents the layout, the workflows, and the AI assistance that lives here. For the publish step (what happens after you click Publish), see [Reports & Publishing](/1nspect/admin-operator/reports-and-publishing). For the onboarding tutorial, see [Generate Your First Report](/1nspect/getting-started/generate-your-first-report).
+
+---
+
+## When you use it
+
+- **As soon as the inspector marks an inspection complete on mobile** — the inspection becomes available for review
+- **For multi-day inspections** — review what's been captured so far without waiting for the final completion
+- **For edits after publish** — re-open a published inspection to fix something and re-publish
+
+You reach the Reviewer from [Inspection Details](/1nspect/admin-operator/inspection-details) → the **Open in Inspection Reviewer** button on the Inspection Details tab. The URL is route-scoped to the inspection ID.
+
+---
+
+## The 4-column layout
+
+[SCREENSHOT: inspection-reviewer-4col.png — desktop, the Inspection Reviewer showing four columns: a scrollable Findings list on the left, a Photo carousel in column 2, a large Narrative Editor in column 3, and AI Suggestions in column 4.]
+
+The Reviewer is built as a **4-column grid** optimized for one-finding-at-a-time editing:
+
+| Column | What's there |
+|---|---|
+| **1 — Findings list** | Every captured finding, grouped by section. Click one to load it into columns 2–4. |
+| **2 — Photos & metadata** | The active finding's photo (or video), markup view, finding metadata (section, area, rating) |
+| **3 — Narrative Editor** | Rich-text editor for the finding's narrative. Auto-saves while you type. |
+| **4 — AI Suggestions** | Live AI suggestions for the active finding — alternative phrasings, library matches, drafts from field notes |
+
+The columns resize responsively. On narrower viewports (laptop screens), columns 3 and 4 collapse into tabs.
+
+---
+
+## Column 1 — Findings list
+
+The leftmost column shows **every finding** for the inspection, grouped by section.
+
+Each finding card displays:
+
+- A small thumbnail of the photo (or video icon)
+- The caption
+- An **IN SUMMARY** badge if flagged for the executive summary
+- A small status dot:
+  - **green** — narrative complete, ready to publish
+  - **amber** — field note exists but narrative not yet written (AI Draft candidate)
+  - **red** — flagged as needing review
+
+Click a finding card to load it into columns 2–4. The current selection is highlighted with a left border.
+
+### Filtering the list
+
+A small filter bar at the top of column 1:
+
+- **All / Summary only** toggle — same idea as the mobile Review screen's "Show summary items only"
+- **All / Has Field Note** filter — surfaces the AI Draft candidates
+- **Section dropdown** — restrict to one section
+
+---
+
+## Column 2 — Photos & metadata
+
+The middle-left column displays the active finding's media and metadata.
+
+### Photo carousel
+
+If the finding has multiple photos (currently rare — one photo per finding is the norm), arrows scroll through them. Tap any photo to view full-size in a modal with zoom.
+
+If the finding is a video, a thumbnail with a Play overlay; click to open the video player at `/player`.
+
+### Markup view
+
+If the photo was annotated on mobile with [Photo Markup](/1nspect/inspector/photo-markup), the annotations appear baked into the photo. The original-unannotated version is **not** retained — the inspector's annotated version is what the report renders.
+
+### Metadata panel
+
+Below the photo:
+
+| Field | Inline-editable? |
+|---|---|
+| Section | ✅ (dropdown to move the finding to a different section) |
+| Subsection | ✅ (dropdown — restricted to subsections in the current section) |
+| Rating | ✅ (I / NI / NP / D pills) |
+| Caption | ✅ (text field) |
+| Field Note | ✅ (multi-line text — never appears in report) |
+| Include in summary | ✅ (checkbox — flags this finding for the executive summary) |
+| Link to master | ✅ (advanced — for multi-phase orders) |
+
+All edits auto-save to Firestore as you type (debounced).
+
+---
+
+## Column 3 — Narrative Editor
+
+The rich-text editor for the active finding's narrative. This is where you spend most of your time.
+
+[SCREENSHOT: narrative-editor.png — desktop, the Narrative Editor in column 3 with a Tiptap toolbar (bold, italic, underline, bullet, table) and the finding's narrative below.]
+
+### Editor capabilities
+
+Built on **Tiptap** (same engine as the [Communications](/1nspect/features/communications) email templates and contracts):
+
+- **Bold / Italic / Underline**
+- **Headings** (h2, h3 within a finding — rarely needed)
+- **Bullet and numbered lists**
+- **Tables** — for itemized recommendations or fee schedules
+- **Inline images** — embed reference photos within the prose (use sparingly — most photos belong on the finding card, not in the narrative)
+- **Hyperlinks** — link to external resources (manufacturer pages, code references)
+
+### Auto-save
+
+The editor uses a 1.5-second debounce — stop typing for 1.5 seconds and the content commits to Firestore. The save status indicator (next to the editor title) shows:
+
+| Status | Display |
+|---|---|
+| Idle | Nothing — the content is in sync |
+| **Saving…** | Small spinner |
+| **Saved** | Green checkmark, briefly |
+| **Error** | Red exclamation — retry happens automatically |
+
+You can leave the page mid-edit; auto-save catches the last keystroke before navigation.
+
+### Save indicator
+
+A `lastSavedNarrativeRef` tracks the previously-saved value so the auto-save no-ops when nothing has changed. This avoids spamming Firestore with identical writes.
+
+---
+
+## Column 4 — AI Suggestions
+
+The right column surfaces AI-generated suggestions for the active finding. These are different from the [Mobile AI tools](/1nspect/inspector/ai-during-capture) — the Reviewer's AI assistance is geared toward **refinement** rather than initial generation.
+
+### Suggestion types
+
+| Type | What it offers |
+|---|---|
+| **Alternative phrasings** | Rephrase the current narrative for tone, length, or specificity |
+| **Library matches** | Narratives from your library that match the caption semantically (same as 🪄 Library Search on mobile) |
+| **Field-note draft** | If the finding has a field note but no narrative, an AI-drafted narrative based on the field note |
+| **Polish suggestions** | Specific in-line improvement suggestions (grammar, clarity, citation) |
+
+Click any suggestion to load it into the narrative editor (preview before applying).
+
+### Cost
+
+- Alternative phrasings: `polish-narrative` = 2 IT each
+- Library matches: `semantic-search` = 1 IT each
+- Field-note draft: `generate-narrative` = 2 IT
+- Polish suggestions: bundled with the in-editor experience
+
+See [AI Features Guide](/1nspect/features/ai-features) for the full operation reference.
+
+---
+
+## AI Draft — the batch workflow
+
+When inspectors capture a finding on-site without writing the full narrative — they jotted just a field note — the **AI Draft tool** batches the narrative generation for the office.
+
+Access AI Draft from the Findings list filter: select **Has Field Note**. The Reviewer surfaces a **Draft All** button at the top of the column.
+
+Clicking Draft All:
+
+1. Queries every finding in the inspection that has a field note AND no narrative
+2. Generates a CAR-format narrative for each (`generate-narrative` = 2 IT per finding)
+3. Populates each finding's narrative field — you can review and edit individually
+
+This is the operator's main labor-saver — inspectors capture findings fast on-site, the office polishes back at the desk.
+
+---
+
+## System Performance Opinions (SPOs)
+
+The Reviewer also surfaces the SPO editor for each major system. From the column 1 view, scroll to the section header to see the section's SPO. Click the SPO card to open the editor:
+
+- Edit manually (free text)
+- Or click **Generate** to have the AI produce a section-level synthesis (`generate-spo` = 10 IT)
+
+SPOs appear in the executive summary on the report. See [AI Features Guide → SPO](/1nspect/features/ai-features) for the full mechanics.
+
+---
+
+## Executive Summary
+
+A dedicated tab or section (depending on the template) collects the findings flagged **Include in summary**. Use this to:
+
+- Review the order — drag-reorder findings in the summary section
+- Edit summary-specific copy (intros, footers, scope notes)
+- Run **AI Priorities** — same flow as mobile's [Review Screen](/1nspect/inspector/review-screen), ranks summary findings by severity
+
+---
+
+## Generate PDF preview
+
+A button (typically top-right) opens the PDF preview in a new tab. The PDF is rendered server-side from inspection data + template + branding.
+
+If the preview surfaces issues (page breaks in odd places, photos cropping unexpectedly), use the [Templates Overview](/1nspect/admin-operator/templates/overview) → Canvas tab to adjust template-level layout, then regenerate.
+
+The PDF preview is not stored permanently. Regenerate after every edit.
+
+---
+
+## Publish
+
+When the report is ready, click **Publish** (typically a top-right button). The Publish action:
+
+1. Generates the final signed PDF and stores it in Google Cloud Storage
+2. Sets `reportStatus = 'published'` on the inspection
+3. Fires `report.published` — your communications workflow takes it from there (client email, agent email, etc.)
+4. Records a permanent entry in the History tab on the [Inspection Details](/1nspect/admin-operator/inspection-details) page
+
+Published reports remain editable. Re-publishing increments the version number; old versions stay accessible in the Reports tab on Inspection Details.
+
+See [Reports & Publishing](/1nspect/admin-operator/reports-and-publishing) for the publish-side workflow details.
+
+---
+
+## Keyboard shortcuts
+
+The Reviewer is designed for fast keyboard-driven editing:
+
+| Shortcut | Action |
+|---|---|
+| `↓` / `↑` (in findings list) | Move to next / previous finding |
+| `Ctrl+S` / `Cmd+S` | Force-save the narrative (auto-save also handles this) |
+| `Ctrl+B` / `Cmd+B` | Bold selected text |
+| `Ctrl+I` / `Cmd+I` | Italic |
+| `Ctrl+U` / `Cmd+U` | Underline |
+| `Ctrl+K` / `Cmd+K` | Insert link |
+| `Esc` | Exit a modal / cancel an inline edit |
+
+---
+
+## Common errors
+
+| Alert | Cause | What to do |
+|---|---|---|
+| "Firestore not initialized" | The db handle wasn't ready when the page loaded | Refresh the page |
+| "Failed to save narrative" | Network or auth error during auto-save | The retry happens automatically; if persistent, copy your narrative text and re-paste after refreshing |
+| "AI suggestion failed" | AI service returned an error | Continue editing manually; suggestions reload on the next finding switch |
+| "No deficiencies found" | The inspection has no captured findings | Confirm the inspector has actually captured anything on mobile |
+
+---
+
+## What this page does NOT do
+
+- **It does not send the report email.** That fires from the workflow engine after Publish.
+- **It does not regenerate the report PDF on every edit.** Click Generate PDF Preview manually when you want to see the rendering.
+- **It does not delete findings.** Use the [Inspection Details](/1nspect/admin-operator/inspection-details) page's Inspection Details tab or the mobile Review screen.
+- **It does not change inspector assignment.** That's [Inspection Details](/1nspect/admin-operator/inspection-details).
+
+---
+
+## Related articles
+
+- [Inspection Details](/1nspect/admin-operator/inspection-details) — the page you came from
+- [Reports & Publishing](/1nspect/admin-operator/reports-and-publishing) — what happens after Publish
+- [AI Features Guide](/1nspect/features/ai-features) — every AI operation's behavior and cost
+- [Generate Your First Report](/1nspect/getting-started/generate-your-first-report) — onboarding walkthrough
+- [Mobile Review Screen](/1nspect/inspector/review-screen) — the inspector's view of the same data

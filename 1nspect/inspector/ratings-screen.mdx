@@ -1,0 +1,158 @@
+---
+id: inspector-ratings-screen
+title: Ratings Screen
+persona: [inspector]
+surfaces: [mobile]
+category: inspector
+related: [inspector-capture-screen, inspector-review-screen, inspector-overview, features-ai-features]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Ratings Screen
+
+The Ratings tab — titled **Area Ratings** in the header — is the fast-rate workspace. It collapses the entire inspection into a single scrollable view where every section and subsection appears with its I / NI / NP / D rating chips ready to tap. The goal is one-screen confidence that every required subsection has a rating before you finish the inspection.
+
+This is where you also generate **System Performance Opinions** (SPO) — section-level AI-generated paragraphs that summarize each major system's overall condition for the report.
+
+---
+
+## When you use it
+
+The Ratings tab is reachable any time during an inspection. Three common workflows:
+
+1. **Mid-inspection rate-check** — switch from Capture to Ratings briefly to confirm you haven't missed any subsections.
+2. **End-of-inspection finalization** — before tapping Finish Inspection, do a full pass through Ratings to confirm every required subsection has an explicit rating.
+3. **SPO generation** — generate the section-level System Performance Opinions that appear on the report's executive summary.
+
+[SCREENSHOT: ratings-screen.png — mobile, the Ratings tab showing the "Area Ratings" header at the top, a Rating System explainer card, then sections expandable to show their subsections with I/NI/NP/D rating chips. An SPO field appears at the top of each system section.]
+
+---
+
+## Screen layout
+
+Top to bottom:
+
+1. **Header bar** — "Area Ratings"
+2. **Resume Inspection** button — returns to the [Capture Screen](/1nspect/inspector/capture-screen) for the current inspection
+3. **Rating System** info card — refresher on what each letter means
+4. **Section accordions** — every section of your template, tap to expand
+5. Within each expanded section:
+   - **SPO field** at the top (System Performance Opinion — only on system-level sections)
+   - **Subsections** with I / NI / NP / D rating chips
+6. **Save Ratings** action — commits any new ratings to local storage and cloud
+
+---
+
+## The four ratings
+
+| Chip | Rating | Meaning |
+|---|---|---|
+| **I** | Inspected | The subsection was inspected and no deficiency was found |
+| **NI** | Not Inspected | The subsection could not be inspected (e.g. no access). Explain why in the narrative |
+| **NP** | Not Present | The component was not present at the property |
+| **D** | Deficient | A deficiency was noted. A narrative is required |
+
+A subsection can carry **both `I` Inspected AND `D` Deficient** at the same time — TREC explicitly permits this: *"I inspected the panel and noticed a deficiency in one breaker."* If you tap I on a subsection that already has a deficiency, the deficiency rating stays; the I is added.
+
+Tapping a chip that's already active **deselects** it. To change a rating, tap the new one — the previous rating is replaced (except in the I+D dual-rating case above).
+
+---
+
+## Mapping ratings to findings
+
+Two distinct things happen on this screen:
+
+| Action | Result |
+|---|---|
+| Tap **I**, **NI**, or **NP** on a subsection without an existing deficiency | A rating-only entry is created. No narrative or photo is attached. The subsection appears on the report with just the rating box. |
+| Tap **D** on a subsection without an existing deficiency | Required field check: a deficiency on this subsection without a narrative is incomplete. You'll be warned: *"Required Information Missing"* with specifics. |
+| A subsection with a saved deficiency from the Capture Screen | The rating chip reflects what you set when you saved the finding. You can change it here, and the corresponding finding updates. |
+
+The Ratings screen is the **fastest** way to ensure no subsection is left blank — it's much faster than scrolling through the Capture screen looking for missed areas.
+
+---
+
+## System Performance Opinions (SPO)
+
+For each major system in your template (Structural Systems, Electrical, Plumbing, HVAC, Roofing — depending on your TREC template), the Ratings screen surfaces an **SPO field** at the top of the system's accordion.
+
+[SCREENSHOT: ratings-spo-empty.png — mobile, the Ratings screen showing the Structural Systems section expanded with an empty SPO card at the top reading "Tap to generate AI opinion or write manually".]
+
+### What the SPO is
+
+A single professional paragraph that synthesizes the overall condition of a major system, factoring in every deficiency rating across that system's subsections. The SPO appears in the report's **executive summary** — the section the client reads first.
+
+### Generating an SPO
+
+1. Tap the SPO card on the system you want to summarize.
+2. A modal opens with two options:
+   - **Cancel** — abandon, no change
+   - **Save** — commit your manually-written SPO
+3. To use AI: tap the **Generate** option *(when supported)* — the AI reads all findings and ratings for the system and writes a CAR-calibrated synthesis paragraph.
+4. Review and edit. Save.
+
+### Cost
+
+**10 IT per SPO** (one call per system). On a typical 5-system template, generating all SPOs costs 50 IT.
+
+> **Generated SPOs always require your review.** The AI synthesizes from your data — if your ratings or narratives have errors, the SPO inherits them. Treat the AI output as a strong first draft.
+
+### Movement Indicator (Structural only)
+
+The Structural Systems SPO includes a **Movement Indicator** — a TREC-calibrated assessment of foundation performance derived from all your structural subsection findings. The AI evaluates evidence of differential settlement, signs of active movement, and consistency with the foundation type you recorded on the property baseline.
+
+The Movement Indicator is part of the SPO paragraph; it is not a separate finding.
+
+---
+
+## What "saving ratings" does
+
+Tapping **Save Ratings** at any point commits the current rating state to local storage and to Firestore. The save is **idempotent** — saving twice with no changes does nothing. Saving with changes:
+
+- Updates the inspection's `ratings` array
+- Writes the change to local AsyncStorage
+- Fires a background Firestore sync (you'll see it in the [Review Screen](/1nspect/inspector/review-screen) immediately)
+
+You can save partial ratings at any time. There's no penalty for saving frequently — autosave is built in, but explicit Save is encouraged before backgrounding the app on a slow network.
+
+---
+
+## Error and confirmation messages
+
+| Alert | When | What it means |
+|---|---|---|
+| **No active inspection found** | Tapped Save on Ratings without an open inspection | Open an inspection from Assigned Inspections first |
+| **No Template Available** | Inspection has no template assigned | Contact your administrator — the inspection needs a template |
+| **Template Error** | Template failed to load (network or schema error) | Pull-to-refresh; if persistent, contact support |
+| **Failed to save ratings** | Storage or network error during save | Retry; if persistent, capture a screenshot for support |
+| **Required Information Missing** | A `D` rating was tapped on a subsection without a narrative | Return to Capture Screen and add a narrative for that subsection |
+| **Ratings Complete — Proceed to Review tab to finalize and sync inspection.** | Successful completion check | You're ready to finalize — switch to Review |
+| **Generate Failed — Server error N** | SPO AI call failed | Retry, or write the SPO manually |
+| **Generate Failed — Network error** | No network during SPO generation | Retry on Wi-Fi or write the SPO manually |
+
+---
+
+## Tips from inspectors
+
+- **Use Ratings as a checklist.** A quick scroll confirms whether every required subsection is rated — the I/NI/NP/D chips make missing items obvious.
+- **Generate SPOs last.** Wait until all findings and ratings are in. SPO accuracy depends on having the full picture.
+- **Manual SPO is fine.** If you have a strong opinion about a system and don't want to spend 10 IT on AI, write the SPO manually. The text field accepts unrestricted prose.
+- **Save Ratings frequently on slow connections.** Each save is small (a few KB) and survives a network drop.
+
+---
+
+## What this screen does NOT do
+
+- **It does not create new findings.** Tapping `D` here flags a deficiency but doesn't write a narrative — you still need to go to Capture for that.
+- **It does not finalize the inspection.** That's the **Finish Inspection** action on the [Review Screen](/1nspect/inspector/review-screen).
+- **It does not show photos or videos.** That's the Capture and Review screens.
+
+---
+
+## Related articles
+
+- [Capture Screen](/1nspect/inspector/capture-screen) — where you write the findings that drive the SPO
+- [Review Screen](/1nspect/inspector/review-screen) — pre-publish review and Finish Inspection
+- [AI Features Guide](/1nspect/features/ai-features) — full SPO reference and cost
+- [Glossary → SPO](/1nspect/glossary) — definition and Movement Indicator detail

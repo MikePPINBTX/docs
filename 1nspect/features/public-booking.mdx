@@ -1,0 +1,207 @@
+---
+id: features-public-booking
+title: Public Booking Form
+persona: [admin-operator]
+surfaces: [web]
+category: features
+related: [admin-operator-company-and-pricing-company-settings, features-portals, admin-operator-order-creation-wizard]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Public Booking Form
+
+The Public Booking form is the **customer-facing entry point** into your business. Homeowners visit a URL on your site (or a link in your email signature), fill out a short form, get an instant priced quote, and submit it as a lead — all without an account.
+
+Routes: `/book` (generic) and `/book/:slug` (tenant-specific, your branded version).
+
+This article documents what clients see, how to enable the form, and how leads flow into your business.
+
+---
+
+## Why public booking matters
+
+- **Always-on lead capture.** Clients can submit booking requests at 11 PM on a Sunday without you being awake
+- **Self-service for repeat clients.** Friction-free re-booking
+- **Marketing surface.** Link from your website, business cards, Google Business Profile, email signature
+- **First-time price transparency.** Clients see prices upfront, increasing conversion
+
+Tenants without public booking enabled have to take every quote request via phone or email — slower and more labor-intensive.
+
+---
+
+## Enabling public booking
+
+The form is gated by a **tenant slug**. Until you set one, the URL returns a not-found page.
+
+### Set your slug
+
+1. Go to **Business Ops** in the sidebar (route `/company-settings`) — see [Company Settings](/1nspect/admin-operator/company-and-pricing/company-settings)
+2. Find the **Tenant slug** field
+3. Enter your URL-friendly identifier — lowercase, hyphens, no spaces (e.g. `propertypulse-inspection`)
+4. Save
+
+Your public booking URL is now `https://app.1nspect.app/book/{your-slug}`.
+
+If unset, the field shows a warning:
+
+> **Set a slug to enable the public booking form.**
+
+### Promote the URL
+
+Common placements:
+
+- Your inspection company's website (link from "Book Now" button)
+- Email signatures
+- Business cards (consider a QR code)
+- Google Business Profile (Action button)
+- Facebook / Instagram bio
+- Yelp profile
+
+The URL is permanent — bookmark-able, shareable, and stable across years.
+
+---
+
+## What clients see
+
+[SCREENSHOT: public-booking-form.png — desktop, the public booking page showing your company logo, address autocomplete, services pills, pricing breakdown, and a Submit Booking button.]
+
+The form is single-page, scroll-down style:
+
+### Section 1 — Property
+
+Same Google Places autocomplete as the operator-side [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard). The visitor types an address; suggestions appear; selecting one auto-fills city/state/zip.
+
+### Section 2 — Property details
+
+| Field | Required | Notes |
+|---|---|---|
+| Square footage | ✅ | Required for tier-based pricing |
+| Year built | — | Drives age-related surcharges |
+| Foundation type | — | Drop-down |
+| Property type | ✅ | Residential / Commercial / New Construction — limits available services |
+
+The visitor can use the same **AI Property Insights** button (✨) as the mobile Field Quote — Gemini fetches public records, fills these in automatically. Cost is on the tenant's IT budget (typically free for the visitor — the public-booking AI calls are batched separately).
+
+### Section 3 — Services
+
+Multi-select primary service pills + ancillary service cards, matching exactly what the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) shows. Pricing recalculates live as selections change.
+
+### Section 4 — Client info
+
+| Field | Required |
+|---|---|
+| First name | ✅ |
+| Last name | ✅ |
+| Email | ✅ |
+| Phone | ✅ |
+| Co-client | — |
+| Referring agent | — |
+
+### Section 5 — Scheduling
+
+A calendar widget showing your team's availability (if [Calendar Integration](/1nspect/features/calendar-integration) is connected — otherwise free-form date picker).
+
+### Section 6 — Submit
+
+A **Request Booking** button. Submission:
+
+1. Creates a lead in `artifacts/{tenant}/public/data/leads`
+2. Fires the `quote.submitted` trigger
+3. Shows a confirmation page: *"Booking request received — we'll confirm within X business hours."*
+
+---
+
+## Branding the public form
+
+The form inherits your tenant's:
+
+- Logo (from [Company Info](/1nspect/admin-operator/company-and-pricing/company-info))
+- Primary color
+- Company name
+- Footer with company address, phone, support email
+
+For deeper customization (custom CSS, hero image, testimonials), white-label tenants have additional configuration — contact support.
+
+---
+
+## What happens after submission
+
+The submission becomes a **lead** in your system:
+
+1. **Lead visible in [Inspections List](/1nspect/admin-operator/inspections-list)** — switch the view toggle to **Quotes**
+2. **`quote.submitted` trigger fires** — your communications workflow can send a confirmation email to the client, an internal notification to you, etc.
+3. **Operator reviews** — verify pricing, confirm scheduling, then **Convert to Order** via the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard). The wizard pre-fills with the lead's data.
+
+If you don't convert within N days, you can configure a follow-up workflow step on `quote.submitted` with offset `+3d` to re-engage stale leads.
+
+---
+
+## Spam and abuse prevention
+
+Public forms attract bots. 1nspecT applies these defenses:
+
+| Defense | What it does |
+|---|---|
+| **Rate limiting** | Per-IP request limits to prevent flooding |
+| **reCAPTCHA** | Submission requires human verification (configured at platform level) |
+| **Honeypot fields** | Hidden fields that bots fill in but humans don't |
+| **Email validation** | Submitted emails are RFC-validated and DNS-checked |
+| **Phone validation** | Format-checked, length-checked |
+
+False positives are rare; if a legitimate visitor reports they cannot submit, check the unprovisioned-attempts log in [Inspection Details](/1nspect/admin-operator/inspection-details) and contact support for an override.
+
+---
+
+## Tracking and analytics
+
+| Metric | Where it surfaces |
+|---|---|
+| Total leads submitted | [Reports → Activity Log](/1nspect/admin-operator/reports-and-publishing) |
+| Lead conversion rate | [Reports → Agent Referral](/1nspect/admin-operator/reports-and-publishing) (segmented by source) |
+| AI Property Insights usage | [Reports → Inspector Productivity](/1nspect/admin-operator/reports-and-publishing) |
+
+The Dashboard's [Pipeline Funnel](../../bi-dashboard/ARCHITECTURE.md) widget includes Leads → Quotes → Bookings → Reports → Paid — public bookings count toward Leads at the top.
+
+---
+
+## Multi-language
+
+The public booking form is currently English-only. International / multi-language support is on the roadmap. For multi-language needs today, white-label tenants can deploy a custom front-end that submits to the platform API.
+
+---
+
+## Mobile responsive
+
+The form is fully mobile-responsive. Visitors on phones get a single-column layout with larger tap targets. Most submissions in practice come from mobile devices.
+
+---
+
+## Privacy and compliance
+
+The form collects PII (name, email, phone, address). The platform:
+
+- Stores submissions in your tenant's Firestore (subject to your tenant's privacy policy)
+- Encrypts in transit (HTTPS) and at rest (Firebase encryption)
+- Does not share data across tenants
+- Honors deletion requests via Firebase Console (operator-initiated)
+
+For HIPAA / GDPR compliance, contact support — 1nspecT can support enhanced PII handling for regulated tenants.
+
+---
+
+## What this form does NOT do
+
+- **It does not handle payment.** Quote submission is free; payment happens later via the [Client Portal](/1nspect/features/portals).
+- **It does not generate a contract.** Contracts are sent after the quote is converted to an order.
+- **It does not auto-schedule.** A human operator confirms the schedule and assigns the inspector.
+
+---
+
+## Related articles
+
+- [Company Settings (Business Operations)](/1nspect/admin-operator/company-and-pricing/company-settings) — where the tenant slug lives
+- [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) — converts leads into orders
+- [Client & Realtor Portals](/1nspect/features/portals) — what clients see after submission
+- [Inspections List](/1nspect/admin-operator/inspections-list) — view leads in the Quotes toggle
+- [Mobile Field Quote](/1nspect/inspector/field-quote) — the on-site equivalent (inspector-initiated)

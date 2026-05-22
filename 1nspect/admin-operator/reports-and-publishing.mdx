@@ -1,0 +1,266 @@
+---
+id: admin-operator-reports-and-publishing
+title: Reports & Publishing
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-inspection-reviewer, admin-operator-overview, features-communications, gs-05-generate-your-first-report]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Reports & Publishing
+
+This article covers two related concerns:
+
+1. **Publishing an inspection report** — the workflow that takes a finalized inspection from internal review to client delivery
+2. **The Reports module** — the business-intelligence reporting surface at `/reports` (Monthly Reconciliation, Outstanding A/R, Service Mix, Agent Referral, Inspector Productivity, Activity Log, Tax Summary)
+
+The two share the word "report" but mean different things — **publishing** is per-inspection PDF delivery; **the Reports module** is multi-inspection business analytics.
+
+For the conceptual model behind the report-publishing workflow, see [Generate Your First Report](/1nspect/getting-started/generate-your-first-report). For the architecture and data model behind the Reports module, see the [BI Dashboard architecture doc](../../../bi-dashboard/ARCHITECTURE.md).
+
+---
+
+## Publishing an inspection report
+
+### What "publish" actually does
+
+Clicking **Publish** in the [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) is one click that triggers a sequence:
+
+1. **Server-side PDF rendering** — your template, branding, narratives, photos, ratings, SPOs, summary, and cover photo are composed into a single PDF by the backend's PDF pipeline (using `pdf-poppler`, `pdfkit`, Handlebars)
+2. **Upload to Google Cloud Storage** — the PDF lands in your tenant's GCS bucket at a deterministic path
+3. **`reportStatus = 'published'`** is written to the inspection in Firestore
+4. **`report.published` workflow trigger fires** — every workflow step you've wired to that trigger in [Comms Cockpit](/1nspect/admin-operator/comms-cockpit) executes
+5. **Versioning** — the report version increments. Previous versions remain in GCS for audit. The Reports tab on [Inspection Details](/1nspect/admin-operator/inspection-details) shows the version history.
+
+### Pre-flight checks before publish
+
+The Reviewer surfaces warnings if the inspection isn't ready:
+
+| Warning | Cause |
+|---|---|
+| **"No findings have been captured"** | The inspector didn't save any findings on mobile |
+| **"N findings are missing narratives"** | Some findings have a caption but no narrative — they'll appear as empty cards on the report |
+| **"No cover photo designated"** | The report's cover page will use a placeholder image |
+| **"Summary is empty"** | No findings have been flagged for the executive summary; the summary section of the PDF will be sparse |
+| **"AI Draft is available for N findings"** | Reminder to run AI Draft on field-noted findings before publishing |
+
+Each warning is a soft block — you can publish anyway, but the report quality suffers.
+
+### What clients see after publish
+
+The `report.published` trigger fires whatever workflow steps you've configured. The canonical setup is two steps:
+
+| Step | Recipient | Email body uses |
+|---|---|---|
+| Client Delivery | Client + Co-client | `$ReportLink` — full report download |
+| Agent Delivery | Buyer's Agent | `$AgentReportLink` — agent-only summary view |
+
+See [Communications → Report Delivery](/1nspect/features/communications#report-delivery--client-vs-agent) for the rationale for splitting these.
+
+### The Client Portal view
+
+Client recipients click `$ReportLink` and land on the [Client Portal](/1nspect/admin-operator/overview#public-facing-routes-not-in-the-sidebar) (`/client-portal/:portalSlug`). From there they can:
+
+- Download the PDF
+- View the inspection summary
+- Access the **Repair Request Builder** to mark deficiencies they want resolved before closing
+- See payment options (if balance is outstanding)
+- Sign any post-inspection documents
+
+### The Realtor Portal view
+
+Agents land at `/portal/:tenantSlug` after clicking `$AgentReportLink`. The view:
+
+- **Summary-only** — does not include pricing, repair request, or full inspector contact
+- **Magic-link authenticated** — no account creation required
+- **90-day expiration** on the link
+- **Branded** with your company logo
+
+### Re-publishing after edits
+
+You can edit a published inspection and re-publish — every Publish action increments the version. Behaviors:
+
+- The new version becomes canonical for `$ReportLink` and `$AgentReportLink`
+- Previous versions remain in GCS and accessible from the Reports tab on Inspection Details
+- A `report.published` trigger fires again — your workflow re-sends the delivery emails (set conditional rules in Comms Cockpit if you only want the **first** publish to email)
+- The History tab logs each republish event
+
+> **Operationally**, most teams set the report-delivery workflow steps to conditional on **first publish only** (e.g. `previousReportStatus != 'published'`) so re-publishes don't re-spam the client.
+
+---
+
+## The Reports module — business intelligence
+
+The Reports module lives at `/reports` (the **Reports** item in the sidebar). It's a separate workspace from the per-inspection report workflow above — it produces **business analytics reports** about your inspection business.
+
+[SCREENSHOT: reports-module.png — desktop, the Reports module showing a card grid of available reports: Monthly Reconciliation, Outstanding A/R, Service Mix, Agent Referral, Inspector Productivity, Activity Log, Tax Summary.]
+
+### The 7 standard reports
+
+| Report | Use case |
+|---|---|
+| **Monthly Reconciliation** | Match billed revenue to actual bank deposits, with Stripe fees broken out per order. Required for manual monthly bookkeeping. |
+| **Outstanding A/R** | Orders billed but not yet paid, bucketed by aging (0–30 / 31–60 / 61–90 / 90+ days). Drives collections work. |
+| **Service Mix** | Revenue and counts by service type (primary + ancillary). Surfaces pricing optimization opportunities. |
+| **Agent Referral Report** | Orders by referring agent with revenue and close-rate per agent. Drives agent relationship investment. |
+| **Inspector Productivity** | Count, revenue, average on-site time, and publish-lag per inspector. Multi-inspector firms only. |
+| **Activity Log** | Chronological log of every business event (booking, contract, payment, publish) for an audit trail. |
+| **Tax Summary** | Annual revenue grouped by tax category for year-end accounting / 1099 generation. |
+
+### Common controls
+
+Every report shares the same control row:
+
+| Control | Options |
+|---|---|
+| **Period** | Specific month / quarter / YTD / custom date range |
+| **Filter** | Per-report — e.g. Payment Method for Reconciliation, Aging Bucket for A/R |
+| **View** | Per-report — e.g. By Order / By Payout for Reconciliation |
+| **Export** | 📥 CSV · 🖨 PDF · 📧 Email monthly |
+
+### Monthly Reconciliation — the most-used report
+
+The Monthly Reconciliation report shows, for each order in the selected period:
+
+| Column | Source |
+|---|---|
+| Order # | `orders.id` |
+| Date | `inspections.completedAt` |
+| Client | concatenated name |
+| Property | address |
+| Services | comma-separated service list |
+| Method | `stripe` / `venmo` / `zelle` / `check` / `cash` |
+| Gross | `orders.total` |
+| Stripe Fee | `stripeFeeCents` ($0 for manual methods) |
+| Net | `gross − stripeFee` |
+| Status | `paymentStatus` |
+| Received | `paymentReceivedAt` (when Stripe payout settled) |
+
+A footer row totals all columns. Below the table, four summary stat cards:
+
+| | |
+|---|---|
+| Gross billed | Sum of all gross amounts |
+| Stripe fees | Total fees deducted (negative-styled) |
+| Net deposited | Gross − fees |
+| Outstanding A/R | Pending portion |
+
+#### By Order vs By Payout
+
+A toggle (**By order** / **By payout**) changes the view:
+
+- **By Order** — one row per order (default). Match individual orders to fees.
+- **By Payout** — one row per **Stripe payout** (= one bank deposit). Each row expandable to the constituent orders. This view matches your bank statement line items directly.
+
+### Outstanding A/R — collections workflow
+
+Lists every order with `paymentStatus IN ['pending', 'partial']` AND a completed inspection. Bucketed by aging:
+
+| Bucket | Definition |
+|---|---|
+| 0–30 days | Inspection completed 0–30 days ago |
+| 31–60 days | 31–60 days ago |
+| 61–90 days | 61–90 days ago |
+| 90+ days | Anything older — likely write-off candidates |
+
+Click an order to drill into [Inspection Details](/1nspect/admin-operator/inspection-details). From there, manually record a payment or trigger a payment-request email.
+
+### Service Mix — pricing optimization
+
+A pivot over `orders.services[]`:
+
+| Column |
+|---|
+| Service type |
+| Count of orders |
+| Total revenue |
+| Average ticket (per order with this service) |
+| % of total revenue |
+
+Sort by revenue or count. Useful for identifying which ancillaries pull in the most revenue per attach.
+
+### Agent Referral — relationship management
+
+Pivot over `orders.referringAgentId`:
+
+| Column |
+|---|
+| Agent name |
+| Brokerage |
+| Count of referrals (period) |
+| Total revenue (period) |
+| Close rate |
+| Last referred (date) |
+
+Sort by revenue to see your top agents. Sort by Last referred ascending to find dormant agents who might be cultivated.
+
+### Inspector Productivity — team management
+
+For multi-inspector firms only. Pivot over `orders.assignedInspectorId`:
+
+| Column |
+|---|
+| Inspector name |
+| Count |
+| Revenue |
+| Average on-site time |
+| Average publish lag (completion → publish) |
+| Token consumption (IT) |
+
+### Activity Log — audit trail
+
+Chronological list of every `workflowEvents` entry for the period. Useful for dispute resolution (*"when did we send the contract?"*) and audit (*"who modified this order?"*).
+
+### Tax Summary — year-end
+
+Aggregates annual revenue by `service.taxCategory`. The categories are configurable per service in [Pricing Manager](/1nspect/admin-operator/company-and-pricing/pricing-manager). Useful inputs for 1099 generation and end-of-year tax prep.
+
+### Recurring email subscription
+
+Click **Email monthly** on any report. A small dialog asks for:
+
+- Recipient(s) — default to the signed-in user, multi-select your team
+- Frequency — Monthly (1st of month) / Quarterly / Annual
+
+The workflow engine fires the report email on schedule with the latest data — useful for sending the Monthly Reconciliation to your bookkeeper on the 1st of every month without you remembering.
+
+---
+
+## Errors and recovery
+
+### Publish errors
+
+| Alert | Cause | Fix |
+|---|---|---|
+| **PDF generation failed** | Server-side rendering error (rare) | Retry; if persistent, contact support — capture the inspection ID |
+| **GCS upload failed** | Network or Google Cloud Storage issue | Retry; the PDF is preserved in a staging location |
+| **No template assigned** | Inspection lacks a template | Open [Inspection Details](/1nspect/admin-operator/inspection-details) and assign one |
+
+### Reports module errors
+
+| Alert | Cause | Fix |
+|---|---|---|
+| **No data for selected period** | The filter returns zero results | Widen the date range or check filters |
+| **Stripe fee data missing** | Older orders without webhook-captured fees | Backfill via support ticket if you need historical data |
+| **Report export failed** | Server-side rendering or storage issue | Retry; CSV exports succeed when PDF fails |
+
+---
+
+## What this page does NOT do
+
+- **It does not edit individual reports.** That's [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer).
+- **It does not generate the BI dashboard.** That's the [Dashboard](/1nspect/admin-operator/overview) (`/`).
+- **It does not handle agent communications.** That's [Comms Cockpit](/1nspect/admin-operator/comms-cockpit) for templates, [Inspection Details → Communications](/1nspect/admin-operator/inspection-details) for per-order messaging.
+- **It does not compute payroll** or other internal HR metrics.
+
+---
+
+## Related articles
+
+- [Generate Your First Report](/1nspect/getting-started/generate-your-first-report) — onboarding walkthrough for publishing
+- [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) — where Publish lives
+- [Communications](/1nspect/features/communications) — what fires on `report.published`
+- [Web Admin Overview](/1nspect/admin-operator/overview) — sidebar context for the Reports tab
+- [BI Dashboard Architecture](../../../bi-dashboard/ARCHITECTURE.md) — the data model behind the Reports module (designed in a parallel project)

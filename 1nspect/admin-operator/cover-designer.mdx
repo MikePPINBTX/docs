@@ -1,0 +1,225 @@
+---
+id: admin-operator-cover-designer
+title: Cover Designer
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-overview, admin-operator-templates-template-designer, admin-operator-templates-visual-page-designer]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Cover Designer
+
+The Cover Designer is the **branded-cover-page editor** for inspection reports. Cover pages are the front page of every PDF report — your company logo, the property photo, the inspection title, the inspector's name. Design them once; assign them as defaults to your templates or to specific inspections.
+
+Cover Designer is a **top-level sidebar item** (route `/cover-designer`) — not nested under Templates, because covers are reusable across many templates.
+
+This article covers both the list view (`/cover-designer`) and the per-cover editor (`/cover-designer/new` for a new cover, `/cover-designer/:id` to edit). For where covers are referenced from inspection templates, see [Template Designer → Default Cover](/1nspect/admin-operator/templates/template-designer).
+
+---
+
+## When you use it
+
+- **First-week setup** — design a default cover that matches your brand
+- **Per-service variants** — separate covers for Residential vs. Commercial vs. New Construction
+- **Special-occasion covers** — limited-time branding, holiday variants, client-specific co-branding
+- **A/B testing brand presentation** — duplicate, modify, see which converts better
+
+After initial setup, covers rarely change. Most operators have 1–3 active covers.
+
+---
+
+## The cover list page
+
+Route: `/cover-designer`
+
+[SCREENSHOT: cover-list.png — desktop, the Cover Templates list page showing the heading "Cover Templates" with descriptive subtitle, a grid of existing cover thumbnails, and a + New Template button.]
+
+The list page shows:
+
+- **Page heading**: *"Cover Templates"*
+- **Description**: *"Design custom report cover pages with branded frames and dynamic field tokens."*
+- **Cover grid** — thumbnails of every designed cover
+- **+ New Template** button — opens the editor for a fresh cover
+
+Each cover thumbnail shows:
+
+- The cover's name
+- A live miniature preview of the layout (or *"No layers"* if the cover is empty)
+- Per-card actions: **Edit · Duplicate · Set Default · Delete**
+
+### Empty state
+
+If you have no covers yet:
+
+> **No cover templates yet**
+> Create your first cover template to add branded cover pages to reports.
+> [+ New Template]
+
+Click **+ New Template** to open the editor with a blank canvas.
+
+---
+
+## The Cover Designer editor
+
+Route: `/cover-designer/new` or `/cover-designer/:id`
+
+The editor is a **layer-based composition tool**. Think of it like Figma for inspection report covers: you add layers (photo, text, shape, background), position them on the page, configure their appearance.
+
+[SCREENSHOT: cover-editor.png — desktop, the Cover Designer editor showing a layer panel on the left, a page canvas in the center showing the cover-in-progress, and a property-inspector panel on the right with the selected layer's controls.]
+
+### Layer types
+
+The editor supports these layer types:
+
+| Type | What it is |
+|---|---|
+| **Photo (property)** | Renders the inspection's cover photo at runtime — designed once, swapped per inspection |
+| **Text (static)** | Fixed text — your company tagline, "INSPECTION REPORT" header, etc. |
+| **Text (dynamic)** | A text layer with a `$Variable` token — e.g. *"Prepared for $ClientNames"* |
+| **Logo (image)** | Your company logo, scaled and positioned |
+| **Shape / Color block** | Solid-color rectangles for visual structure |
+| **Page background** | The base fill behind all other layers |
+
+Each layer is named (Layer name field) for easier identification in the layers panel.
+
+### Per-layer controls
+
+When you select a layer, the right panel shows its properties.
+
+#### Position & Size (%)
+
+| Field | Notes |
+|---|---|
+| X / Y | Position as percent of page width / height |
+| Width / Height | Size as percent of page dimensions |
+| Align on page | Quick alignment buttons (left / center / right, top / middle / bottom) |
+
+Using percentages instead of pixels means the design scales correctly across different paper sizes (letter, A4, legal).
+
+#### Photo fit (photo layers only)
+
+| Option | Behavior |
+|---|---|
+| **Cover (crop to fill)** | The photo fills the layer's bounds, cropping any overflow |
+| **Contain (letterbox)** | The photo is fit within the layer with letterboxing to preserve full image |
+
+Plus a **Photo border radius (px)** field for rounded corners.
+
+#### Text content (text layers)
+
+| Field | Notes |
+|---|---|
+| Text content | The actual text to render |
+| Prefix / Suffix | For dynamic tokens — wrap text around a `$Variable` (e.g. Prefix: *"Prepared for "*, Token: `$ClientNames`, Suffix: *""*) |
+
+#### Typography (text layers)
+
+| Field | Options |
+|---|---|
+| Font size (pt) | Numeric input |
+| Color | Color picker |
+| Weight | **Normal**, **Bold**, **Light (300)**, **Medium (500)**, **Semi-bold (600)**, **Bold (700)** |
+| Style | **Normal**, **Italic** |
+
+#### Background (per-layer)
+
+| Field | Notes |
+|---|---|
+| Fill color | Solid color picker, or check "Transparent" |
+| Border radius (px) | Rounded corners |
+
+---
+
+## Variable tokens supported on cover text layers
+
+The same `$Variable` tokens that work in [Communications](/1nspect/features/communications) email templates and [Contracts](/1nspect/admin-operator/contracts-cockpit) work on dynamic text layers in covers:
+
+**Client tokens:**
+`$ClientFirstName` `$ClientLastName` `$ClientNames`
+
+**Property & inspection:**
+`$InspectionAddress` `$InspectionDate`
+
+**Inspector & company:**
+`$InspectorName` `$InspectorLicense` `$CompanyName`
+
+**Common cover patterns:**
+
+| Text layer content | Renders as |
+|---|---|
+| `INSPECTION REPORT` | Fixed header |
+| `Prepared for $ClientNames` | *"Prepared for Robert & Lisa Smith"* |
+| `$InspectionAddress` | *"123 Oak Dr, Austin TX"* |
+| `Inspection Date: $InspectionDate` | *"Inspection Date: May 8, 2026"* |
+| `Inspector: $InspectorName, License #$InspectorLicense` | *"Inspector: Jane Doe, License #12345"* |
+| `Prepared by $CompanyName` | *"Prepared by Property Pulse Inspection"* |
+
+Static text (no `$Variable`) renders as-typed.
+
+---
+
+## The property photo layer
+
+The Photo (property) layer is special: at design time it shows a placeholder image; at PDF-rendering time, it pulls the **cover photo** designated for that specific inspection. The cover photo is either:
+
+- Set during inspection setup on the [Starting an Inspection](/1nspect/inspector/starting-an-inspection) form
+- Designated on the mobile [Review Screen](/1nspect/inspector/review-screen) by long-pressing a captured photo
+- Uploaded directly from the web admin's [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer)
+
+If an inspection has no cover photo, the layer renders the placeholder (typically a generic property silhouette). Confirm the inspector knows to designate a cover photo to avoid placeholder-on-published-report embarrassment.
+
+---
+
+## Saving and Set Default
+
+The editor has explicit-save:
+
+- **Save** commits the cover to Firestore at `artifacts/{tenant}/public/data/coverTemplates/{coverId}`
+- **Set as Default** marks this cover as the tenant-wide default — every template that doesn't have its own cover override will use this
+- **Save & Close** saves and returns to the list
+
+Newly-saved covers appear in the [Template Designer](/1nspect/admin-operator/templates/template-designer) → Default Cover picker for every template in your tenant.
+
+---
+
+## Duplicate
+
+The **Duplicate** action on a cover card creates a copy with `(Copy)` appended. Edit the duplicate to create a variant.
+
+This is the recommended way to create cover variants:
+
+1. Start with your default cover
+2. Duplicate
+3. Modify the duplicate (e.g. change to a more formal font for Commercial)
+4. Assign the variant to specific templates via [Template Designer](/1nspect/admin-operator/templates/template-designer)
+
+---
+
+## Errors and recovery
+
+| Alert | Cause | Fix |
+|---|---|---|
+| **Failed to save cover template** | Network or auth | Retry |
+| **Image too large** | Logo upload exceeds size limit | Compress or resize the image (the renderer downscales but won't accept huge originals) |
+| **Variable not recognized** | Used a token not in the variable list | Check spelling; only the documented tokens resolve |
+| **Page bounds exceeded** | Layer position takes it off the page | Adjust position so the layer is within 0–100% on both axes |
+
+---
+
+## What this page does NOT do
+
+- **It does not design report body pages.** That's [Visual Page Designer](/1nspect/admin-operator/templates/visual-page-designer).
+- **It does not edit the actual property photo.** Cover photos are designated per inspection in [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) or on the mobile [Review Screen](/1nspect/inspector/review-screen).
+- **It does not handle contracts or email letterheads.** Those have their own editors.
+- **It does not configure margins or page size.** Page dimensions are fixed at letter portrait (8.5×11 inches).
+
+---
+
+## Related articles
+
+- [Template Designer → Default Cover](/1nspect/admin-operator/templates/template-designer) — where covers are assigned to templates
+- [Visual Page Designer](/1nspect/admin-operator/templates/visual-page-designer) — body-page styling
+- [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) — where the per-inspection cover photo is designated
+- [Web Admin Overview](/1nspect/admin-operator/overview) — sidebar context (Cover Designer is its own top-level item)

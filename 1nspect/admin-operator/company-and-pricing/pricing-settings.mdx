@@ -1,0 +1,193 @@
+---
+id: admin-operator-company-and-pricing-pricing-settings
+title: Pricing Settings
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-company-and-pricing-pricing-manager, admin-operator-order-creation-wizard, admin-operator-company-and-pricing-company-settings]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Pricing Settings
+
+Pricing Settings is the **base-pricing structure** for your inspection business — the square-footage tiers, surcharges, large-building rules, and discount rules that the services in [Pricing Manager](/1nspect/admin-operator/company-and-pricing/pricing-manager) reference at quote-calculation time.
+
+Think of the relationship like this: **Pricing Manager defines the services. Pricing Settings defines the math.**
+
+---
+
+## When you use it
+
+- **First-week setup** — define your tier structure (e.g. *"under 1500 sqft = $400, 1500–2500 = $475, 2500–3500 = $550, over 3500 = $625 + $0.10/sqft over"*)
+- **Annual price adjustment** — bumping every tier by 5% across the board
+- **Adding a surcharge** — *"$50 add-on for pre-1990 homes"*, *"$25 if more than 30 miles from office"*
+- **Creating discount rules** — *"$50 off for repeat clients"*, *"10% military discount"*
+
+After initial setup, Pricing Settings rarely changes — typically one update per year.
+
+---
+
+## Screen layout
+
+[SCREENSHOT: pricing-settings-page.png — desktop, the Pricing Settings page showing the Base Inspection Pricing tier table at the top, a Large Building Pricing toggle below, and Surcharges + Discount Rules sections.]
+
+The page is organized into stacked sections:
+
+1. **Base Inspection Pricing** — square-footage tier table
+2. **Large Building Pricing** — over-threshold rules
+3. **Surcharges** — additional fees that apply on top of base price
+4. **Discount Rules** — discounts available in the Order Wizard
+
+---
+
+## Section 1 — Base Inspection Pricing
+
+The tier table at the top of the page. Header: *"Base Inspection Pricing — Pricing tiers based on property square footage"*.
+
+### Per-tier fields
+
+| Field | Required | Notes |
+|---|---|---|
+| **Min Sq Ft** | ✅ | Lower bound (inclusive). 0 for the first tier |
+| **Max Sq Ft** | — | Upper bound (exclusive). Leave blank for the top tier — placeholder *"Unlimited"* |
+| **Base Fee ($)** | ✅ | The flat fee for properties in this tier |
+| **Duration** | — | Hours + Minutes — used by the calendar integration to block off time |
+
+A typical TREC-residential tier structure:
+
+| Min Sq Ft | Max Sq Ft | Base Fee | Duration |
+|---|---|---|---|
+| 0 | 1500 | $400 | 2h 30m |
+| 1500 | 2500 | $475 | 3h 0m |
+| 2500 | 3500 | $550 | 3h 30m |
+| 3500 | 4500 | $625 | 4h 0m |
+| 4500 | (blank) | $700 | 4h 30m |
+
+### Adding tiers
+
+Click **+ Add Tier**. A new row appears at the bottom of the table with defaults. Fill in the fields and the tier is saved with the page-level Save action.
+
+### Reordering / deleting
+
+Tiers are evaluated in **Min Sq Ft order** regardless of UI position — reorder is cosmetic. Use the per-row delete action to remove a tier. Confirmation alert.
+
+---
+
+## Section 2 — Large Building Pricing (Over Threshold)
+
+For properties exceeding the largest tier's Min Sq Ft, an optional per-sqft fee applies instead of the flat tier fee.
+
+### Fields
+
+| Field | Notes |
+|---|---|
+| **Enable Large Building Pricing** | Toggle. When on, the threshold and per-sqft fee replace the largest tier's flat fee |
+| **Threshold (sq ft)** | The cutoff. Properties above this use per-sqft pricing |
+| **Per Sq Ft Fee ($)** | The rate applied to total sqft (or sqft above the threshold, depending on configuration) |
+
+Example: enabled with Threshold = 5000 sqft and Per Sq Ft Fee = $0.12 — a 7,500 sqft property prices at 7,500 × 0.12 = $900, replacing whatever tier rate would have applied.
+
+This is useful for commercial inspections where flat fees stop scaling.
+
+---
+
+## Section 3 — Surcharges
+
+Additional fees added on top of the base + tier price. Common surcharges:
+
+| Surcharge | When it applies |
+|---|---|
+| Distance | When the property is over N miles from the office |
+| Age | When the property's `yearBuilt` is older than a threshold |
+| Foundation type | When the foundation is more complex (Pier-and-Beam, Crawl Space) |
+| Property condition | When AI Baseline flags a property as significantly aged or compromised |
+
+### Surcharge fields
+
+Per surcharge:
+
+| Field | Notes |
+|---|---|
+| Name | Surcharge display name — appears on the quote breakdown as a separate line |
+| Amount | Flat dollar or percentage |
+| Calculation | The trigger expression — e.g. `propertyAge > 50` or `distanceMiles > 30` |
+
+Surcharges show on the customer-facing quote in the itemized breakdown — clients see the line item with the surcharge name and amount, contributing to transparency.
+
+---
+
+## Section 4 — Discount Rules
+
+The Discount Rules section defines pre-configured discounts that operators can select in the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) or that mobile inspectors can choose in [Field Quote](/1nspect/inspector/field-quote).
+
+### Discount fields
+
+Per discount rule:
+
+| Field | Notes |
+|---|---|
+| Name | Display name — e.g. *"Repeat Client"*, *"Military Discount"*, *"Q1 Promotion"* |
+| Type | **Percentage** (e.g. 10%) or **Fixed** (e.g. $50) |
+| Value | The numeric percentage or dollar amount |
+| Active | Toggle — turn off without deleting |
+
+Discounts appear in:
+
+- The [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) → Discount picker
+- The mobile [Field Quote](/1nspect/inspector/field-quote) → Discount picker
+- The customer-facing quote breakdown as a negative line item (green-styled for clarity)
+
+### Scope-aware application
+
+Per pricing-engine logic (BITE 92.2), discounts apply only to **discountable** line items (configured per service in [Pricing Manager](/1nspect/admin-operator/company-and-pricing/pricing-manager)). Surcharges and pass-through ancillaries are excluded from discount calculations — so a 10% discount on a $500 inspection with a $150 sewer scope add-on yields $50 off (10% of $500), not $65 off.
+
+---
+
+## How the pricing engine uses these settings
+
+When the Order Wizard or mobile Field Quote calculates a quote, the backend's `/api/pricing/calculate` endpoint runs through:
+
+1. **Pick the tier** based on sqft (from Section 1)
+2. **Apply large-building override** if applicable (from Section 2)
+3. **Compute ancillary fees** from selected ancillary services (configured in [Pricing Manager](/1nspect/admin-operator/company-and-pricing/pricing-manager))
+4. **Add surcharges** that match the property (from Section 3)
+5. **Apply discount** if one is selected (from Section 4) — scope-aware
+6. **Sum** for the grand total
+
+The same engine runs for every quote — mobile, web, public booking — ensuring consistency.
+
+---
+
+## Saving
+
+The page uses explicit save. Click **Save**; a confirmation banner surfaces. Changes apply to **future** quote calculations — existing orders keep their snapshot of the pricing at booking time.
+
+---
+
+## Errors and recovery
+
+| Alert | Cause | Fix |
+|---|---|---|
+| **Loading pricing structure...** | Initial load in progress | Wait |
+| **Failed to save pricing structure** | Network or auth | Retry |
+| **Tier conflict — overlapping ranges** | Two tiers have overlapping Min/Max | Fix the overlap |
+| **Negative fee value** | Entered a negative base fee | Fees must be positive |
+
+---
+
+## What this page does NOT do
+
+- **It does not define services.** That's [Pricing Manager](/1nspect/admin-operator/company-and-pricing/pricing-manager).
+- **It does not configure how the pricing displays on the booking form.** Display is rendered by the public-booking page using the calculated quote.
+- **It does not handle tax.** Tax rules are configured at the tenant level (separate UI) and applied at invoice generation.
+- **It does not record actual payments.** That's per-order in [Inspection Details](/1nspect/admin-operator/inspection-details) → Record Payment.
+
+---
+
+## Related articles
+
+- [Pricing Manager](/1nspect/admin-operator/company-and-pricing/pricing-manager) — service definitions that reference these tiers
+- [Order Creation Wizard → Pricing](/1nspect/admin-operator/order-creation-wizard) — where these settings are applied per order
+- [Mobile Field Quote](/1nspect/inspector/field-quote) — same pricing engine, mobile surface
+- [Company Settings (Business Operations)](/1nspect/admin-operator/company-and-pricing/company-settings) — sibling page in the Business Ops sidebar group

@@ -1,0 +1,250 @@
+---
+id: admin-operator-comms-cockpit
+title: Comms Cockpit
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [features-communications, admin-operator-contracts-cockpit, admin-operator-overview]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Comms Cockpit
+
+The Comms Cockpit is the **single control surface** for everything your business sends via email. It combines two distinct editors in one page:
+
+- **Email Template editor** — build and edit the email bodies (subject, body, variable tokens, links) that the workflow engine sends
+- **Workflow Step editor** — wire each template to a trigger event with a send offset, recipients, and conditional rules
+
+This article is the UI reference. For the conceptual model behind triggers, offsets, and templates, see [Communications & Workflow](/1nspect/features/communications).
+
+---
+
+## When you use it
+
+- **First-week setup** — build out your standard email templates (booking confirmation, contract reminder, report delivery, agent summary, etc.) and wire each to a trigger
+- **Rare adjustments** — change a subject line, swap a template, retime a reminder
+- **Per-service customization** — add a service-type-specific step (e.g. 11-month warranty reminder for New Construction)
+- **A/B testing copy** — duplicate a template, tweak it, swap the wiring
+
+Most operators rarely visit Comms Cockpit after initial setup. The workflow engine handles delivery for every order automatically once configured.
+
+---
+
+## Screen layout
+
+[SCREENSHOT: comms-cockpit-screen.png — desktop, the Comms Cockpit with a top section for editing an email template (Name, Trigger, Subject, Body) and a bottom section for editing workflow steps (Trigger, Offset, Recipients, Template).]
+
+The page is split into two stacked editors:
+
+1. **Email Template editor** (top half) — for the email body itself
+2. **Workflow Step editor** (bottom half) — for wiring a template to a trigger
+
+A sidebar (typically left) lists existing templates and existing workflow steps. Click a row to load it into the relevant editor.
+
+---
+
+## Email Template editor
+
+The top editor builds **the email itself**. Every field your customer sees in their inbox starts here.
+
+### Template fields
+
+| Field | Required | Notes |
+|---|---|---|
+| **Template Name** | ✅ | Internal label (e.g. "Booking Confirmation") |
+| Suggested Trigger | — | Drop-down — used for **grouping only**. Actual timing is set in the Workflow Step editor. |
+| **Subject Line** | ✅ | Supports `$Variable` tokens (e.g. *"Your inspection at $InspectionAddress is confirmed"*) |
+| **Email Body** | ✅ | Rich text editor with formatting toolbar |
+
+### Variable tokens
+
+Tokens are placeholders replaced with real inspection data at send time. The same tokens work in subject lines, body text, and contracts:
+
+**Client tokens:**
+`$ClientFirstName` `$ClientLastName` `$ClientNames` `$Client2FirstName`
+
+**Property & inspection:**
+`$InspectionAddress` `$InspectionDate` `$InspectionTime`
+
+**Inspector & company:**
+`$InspectorName` `$InspectorLicense` `$CompanyName` `$CompanyLogo`
+
+**Fees:**
+`$InspectionFee` `$BaseFee` `$ServiceFee` `$InspectionFeeTable`
+
+**Links:**
+`$ContractLink` — client signing portal
+`$ReportLink` — client report download
+`$AgentReportLink` — agent-only report view
+`$PortalLink` — realtor portal magic link
+
+**Payment handles:**
+`$VenmoHandle` `$ZelleContact` `$CashAppHandle`
+
+See [Communications → Template Variables](/1nspect/features/communications#template-variables) for the complete list and edge cases.
+
+### Insert Hyperlink dialog
+
+The body editor has an **Insert Hyperlink** toolbar action that opens a small modal:
+
+| Field | Notes |
+|---|---|
+| **Link text (optional)** | If you already selected text, leave blank — the selection becomes the link |
+| **URL or $Variable** | Either a regular `https://` URL or a token like `$ReportLink` |
+
+The hint explains: *"You can use a $Variable token as the URL (e.g. $ReportLink)."* This is the recommended way to add report-link buttons — the link resolves per-recipient at send time, so the client sees their full report link and the agent sees the agent-only view.
+
+The dialog has **Cancel** (no change) and **Apply** (commits the link) buttons.
+
+---
+
+## Workflow Step editor
+
+The bottom editor **wires a template to a trigger event**. Each row in the workflow steps list is one step; the engine fires every enabled step that matches a trigger.
+
+### Step fields
+
+#### Trigger
+
+| Field | Required | Notes |
+|---|---|---|
+| **Trigger** | ✅ | Drop-down of the 17 supported triggers — see [Communications → Trigger Events](/1nspect/features/communications#trigger-events) |
+| Custom trigger | — | You can also type a custom trigger like `warranty.6mo` or `survey.post_inspection` for events you fire yourself via the API |
+
+> **Tip from the UI:** *"Add two steps for this trigger — one for **Primary Client** using `$ReportLink`, and one for agents using `$AgentReportLink`. Each recipient gets the correct scoped link."* This is the canonical pattern for report delivery.
+
+#### Timing
+
+| Field | Required | Notes |
+|---|---|---|
+| **Send Offset** | ✅ | Any value supported: `0`, `+12h`, `+48h`, `+7d`, `+6mo`, `-24h`. Negative for "before" the anchor; positive for "after". |
+| **Offset Anchor** | ✅ | `From trigger time` (default) — counts from when the trigger fired. `From inspection date` — counts from the scheduled inspection date. Use for reminders (e.g. `-48h` from `inspection_date`). |
+
+#### Recipients
+
+| Field | Required | Notes |
+|---|---|---|
+| **Email Template** | ✅ | Drop-down of templates defined in the upper editor |
+| **Recipients** | ✅ | Multi-select: Primary Client · Co-client · Buyer's Agent · Assigned Inspector · custom field |
+| Also Send To (fixed addresses) | — | Free-form list — type emails, press Enter or comma. Example: `team@company.com`. Useful for internal CC. |
+
+#### Scoping
+
+| Field | Required | Notes |
+|---|---|---|
+| **Applies to Service Types** | ✅ | Multi-select of service types. Pick "All Services" for orders regardless of service. Otherwise, restrict (e.g. "New Construction" for a warranty reminder). |
+| **Action** | ✅ | What this step does — see Actions below |
+| Conditional | — | Optional condition (e.g. `contractSignedAt == null`) — the step only fires if the condition is true |
+
+#### Conditional examples
+
+The conditional field accepts simple expressions:
+
+- `contractSignedAt == null` — only if the contract is unsigned
+- `paymentStatus == 'paid'` — only after payment received
+- `assignedInspectorName != null` — only if an inspector is assigned
+
+### Actions — what the step does
+
+| Action | What happens |
+|---|---|
+| **Send email** | Composes the linked template, resolves variables, sends to the listed recipients |
+| **Advance inspection status** | Changes the inspection's status (drop-down: Scheduled / Assigned / In Progress / Completed / Cancelled). Useful for auto-completing or auto-cancelling on certain triggers. |
+| **Suppress (skip for these service types)** | Cancels any other workflow step that would have fired for the listed service types and this trigger |
+| **Retime (use this offset instead)** | Overrides the offset for the listed service types — useful for *"my Commercial inspections need a 7-day reminder, not the standard 48h"* |
+
+---
+
+## Order of operations
+
+When a trigger fires for an order:
+
+1. The engine looks up every enabled step matching the trigger AND the order's service types
+2. Steps are sorted by their offset (most-negative first, then chronologically)
+3. For each step:
+   - The conditional is evaluated against the order
+   - If the conditional passes (or is empty), the step is scheduled
+4. Send actions are enqueued; status-advance and retime actions execute synchronously
+
+You can preview the calculated firing schedule by selecting an order and using **Preview Workflow Steps** (a debug action available to owners).
+
+---
+
+## Sidebar — templates and steps lists
+
+### Templates list
+
+Each template appears as a row showing its Template Name and a count of which workflow steps reference it (e.g. *"Booking Confirmation · 2 steps"*).
+
+**Actions** on each row:
+
+- Click to load into editor
+- 📋 Duplicate
+- 🗑 Delete (only if no workflow step references it)
+
+### Workflow Steps list
+
+Each workflow step row shows:
+
+- Trigger name
+- Offset (e.g. `+2h`)
+- Template name
+- Recipient count
+- An on/off toggle (disable a step without deleting it)
+
+Disabled steps remain in Firestore but the engine skips them.
+
+---
+
+## A typical day-1 setup
+
+Build templates first, then wire steps. Recommended starting set:
+
+| Template | Trigger | Offset | Recipients |
+|---|---|---|---|
+| Booking Confirmation | `booking.confirmed` | 0 | Client (+ Co-client) |
+| Contract & Agreement | `booking.confirmed` | 0 | Client |
+| Contract Reminder | `contract.sent` | `+24h` if `contractSignedAt == null` | Client |
+| Signing Confirmation | `contract.signed` | 0 | Client + Inspector |
+| Payment Request | `contract.signed` | 0 | Client |
+| 48-Hour Reminder | `inspection.reminder` (anchor: inspection_date) | `-48h` | Client |
+| Day-Of Reminder | `inspection.reminder` (anchor: inspection_date) | `-2h` | Client |
+| Report Delivery (Client) | `report.published` | 0 | Client — uses `$ReportLink` |
+| Report Delivery (Agent) | `report.published` | 0 | Agent — uses `$AgentReportLink` |
+| Follow-Up | `inspection.completed` | `+24h` | Client |
+
+For New Construction, add a single step:
+
+- **11-Month Warranty** | `inspection.completed` | `+11mo` | Client | Service: New Construction Final
+
+This inherits every other step from the base workflow.
+
+---
+
+## Errors and recovery
+
+| Alert | Cause | Fix |
+|---|---|---|
+| **Save failed** | Network or auth error | Retry; if persistent, the template is preserved in your draft state — refresh and re-save |
+| **Template not deleted — referenced by N step(s)** | Trying to delete a template still wired to workflow steps | Delete or rewire those steps first |
+| **Invalid offset format** | Offset string doesn't match the pattern | Use formats like `0`, `+12h`, `+2d`, `-48h`, `+6mo` |
+| **Variable not recognized** | Used a token not in the variable list | Check spelling; custom variables aren't supported (yet) |
+
+---
+
+## What this page does NOT do
+
+- **It does not send test emails.** Use the per-order Communications tab on [Inspection Details](/1nspect/admin-operator/inspection-details) for one-off sends and previews.
+- **It does not show delivery analytics.** Open-rate / click-rate / bounce data lives in your email-service-provider's dashboard (or in future enhancements to the Reports module).
+- **It does not manage contracts.** Contracts are separate — see [Contracts Cockpit](/1nspect/admin-operator/contracts-cockpit).
+- **It does not send SMS or push.** Email only.
+
+---
+
+## Related articles
+
+- [Communications & Workflow](/1nspect/features/communications) — conceptual reference for triggers, offsets, variables
+- [Contracts Cockpit](/1nspect/admin-operator/contracts-cockpit) — the sibling editor for agreements
+- [Inspection Details → Communications tab](/1nspect/admin-operator/inspection-details) — per-order email log and manual sends
+- [Web Admin Overview](/1nspect/admin-operator/overview)

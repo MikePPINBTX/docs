@@ -1,0 +1,184 @@
+---
+id: features-multi-tenant-and-team
+title: Multi-Tenant & Team Management
+persona: [admin-operator]
+surfaces: [web]
+category: features
+related: [workflows-assigning-and-handoff, admin-operator-overview, inspector-login-and-identity]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Multi-Tenant & Team Management
+
+1nspecT is a **multi-tenant platform** — each subscribing inspection business has its own isolated workspace ("tenant"), with its own templates, narratives, inspectors, orders, and reports. This article covers how tenancy works and how to add/remove team members within a tenant.
+
+For platform-level provisioning (creating new tenants for new subscribers), see your platform admin documentation — that's outside the scope of this user guide.
+
+---
+
+## What "tenant" means in 1nspecT
+
+A **tenant** = one inspection business. Each tenant has:
+
+- A unique tenant ID (assigned at sign-up)
+- A unique tenant slug (configurable in [Company Settings](/1nspect/admin-operator/company-and-pricing/company-settings))
+- Its own Firestore subtree at `artifacts/{tenant}/...`
+- Its own set of users (Owner / Operator / Inspector roles)
+- Its own subscription, billing, IT token balance
+- Its own templates, narratives, contracts, orders, reports
+
+**Cross-tenant isolation is strict.** A user signed into tenant A cannot see any data from tenant B — query paths are scoped at the document level.
+
+---
+
+## Roles
+
+Within a tenant, users have one of three roles:
+
+| Role | Sees | Can edit |
+|---|---|---|
+| **Owner** | Everything in the tenant + platform-admin shortcuts | Everything including subscription, team members |
+| **Operator** | Inspections, orders, reports, templates, contacts, communications | Most things except subscription, team, and platform-level settings |
+| **Inspector** | Their own assigned inspections + library content | Only their own captures + library entries they add |
+
+The owner is typically the business owner who signed up. Operators are office managers / schedulers. Inspectors are field staff.
+
+---
+
+## Adding team members
+
+Currently team-member provisioning is a **platform-administered** task:
+
+1. The tenant Owner emails support with the new team member's email and desired role
+2. Support provisions the account in the platform's user-registry
+3. The user signs in for the first time and is gated by the unprovisioned-attempt check until provisioning completes
+
+In future, self-service team-member invitation will be exposed in the web admin under **Settings → Team Members**. For now, support@mymavtech.com is the channel.
+
+### What happens at provisioning
+
+The platform creates:
+
+- A Firebase Auth user with the given email
+- An entry in `user_registry/{uid}` linking the user to your tenant
+- An entry in `tenants/{tenantId}/members/{uid}` with their role
+
+After provisioning:
+
+- The user receives a welcome email
+- They sign in via [Login](/1nspect/inspector/login-and-identity) (mobile) or `/login` (web)
+- The platform recognizes the registry entry and admits them
+
+If the registry entry is missing, the user sees: *"This account is not yet active. Please contact your company administrator for access."*
+
+---
+
+## Removing team members
+
+Also a **platform-administered** task currently. Email support with the email to disable.
+
+The Owner can also do this from **Settings → Team Members** when that UI ships.
+
+Disabling a user:
+
+- Sets `auth/user-disabled` on their Firebase Auth record
+- Removes their registry entry
+- Their next sign-in attempt sees: *"This account has been disabled. Contact your administrator."*
+
+**Data preserved:** all inspections the user captured remain in the tenant. Their name continues to appear on completed inspections (`assignedInspectorName`). Their IT-token consumption history remains.
+
+**Data NOT preserved:** any locally-cached data on their personal device. The user can sign out, but local data isn't automatically wiped on disable. For full local cleanup, advise them to delete the app and reinstall (mobile) or clear browser storage (web).
+
+---
+
+## Switching inspectors mid-engagement
+
+See [Assigning Inspectors & Handoff](/1nspect/workflows/assigning-and-handoff) for the full reassignment workflow. Briefly:
+
+1. Open the order in [Inspection Details](/1nspect/admin-operator/inspection-details)
+2. Change `assignedInspectorName`
+3. Save
+
+The old inspector's mobile app loses the card within seconds. The new inspector's mobile app gains it within seconds.
+
+---
+
+## Multi-tenant operators
+
+A few advanced patterns for operators who work across multiple businesses:
+
+| Pattern | How it works |
+|---|---|
+| **Single user, one tenant** | Standard. One Owner per business. |
+| **Multiple users, one tenant** | Standard for teams. Add as Operator / Inspector. |
+| **Single user, multiple tenants** | Not currently supported on one login. Use separate email addresses per tenant. |
+| **Tenant ownership transfer** | Platform-administered. Email support to transfer Owner role. |
+
+For franchise / multi-location chains where one operator manages multiple tenants, the workaround today is separate logins per tenant. A "multi-tenant operator" feature is roadmap-noted but not committed.
+
+---
+
+## White-label tenants
+
+Premium tier tenants can run as **white-label** — replacing the 1nspecT brand with their own across:
+
+- Web admin (logo, colors, all "1nspecT" → their brand)
+- Mobile app — typically not white-labeled (app store branding)
+- Client portals
+- Email templates (subject line, sender name)
+- Custom domain (e.g. `https://inspect.theirbrand.com/` instead of `app.1nspect.app`)
+
+White-label is platform-administered. Contact support for the upgrade.
+
+---
+
+## Data isolation guarantees
+
+The platform's commitments:
+
+- **Cross-tenant data leakage is prevented at the Firestore document-path level.** Every query is scoped to the user's tenant.
+- **No cross-tenant queries are possible from the UI.** The UI uses tenant-scoped paths.
+- **Backend queries use server-side enforcement.** Even an attacker bypassing the UI cannot read another tenant's data through the API — the JWT carries the tenant ID, and middleware verifies on every request.
+- **Backups and analytics are tenant-scoped.** Platform-level analytics aggregate without exposing per-tenant data to other tenants.
+- **Audit trail.** Every cross-tenant attempt (which should never succeed) is logged for the platform admin.
+
+For tenants with strict compliance requirements (HIPAA, financial regulators), contact support for additional documentation.
+
+---
+
+## Subscription scope
+
+The subscription, IT token allotment, Stripe connection, and billing are all **per-tenant**:
+
+- One tenant = one subscription
+- One subscription = one IT token bucket shared across all team members in the tenant
+- One Stripe Connect account = one tenant's payment processing
+
+Switching subscription tiers, top-ups, etc. are all tenant-scoped actions.
+
+---
+
+## Roadmap
+
+The team-management feature set is actively evolving. Known roadmap items:
+
+| Feature | Status |
+|---|---|
+| Self-service team-member invite | Planned |
+| Team-member role editing in UI | Planned |
+| Multi-tenant operator login | Researched, not committed |
+| SAML / SSO | Researched, not committed |
+| 2FA / MFA | Researched, not committed |
+| Granular permission model (beyond Owner/Operator/Inspector) | Researched, not committed |
+
+For specific timing or to influence the roadmap, contact support with your use case.
+
+---
+
+## Related articles
+
+- [Login & Identity](/1nspect/inspector/login-and-identity) — how users authenticate
+- [Assigning Inspectors & Handoff](/1nspect/workflows/assigning-and-handoff) — within-tenant inspector management
+- [Web Admin Overview](/1nspect/admin-operator/overview) — sidebar structure including the owner-only Platform Admin
+- [Company Settings](/1nspect/admin-operator/company-and-pricing/company-settings) — tenant-level identity (slug, branding)

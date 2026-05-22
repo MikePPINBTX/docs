@@ -1,0 +1,190 @@
+---
+id: admin-operator-payments-and-contracts
+title: Payments Settings
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-contracts-cockpit, features-contracts, admin-operator-reports-and-publishing]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Payments Settings
+
+The Payments page configures how your business accepts money from clients. It has two independent sections:
+
+1. **Stripe Connect** — enable credit-card and ACH payment via the platform's Stripe integration
+2. **Manual Payment Options** — record your Venmo / Zelle / Cash App handles so they appear in payment-request email templates
+
+> **Page naming note:** the page is internally named "PaymentsContracts" but its job is **payment configuration only**. The contracts editor lives separately at the [Contracts Cockpit](/1nspect/admin-operator/contracts-cockpit). The "and Contracts" in the page name reflects an older grouping; the article calls it "Payments Settings" for clarity.
+
+This article documents both sections. For the reconciliation report that ties Stripe payouts back to specific orders, see [Reports & Publishing → Monthly Reconciliation](/1nspect/admin-operator/reports-and-publishing).
+
+---
+
+## When you use it
+
+- **Once during onboarding** — connect Stripe and add your manual payment handles
+- **When changing payment methods** — if you switch Stripe accounts or update your Venmo handle
+- **When troubleshooting** — if a payment didn't reach your bank and you need to verify the connection
+
+---
+
+## Section 1 — Stripe Connect
+
+[SCREENSHOT: payments-stripe-section.png — desktop, the Stripe Connect section showing either a "Connect Stripe Account" button (when disconnected) or a "Connected" status card with the account ID and a Disconnect option (when connected).]
+
+### What Stripe Connect enables
+
+Connecting Stripe lets you accept **card and ACH payments** from clients directly inside the 1nspecT platform:
+
+- Clients receive a **Pay Now** link in their payment-request email and on the client portal
+- Card / ACH payment is processed by Stripe; the platform records the payment automatically
+- Funds settle into **your** Stripe account (not the platform's) — 1nspecT uses **Stripe Connect** for direct deposit
+- Webhooks notify 1nspecT when payment succeeds; the order's `paymentStatus` updates automatically and fires `payment.received` in the workflow engine
+
+> Without Stripe Connect, clients have to pay via your manual handles (Venmo, etc.) and you record payments manually in the [Inspection Details](/1nspect/admin-operator/inspection-details) page.
+
+### Status states
+
+| State | What you see | What it means |
+|---|---|---|
+| **Not connected** | A blue **Connect Stripe Account** button | No Stripe account is linked yet |
+| **Connecting** | Spinner with *"Redirecting to Stripe..."* | The OAuth flow is in progress |
+| **Connected** | Green checkmark, account display name, account ID, charges-enabled and details-submitted indicators | Stripe is fully active |
+| **Partially connected** | Connected but with warning indicators | Stripe requires more information — click **Continue Setup** to return to Stripe's dashboard |
+
+### Connecting Stripe
+
+1. Click **Connect Stripe Account**
+2. The app calls `POST /api/company/stripe/connect` to start the OAuth flow
+3. You are redirected to Stripe's connection page
+4. Sign in (or create) your Stripe account
+5. Authorize 1nspecT to operate on your behalf
+6. Stripe redirects you back to the Payments page with `?stripe=connected` in the URL
+7. The page auto-cleans the URL and reloads the status
+
+Stripe's KYC requirements apply — you'll need to provide your business information, banking details for payouts, and identity verification.
+
+### "Continue Setup" state
+
+If Stripe needs more info from you (typical first-time setup), the connection state shows as partially connected. Click **Continue Setup** to return to Stripe's onboarding. Charges remain disabled until Stripe completes onboarding.
+
+### Disconnecting Stripe
+
+The **Disconnect** button surfaces a confirmation:
+
+> **Disconnect Stripe?**
+> This will remove the Stripe account link from your profile. The Stripe account itself will not be deleted.
+
+After disconnecting:
+
+- New orders no longer offer Stripe payment
+- Existing payment links continue to work (the underlying Stripe account is unchanged)
+- Webhook events from your Stripe account no longer reach 1nspecT — manual payment recording is required for future payments through that account
+- Existing **payment history** remains visible — disconnect does not erase the audit trail
+
+Reconnect at any time; the integration picks back up where it left off.
+
+---
+
+## Section 2 — Manual Payment Options
+
+For clients who prefer (or your business requires) non-Stripe payment, configure your Venmo / Zelle / Cash App handles here. These appear in email templates as variable tokens:
+
+- `$VenmoHandle`
+- `$ZelleContact`
+- `$CashAppHandle`
+
+### Fields
+
+| Field | Format | What appears in emails |
+|---|---|---|
+| **Venmo** | `@username` | Your Venmo handle, prefixed with `@` |
+| **Zelle** | Email address or phone number registered with Zelle | The hint reads: *"Email address or phone number registered with Zelle"* |
+| **Cash App** | `$username` | Your Cash App handle, prefixed with `$` |
+
+Any combination is allowed — leave a field blank if you don't accept that method. Blank values mean the corresponding `$VariableHandle` token resolves to an empty string in emails.
+
+### Saving
+
+Click **Save** below the manual handles section. Saves are immediate via `POST /api/company/payment-handles`. A green confirmation flashes for 2.5 seconds:
+
+> **Saved**
+
+If the save fails: *"Failed to save payment handles."* Retry; if persistent, check your network and re-authenticate.
+
+---
+
+## Where these settings show up
+
+### Email templates
+
+Payment-request emails typically include all three manual handles plus the Stripe payment link:
+
+```
+Pay your inspection fee easily:
+
+Stripe (card/ACH): $StripePaymentLink
+
+Or use a manual method:
+• Venmo: $VenmoHandle
+• Zelle: $ZelleContact
+• Cash App: $CashAppHandle
+```
+
+Set these tokens up in your payment-request template in [Comms Cockpit](/1nspect/admin-operator/comms-cockpit). Blank handles are omitted from the rendered email — clients only see the methods you've actually configured.
+
+### Client portal
+
+The signed-contract client portal page can also display payment options. Stripe payment buttons render only if Stripe is connected; manual handles render only if their corresponding field is filled.
+
+### Mobile Field Quote
+
+Mobile [Field Quote](/1nspect/inspector/field-quote) does NOT show payment options to the client at quote time — the SMS only contains the quote URL. Payment is invoked later when the order is created and the payment-request email goes out.
+
+---
+
+## Reconciliation — matching Stripe deposits to orders
+
+When clients pay through Stripe Connect:
+
+1. Stripe charges the card and emits a `charge.succeeded` webhook
+2. 1nspecT records the charge: `stripeChargeId`, `stripeBalanceTransactionId`, `stripeFeeCents`, `stripeNetCents` on the order
+3. Stripe **batches** charges into a daily payout (`po_xxx`)
+4. When the payout settles to your bank, Stripe emits `payout.paid`
+5. 1nspecT updates each order in the payout with `stripePayoutId` and `paymentReceivedAt`
+
+The **Monthly Reconciliation report** uses this data to match your bank deposits to specific orders — gross billing minus Stripe fee equals the net amount deposited. See [Reports & Publishing → Monthly Reconciliation](/1nspect/admin-operator/reports-and-publishing) for the report layout.
+
+> Existing orders from before Stripe-fee persistence was added show `stripeFeeCents: 0`. A one-time backfill from the Stripe API can populate historical fees — contact support if you need this for tax/audit purposes.
+
+---
+
+## Errors and recovery
+
+| Alert | Cause | Fix |
+|---|---|---|
+| **Failed to load payment settings** | Network or auth | Refresh; if persistent, re-authenticate |
+| **Failed to initiate Stripe Connect. Please try again.** | Stripe API returned an error | Retry; if persistent, check Stripe status page |
+| **Failed to disconnect Stripe** | API error | Retry; the underlying Stripe account is unchanged regardless |
+| **Failed to save payment handles** | Network or auth | Retry; the form values are preserved client-side |
+
+---
+
+## What this page does NOT do
+
+- **It does not show payment history.** That's [Reports & Publishing](/1nspect/admin-operator/reports-and-publishing) for analytics, [Inspection Details](/1nspect/admin-operator/inspection-details) for per-order payment records.
+- **It does not configure how payment-request emails look.** That's [Comms Cockpit](/1nspect/admin-operator/comms-cockpit).
+- **It does not edit contracts.** Use [Contracts Cockpit](/1nspect/admin-operator/contracts-cockpit).
+- **It does not handle refunds.** Refunds are issued in your Stripe dashboard; the platform records the refund event via webhook.
+- **It does not handle subscriptions** for the 1nspecT platform itself — that's a separate Stripe Customer on the platform's side, not your Connect account. See [Settings → Subscription & Tokens](/1nspect/admin-operator/company-and-pricing/company-settings).
+
+---
+
+## Related articles
+
+- [Contracts Cockpit](/1nspect/admin-operator/contracts-cockpit) — the agreements editor (often confused with this page due to naming)
+- [Comms Cockpit](/1nspect/admin-operator/comms-cockpit) — where payment-request emails are templated
+- [Reports & Publishing → Monthly Reconciliation](/1nspect/admin-operator/reports-and-publishing) — match Stripe deposits to orders
+- [Inspection Details → Record Payment](/1nspect/admin-operator/inspection-details) — record a manual payment for a specific order

@@ -1,0 +1,213 @@
+---
+id: inspector-photo-markup
+title: Photo Markup
+persona: [inspector]
+surfaces: [mobile]
+category: inspector
+related: [inspector-capture-screen, inspector-photos-and-media]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Photo Markup
+
+The Photo Markup screen lets you annotate a captured photo with arrows, shapes, and lines in any of six colors. Annotations are baked into the photo (the finding stores the annotated JPEG, not the original + an overlay) so they always appear on the report exactly as you drew them.
+
+You reach Photo Markup by tapping **Edit** over a captured photo on the [Capture Screen](/1nspect/inspector/capture-screen).
+
+---
+
+## Why annotate
+
+A well-placed arrow can replace a paragraph of narrative. Common uses:
+
+- Arrow to the **exact** outlet that has the issue when the photo shows several outlets
+- Circle around **subtle** damage that wouldn't catch the reader's eye unmarked
+- Rectangle around a **section** of a larger photo (e.g. one chimney flashing area in a roof shot)
+- Line connecting two related findings in the same shot
+
+The annotated photo appears on the report PDF exactly as you saved it — no separate "raw vs annotated" version is kept by default.
+
+---
+
+## Screen layout
+
+[SCREENSHOT: photo-markup-screen.png — mobile, the Photo Markup screen showing the toolbar at the top with "Selected Tool: ARROW" and a small red color indicator, the captured photo in the main area, the Markup Tools row with arrow/circle/rectangle/line, the Color Palette with six color swatches, and the Undo/Redo plus Save/Discard buttons at the bottom.]
+
+Top to bottom:
+
+1. **Tool indicator strip** — *"Selected Tool: ARROW"* and *"Color: ⬤"* — tells you what's loaded and ready to draw
+2. **Photo area** — the captured photo (rendered to fit the screen with aspect ratio preserved)
+3. **Markup Tools** — four shape buttons: Arrow · Circle · Rectangle · Line
+4. **Color Palette** — six color swatches: red · green · blue · yellow · magenta · cyan
+5. **Undo / Redo** — remove the last markup / re-add (Redo is currently a stub — see Limitations below)
+6. **Save / Discard** — commit annotations to the photo / abandon them
+
+---
+
+## How drawing works — the two-tap pattern
+
+Every shape on this screen is drawn with **two taps**:
+
+1. **First tap** — anchor the shape's start point. A small dot appears with a label like *"Tap to set size"* or *"Tap to complete"*.
+2. **Second tap** — set the end point or size, completing the shape.
+
+Behaviors per tool:
+
+| Tool | First tap | Second tap | Result |
+|---|---|---|---|
+| **Arrow** | Sets arrow tail | Sets arrow head | Arrow pointing from first tap toward second |
+| **Line** | Sets line start | Sets line end | Straight line between the two points |
+| **Rectangle** | Sets one corner; a small preview rectangle shows | Sets the opposite corner | Rectangle with the two taps as opposing corners |
+| **Circle** | Sets center; a small preview circle shows | Sets a point on the edge | Circle centered on the first tap, radius set by the second |
+
+If you tap a tool button **without** completing a shape, the **Cancel** button appears in the top strip — tap it to abandon the in-progress shape and start over.
+
+> **Why two-tap and not drag?** Two-tap is intentional. Drag is unreliable when the photo has been resized, and inspectors often want pixel-precise placement (which is easier with discrete taps than with a finger drag). The trade-off: drawing feels slightly slower; the placement is more accurate.
+
+### Touch zones
+
+The app calculates the **actual image bounds** within the photo container (because photos display in "contain" mode — the photo fills its container width or height with letterboxing in the other axis). Taps **outside** the image area are ignored. You can't accidentally draw an annotation on the letterbox region.
+
+---
+
+## The four tools
+
+### Arrow
+
+The most common annotation. Tail is the first tap, head is the second tap. The arrowhead is drawn with two short lines from the head point, angled at ±30° from the line direction.
+
+**Best for:** pointing to a specific deficiency in a photo with multiple components ("this outlet"). Use a contrasting color (red on a light wall, yellow on a dark surface).
+
+### Circle
+
+A perfect circle centered on the first tap, with radius equal to the distance from first tap to second tap.
+
+**Best for:** highlighting subtle damage or a small detail the viewer might miss (rusted bolt head, small crack, missing fastener).
+
+### Rectangle
+
+A rectangle with the two taps as **opposing corners**. The app correctly handles taps in any order — top-left/bottom-right and top-right/bottom-left both work.
+
+**Best for:** isolating a *region* of a larger photo (one chimney flashing in a roof shot, one panel in a wall, one section of countertop).
+
+### Line
+
+A straight line from the first tap to the second tap — no arrowhead, no shape.
+
+**Best for:** showing the path of cracks, the alignment of two components, or marking a level reference for a sagging structure.
+
+---
+
+## The color palette
+
+Six fixed colors: red, green, blue, yellow, magenta, cyan. Tap a swatch to select; the **Color** indicator at the top updates immediately.
+
+**Choosing color:**
+
+| Color | Best background |
+|---|---|
+| **Red** | Light walls, sky, light flooring — high-contrast, default for hazards |
+| **Yellow** | Dark surfaces, asphalt roofing, dark wood — good "look at this" emphasis without alarm |
+| **Green** | Bright wall colors, mid-tone surfaces — neutral attention-getter |
+| **Blue** | Light surfaces — secondary annotation when you've already used red |
+| **Magenta** | Earth tones (soil, brick, mulch) — high contrast on natural surfaces |
+| **Cyan** | Warm-tone backgrounds — high contrast on browns and reds |
+
+> The current selected color persists across markups within the same session, so if you want a uniform red palette throughout, choose once and forget it.
+
+Color selection only applies to **new** markups — existing markups retain the color they were drawn with. To change an existing annotation's color, undo and redraw.
+
+---
+
+## Undo
+
+Tap **Undo** to remove the **most recent** markup. Tapping repeatedly removes markups one at a time, newest to oldest.
+
+If there are no markups to undo, the app shows: *"Nothing to Undo — No markups to remove."*
+
+---
+
+## Redo (placeholder — not implemented)
+
+Tapping **Redo** currently shows: *"Redo functionality will be implemented."* The button is reserved space in the UI. For now, the only recovery from an accidental Undo is to redraw.
+
+> **Roadmap status:** Redo with a history stack is a tracked enhancement. Until shipped, treat Undo as one-way.
+
+---
+
+## Save and Discard
+
+### Save
+
+Tapping **Save** does two things:
+
+1. **Flattens** the photo and all annotations into a single JPEG (at 0.85 quality — slightly higher than the captured photo's 0.7 to preserve annotation sharpness).
+2. **Returns** to the Capture Screen with the flattened image now displayed as the finding's photo.
+
+The flattened image **replaces** the original. There is no separate "annotated layer" stored; the report will show the photo with annotations baked in. If you later realize you preferred the unannotated version, you'll need to retake the photo or import a fresh copy.
+
+**During save**, the Save button shows a spinner and is disabled. On rare failure, an alert appears: *"Failed to save markup. Please try again."* Annotations remain on screen so you can retry without redrawing.
+
+### Discard
+
+Tapping **Discard** triggers a confirmation alert:
+
+> **Discard Changes**
+> Are you sure you want to discard all markup changes?
+> [Cancel] [Discard]
+
+Tap **Discard** in the alert to abandon all annotations and return to the Capture Screen. The original photo is unchanged.
+
+### "I made no changes — just want to back out"
+
+If you opened Markup but didn't draw anything, tapping Save (with zero markups) returns to the Capture Screen without flattening or modifying the photo. Discard works the same way — both are safe no-ops when no markups exist.
+
+---
+
+## How annotations render
+
+The shapes are drawn with these visual properties (matched to React Native's rendering, not SVG):
+
+| Shape | Stroke width | Notes |
+|---|---|---|
+| Arrow line | 3 px | With two 15 px arrowhead strokes at ±30° |
+| Plain line | 3 px | No arrowhead |
+| Rectangle | 3 px | Stroke only, transparent fill |
+| Circle | 3 px | Stroke only, transparent fill |
+
+Coordinates are stored as **percentages** of image dimensions (not absolute pixels), so the annotations remain accurately placed when the photo is later rendered at a different size on the PDF or web admin.
+
+---
+
+## Limitations and trade-offs
+
+| Limitation | Detail | Workaround |
+|---|---|---|
+| **Two-tap drawing only** | No drag-to-draw | Plan the shape before tapping |
+| **No text annotations** | Can't add labels or words | Mention the annotation in the narrative ("see arrow") |
+| **No freehand drawing** | Four predefined shapes only | The shapes cover most inspection use cases |
+| **No layer / re-edit** | Annotations are flattened on save | Undo before save if you need to change something |
+| **Redo not implemented** | Undo is one-way | Redraw if you Undo accidentally |
+| **Color picker is fixed-palette** | No custom colors | The six provided cover most contrast needs |
+| **Markup is per-photo** | Each photo's annotations are independent | Same finding photo only |
+
+These trade-offs keep the tool simple and reliable. Inspectors are not graphic designers — the markup tool optimizes for "fast, durable, accurate-enough" over "creative latitude."
+
+---
+
+## Tips from inspectors
+
+- **Annotate the moment you capture.** If you walk away and come back, you'll forget exactly what your arrow was pointing at. Edit while the context is fresh.
+- **One annotation per photo is usually enough.** Multiple arrows in one shot dilute the message. If you're tempted to add a second arrow, ask whether it's really a separate finding.
+- **Use rectangle for "look at this whole area"** and arrow for "look at this single thing."
+- **Color consistency helps clients.** If you use red exclusively for safety issues across all your photos in a report, clients learn to scan for red as the urgent items.
+- **Annotation thickness is fixed at 3 px** — that's deliberate. It looks right on both phone and desktop report viewers without being garish.
+
+---
+
+## Related articles
+
+- [Capture Screen](/1nspect/inspector/capture-screen) — where you tap Edit to launch Markup
+- [Photos & Media](/1nspect/inspector/photos-and-media) — capturing the photo you'll annotate
+- [Review Screen](/1nspect/inspector/review-screen) — reviewing all annotated photos before finishing the inspection

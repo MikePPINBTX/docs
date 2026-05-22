@@ -1,0 +1,174 @@
+---
+id: admin-operator-contacts
+title: Contacts
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-overview, admin-operator-order-creation-wizard, admin-operator-reports-and-publishing]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Contacts
+
+The Contacts page (route `/contacts`) is your **address book** — every client, co-client, realtor, vendor, and team member who's been part of an order. Contact records are created automatically when you save an order with new client info; this page lets you find, view, edit, and merge them.
+
+This article documents the list view, the detail/edit panel, and how contacts integrate with the rest of the platform.
+
+---
+
+## When you use it
+
+- **Daily** — lookup a client's email or phone before calling
+- **Weekly** — verify a new agent's contact details before sending a quote
+- **Periodically** — clean up duplicates created by typos at order time
+- **As part of the Top Agents workflow** — sort agents by referral revenue and reach out to dormant ones
+
+---
+
+## Screen layout
+
+[SCREENSHOT: contacts-page.png — desktop, the Contacts page with the title "Contacts" at the top, a search field, a table with Name / Email / Phone / Brokerage columns, and a detail panel on the right when a contact is selected.]
+
+| Element | Purpose |
+|---|---|
+| **Page title** — *"Contacts"* | Page heading |
+| **Search field** | Placeholder: *"Search by name, email, or brokerage…"* — substring match across all three |
+| **Contact table** | Columns: Name · Email · Phone · Brokerage |
+| **Detail / edit panel** | Opens when a contact is clicked; shows full details and edit controls |
+
+---
+
+## Contact table
+
+The main table lists all contacts in your tenant. Default sort: most-recently-created first. Click any column header to sort by that column (where supported).
+
+### Columns
+
+| Column | Source |
+|---|---|
+| **Name** | `firstName` + `lastName` |
+| **Email** | `email` — primary key for deduplication |
+| **Phone** | `phone` — formatted to the user's locale |
+| **Brokerage** | For realtor contacts — their brokerage affiliation |
+
+Roles (Client / Realtor / Vendor / Team) are not currently a separate column but appear as a badge in the detail panel.
+
+### Filtering
+
+The search field accepts a single substring that's matched against name, email, and brokerage. Common patterns:
+
+- `Smith` — matches anyone with Smith in their name
+- `gmail.com` — finds every contact with a gmail address
+- `Coldwell` — surfaces all agents at Coldwell-affiliated brokerages
+
+To narrow more aggressively, use the keyboard shortcut Cmd/Ctrl+F to engage the browser's in-page find.
+
+---
+
+## Detail / edit panel
+
+Click any row to open the detail panel on the right (or in a modal on narrower viewports).
+
+### Fields
+
+| Field | Notes |
+|---|---|
+| **First Name** | Required |
+| **Last Name** | Required |
+| **Email** | Validated email format |
+| **Phone** | Free-form text — accepts any phone format |
+| **Brokerage** | Free-form text |
+
+Additional fields visible on the detail panel:
+
+- **Total inspections referred** — count of orders where this contact is the primary client, co-client, or referring agent
+- **Total revenue attributed** — sum of `totalAmount` across those orders
+- **First contact date** — when this contact was created
+- **Last activity** — most recent inspection or update touching this contact
+
+The numerical stats are auto-calculated; you cannot edit them.
+
+### Editing
+
+Click the field to inline-edit, or use the **Edit** button to open the full editor with **Cancel** and **Save** actions. Changes save to Firestore; existing orders that reference this contact update to use the new values for future renders.
+
+> **Note:** Updates to a contact **do not retroactively change** rendered PDFs that already shipped. If you fix a typo in a client's name, only new emails and future report regenerations pick it up.
+
+---
+
+## How contacts are created
+
+Contacts are typically **created automatically** from these surfaces:
+
+| Source | What creates a contact |
+|---|---|
+| [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) | Each new client / co-client / realtor on a new order |
+| [Mobile Field Quote](/1nspect/inspector/field-quote) | The phone-only client info entered when sending a quote |
+| **Public booking form** | The website-submitted booking inserts a contact |
+| **+ New Contact** button | Manual creation from this page |
+
+Autocomplete in the Order Wizard searches existing contacts by name and email — typing a known client auto-fills their details rather than creating a duplicate.
+
+---
+
+## Deduplication
+
+The platform tries to prevent duplicates by matching on **email address**: an order with the same email as an existing contact uses that contact's record. However, duplicates can still arise:
+
+- Typo in email (`smith@gmail.com` vs `simth@gmail.com`)
+- Same person with two email addresses (personal vs work)
+- Both spouses sharing one email but appearing as separate contacts
+
+### Resolving duplicates
+
+Currently the UI does not surface a Merge action — duplicates require:
+
+1. Identify the canonical record (most complete data, oldest)
+2. Update any active orders to point at the canonical contact
+3. Delete the duplicate
+
+A Merge feature is on the roadmap. For now, contact support if you have many duplicates and want them merged in bulk.
+
+---
+
+## How contacts integrate with the rest of the platform
+
+| Surface | How contacts are used |
+|---|---|
+| [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) | Autocomplete on client / co-client / realtor fields |
+| [Inspection Details](/1nspect/admin-operator/inspection-details) | The Client & Realtor Info tab shows the linked contact record; edits flow back here |
+| [Comms Cockpit](/1nspect/admin-operator/comms-cockpit) | `$ClientFirstName`, `$ClientLastName`, etc. tokens resolve from the contact record |
+| [Contracts Cockpit](/1nspect/admin-operator/contracts-cockpit) | Same variable tokens resolve from contacts |
+| [Reports → Agent Referral](/1nspect/admin-operator/reports-and-publishing) | The report pivots over realtor contacts to show top agents |
+
+---
+
+## Deleting a contact
+
+The detail panel's overflow menu (⋯) has a Delete action. Confirmation alert:
+
+> **Delete contact?**
+> This will remove the contact from your address book. Existing orders that reference this contact will keep their snapshot of the contact data but the contact won't appear in autocomplete going forward.
+
+After deletion, the contact is removed from Firestore. Existing orders **preserve** the snapshot of client info captured at order-creation time — they don't suddenly lose client details. New autocomplete suggestions won't include the deleted contact.
+
+> **Prefer disabling over deleting.** A contact with `archived: true` is hidden from default views but remains searchable for historical lookups. (UI for this is planned; currently deletion is the only path.)
+
+---
+
+## What this page does NOT do
+
+- **It does not show order history per contact** in detail. For that, search [Inspections List](/1nspect/admin-operator/inspections-list) by client name.
+- **It does not handle merge of duplicate contacts.** Currently a support task.
+- **It does not export contacts to CSV.** Export from [Reports → Agent Referral](/1nspect/admin-operator/reports-and-publishing) for agent-only export.
+- **It does not import contacts in bulk.** Bulk import is a planned enhancement; for now, contacts arise from order creation.
+
+---
+
+## Related articles
+
+- [Web Admin Overview](/1nspect/admin-operator/overview)
+- [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) — primary source of new contacts
+- [Inspection Details](/1nspect/admin-operator/inspection-details) — where contact info shows up per-order
+- [Reports → Agent Referral](/1nspect/admin-operator/reports-and-publishing) — agent-revenue pivot using contact data

@@ -1,0 +1,156 @@
+---
+id: admin-operator-company-and-pricing-company-info
+title: Company Info
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-company-and-pricing-company-settings, admin-operator-overview, gs-01-account-and-branding]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Company Info
+
+Company Info is the **identity card** for your inspection business — name, logo, office address, support contact, branding colors, and a few integration settings. Most of what shows up on report PDFs, emails, and client portals starts here.
+
+This article documents Company Info specifically. For the broader **Business Operations** page (CompanySettings) which adds the public booking slug, PWA logo, and review links, see [Company Settings](/1nspect/admin-operator/company-and-pricing/company-settings).
+
+---
+
+## When you use it
+
+- **First-week setup** — fill out your full company identity
+- **Annual review** — refresh address, phone, support email
+- **Rebranding** — update logo and theme color
+- **License renewal** — refresh license numbers
+
+After setup, Company Info rarely changes. Most fields cascade into the rest of the platform: PDF report headers, contract templates, email signatures, the client portal.
+
+---
+
+## Screen layout
+
+[SCREENSHOT: company-info-page.png — desktop, the Company Info page with sections for Company Name, Company Logo, Office Address, Support Email, Calendar integration, and PWA Theme Color.]
+
+The page is a single scrollable form with several stacked sections, each with a label and one or more inputs.
+
+---
+
+## Required fields
+
+These show up everywhere — fill them in completely.
+
+### Company Name
+
+| Field | Notes |
+|---|---|
+| **Company Name** | Placeholder: *"Your Company Name"*. Appears in report headers, emails, the client portal, and contracts as `$CompanyName`. |
+
+### Company Logo
+
+| Field | Notes |
+|---|---|
+| **Company Logo** | Upload a PNG or SVG. Recommended size: **400 × 120 px**, transparent background. |
+
+The logo appears:
+
+- In the header of every PDF report
+- In client-facing email communications
+- On the client signing portal
+- As the `$CompanyLogo` token wherever it's referenced
+
+For best results, use a transparent-background PNG or an SVG. Logos with white backgrounds get awkward on colored email headers.
+
+### Office Address
+
+| Field | Required | Notes |
+|---|---|---|
+| Street Address | — | Placeholder: *"Street Address"* |
+| City | — | |
+| State | — | |
+| ZIP | — | |
+
+The office address is used in:
+
+- Contract documents (`$CompanyAddress` token)
+- The bottom of email templates (return address)
+- The Federal-mandated business-address line on TREC reports
+- The footer of the report PDF
+
+Some inspectors use a P.O. Box for privacy — that's fine; the field is free-text.
+
+### Support Email
+
+| Field | Notes |
+|---|---|
+| **Support Email** | Placeholder: *"support@yourcompany.com"*. Used as the Reply-To address on outgoing emails. |
+
+Setting this correctly means client replies come to you rather than to a no-reply address. Most inspectors use their main business email (info@, hello@, or their own name@).
+
+---
+
+## Branding fields
+
+### PWA Theme Color
+
+| Field | Notes |
+|---|---|
+| **PWA Theme Color** | Hex value, e.g. `#1e40af`. Controls the browser-tab color and the PWA icon background when clients install the web app to their phone home screen. |
+
+Default: a royal blue. Match your brand — clients see this color in their mobile browser bar after they install the PWA from the client portal.
+
+---
+
+## Calendar integration
+
+If your tenant has Google Calendar OAuth enabled, the Company Info page surfaces a section for managing the connection.
+
+| Element | Purpose |
+|---|---|
+| Connect button | Initiates the OAuth flow |
+| Connected status | Shows the connected Google account and the scope: *"calendar.events (read/write access for auto-booking)"* |
+| Disconnect | Removes the OAuth token |
+
+When connected, the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) can check inspector availability against the Google Calendar, and confirmed orders auto-create calendar events.
+
+---
+
+## License number
+
+Many TREC-compliant templates require an inspector license number on every report. If your template uses `$InspectorLicense`, configure the inspector's license per-inspector under their User profile (separate from Company Info).
+
+> **Operator-level license:** if your business has a master license number distinct from any individual inspector's license, you may have a `$CompanyLicense` field here. Check your template's variable references.
+
+---
+
+## Saving
+
+The Company Info page uses explicit save. Click **Save** at the bottom of the form. A spinner shows during the save:
+
+> **Saving...**
+
+On success, a confirmation banner. Changes apply immediately to:
+
+- New report PDFs generated after the save
+- New emails sent after the save
+- The client portal
+
+**Existing published reports** keep their snapshot — they don't retroactively update. If you change your logo and want the new logo on a previously-published report, regenerate that report from [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer).
+
+---
+
+## What this page does NOT do
+
+- **It does not configure public booking.** The tenant slug for `/book/:slug` lives in [Company Settings](/1nspect/admin-operator/company-and-pricing/company-settings).
+- **It does not handle pricing.** That's [Pricing Manager](/1nspect/admin-operator/company-and-pricing/pricing-manager) and [Pricing Settings](/1nspect/admin-operator/company-and-pricing/pricing-settings).
+- **It does not configure email templates.** That's [Comms Cockpit](/1nspect/admin-operator/comms-cockpit).
+- **It does not handle Stripe Connect.** That's [Payments Settings](/1nspect/admin-operator/payments-and-contracts).
+
+---
+
+## Related articles
+
+- [Company Settings (Business Ops)](/1nspect/admin-operator/company-and-pricing/company-settings) — the sister page with public-booking slug, review links, PWA config
+- [Pricing Manager](/1nspect/admin-operator/company-and-pricing/pricing-manager) — service-level pricing
+- [Comms Cockpit](/1nspect/admin-operator/comms-cockpit) — where `$CompanyName`, `$CompanyLogo` tokens are used
+- [Account Setup & Branding](/1nspect/getting-started/account-and-branding) — onboarding tutorial

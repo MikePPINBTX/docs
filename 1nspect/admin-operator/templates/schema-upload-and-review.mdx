@@ -1,0 +1,198 @@
+---
+id: admin-operator-templates-schema-upload-and-review
+title: Schema Upload & Review
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-templates-overview, admin-operator-templates-template-builder, admin-operator-templates-template-editor]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Schema Upload & Review
+
+When you want to build a template from an **existing PDF report** (e.g. a competitor's template, a state-mandated form, or your own legacy report) instead of building from scratch, the Schema Upload & Review flow is the fast path. The AI reads the PDF, extracts sections / subsections / fields / checkboxes, and presents them for your review before saving.
+
+This article documents both halves of the flow:
+
+- **Schema Upload** (`/templates/builder/:templateId/schema`) — submit a PDF, watch the AI extract
+- **Schema Review** (`/template-review` or `/template-editor/:id`) — review the extraction and save into a template
+
+---
+
+## When to use this flow
+
+- **Building a template from a competitor's PDF** — drop in a copy of their report, get most of the structure for free
+- **Cloning a TREC-variant report** another inspector uses
+- **Migrating from a legacy report format** to 1nspecT-rendered reports
+- **Starting from a state-mandated form** (e.g. some commercial standards)
+
+Use the [Template Editor](/1nspect/admin-operator/templates/template-editor) or the deeper schema editor for hand-building from scratch. Use this flow when an existing PDF is your starting point.
+
+---
+
+## Phase 1 — Schema Upload
+
+[SCREENSHOT: schema-upload-screen.png — desktop, the Schema Upload page showing a large drag-and-drop zone for PDF upload, with progress indicators for extraction phases below.]
+
+### Uploading a PDF
+
+The upload zone accepts:
+
+- **PDF** files (any size up to your tenant's configured limit, typically 25 MB)
+- DOCX files (extracted via the same pipeline)
+
+Drag a file onto the zone or click to browse. The file uploads, and the extraction pipeline runs.
+
+### Extraction phases
+
+Behind the scenes, the AI runs in several phases visible as progress indicators:
+
+| Phase | What happens |
+|---|---|
+| **OCR** | If the PDF has image-only pages, OCR converts them to searchable text |
+| **Structural extraction** | The AI identifies sections, subsections, headings, and hierarchy |
+| **Field extraction** | Text inputs, checkboxes, rating columns, and informational fields are identified by type |
+| **Validation** | The extracted structure is checked for invariants (unique IDs, valid field types) |
+
+Total time: typically 30–90 seconds depending on PDF complexity. A long PDF (50+ pages) can take 2–3 minutes.
+
+### Cost
+
+Schema extraction uses the `extract-structured-ocr` AI operation: **3 IT** per extraction (see [AI Features → Complete Operation Reference](/1nspect/features/ai-features#complete-ai-operation-cost-reference)). This is per-attempt — re-running on the same PDF costs additional IT.
+
+### What gets extracted
+
+The pipeline produces a draft schema with:
+
+- **Sections** with names and short codes
+- **Subsections** under each section
+- **Fields** of various types, classified automatically:
+
+| Field type | Recognized from |
+|---|---|
+| **text** | Free-form text input lines |
+| **checkbox** | Single-state checkboxes |
+| **informational** | Labeled data-capture fields (e.g. "Year Built", "Sqft") |
+| **rating** | I/NI/NP/D-style rating columns or pass/fail boxes |
+| **comment** | Free-form comment/narrative regions |
+| **photo_placeholder** | Image-placeholder boxes |
+
+Each field is also tagged with a **field category** — `standard` or `informational`. This drives whether the field appears in the mobile inspector's main flow or in the tech-spec grid.
+
+---
+
+## Phase 2 — Schema Review
+
+After extraction completes, you are auto-routed to the **Review Template Schema** page. URL: `/template-review` or `/template-editor/:id`.
+
+[SCREENSHOT: schema-review-screen.png — desktop, the Schema Review page showing Template Information at the top, an Extraction Summary card with counts, and the extracted Template Structure tree below.]
+
+### Page sections
+
+#### Template Information
+
+| Field | Notes |
+|---|---|
+| Template Name | Pre-filled from the PDF title; editable |
+| Standard | Drop-down: **TREC** (Texas) · **ASHI** · **InterNACHI** · **CCPIA ComSOP** · **Custom** |
+| Description | Optional internal notes |
+
+Choose the standard that best matches the PDF you uploaded. This affects how the AI tunes narrative language later when inspectors use the template.
+
+#### Extraction Summary
+
+A card showing what the AI found:
+
+| Stat | Description |
+|---|---|
+| Sections | Top-level sections detected |
+| Checkboxes | Individual checkbox elements |
+| Text Boxes | Text-input fields |
+| Paragraphs | Narrative/comment regions |
+
+The numbers help you spot extraction issues at a glance. If a 30-page report extracts as 2 sections, something went wrong — likely the AI didn't recognize the section breaks. Re-upload with a cleaner version, or hand-edit the extracted schema.
+
+#### Template Structure
+
+A hierarchical tree showing the extracted schema. Each node:
+
+- **Section** (collapsible) — name + count of subsections
+- **Subsection** (collapsible) — name + count of fields
+- **Field** — type + category
+
+Click any node to:
+
+- **Edit** — change name, type, category
+- **Delete** — remove this node from the schema
+- **Add child** — insert a new section, subsection, or field
+
+The Review page is **fully editable** — fix anything the AI got wrong before saving.
+
+### Common AI mistakes to look for
+
+Based on patterns the extraction pipeline has known issues with:
+
+| Mistake | How to fix |
+|---|---|
+| **Missing sections** | Bigger headings sometimes get classified as subsections. Drag-to-promote in the tree, or manually add a parent section. |
+| **Misclassified field types** | A rating column sometimes extracts as text. Edit and change the type. |
+| **Duplicate fields** | Multi-column layouts can extract the same field twice. Delete duplicates. |
+| **Missing fields** | Sparse PDFs (lots of whitespace, image-only layouts) may miss fields entirely. Manually add. |
+| **Wrong section order** | The hierarchy preserves source order; if the PDF was unusually arranged, drag to reorder. |
+
+---
+
+## Saving the reviewed schema
+
+A **Save** button at the bottom (or top-right) commits the schema:
+
+| What happens on Save |
+|---|
+| The schema replaces the current template's schema (if editing an existing template) |
+| If this was a fresh extraction with no template selected, a new template is created using this schema |
+| The template appears in [Template Builder](/1nspect/admin-operator/templates/template-builder) |
+
+After save, you typically continue to [Template Designer](/1nspect/admin-operator/templates/template-designer) to set up the canvas and rating scale.
+
+---
+
+## Re-extracting
+
+If you want to start the AI extraction over (e.g. after editing the source PDF):
+
+1. Return to the Upload page
+2. Drop the new PDF
+3. The pipeline re-runs and replaces the current extraction
+
+Re-extraction **discards** any hand-edits you made to the previous Review session. Save before re-extracting if you want to preserve those edits in the template.
+
+---
+
+## Errors and recovery
+
+| Alert | Cause | Fix |
+|---|---|---|
+| **PDF upload failed** | Network or file-size issue | Check the file size; try a smaller version |
+| **Extraction failed** | AI service error, malformed PDF, or scan quality too low | Re-upload a higher-quality PDF, or build manually in [Template Editor](/1nspect/admin-operator/templates/template-editor) |
+| **No sections detected** | PDF lacks clear section structure (e.g. one giant text block) | Hand-add sections in the Review page, or split the PDF into per-section files and extract each |
+| **Validation error: duplicate IDs** | The AI generated overlapping field IDs (rare) | Save will be blocked until duplicates are resolved — the Review page surfaces specific items to fix |
+| **Save failed** | Network or auth error | Retry; if persistent, your Review edits are preserved in browser storage and recovered on refresh |
+
+---
+
+## What this flow does NOT do
+
+- **It does not design the report PDF's appearance.** Schema is structure only; rendering is [Template Designer](/1nspect/admin-operator/templates/template-designer).
+- **It does not assign default narratives or AI prompts.** Those are configured separately via [Narrative Library](/1nspect/admin-operator/intelligence-hub/narrative-library).
+- **It does not validate that the extracted schema matches an official standard's spec.** The AI extracts whatever's in the PDF; if the PDF is non-compliant, the extraction reflects that.
+
+---
+
+## Related articles
+
+- [Templates Overview](/1nspect/admin-operator/templates/overview)
+- [Template Builder](/1nspect/admin-operator/templates/template-builder) — where the newly-extracted template appears
+- [Template Designer](/1nspect/admin-operator/templates/template-designer) — set up the canvas after schema is in place
+- [Template Editor](/1nspect/admin-operator/templates/template-editor) — edit settings, font, branding
+- [AI Features → Schema extraction](/1nspect/features/ai-features) — IT cost and operation reference

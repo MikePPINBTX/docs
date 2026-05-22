@@ -1,0 +1,95 @@
+---
+id: admin-operator-intelligence-hub-narrative-library
+title: Narrative Library
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-intelligence-hub-overview, admin-operator-intelligence-hub-narrative-collections]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Narrative Library
+
+The Narrative Library (route `/narrative-library`) is the **master list of narrative collections** for your tenant. Each collection groups a set of narratives — photo captions, deficiency comments, report-area comments — typically scoped to a template or inspection type.
+
+This article documents the list view and the create-collection flow. For editing within a specific collection, see [Narrative Collections](/1nspect/admin-operator/intelligence-hub/narrative-collections).
+
+---
+
+## When you use it
+
+- **First-week setup** — create one collection per template (TREC Residential / Commercial / New Construction / etc.)
+- **Quarterly review** — archive stale collections; clone a working collection to start a variant
+- **Onboarding a new template** — every template assignment in the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) lets you pick a narrative collection; that picker pulls from the list here
+
+After initial setup the list grows slowly — most tenants end up with 3–8 collections total.
+
+---
+
+## Screen layout
+
+[SCREENSHOT: narrative-library-list.png — desktop, the Narrative Library page showing the heading, a collection grid, and a + Create Collection action.]
+
+| Element | Purpose |
+|---|---|
+| **Heading** — *"Narrative Library"* | Page title |
+| **Section header** — *"Narrative Collections"* | Below the page heading |
+| **Collection cards** | Each card represents one collection |
+| **+ Create New Collection** action | Opens the create dialog |
+| **Empty state** | *"No collections — Get started by creating a new narrative collection."* |
+
+Each collection card shows:
+
+- Collection name
+- Count of narratives in the collection
+- Associated template(s) — if any
+- Last modified date
+- Per-card actions: **Open / Rename / Duplicate / Delete**
+
+---
+
+## Creating a collection
+
+Click **+ Create New Collection** to open the dialog:
+
+| Field | Required | Notes |
+|---|---|---|
+| **Collection name** | ✅ | Plain text — e.g. "TREC Residential 2026" or "Commercial Property Standard" |
+| Description | — | Optional internal notes |
+| Associated templates | — | Multi-select from your templates. Limits which orders this collection can be picked for. |
+
+After creation, you land in [Narrative Collection Detail](/1nspect/admin-operator/intelligence-hub/narrative-collections) for the new collection — typically empty until you add narratives.
+
+> **Why associate templates?** When inspectors or operators choose a narrative collection for an order, the picker filters to collections that match the order's template. Associating helps keep the picker focused.
+
+---
+
+## Loading state
+
+While collections fetch from Firestore, the page shows:
+
+> **Loading narrative collections...**
+
+If the load fails (typically a Firebase connection issue):
+
+> **Firebase Connection Required**
+
+Refresh; if persistent, check your network or contact support.
+
+---
+
+## What this page does NOT do
+
+- **It does not edit narratives.** That's [Narrative Collection Detail](/1nspect/admin-operator/intelligence-hub/narrative-collections).
+- **It does not assign collections to orders.** That happens in the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) → Narrative Collection picker.
+- **It does not show usage analytics.** No per-narrative click-count surface yet.
+
+---
+
+## Related articles
+
+- [Intelligence Hub Overview](/1nspect/admin-operator/intelligence-hub/overview)
+- [Narrative Collection Detail](/1nspect/admin-operator/intelligence-hub/narrative-collections) — opens when you click a collection card
+- [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) — where collections are picked for an order
+- [Mobile AI During Capture](/1nspect/inspector/ai-during-capture) — where library narratives surface as FREE chips and 🪄 Library results

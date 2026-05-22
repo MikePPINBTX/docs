@@ -1,0 +1,149 @@
+---
+id: inspector-overview
+title: Mobile App Overview
+persona: [inspector]
+surfaces: [mobile]
+category: inspector
+related: [inspector-login-and-identity, inspector-home-and-assigned-inspections, gs-04-mobile-inspection-walkthrough, inspector-offline-and-sync]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Mobile App Overview
+
+The 1nspecT mobile app is the on-site tool for licensed inspectors. You use it to open inspections assigned by your office, capture findings (photos, video, narratives, ratings) at the property, and sync your work to the web admin where the report is reviewed and published. This page is the orientation article — it covers what the app is, who it's for, and where everything lives. If you are new, start here, then run through [Mobile Inspection Walkthrough](/1nspect/getting-started/mobile-inspection-walkthrough) for an end-to-end practice inspection.
+
+---
+
+## What the app is for
+
+1nspecT mobile is a **field-capture companion** to the 1nspecT cloud admin. The web admin is where your company sets up templates, schedules inspections, drafts reports, and handles billing. The mobile app is where the inspector does the field work — everything you need on-site, designed to work even when you have no cell signal.
+
+What you do on mobile:
+
+- Open an inspection assigned to you in the web admin
+- Capture photos, video, and narratives organized by section and subsection
+- Rate every required subsection (Inspected · Not Inspected · Not Present · Deficient)
+- Use AI to generate narratives, scan photos for additional deficiencies, and extract equipment data from label photos
+- Generate field quotes on the spot when a property owner asks for pricing
+- Mark inspections complete so the office can review and publish the final report
+
+What you **don't** do on mobile (these live in the web admin):
+
+- Create or edit templates
+- Schedule new inspections or set pricing
+- Send contracts or invoices
+- Review, edit, and publish the final report PDF
+- Manage your team or company settings
+
+---
+
+## Who the app is for
+
+The mobile app is for **licensed field inspectors**. Your account is provisioned by your company administrator on the web — there is no self-service sign-up from inside the app. (Apple App Store and Google Play list it as a B2B companion to the 1nspecT cloud platform.) If you do not have credentials, see [Login & Identity](/1nspect/inspector/login-and-identity) for how to request access.
+
+If you operate as a one-person inspection company, you are both the administrator and the inspector — you set yourself up on the web admin first, then log into the mobile app with the same email and password.
+
+---
+
+## App layout
+
+After you log in, the app is organized around a **bottom tab bar** with five tabs. Several modal screens sit on top of the tab bar for focused workflows like capturing an inspection.
+
+[SCREENSHOT: bottom-tab-bar.png — mobile, the five-tab bottom bar. Highlight the labels: Home, Review, Ratings, Quote, Config.]
+
+### The five tabs
+
+| Tab | Icon | What you do here |
+|---|---|---|
+| **Home** | 🏠 home | Your launch pad. From here you open **Assigned Inspections** (your work queue from the office), **View Completed Inspections** (finished inspections still on the device), or **Field Quote** (jump directly to a quick quote). |
+| **Review** | 📄 document | Walk through every finding on the inspection currently open. Edit captions, narratives, ratings, flag findings for the executive summary, reorder findings within a subsection. See [Review Screen](/1nspect/inspector/review-screen). |
+| **Ratings** | 📊 bar chart | The fast-rate view. Walk through every required subsection and assign a rating (I / NI / NP / D) without leaving the screen. Useful when you want to make sure every required subsection is rated before you finish. See [Ratings Screen](/1nspect/inspector/ratings-screen). |
+| **Quote** | 💵 cash | The Field Quote tool. Type a property address, get back a recommended price based on your pricing rules, and email or text it to the client. See [Field Quote](/1nspect/inspector/field-quote). |
+| **Config** | ⚙️ settings | Your account, device, sync, and IT token settings. The tab is labeled **Config** but the screen title is **Settings**. See [Settings & Tokens](/1nspect/inspector/settings-and-tokens). |
+
+> **Naming note:** the tab labeled **Config** opens the Settings screen. The shorter label fits the tab bar; the docs call it "Settings" for instruction text.
+
+### The modal screens
+
+These screens slide in over the tabs for a single focused task. Closing them returns you to the tab you were on.
+
+| Screen | When you see it |
+|---|---|
+| **New Inspection** | Tapped from Home → Assigned Inspections when you start a new inspection assignment. |
+| **Assigned Inspections** | Your work queue — every inspection your office has assigned to you that you haven't finished yet. |
+| **Inspection Capture** | The full-screen workspace where you actually capture findings. This is where you'll spend most of your inspection time. See [Capture Screen](/1nspect/inspector/capture-screen). |
+| **Photo Markup** | Annotate a photo with arrows, shapes, or text after capturing it. See [Photo Markup](/1nspect/inspector/photo-markup). |
+| **Archived Inspections** | Inspections you've already completed that are still on the device. See [Archived Inspections](/1nspect/inspector/archived-inspections). |
+
+---
+
+## A typical inspector's day
+
+Most inspectors follow this flow without thinking about it:
+
+1. **Open the app** — Firebase keeps you signed in across app launches; you usually go straight to Home.
+2. **Tap Assigned Inspections** — see the queue assigned by the office, sorted by inspection date.
+3. **Tap today's inspection** — confirm the property and template, then **Start Inspection**.
+4. **Capture on-site** — the [Capture Screen](/1nspect/inspector/capture-screen) is open for most of the inspection. Photos, captions, narratives, ratings — everything for each subsection lives on this one screen.
+5. **Review before leaving** — switch to the **Review** tab to scan every finding, flag the major ones for the summary, and clean up captions.
+6. **Confirm ratings** — switch to **Ratings** to confirm every required subsection has a rating. The Ratings screen makes any missing ones obvious.
+7. **Mark complete** — back on the inspection's home screen, tap **Finish Inspection**. The office is notified; the report Workspace becomes available on the web.
+8. **Walk back to your truck** — the upload queue keeps running. Even if you lose signal on the drive, everything resumes when you reconnect.
+
+---
+
+## How the mobile app talks to the cloud
+
+The mobile app is **offline-first**: every finding you capture is written to local storage first, then uploaded when network is available. You can run an entire inspection in a basement with no signal and never lose data. See [Offline & Sync](/1nspect/inspector/offline-and-sync) for the full picture.
+
+Two things to know about sync:
+
+- The **EcoSync** engine (also called "Lite Sync" in older release notes) runs in the background. You don't start it or stop it — it just runs whenever the app is open and there is network.
+- Photos go through a **separate upload queue**. If you capture 30 photos on a basement walk with no signal, the captions and findings sync as soon as you reconnect, and the photos upload in the background with retries.
+
+> **Cellular toggle:** in Config → Sync, there is a toggle for **Cellular Sync**. By default it is **off** — the app only uploads photos and video when you are on Wi-Fi. Turn it on if you want to upload while on cellular data (faster delivery to your office, more data charges on your bill).
+
+---
+
+## AI features at a glance
+
+Most inspectors use one or more of these every inspection. Each costs **IT (Inspection Tokens)** — see the [AI Features Guide](/1nspect/features/ai-features) for the full cost reference.
+
+| Tool | Where | What it does | Cost |
+|---|---|---|---|
+| ✨ AI Generate (text) | Capture Screen | Writes a CAR-format narrative from your caption + section context | 2 IT |
+| 🔬 Vision Analysis | Capture Screen, with photo | Generates a narrative grounded in what is visible in the photo | 8 IT |
+| 🪄 Library Search (semantic) | Capture Screen | Searches your narrative library by meaning, not exact words | 1 IT |
+| **FREE** Library chips | Capture Screen | Local keyword match in your library — appears as you type | 0 IT |
+| System Info Tag | Capture Screen | Extracts manufacturer / model / age from a label photo | 3 IT (photo) / 1 IT (text) |
+| Save to Library | Capture Screen | De-identifies and saves a narrative for future reuse | 1 IT |
+
+Your remaining IT balance is **not displayed on mobile** — only on the web admin. If you run out, AI calls fail with a clear in-app message (e.g. *"Insufficient IT Tokens. Vision Analysis requires 8 IT."*) and your inspection work continues normally — only AI generation is blocked. To top up, have your administrator visit **Settings → Subscription & Tokens** on the web admin.
+
+See [AI During Capture](/1nspect/inspector/ai-during-capture) for how each tool actually feels in use.
+
+---
+
+## Brand and version
+
+| | |
+|---|---|
+| Brand | **1nspecT** (lowercase 1, lowercase n, lowercase s, lowercase p, lowercase e, lowercase c, capital T) |
+| Tagline (on Home) | "Streamlined Site Assessments" |
+| Login tagline | "Inspector Login" |
+| iOS bundle | `com.mavtech.1nspect` |
+| Android package | `com.mavtech.nspect` |
+| Currently documented version | **2.1.0** (Expo SDK 54, React Native 0.81.5) |
+| Distribution | TestFlight (iOS) · Play Internal Testing (Android) |
+| Backend | Firebase Auth · Firestore data · Google Cloud Storage for media · NestJS API for AI orchestration |
+
+---
+
+## What to read next
+
+- **Brand new?** Run through the [Mobile Inspection Walkthrough](/1nspect/getting-started/mobile-inspection-walkthrough) for an end-to-end practice inspection.
+- **First time logging in?** [Login & Identity](/1nspect/inspector/login-and-identity) covers credential setup and what to do if the app says your account is not active.
+- **Want to understand the capture flow?** [Capture Screen](/1nspect/inspector/capture-screen) is the deepest article in the inspector guide — it walks through every element on the screen.
+- **Working in low signal?** [Offline & Sync](/1nspect/inspector/offline-and-sync) explains exactly what works without a connection and how the upload queue behaves.
+- **Hit an error?** [Common Issues & Troubleshooting](/1nspect/troubleshooting/common-issues) covers the most-reported mobile problems.

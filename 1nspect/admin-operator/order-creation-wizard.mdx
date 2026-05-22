@@ -1,0 +1,246 @@
+---
+id: admin-operator-order-creation-wizard
+title: Order Creation Wizard
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-inspections-list, admin-operator-inspection-details, gs-03-create-your-first-order, features-contracts]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Order Creation Wizard
+
+The Order Creation Wizard (route `/inspections/new`) is the primary form for creating new orders. It is reached from:
+
+- **+ New Order** button on the [Inspections List](/1nspect/admin-operator/inspections-list)
+- **+ New Order** Quick Action tile on the Dashboard
+- **Convert to Order** action on a Quote in the leads view
+- **From a public booking submission** — the public booking form drops the visitor onto the same wizard (or an operator converts the lead later)
+
+This article is the operator-facing reference for every field, picker, and decision in the wizard. For the first-time tutorial walkthrough, see [Create Your First Order](/1nspect/getting-started/create-your-first-order) in Getting Started.
+
+---
+
+## Two-step or single-page?
+
+The wizard operates as **two distinct phases**:
+
+| Phase | Header | What you do |
+|---|---|---|
+| **Step 1 of 2** | "Lead & Quote Generation" | Client info, property, services, pricing — produces a savable quote |
+| **Step 2 of 2** | Full Order Creation | Scheduling, inspector assignment, contract bundle, final review |
+
+You can save and exit between phases. A partial wizard saves as a **lead** (visible under the Quotes toggle on the [Inspections List](/1nspect/admin-operator/inspections-list)); a completed wizard saves as a confirmed **order**.
+
+If you're converting from a public-booking lead or a mobile Field Quote, Step 1 is pre-populated and you start in Step 2.
+
+---
+
+## Step 1 — Lead & Quote Generation
+
+This step gathers everything needed to price the work and send a quote to the client. It mirrors the data the [Field Quote](/1nspect/inspector/field-quote) tool collects from mobile.
+
+### 1.1 Client Information
+
+[SCREENSHOT: order-wizard-client.png — desktop, the Client Information section showing two columns: Primary Client (Name, Email, Phone) and Additional Client / Co-Client.]
+
+| Field | Required | Notes |
+|---|---|---|
+| **First Name / Last Name** | ✅ | Used in contract templates as `$ClientFirstName`, `$ClientLastName`, `$ClientNames` |
+| **Email** | ✅ | All automated communications go here |
+| **Phone** | — | Used for SMS reminders if configured |
+
+**Autocomplete:** start typing a name or email — if this client exists in your [Contacts](/1nspect/admin-operator/contacts), their details auto-populate. A new Contact is created automatically if no match is found.
+
+#### Co-client / Additional Client
+
+For married couples, joint buyers, business partners:
+
+| Field | Required |
+|---|---|
+| Client 2 Name | — |
+| Client 2 Email | — |
+| Client 2 Phone | — |
+
+The co-client receives separate copies of all automated emails by default (configurable in [Communications](/1nspect/features/communications)).
+
+#### Realtor / Buyer's Agent
+
+| Field | Required | Notes |
+|---|---|---|
+| Realtor Name | — | If you start typing, your existing agents from Contacts auto-suggest |
+| Realtor Email | — | The agent receives a separate report-delivery email per your workflow |
+| Brokerage | — | Optional but useful for the Top Agents report |
+
+### 1.2 Property
+
+| Field | Required | Notes |
+|---|---|---|
+| **Street Address** | ✅ | The full street line (e.g. "123 Main Street") |
+| City, State, ZIP | — | Required for report headers and contract templates |
+| **Property Type** | ✅ | Residential / Commercial / New Construction / etc. — drives which templates and services are available |
+| **Year Built** | — | Used by AI baseline + pricing rules that depend on age |
+| Square Footage | — | Required if your pricing rules are square-foot-tiered. Pricing calc fails silently below the smallest tier if blank. |
+| Foundation Type | — | Drop-down: Slab / Pier and Beam / Crawl Space / Basement. Drives pricing where foundation surcharges apply. |
+| Cladding Type | — | Drop-down |
+| Roof Covering | — | Drop-down |
+
+**Google Places autocomplete** is wired on the Street Address field — start typing and select from suggestions; city/state/ZIP populate automatically.
+
+> **AI Property Insights button** (✨) — same behavior as the mobile Field Quote. Click after entering an address; Gemini fetches public records and pre-fills sqft / year built / foundation. The fields remain editable.
+
+### 1.3 Services
+
+[SCREENSHOT: order-wizard-services.png — desktop, the Services section showing two stacks: Primary Service (multi-select pills) and Add-On Services (cards with prices).]
+
+#### Primary Service
+
+Multi-select pills showing every primary service from your pricing schedule. Examples:
+
+- Standard Residential Inspection
+- New Construction — Phase 1 / 2 / Final (select multiple for phased builds)
+- Commercial Property Inspection
+- Pre-Listing Inspection
+- 11-Month Warranty Inspection
+
+Selecting multiple primaries creates a **multi-phase order** automatically — each primary becomes a child inspection in the order.
+
+#### Ancillary Services (Add-Ons)
+
+Per-service cards. Each shows the customer-facing price (which includes processing-fee gross-up for pass-through services, per BITE 92.2):
+
+- Sewer Scope
+- WDI / Termite
+- Thermal Imaging
+- Pool & Spa
+- Mold Screen
+- Radon Test
+- Lead-Based Paint Inspection
+- … plus any custom ancillaries configured in your [Pricing Manager](/1nspect/admin-operator/company-and-pricing/pricing-manager)
+
+For multi-phase orders, you can assign each ancillary to a specific phase or attach to the order as a whole.
+
+### 1.4 Pricing
+
+Pricing is computed live by the backend's `/api/pricing/calculate` endpoint as you change selections — no manual recalculate.
+
+| Line | Source |
+|---|---|
+| **Base Fee** | Primary service fee (sum for multi-phase) |
+| **Ancillary Fees** | Sum of selected ancillary `appliedFee` values |
+| **Surcharges** | From pricing rules — e.g. foundation surcharge, distance surcharge, age surcharge |
+| **Discount** | If applied via the picker (percentage or flat) |
+| **Total** | Grand total — this is what the client sees |
+
+The pricing engine handles complex cases:
+
+- **Per-phase surcharges** apply to one phase, not all
+- **Volume discounts** apply across the whole order
+- **Multi-unit + ADU + NLB** corrections apply to shared scope items
+- **Step 4 scope-aware discount** — discount applies only to discountable line items, not surcharges
+
+You can **manually override** any fee by clicking the line item — useful for negotiated quotes.
+
+### 1.5 Save Quote / Send Quote
+
+At the bottom of Step 1, two buttons:
+
+| Action | Result |
+|---|---|
+| **Save Quote** | Saves the lead. Available later under the Quotes toggle on the [Inspections List](/1nspect/admin-operator/inspections-list). |
+| **Send Quote to Client** | Saves the lead AND sends a magic-link email to the client with the quote URL `https://app.1nspect.app/quote/{tenantId}/{leadId}`. They can accept the quote with one click, which fires `quote.accepted` and prompts you to complete Step 2. |
+
+You can also **Continue to Step 2** immediately if you have the inspection date and inspector ready.
+
+---
+
+## Step 2 — Full Order Creation
+
+This step takes the priced quote and converts it into a fully scheduled, contracted order.
+
+### 2.1 Scheduling
+
+| Field | Required | Notes |
+|---|---|---|
+| **Inspection Date** | ✅ | Calendar picker. Checks against your team's availability if [Calendar integration](/1nspect/features/communications) is connected. |
+| **Start Time** | ✅ | Time picker |
+| Estimated Duration | — | Auto-filled from pricing rules; editable |
+| **Assigned Inspector** | ✅ | Drop-down of your team members. The inspector receives the assignment on their mobile app within seconds. |
+| Allow Team Inspection | — | Toggle. If on, additional team inspectors can join via the QR-code workflow. |
+
+#### Multi-phase orders
+
+For multi-phase orders, you'll see a row per phase, each with its own date/time/inspector. The wizard enforces a **phase-gating rule** by default: Phase 2 cannot begin until Phase 1 is marked complete.
+
+### 2.2 Communications Setup
+
+Confirm which automated emails will fire for this order. The defaults come from your tenant's [Communications Workflow](/1nspect/features/communications) configuration.
+
+| Checkbox | Effect |
+|---|---|
+| Send contract bundle on save | Fires `booking.confirmed` → contract bundle email immediately |
+| Send confirmation email | Fires `booking.confirmed` → confirmation email |
+| Send reminders | Enables the configured `inspection.reminder` workflow steps |
+| Send report on publish | Enables `report.published` → report delivery (default ON) |
+
+If you want this order to bypass all automation (e.g. you're importing a historical record), toggle **Skip Workflow** in the More Options menu — this sets `skipWorkflow: true` and disables every automated email for this order.
+
+### 2.3 Review & Create
+
+The final summary screen shows:
+
+- Client details
+- Property details
+- Services and pricing
+- Schedule and inspector assignments
+- Which communications will fire
+
+A **✅ Confirm & Create Order** button at the bottom commits everything:
+
+1. The order document is written to Firestore
+2. Child inspection documents are created for each phase
+3. If contracts are enabled, the contract bundle is sent immediately via the workflow engine
+4. The `booking.confirmed` trigger fires (no-op if no workflow steps are configured for it)
+5. You are redirected to the new order's [Inspection Details](/1nspect/admin-operator/inspection-details) page
+
+---
+
+## Validation and errors
+
+Every required field must be filled before you can advance past its section. Field-level validation appears inline (red border + helper text below the field).
+
+### Common errors
+
+| Alert | Cause |
+|---|---|
+| "Missing Information — Please fill in Client Name and Property Address." | Step 1 attempted without core fields |
+| "Pricing service unavailable. Try again." | Backend pricing calculator returned an error |
+| "No template found for selected service." | Service has no template assigned — fix in [Pricing Manager](/1nspect/admin-operator/company-and-pricing/pricing-manager) |
+| "Scheduled date conflicts with another inspection." | Calendar integration flagged a conflict — confirm or override |
+| "Failed to create order." | Network or backend error during the final write — retry |
+
+---
+
+## Editing an order after creation
+
+After creation, you can edit most fields by opening the order in [Inspection Details](/1nspect/admin-operator/inspection-details) and clicking **Edit Order**. Re-running the wizard is not necessary for most updates.
+
+Fields that **cannot** be edited after creation:
+
+- Order Number (auto-generated)
+- The Firestore document ID
+
+Adding ancillary services or changing the inspector after creation is straightforward; changing the primary service typically requires creating a new order.
+
+---
+
+## Related articles
+
+- [Create Your First Order](/1nspect/getting-started/create-your-first-order) — onboarding tutorial
+- [Inspections List](/1nspect/admin-operator/inspections-list) — where + New Order is launched from
+- [Inspection Details](/1nspect/admin-operator/inspection-details) — where you land after creation
+- [Pricing Manager](/1nspect/admin-operator/company-and-pricing/pricing-manager) — rules that drive the pricing calculations
+- [Communications](/1nspect/features/communications) — the workflow that ships automated emails
+- [Contracts](/1nspect/features/contracts) — how the contract bundle is built
+- [Mobile Field Quote](/1nspect/inspector/field-quote) — the mobile-side quote-creation flow that produces leads convertible here

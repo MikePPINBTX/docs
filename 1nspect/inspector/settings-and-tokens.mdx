@@ -1,0 +1,188 @@
+---
+id: inspector-settings-and-tokens
+title: Settings (Config) & IT Tokens
+persona: [inspector]
+surfaces: [mobile]
+category: inspector
+related: [inspector-overview, inspector-login-and-identity, inspector-offline-and-sync, features-ai-features, features-it-tokens]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Settings (Config) & IT Tokens
+
+The Config tab opens the **Settings** screen — your account, sync preferences, support contact, About info, and Sign Out. The tab is labeled **Config** to fit the bottom tab bar; the screen header says **Config** to match. The docs and your administrator call this same screen "Settings" for short.
+
+---
+
+## Screen layout
+
+[SCREENSHOT: settings-screen.png — mobile, the Settings (Config) screen showing the optional Resume Active Inspection banner at the top, then Sync Preferences, Support, About 1nspecT sections, and the red-bordered Sign Out button at the bottom.]
+
+The screen has up to five sections, depending on your state:
+
+1. **Resume Active Inspection** (only visible when you have an in-progress inspection)
+2. **Sync Preferences**
+3. **Support**
+4. **About 1nspecT**
+5. **Sign Out**
+
+Each is described below.
+
+---
+
+## 1. Resume Active Inspection
+
+When you have an inspection in progress on this device, a large blue **🚀 RESUME ACTIVE INSPECTION** button appears at the top of the screen. The button shows the property address as a subtitle so you can confirm which inspection you'll resume before tapping.
+
+Tap it to jump directly to the [Capture Screen](/1nspect/inspector/capture-screen) for that inspection — no need to navigate back through Home → Assigned Inspections to find it.
+
+If you have no inspection in progress, this section is hidden. The next thing you see is Sync Preferences.
+
+---
+
+## 2. Sync Preferences
+
+### Upload Media over Cellular
+
+A single toggle:
+
+| Setting | Default | When you'd enable it |
+|---|---|---|
+| **Upload Media over Cellular** | **OFF** | When you want photos and videos to upload during the inspection rather than waiting for Wi-Fi |
+
+When **off** (the default), photo and video uploads only run on Wi-Fi. Text data (findings, captions, narratives, ratings) syncs regardless — only the heavier media files are gated.
+
+When **on**, photos and video upload over 5G / LTE the moment you have signal. Faster delivery to the office; uses cellular data.
+
+The toggle is saved immediately to local storage and applies to all current and future uploads.
+
+> **Tip:** leave this off unless you have an unlimited data plan and your office needs photos in real-time. Most inspectors leave it off; everything syncs as soon as they get back to Wi-Fi, which is usually within an hour.
+
+See [Offline & Sync](/1nspect/inspector/offline-and-sync) for the full picture of how the upload queue handles different network states.
+
+---
+
+## 3. Support
+
+### Contact Support
+
+Tapping **Contact Support** opens your email app with a new message pre-addressed to `support@mymavtech.com` and pre-filled with diagnostic information. The body looks like:
+
+```
+Describe the issue, including steps to reproduce:
+
+
+
+— DIAGNOSTIC INFO (do not edit) —
+Version: 2.1.0
+Runtime: 2.1.0
+Platform: ios 17.4
+Tenant: your-company-slug
+Inspector: you@example.com
+Captured: 2026-05-08T14:23:18.421Z
+```
+
+You type your description above the diagnostic block, then send. The support team sees your version, tenant, and inspector identity immediately — no round-trips for "what tenant are you on?"
+
+> **Don't have an email app configured?** The button shows: *"Email Unavailable — No email app configured. Please email support@mymavtech.com directly."*
+
+---
+
+## 4. About 1nspecT
+
+The About section is informational. It contains:
+
+| Item | Behavior |
+|---|---|
+| **Version** | Shows the app version (e.g. `2.1.0`) and the runtime version if they differ |
+| **Privacy Policy** | Opens `https://1nspect.app/terms` in your browser |
+| **Terms of Service** | Opens `https://1nspect.app/terms` (same page — Privacy and Terms live together) |
+| **User Guide & Help** | Opens `https://help.1nspect.app/` — the canonical user-guide portal |
+| Copyright footer | "© 2025 MAVTech LLC. All rights reserved." |
+
+> **About the Privacy / Terms URLs:** both rows currently point to the same page. The page renders both policies. They are listed as separate items because users expect to find each by name.
+
+---
+
+## 5. Sign Out
+
+The red-bordered **Sign Out** button at the bottom of the screen ends your session.
+
+When you tap it, a confirmation alert appears:
+
+> **Sign Out**
+> Are you sure you want to sign out?
+> [Cancel] [Sign Out]
+
+Tap **Sign Out** in the alert to confirm. Firebase signs you out, and the app returns to the [Login screen](/1nspect/inspector/login-and-identity) automatically.
+
+### What sign-out does NOT do
+
+- It does **not** delete local inspection data. In-progress and archived inspections on this device remain. When you (or another inspector) sign in, the data is still there.
+- It does **not** invalidate sessions on other devices. If you are signed in on a tablet AND a phone, signing out on the phone does not affect the tablet.
+- It does **not** stop pending uploads. If you have photos still uploading when you sign out, they continue in the background under your previous session — unusual, but harmless.
+
+To fully clear local data, delete the app and reinstall (iOS) or Settings → Apps → 1nspecT → Storage → Clear Data, then reinstall (Android). Both are destructive — confirm everything has synced first.
+
+---
+
+## IT Tokens — what's on mobile vs web
+
+> **Important:** the mobile app **does not display your IT token balance**, and there is **no top-up purchase flow on mobile**. Token balance and top-ups are managed in the **web admin** by your administrator.
+
+This is deliberate — mobile is a field-capture tool, not a billing surface. Apple and Google place restrictions on B2B in-app purchase flows, and your administrator usually wants to control token spend at the company level rather than have individual inspectors purchase on the spot.
+
+### Where to view and manage tokens
+
+| Action | Where |
+|---|---|
+| View current IT balance | Web admin → **Settings → Subscription & Tokens** |
+| Buy a top-up pack | Web admin → **Settings → Subscription & Tokens → Purchase Top-Up** |
+| See per-operation costs | This guide's [AI Features](/1nspect/features/ai-features) page |
+
+### What happens when you run out of tokens
+
+If your tenant's IT balance hits zero while you're in the middle of an inspection, the next time you tap an AI button you'll see an alert like:
+
+> **Insufficient IT Tokens**
+> Vision Analysis requires 8 IT. Purchase a top-up pack in Settings.
+
+The "Settings" referenced in this alert is the **web admin** Settings, not the mobile Config tab. Your administrator (or your account, if you are the admin) tops up there; the new balance is available to mobile inspections within seconds.
+
+Your inspection work continues normally — only AI generation is blocked. Captions, photos, narratives, ratings, and report finalization all keep working without tokens.
+
+---
+
+## What's not on this screen (yet)
+
+The Settings screen is intentionally minimal. Things that aren't here but may be elsewhere:
+
+| You're looking for | Where to find it |
+|---|---|
+| Switch tenants / companies | Not supported — one inspector account = one tenant. Contact your administrator if you've changed companies. |
+| Push notification preferences | Not yet — controlled by device OS settings (Settings → Notifications → 1nspecT) |
+| Light vs dark mode | Not yet — the app follows your device system theme |
+| Inspector profile / signature | Web admin → Inspector profile |
+| Pricing rules / fees | Web admin → Pricing Manager |
+| Calendar integration | Web admin → Calendar |
+| Sign-out from all devices | Not yet — sign out per device individually |
+
+If you need any of these added to mobile, mention it in a Contact Support email and the request goes straight to the product team.
+
+---
+
+## Apple App Store framing
+
+You'll notice this screen has no "Subscribe", "Free Trial", or "Upgrade" wording — the language is intentional. 1nspecT mobile is registered with the App Store as a **B2B companion app**: accounts are provisioned and paid for by the company, not purchased by individual users from within the app. Apple's review guidelines (specifically 3.1.1 / 3.1.3) require this framing for B2B apps.
+
+This means there is no IAP (in-app purchase) flow on mobile, no "Sign up" or "Subscribe" button, and no payment screen. All those flows live on the web admin and are managed by the company administrator.
+
+---
+
+## Related articles
+
+- [Mobile App Overview](/1nspect/inspector/overview)
+- [Login & Identity](/1nspect/inspector/login-and-identity) — where you go after Sign Out
+- [Offline & Sync](/1nspect/inspector/offline-and-sync) — what the Cellular Sync toggle controls
+- [AI Features Guide](/1nspect/features/ai-features) — per-operation IT token costs

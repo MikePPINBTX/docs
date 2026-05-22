@@ -1,12 +1,24 @@
+---
+id: gs-04-mobile-inspection-walkthrough
+title: Mobile Inspection Walkthrough
+persona: [inspector]
+surfaces: [mobile]
+category: getting-started
+order: 4
+related: [gs-05-generate-your-first-report, inspector-capture-screen, inspector-ai-during-capture, features-ai-features]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
 # Mobile Inspection Walkthrough
 
-The 1nSpecT mobile app is the inspector's on-site tool for capturing photos, video, deficiency findings, and AI-assisted narratives. This guide walks through a complete inspection from opening the app to saving the last finding.
+The 1nspecT mobile app is the inspector's on-site tool for capturing photos, video, deficiency findings, and AI-assisted narratives. This guide walks through a complete inspection from opening the app to saving the last finding.
 
 ---
 
 ## Opening an Inspection
 
-1. Log in to the 1nSpecT mobile app with your inspector credentials.
+1. Log in to the 1nspecT mobile app with your inspector credentials.
 2. On the **Home** screen, tap the inspection you want to open from the **Active Inspections** list.
 3. Tap **Start Inspection** to enter the inspection.
 
@@ -74,7 +86,7 @@ The caption becomes the title of the deficiency card in the PDF report.
 Three AI tools are available to help write the finding narrative:
 
 ### ✨ AI Generate (Text-Only)
-Generates a full CAR-format narrative (Condition + Action + Recommendation) from the caption alone using your section context. Does not require a photo. Costs 4 IT tokens.
+Generates a full CAR-format narrative (Condition + Action + Recommendation) from the caption alone using your section context. Does not require a photo. Costs 2 IT tokens.
 
 ### 🪄 Library Search (Semantic)
 Searches your narrative library for the closest matching narratives using AI semantic ranking. Returns up to 3 suggestions. Costs 1 IT token. Suggestions appear as chips below the caption field.
@@ -140,7 +152,7 @@ A finding requires at minimum: a selected subsection and a caption. Photo, narra
 
 After writing a narrative you want to reuse in future inspections:
 - Tap **Save to Narrative Library** below the narrative field.
-- The narrative is saved directly to your library at zero IT cost.
+- The narrative is de-identified and saved to your library. Costs 1 IT.
 - It will appear as a **FREE (Library)** chip in future inspections when the caption matches.
 
 ---
@@ -168,4 +180,4 @@ The inspection status changes to `complete` and the report becomes available for
 
 ## Next Step
 
-Once the inspection is complete, open the web admin and [Generate Your First Report](./05-generate-your-first-report.md).
+Once the inspection is complete, open the web admin and [Generate Your First Report](/1nspect/getting-started/generate-your-first-report).

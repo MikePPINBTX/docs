@@ -1,0 +1,183 @@
+---
+id: admin-operator-intelligence-hub-narrative-collections
+title: Narrative Collections (Collection Detail)
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-intelligence-hub-narrative-library, admin-operator-intelligence-hub-overview, admin-operator-intelligence-hub-smart-comments]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Narrative Collections (Collection Detail)
+
+The Narrative Collection Detail page (route `/collection-detail`) is where you **edit a single collection** — add new narratives, edit existing ones, filter and search, organize by Section and Report Area. This is the most-used surface in the Intelligence Hub.
+
+For the list of all collections, see [Narrative Library](/1nspect/admin-operator/intelligence-hub/narrative-library).
+
+---
+
+## When you use it
+
+- **Right after creating a collection** — start adding the most common narratives
+- **As inspections complete** — review narratives that inspectors saved from mobile, edit for tone and consistency
+- **For template adoption** — copy good narratives from one template's collection to another via the import/export workflow
+- **Cleanup** — delete duplicates, deprecate stale language
+
+---
+
+## Screen layout
+
+[SCREENSHOT: collection-detail.png — desktop, the Collection Detail page showing a Filters sidebar on the left and a narrative list on the right, with an Add Narrative form at the top of the list.]
+
+Two panes:
+
+1. **Filters** (left) — narrow the visible narratives
+2. **Narrative list** (right) — the current set, with an Add Narrative form at the top
+
+---
+
+## Filters
+
+The Filters pane has four controls. They compose with AND logic.
+
+### Type filter
+
+A drop-down with the canonical narrative types:
+
+| Type | What it's for |
+|---|---|
+| **All Types** | Show everything |
+| **Photo Captions** | The short title text on photo cards in the report. Mapped to mobile's caption field. |
+| **Deficiency Comments** | Full CAR narratives — the main inspector finding text |
+| **Report Area Comments** | Higher-level commentary on a whole section/area (e.g. an overall electrical-system summary) |
+
+Each narrative is stored with its `type`, and the filter narrows accordingly. Most operators spend the most time in **Deficiency Comments** since that's the meat of the report.
+
+### Section filter
+
+A drop-down listing every section in the templates associated with this collection (Structural Systems, Electrical, Plumbing, etc.). Pick a section to narrow to narratives tagged for that section.
+
+### Report Area filter
+
+A subsection-level filter, populated based on the chosen Section. E.g. with Section: Electrical and Report Area: Main Panel, only narratives for the Main Panel subsection of Electrical appear.
+
+### Search
+
+A keyword search across narrative text. Placeholder: *"Keyword..."*. Substring match, case-insensitive.
+
+Combine all four for sharp queries (e.g. *Photo Captions, Section: Roofing, Report Area: Flashing, Search: "rust"*).
+
+---
+
+## Adding a narrative
+
+A form at the top of the narrative list lets you add a new narrative inline.
+
+### Required fields
+
+| Field | Notes |
+|---|---|
+| **Caption / Heading** | Short title — for Photo Captions, this is the actual caption. For Deficiency Comments, it's the finding name. Placeholder examples: *"Loose wire at panel"* or *"Missing flashing at chimney"*. |
+| **Narrative body** | The full text — for Photo Captions, this can be the same as the caption. For Deficiency Comments, this is the CAR narrative. |
+| **Type** | Photo Caption / Deficiency Comment / Report Area Comment |
+| **Section** | Drop-down |
+| **Report Area** | Drop-down filtered by section |
+
+### Optional fields
+
+| Field | Notes |
+|---|---|
+| **Rating code** | Letter code (A, B, C, D...) for advanced classification. Used by some reports to sort findings by severity letter. |
+| **Tags** | Free-form keywords for cross-referencing |
+| **Notes** | Internal-only annotations (not rendered on reports) |
+
+After filling, click **Save** to commit. The narrative appears in the list above and is immediately available to:
+
+- Mobile inspectors using this collection (as FREE chips and 🪄 Library Search results)
+- Web admin inspectors editing reports in [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer)
+
+---
+
+## Editing existing narratives
+
+Each narrative card in the list shows:
+
+- The caption / heading
+- A preview of the body (truncated)
+- Type, section, report area badges
+- Per-card actions: **Edit · Duplicate · Delete**
+
+Click **Edit** to open the same form inline with the narrative's current values. Edit and save.
+
+**Duplicate** creates a copy with `(Copy)` appended — useful for creating a variant.
+
+**Delete** prompts confirmation. Deleted narratives:
+
+- Vanish from mobile and web library searches
+- **Do not** affect already-published reports (they kept their snapshot of the narrative at publish time)
+- Cannot be recovered through the UI
+
+---
+
+## Saving narratives back from mobile
+
+Inspectors on mobile can save a narrative to the library via the **Save to Narrative Library** action below the narrative field on the [Capture Screen](/1nspect/inspector/capture-screen). What happens:
+
+1. The narrative is de-identified (addresses, client names removed)
+2. It writes to the inspection's assigned collection
+3. It shows up in this page within seconds
+4. Available immediately as a FREE chip on future inspections with this collection
+
+Cost on the inspector side: **1 IT** (covers the de-identification AI step).
+
+---
+
+## Bulk operations
+
+Most operators ask about bulk operations once their collection grows past 100 entries. Currently supported:
+
+- **Multi-select with checkbox** — select multiple narratives in the list
+- **Bulk delete** — delete several at once with one confirmation
+- **Bulk type-change** — move several narratives from Photo Captions to Deficiency Comments or vice versa
+- **Export to CSV** — download the visible list for backup or offline editing
+- **Import from CSV** — bulk-add narratives from a spreadsheet
+
+The CSV format mirrors the in-page form fields. See the Export action for the exact column order.
+
+---
+
+## Templates compatibility
+
+A collection associated with a specific template can only be assigned to orders using that template. If a collection has no template association (you left the field blank when creating it), it's available for **any** order — useful for general-purpose collections.
+
+To change template associations after the fact, return to [Narrative Library](/1nspect/admin-operator/intelligence-hub/narrative-library) → Rename → update the Associated templates field.
+
+---
+
+## Errors and recovery
+
+| Alert | Cause | Fix |
+|---|---|---|
+| **Collection Not Found** | URL contains an invalid collection ID | Return to [Narrative Library](/1nspect/admin-operator/intelligence-hub/narrative-library) |
+| **Firebase Connection Required** | Network or auth issue | Refresh; verify connection |
+| **Failed to save narrative** | Network during save | Retry; form values are preserved |
+| **Duplicate caption** | Trying to save a narrative with a caption that already exists in this section + report area | Edit the existing narrative, or differentiate the new one's caption |
+
+---
+
+## What this page does NOT do
+
+- **It does not configure render appearance.** That's [Smart Comments](/1nspect/admin-operator/intelligence-hub/smart-comments).
+- **It does not categorize by keyword for color-coding.** That's [Keyword Management](/1nspect/admin-operator/intelligence-hub/keyword-management).
+- **It does not edit option lists.** Those are separate — see [Option Lists](/1nspect/admin-operator/intelligence-hub/option-lists).
+- **It does not handle template-level configuration.** That's [Templates Overview](/1nspect/admin-operator/templates/overview).
+
+---
+
+## Related articles
+
+- [Narrative Library](/1nspect/admin-operator/intelligence-hub/narrative-library) — list of all collections
+- [Smart Comments](/1nspect/admin-operator/intelligence-hub/smart-comments) — how narratives render in the final report
+- [Keyword Management](/1nspect/admin-operator/intelligence-hub/keyword-management) — categorization rules applied to narratives
+- [Mobile AI During Capture → FREE Library chips](/1nspect/inspector/ai-during-capture) — how mobile inspectors use the library

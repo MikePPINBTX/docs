@@ -1,0 +1,156 @@
+---
+id: admin-operator-intelligence-hub-smart-comments
+title: Smart Comments
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-intelligence-hub-overview, admin-operator-intelligence-hub-keyword-management, admin-operator-intelligence-hub-narrative-collections]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Smart Comments
+
+Smart Comments (route `/smart-comments`) controls **how comments and findings render visually** in the final inspection report PDF. It's the styling layer that sits between the raw narratives in your library and the rendered output — color schemes for severity categories, photo placement rules, keyword-based classification, and a few report-level title fields.
+
+The Smart Comments page is also where [Keyword Management](/1nspect/admin-operator/intelligence-hub/keyword-management) lives — they share the same UI surface.
+
+---
+
+## When you use it
+
+- **First-week setup** — pick a color scheme that matches your brand and configure how photos render in the report
+- **As your library grows** — add keyword rules that auto-classify comments by category (Safety / Major / Minor / Maintenance)
+- **For client-specific reports** — override defaults for high-touch clients who want custom rendering
+
+---
+
+## Screen layout
+
+[SCREENSHOT: smart-comments-page.png — desktop, the Smart Comments page with three vertical sections: top fields for report title and inspector info, middle settings for output format and color scheme, bottom section for keyword management and report content preview.]
+
+The page has several stacked sections (the page itself shows them as columns on wider viewports):
+
+1. **Report-level fields** — Report Title, Property Address, Inspector Name, Inspection Date (used in live previews)
+2. **Smart Comments Settings** — Output Format, Color Scheme, Photo Placement, Keyword-based color coding
+3. **Report Content Preview** — Live preview reflecting your settings
+4. **Keyword Management** — Classification rules (see [Keyword Management](/1nspect/admin-operator/intelligence-hub/keyword-management))
+
+---
+
+## Report-level fields
+
+These are **preview-only** — they populate the live preview in the Report Content Preview section so you can see how your styling decisions look against real-feeling sample text. The actual report renders use real inspection data; this page just lets you test with placeholder values.
+
+| Field | Notes |
+|---|---|
+| Report Title | e.g. *"Texas Property Inspection Report"* |
+| Property Address | Sample address for preview |
+| Inspector Name | Sample inspector name |
+| Inspection Date | Sample date |
+
+Changes here don't save to any inspection record — they're purely for previewing.
+
+---
+
+## Smart Comments Settings
+
+### Output Format
+
+A drop-down with format options for the rendered PDF. Defaults to your tenant's standard. Options may include:
+
+- **Standard** — default layout
+- **Compact** — tighter spacing for shorter reports
+- **Expanded** — extra whitespace for client-friendly readability
+
+The exact options vary by your tenant's report-design configuration.
+
+### Color Scheme
+
+Defines the palette used for severity categorization, headers, and accents. Picking a color scheme here drives:
+
+- The color of section header bars
+- The fill color of color-coded comment cards
+- Highlight colors for in-summary findings
+
+Each scheme has a name (e.g. "Brand Royal Blue", "Earth Tones", "Monochrome"). Custom schemes can be configured at the tenant level by your administrator.
+
+### Photo Placement
+
+Controls where photos appear relative to the narrative in the rendered report. Three options:
+
+| Option | Behavior |
+|---|---|
+| **End of Each Section** | All photos for a section appear in a grid at the section's end. Narratives reference them by number. |
+| **Inline with Narratives** | Each photo appears directly within the finding card next to its narrative. **Default.** Most readable. |
+| **End of Report** | All photos collected at the very end of the report. Useful when narratives are the primary deliverable. |
+
+Most inspectors leave this on Inline — clients prefer seeing the photo next to the finding text. End of Section is useful for sparse reports; End of Report is rare.
+
+### Keyword-based color coding
+
+A toggle:
+
+| State | Behavior |
+|---|---|
+| **On** | Comments and findings are color-coded based on keyword rules (see [Keyword Management](/1nspect/admin-operator/intelligence-hub/keyword-management)). Safety-flagged comments get red borders, maintenance items get green, etc. |
+| **Off** | All comments render in the same neutral style |
+
+Turning this on activates the keyword-rule system. Defining rules without enabling color coding has no visual effect.
+
+---
+
+## Report Content Preview
+
+The Preview pane shows a live miniature of how the styled report will look with current settings + sample fields populated. Changes elsewhere on the page update the preview within a moment.
+
+The preview is a **simplified rendering** — actual PDF output may differ slightly in font kerning and image rendering. For a faithful preview, save your changes and generate a PDF from a real inspection in [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer).
+
+---
+
+## Keyword Management (embedded section)
+
+Smart Comments hosts the keyword-rule editor as an in-page section. It's documented separately in [Keyword Management](/1nspect/admin-operator/intelligence-hub/keyword-management) because it's a substantial subsystem.
+
+Briefly:
+
+- Define a **Category** (e.g. Safety, Major Concern, Minor Issue, Maintenance, Informational)
+- Add **Keywords** as a comma-separated list
+- When the keyword-based color coding setting is on, the renderer tags each comment with its highest-matching category and colors it accordingly
+
+See [Keyword Management](/1nspect/admin-operator/intelligence-hub/keyword-management) for the full mechanics.
+
+---
+
+## Saving
+
+The Smart Comments page uses explicit save. Click **Save** (typically in the page header or footer) to commit changes. Saves apply tenant-wide — every future PDF generated for this tenant uses the new styling.
+
+Unsaved changes are flagged with an indicator. Navigating away prompts confirmation.
+
+---
+
+## Errors and recovery
+
+| Alert | Cause | Fix |
+|---|---|---|
+| **Failed to load settings** | Network or auth | Refresh |
+| **Failed to save settings** | Network during save | Retry; values preserved client-side |
+| **Invalid color** | Direct hex entry malformed | Use the color picker, or enter a valid 6-digit hex value |
+
+---
+
+## What this page does NOT do
+
+- **It does not edit individual narratives.** That's [Narrative Collections](/1nspect/admin-operator/intelligence-hub/narrative-collections).
+- **It does not handle per-inspection report editing.** That's [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer).
+- **It does not configure templates.** That's [Templates Overview](/1nspect/admin-operator/templates/overview).
+
+---
+
+## Related articles
+
+- [Intelligence Hub Overview](/1nspect/admin-operator/intelligence-hub/overview)
+- [Narrative Collections](/1nspect/admin-operator/intelligence-hub/narrative-collections) — the narratives the rendering rules apply to
+- [Keyword Management](/1nspect/admin-operator/intelligence-hub/keyword-management) — the categorization sub-section
+- [Visual Page Designer](/1nspect/admin-operator/templates/visual-page-designer) — page-level styling complements comment-level styling here

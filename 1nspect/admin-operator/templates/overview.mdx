@@ -1,0 +1,103 @@
+---
+id: admin-operator-templates-overview
+title: Templates Overview
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-templates-template-builder, admin-operator-templates-template-designer, gs-02-build-your-first-template]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Templates Overview
+
+Templates define the structure of an inspection — what sections, subsections, and fields appear on the mobile Capture Screen, and what shows up on the final PDF report. This article is the map for everything in the Templates area of the web admin.
+
+For the first-time tutorial, see [Build Your First Template](/1nspect/getting-started/build-your-first-template). For the canvas/layout side, see [Template Designer](/1nspect/admin-operator/templates/template-designer). For the deep dive into the data model (sections → subsections → fields), see the [Glossary](/1nspect/glossary).
+
+---
+
+## How "templates" actually work
+
+A template is two coupled things:
+
+| Layer | What it controls | Edited in |
+|---|---|---|
+| **Schema** | The hierarchy of sections, subsections, and fields — what the mobile inspector sees | [Template Builder / Editor](/1nspect/admin-operator/templates/template-builder), [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review) |
+| **Canvas** | The visual rendering — colors, margins, photo grids, page headers — that drives the PDF | [Template Designer](/1nspect/admin-operator/templates/template-designer), [Visual Page Designer](/1nspect/admin-operator/templates/visual-page-designer) |
+
+Both layers live in the **same template document** in Firestore. Editing either updates the same record. The split matters because schema changes affect the mobile inspector's flow; canvas changes only affect rendering.
+
+---
+
+## The pages in the Templates area
+
+The sidebar's **Templates** link defaults to `/templates/builder`. From there, several deeper surfaces are reachable:
+
+| Page | Route | What it does |
+|---|---|---|
+| **Templates hub** | `/templates` | Card-based hub with shortcuts to the major template tools. See [PDF Mapper](/1nspect/admin-operator/templates/pdf-mapper). |
+| **Template Builder** | `/templates/builder` | List of all templates with init/rename/delete. See [Template Builder](/1nspect/admin-operator/templates/template-builder). |
+| **Template Editor** | `/templates/builder/:templateId` | Settings (name, font, branding) for a specific template. See [Template Editor](/1nspect/admin-operator/templates/template-editor). |
+| **Schema Upload** | `/templates/builder/:templateId/schema` | Upload a PDF or DOCX and extract the schema with AI. See [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review). |
+| **Schema Review** | `/template-review` or `/template-editor/:id` | Review the AI-extracted schema before saving. Same page, two entry points. |
+| **Template Designer** | `/templates/designer` or `/templates/builder/:templateId/visual-designer` | The visual canvas — drag elements, configure rating scale, set default cover. See [Template Designer](/1nspect/admin-operator/templates/template-designer). |
+| **Visual Page Designer** | `/templates/builder/:templateId/visual-designer` | Per-page rendering rules: header style, section headers, footer. See [Visual Page Designer](/1nspect/admin-operator/templates/visual-page-designer). |
+
+> **Cover Designer** is separate from the Templates area — it lives at top-level `/cover-designer`. See [Cover Designer](/1nspect/admin-operator/cover-designer). Covers are reusable across templates; assign a default cover to a template here.
+
+---
+
+## Standards supported
+
+Templates can be authored against several inspection standards:
+
+| Standard | Use case |
+|---|---|
+| **TREC** (Texas Real Estate Commission) | Texas residential inspections — the default and most complete |
+| **ASHI** (American Society of Home Inspectors) | National ASHI-compliant inspections |
+| **InterNACHI** | International Association of Certified Home Inspectors |
+| **CCPIA ComSOP** | Certified Commercial Property Inspectors Association |
+| **CUSTOM** | Anything not matching the above |
+
+The standard dictates rating definitions, language calibration for AI narratives, and default sections. Choosing the right standard matters because the AI tools (Generate, Vision, SPO) tune their language to the SoP.
+
+---
+
+## A typical template workflow
+
+1. **Start with the TREC template** (pre-built and ready to use). Tap **+ Initialize TREC Template** in the [Template Builder](/1nspect/admin-operator/templates/template-builder).
+2. **Clone before customizing.** Templates can be cloned via the rename dialog — make a copy so you always have the unmodified original to revert to.
+3. **Edit the schema** — add/remove sections, subsections, and fields. Done in [Template Editor](/1nspect/admin-operator/templates/template-editor) or via the [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review) workflow if you have an existing PDF you want to extract.
+4. **Set up the canvas** — colors, photo grid, finding card style — in [Template Designer](/1nspect/admin-operator/templates/template-designer).
+5. **Configure page-level styling** — headers, footers, section header design — in [Visual Page Designer](/1nspect/admin-operator/templates/visual-page-designer).
+6. **Assign a default cover** — pick from [Cover Designer](/1nspect/admin-operator/cover-designer) outputs in the Template Designer's Default Cover field.
+7. **Publish** — toggle the template to Published. It becomes available to mobile inspectors when creating a new inspection.
+8. **Iterate** — Edit the live template. Changes propagate to new inspections immediately. Already-in-progress inspections keep their snapshot of the template at the time they started.
+
+---
+
+## Rating scales
+
+Two built-in rating scales:
+
+| Scale | Pills | When to use |
+|---|---|---|
+| **TREC Standard** | I (Inspected) · NI (Not Inspected) · NP (Not Present) · D (Deficient) | Texas residential, the default |
+| **Binary Pass / Fail** | Pass · Fail | Commercial or specialty inspections where the four-state TREC model is overkill |
+
+The rating scale is set per template in the [Template Designer](/1nspect/admin-operator/templates/template-designer) header — *"Rating Scale: TREC Standard (I / NI / NP / D) / Binary Pass / Fail"*. Mobile inspectors see the chosen scale's pills on the [Capture Screen](/1nspect/inspector/capture-screen) and [Ratings Screen](/1nspect/inspector/ratings-screen).
+
+---
+
+## Where to read next
+
+| Goal | Read |
+|---|---|
+| Make my first template | [Build Your First Template](/1nspect/getting-started/build-your-first-template) |
+| Manage the list of templates | [Template Builder](/1nspect/admin-operator/templates/template-builder) |
+| Configure one template's settings | [Template Editor](/1nspect/admin-operator/templates/template-editor) |
+| Design how the PDF report looks | [Template Designer](/1nspect/admin-operator/templates/template-designer) |
+| Upload an existing PDF and extract schema with AI | [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review) |
+| Configure per-page styling | [Visual Page Designer](/1nspect/admin-operator/templates/visual-page-designer) |
+| Design report cover pages | [Cover Designer](/1nspect/admin-operator/cover-designer) |

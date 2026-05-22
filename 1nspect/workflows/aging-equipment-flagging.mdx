@@ -1,0 +1,175 @@
+---
+id: workflows-aging-equipment-flagging
+title: Aging Equipment Flagging
+persona: [inspector, admin-operator]
+surfaces: [mobile, web]
+category: workflows
+related: [inspector-ai-during-capture, features-ai-features, admin-operator-templates-overview]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Aging Equipment Flagging
+
+The Aging Equipment Flagging workflow is the platform's way of **automatically surfacing equipment-near-end-of-service-life** during inspection capture. When an inspector photographs a label plate and uses the System Info Tag tool, the platform extracts the manufacture date and — if the equipment is past its typical service life — surfaces a toast warning at save time.
+
+This isn't a separate feature you turn on; it's a **cross-cutting behavior** that emerges from System Info Tag + the platform's equipment knowledge base. This article documents the flow so inspectors and operators know what to expect.
+
+---
+
+## When it triggers
+
+Aging equipment flagging activates when **all** of these are true:
+
+1. The inspector captures a photo with a recognizable equipment label (HVAC nameplate, water heater plate, panel sticker, etc.)
+2. The inspector taps the **ℹ️ Sys Info** button on the [Capture Screen](/1nspect/inspector/capture-screen)
+3. The AI extracts a manufacture date or year via `extract-metadata-photo` (3 IT)
+4. The extracted age exceeds the platform's typical-service-life threshold for that equipment type
+5. The inspector taps **Save + New** or **Save + Finish**
+
+If any of those fail (no Sys Info tap, OCR fails to find a date, equipment type is unknown), no flag is raised.
+
+---
+
+## What the inspector sees
+
+[SCREENSHOT: aging-equipment-toast.png — mobile, the Capture Screen at save time showing a small toast at the top: "⏰ Aging Equipment Detected — Water heater is 14 years old. Typical service life is 8–12 years. Recommend evaluating replacement timing."]
+
+A toast notification appears at the top of the screen after Save. Format:
+
+> **⏰ Aging Equipment Detected**
+> [Equipment type] is [N] years old. Typical service life is [low]–[high] years. Recommend evaluating replacement timing.
+
+The toast auto-dismisses after a few seconds; the inspector can also tap-to-dismiss.
+
+**Importantly:** the toast does **not** automatically add anything to the finding. It's a soft prompt — the inspector decides whether to:
+
+- Add a deficiency narrative about the aging (manual edit)
+- Set the rating to `D` (Deficient) for safety-of-life issues
+- Note the age in the field note for office follow-up
+- Ignore (genuinely aged-but-functional equipment doesn't always need flagging)
+
+---
+
+## What the office sees
+
+When the finding syncs to the cloud, the equipment age data is stored on the finding's `informationalFieldData`:
+
+```
+{
+  "manufacturer": "Rheem",
+  "model": "G50-50",
+  "manufactureDate": "2010-06",
+  "ageYears": 14,
+  "typicalServiceLifeYears": [8, 12],
+  "agingFlag": true
+}
+```
+
+This data is available in the [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) for the operator to reference. It also feeds:
+
+- The **executive summary** if the finding is flagged for the summary
+- The **AI Draft** narrative generator (the AI uses the age data to write a contextually-appropriate narrative)
+- The **SPO** generator (aging equipment factors into the System Performance Opinion)
+
+---
+
+## How equipment types are recognized
+
+The OCR + AI extraction looks for:
+
+| Equipment | Recognized labels |
+|---|---|
+| **Water heater** | Tank brand + model + manufacture date code |
+| **Furnace** | Carrier / Lennox / Trane / etc. nameplate |
+| **AC condenser** | Outdoor unit nameplate |
+| **AC air handler** | Indoor unit data tag |
+| **Electrical panel** | Federal Pacific / Zinsco / Square D / GE / etc. + date stamps |
+| **Roof shingles** (limited) | Manufacturer's stamp on the shingle back — rarely OCR-able from inspector photos |
+
+Some are easier than others. Water heater plates are typically clear; electrical panel age stickers are sometimes hand-written and harder to OCR.
+
+For unrecognized equipment, Sys Info either:
+
+- Falls back to text-only extraction (1 IT) if the caption mentions the year
+- Returns no data — no flag fires
+
+---
+
+## Service life benchmarks used
+
+The platform's "typical service life" data is from industry-standard sources (InterNACHI Standard Operating Procedure, manufacturer guidance, ASHI reference data). Sample values:
+
+| Equipment | Low (years) | High (years) | Aging threshold |
+|---|---|---|---|
+| Water heater (tank) | 8 | 12 | ≥ 10 yrs |
+| Water heater (tankless) | 15 | 20 | ≥ 15 yrs |
+| Furnace (gas, atmospheric) | 15 | 20 | ≥ 18 yrs |
+| Furnace (gas, condensing) | 18 | 25 | ≥ 20 yrs |
+| AC condenser | 12 | 17 | ≥ 14 yrs |
+| AC air handler | 15 | 20 | ≥ 17 yrs |
+| Electrical panel (FPE / Zinsco) | — | — | Always flag (legacy safety concern) |
+| Asphalt shingles | 20 | 30 | ≥ 22 yrs |
+| Roof underlayment | 20 | 25 | ≥ 20 yrs |
+
+These thresholds aren't configurable per-tenant currently — they're platform defaults. A future enhancement may allow per-tenant overrides for regional climate adjustments.
+
+---
+
+## The "always flag" case — Federal Pacific & Zinsco panels
+
+Two legacy electrical panel brands (Federal Pacific Electric / FPE and Zinsco) are flagged **regardless of age** because of well-documented safety defects. The toast wording adjusts:
+
+> **⏰ Safety Concern — Aging Panel**
+> Federal Pacific panels are widely known to have circuit-breaker reliability issues. Recommend replacement evaluation by a licensed electrician.
+
+This applies even if the panel was installed last year (rare but possible — refurbished panels still bear the FPE brand).
+
+---
+
+## Disabling aging flags (rare)
+
+There's no UI toggle to disable aging-equipment flagging at the tenant level. The flag is benign — it surfaces information; the inspector decides what to do with it. If an inspector doesn't want the toast, they can simply not use Sys Info on that finding — the rest of the capture proceeds normally.
+
+For future enhancement requests (per-tenant config, per-equipment-type toggles), file a support request.
+
+---
+
+## How it integrates with the Warranty Engine
+
+The Warranty Engine surfaces inspections approaching 11-month warranty deadlines on new-construction orders. Aging Equipment Flagging is the inspector's-end-of-the-stick for older properties — flagging equipment that's nearing end-of-life regardless of warranty status.
+
+The two are independent:
+
+| Feature | Trigger | Audience |
+|---|---|---|
+| **Warranty Engine** | Inspection completed 11 months ago + new construction | Office (dashboard pipeline) |
+| **Aging Equipment Flagging** | Sys Info reveals equipment is past service-life threshold | Inspector at capture time |
+
+Both contribute to recurring revenue: Warranty Engine produces 11-month warranty inspections; Aging Equipment Flagging produces re-inspection-recommended findings that can drive future booking.
+
+---
+
+## Best practices for inspectors
+
+- **Always photograph the label** on water heaters, furnaces, AC condensers, and panels. Sys Info needs a clear shot.
+- **Speak the data into the caption** before tapping Sys Info — if the OCR fails, the text-fallback uses the caption.
+- **Don't assume the toast is a verdict.** Look at the equipment yourself; functional 18-year-old equipment is sometimes still serviceable.
+- **For panel inspections**, photograph the panel cover sticker AND the inside breaker labels. The FPE / Zinsco flag fires from either.
+
+---
+
+## Best practices for operators
+
+- **Watch for aging-flag concentration** — if many of your inspections in a neighborhood flag aging water heaters, the report's executive summary can lean into preventive maintenance recommendations
+- **Use aging data in your follow-up emails** — *"Your water heater is approaching end-of-service-life. Here's what we recommend planning for..."*
+- **Build narrative library entries** for common aging scenarios (e.g. *"Water heater is X years old. Typical service life is 8–12 years. Recommend planning for replacement within the next [N] months..."*) — see [Narrative Collections](/1nspect/admin-operator/intelligence-hub/narrative-collections)
+
+---
+
+## Related articles
+
+- [AI During Capture → Sys Info](/1nspect/inspector/ai-during-capture) — the inspector-side flow
+- [AI Features Guide](/1nspect/features/ai-features) — the IT cost reference
+- [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) — where aging-flag data appears for the office
+- [Templates Overview](/1nspect/admin-operator/templates/overview) — informational fields the aging data feeds into

@@ -1,0 +1,215 @@
+---
+id: admin-operator-contracts-cockpit
+title: Contracts Cockpit
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [features-contracts, admin-operator-comms-cockpit, admin-operator-payments-and-contracts]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Contracts Cockpit
+
+The Contracts Cockpit is the editor for your **agreement templates** — the legal documents your clients sign before each inspection. Build them once; the platform sends the right combination to every order automatically.
+
+This article is the UI reference. For the e-signature mechanics, audit trail, and legal validity discussion, see [Contracts & E-Signatures](/1nspect/features/contracts).
+
+---
+
+## When you use it
+
+- **First-week setup** — write your standard agreements (Primary Service Agreement, Data Privacy Notice) and any add-on agreements (Sewer Scope Addendum, Pool Addendum)
+- **Annual review** — refresh language for legal updates, new state requirements, pricing changes
+- **Adding a new service** — write the addendum for it and configure when it applies
+
+After initial setup, agreements rarely change. The platform's e-signature engine handles every signing event without your involvement.
+
+---
+
+## Screen layout
+
+[SCREENSHOT: contracts-cockpit.png — desktop, the Contracts Cockpit showing a sidebar list of agreements on the left, the agreement editor on the right with Name, Send rules, Scope, and Agreement Body sections.]
+
+Three main areas:
+
+1. **Sidebar** (left) — list of all agreements
+2. **Agreement editor** (center) — currently-selected agreement's settings and body
+3. **Test preview** (when active) — render an agreement against a specific inspection ID
+
+---
+
+## Sidebar — Agreements list
+
+Each agreement appears as a row in the sidebar. Active agreement is highlighted; a **New agreement** placeholder appears at the top when you click + Add.
+
+Each row shows:
+
+- Agreement name
+- A small indicator if the agreement is currently in **draft** (unsaved) state
+
+Click a row to load into the editor. **+ New Agreement** at the bottom creates a fresh entry.
+
+---
+
+## Agreement editor
+
+### Agreement name
+
+A text input — placeholder *"Agreement name (e.g. Primary Service Agreement)"*. This name appears on the signed PDF and in the workflow logs.
+
+### "Send this agreement when…" (scope rules)
+
+A section headed **SEND THIS AGREEMENT WHEN**. Configure when the platform includes this agreement in the bundle for a given order.
+
+| Scope | Behavior |
+|---|---|
+| **All Orders** (default) | Every inspection receives this agreement |
+| **Service: [specific service]** | Only orders that include this service receive this agreement |
+
+When **Service:** is selected, a sub-section appears: *"Or only when these services are booked:"* with a multi-select of your service types. Pick one or more.
+
+**Example setup:**
+
+- Primary Service Agreement → All Orders
+- Data Privacy Notice → All Orders
+- Sewer Scope Addendum → Services: Sewer Scope only
+- Pool/Spa Addendum → Services: Pool & Spa only
+- Mold Sampling Addendum → Services: Mold Screen only
+
+When the contract bundle is sent for an order with a Sewer Scope, the client gets 3 documents (Primary + Privacy + Sewer Scope) merged into one signing session. An order without a Sewer Scope gets only 2 documents.
+
+### Agreement Body editor
+
+A Tiptap-based rich-text editor for the agreement content. Toolbar provides:
+
+- Bold / Italic / Underline
+- Headings
+- Bullet and numbered lists
+- Tables (for fee schedules, scope-of-work lists)
+- Images (embed company logo or signature-line graphics)
+- **Insert Tag** menu — see below
+
+The body is what the client reads and signs. Use clear formatting — clients on phones scroll through it.
+
+### Insert Tag
+
+The **Insert Tag** button on the toolbar exposes three categories of insertable tokens:
+
+#### Order field tokens
+
+The same variable tokens that work in email templates also work here:
+
+- Client tokens: `$ClientNames` `$ClientFirstName` `$ClientLastName`
+- Property: `$InspectionAddress` `$InspectionDate`
+- Inspector: `$InspectorName` `$InspectorLicense` `$CompanyName` `$CompanyLogo`
+- Fees: `$InspectionFee` `$InspectionFeeTable` `$ContractDate`
+
+The `$InspectionFeeTable` tag inserts a **formatted itemized table** of all services and fees for this order. Useful in agreements where pricing must be referenced in the contract body.
+
+#### Signature field tags
+
+These are special — they mark **where the signature, date, or initials get stamped** when the client signs. The tag format:
+
+| Tag | What it becomes |
+|---|---|
+| `[[sig\|req\|signer1]]` | Client's drawn or typed signature image |
+| `[[date\|req\|signer1]]` | The signing date |
+| `[[initials\|req\|signer1]]` | Client's initials |
+| `[[sig\|req\|signer2]]` | Co-client signature |
+| `[[date\|req\|signer2]]` | Co-client sign date |
+| `[[initials\|req\|signer2]]` | Co-client initials |
+
+Always insert these via the Insert Tag menu — don't type them by hand. The menu produces correctly-formatted tags that the rendering engine knows how to substitute.
+
+#### Company logo
+
+A toolbar option to insert the company logo (resolved from your branding settings) inline in the body — useful for letterhead-style headers.
+
+---
+
+## Test preview
+
+Below the editor (or as a side action), a test panel lets you render this agreement against a specific inspection ID — useful for previewing how variables resolve.
+
+| Field | Notes |
+|---|---|
+| **Inspection ID** | Type or paste a real inspection number (e.g. `2026-0062-RS`) |
+| **Render Preview** button | Opens the rendered PDF in a new tab |
+
+The preview uses real data from that inspection — confirm the right service mix, the right fee, the right client names before approving the agreement for production.
+
+---
+
+## When agreements are sent
+
+The bottom footnote on the Contracts Cockpit reads:
+
+> **Send triggers:** All agreements send at **booking.confirmed**. Scope rules determine which agreements apply to each order.
+
+So you do **not** wire send timing per agreement. All agreements automatically send when the `booking.confirmed` workflow trigger fires (typically on order creation). Scope rules filter which agreements apply per order.
+
+If you want to **delay** the contract bundle send (e.g. send 1 hour after booking instead of immediately), you don't change agreements — you change the **workflow step** wired to `booking.confirmed` in the [Comms Cockpit](/1nspect/admin-operator/comms-cockpit). Configure that workflow step with an offset like `+1h`.
+
+---
+
+## Saving and publishing
+
+Edits to an agreement are **draft** until you save. The sidebar shows a draft indicator. Click **Save** to commit. Saved agreements are immediately live for the next booking.
+
+> **Edits do not affect already-sent agreements.** A client who already signed the previous version of the Primary Service Agreement is bound to that version. New orders use the current version. To re-send an updated agreement to an existing client, manually trigger a re-send from the order's detail page.
+
+### Versioning
+
+Behind the scenes, each save creates a versioned entry. The signed PDF carries the version that was current at signing time, embedded in the audit trail. See [Contracts → Audit Trail](/1nspect/features/contracts#audit-trail--legal-validity) for legal validity details.
+
+---
+
+## Deleting an agreement
+
+Click the 🗑 icon on an agreement row in the sidebar. Confirmation alert appears. Deleted agreements:
+
+- **Stop being sent** with new bookings immediately
+- **Do not affect** already-signed instances — the signed PDFs remain in storage and the audit trail intact
+- **Cannot be recovered** through the UI; restoration requires a Firestore restore
+
+> **Prefer disabling over deleting.** Set the scope to a service that no longer exists, or change the name to "ARCHIVED — Primary Service Agreement". The audit trail stays clean.
+
+---
+
+## Multi-document bundles
+
+When multiple agreements apply to an order (e.g. Primary + Privacy + Sewer Scope), the platform **merges them into a single signing session**. The client receives one link, sees all documents in one preview, signs once. See [Contracts → Multi-Document Bundles](/1nspect/features/contracts#multi-document-bundles) for the full mechanics.
+
+### Order of documents in the bundle
+
+Documents are ordered by their `displayOrder` in the sidebar. **Drag to reorder** the sidebar list to change which document appears first in the merged PDF.
+
+---
+
+## Errors and recovery
+
+| Alert | Cause | Fix |
+|---|---|---|
+| **Save failed** | Network or auth | Retry; if persistent, copy your body text and re-paste after refreshing |
+| **Tag invalid** | Manual edit to a signature tag broke the format | Re-insert from the Insert Tag menu |
+| **Test render failed** | Backend rendering error or invalid inspection ID | Verify the inspection ID exists; check that your variables are spelled correctly |
+| **Agreement scope conflicts** | Two agreements claim "All Orders" with overlapping service-type filters | Review scopes; only one can be "All" with no service filter |
+
+---
+
+## What this page does NOT do
+
+- **It does not configure when contracts are sent.** That's in [Comms Cockpit](/1nspect/admin-operator/comms-cockpit) (workflow step wired to `booking.confirmed`).
+- **It does not collect payment.** Payment handles and Stripe Connect are in [Payments Settings](/1nspect/admin-operator/payments-and-contracts).
+- **It does not show signed PDFs.** Signed contracts are accessible from [Inspection Details](/1nspect/admin-operator/inspection-details) for each order.
+- **It does not handle non-contract documents** like inspection reports, internal forms, or marketing PDFs.
+
+---
+
+## Related articles
+
+- [Contracts & E-Signatures](/1nspect/features/contracts) — conceptual reference and legal/audit trail detail
+- [Comms Cockpit](/1nspect/admin-operator/comms-cockpit) — the sibling editor for email templates and workflow timing
+- [Payments Settings](/1nspect/admin-operator/payments-and-contracts) — Stripe + manual payment configuration
+- [Inspection Details](/1nspect/admin-operator/inspection-details) — where signed contracts are accessible per order

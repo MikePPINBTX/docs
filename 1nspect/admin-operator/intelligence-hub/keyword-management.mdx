@@ -1,0 +1,194 @@
+---
+id: admin-operator-intelligence-hub-keyword-management
+title: Keyword Management
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-intelligence-hub-smart-comments, admin-operator-intelligence-hub-overview, admin-operator-intelligence-hub-narrative-collections]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Keyword Management
+
+Keyword Management is the **classification rules editor** for comments and findings. It defines categories (Safety, Major, Minor, Maintenance, etc.) and the keywords that map a comment into each category. When **keyword-based color coding** is enabled in [Smart Comments](/1nspect/admin-operator/intelligence-hub/smart-comments), the renderer uses these rules to color-code every finding card in the report.
+
+Keyword Management lives inside the [Smart Comments](/1nspect/admin-operator/intelligence-hub/smart-comments) page as an embedded section (not a separate route). This article documents the keyword-rule subsystem in depth.
+
+---
+
+## Why classify by keyword
+
+Inspection reports communicate severity. Clients respond to visual signals: a red border around a finding feels urgent in a way that black text doesn't. Keyword Management lets you build the rule that *"any finding whose text contains 'leak', 'water damage', 'staining', or 'dripping' gets the Major-Concern color"*.
+
+The system is intentionally simple — keyword matching, not AI classification. You define the rules; the renderer applies them deterministically.
+
+---
+
+## Screen layout
+
+[SCREENSHOT: keyword-management.png — desktop, the Keyword Management section showing Add Keywords on the left with Category picker and comma-separated input, Keyword Rules list on the right, and a Test Keyword Classification panel below.]
+
+Three main areas:
+
+1. **Add Keywords** — form for adding new rules
+2. **Keyword Rules** — list of existing categories and their keywords
+3. **Test Keyword Classification** — try a sample comment to see which category matches
+
+---
+
+## Add Keywords form
+
+The left-side form lets you add keywords to a specific category.
+
+### Fields
+
+| Field | Required | Notes |
+|---|---|---|
+| **Category** | ✅ | Drop-down — choose an existing category (Safety / Major Concern / Minor / Maintenance / etc.) |
+| **Keywords (comma-separated)** | ✅ | Free text. Placeholder: *"leak, water damage, staining, dripping..."* |
+
+After filling, click **Add Keywords**. The keywords are appended to the chosen category's rule and immediately active.
+
+### Default categories
+
+Tenants typically start with these categories pre-configured:
+
+| Category | Typical color | What it means |
+|---|---|---|
+| **Safety** | Red | Immediate hazard (electrical fire risk, gas leak, etc.) |
+| **Major Concern** | Orange / Amber | Significant deficiency requiring near-term repair |
+| **Minor** | Yellow | Smaller deficiency, deferred maintenance |
+| **Maintenance** | Green | Routine maintenance item |
+| **Informational** | Blue / Gray | Note for client awareness, no action needed |
+
+These are configurable at the tenant level (your administrator can rename, add, or remove categories).
+
+### Common keyword starters
+
+By category:
+
+| Category | Common keywords |
+|---|---|
+| Safety | gas leak, electrical fire, asbestos, lead paint, structural failure, no GFCI, ungrounded |
+| Major Concern | leak, water damage, mold, foundation movement, rotted, sagging, broken, missing |
+| Minor | worn, aging, deferred, scratched, dented, loose, minor crack |
+| Maintenance | clean, replace filter, lubricate, tighten, annual service, repaint |
+| Informational | typical, expected, age-appropriate, end-of-life-approaching, prior repair |
+
+---
+
+## Keyword Rules list
+
+The right side shows every defined category and its keywords as a searchable list.
+
+| Element | Purpose |
+|---|---|
+| **Search rules** | Substring match across category names and keywords |
+| **Category row** | Collapsible — expand to see all keywords in that category |
+| **Empty state per category** | *"No keywords defined for this category"* |
+| **Edit / Delete per keyword** | Inline actions |
+
+### Editing keywords
+
+Click any keyword in the list to inline-edit it. Changes save immediately on blur or Enter.
+
+### Deleting a keyword
+
+The 🗑 icon next to each keyword removes it from the category. No confirmation — single-keyword deletes are easily reversible by re-typing.
+
+---
+
+## Test Keyword Classification
+
+A test pane at the bottom of the section. Useful for verifying your rules behave correctly without saving a real inspection.
+
+### Fields
+
+| Field | Notes |
+|---|---|
+| **Test Comment** | Free text — paste in a sample comment. Placeholder: *"Enter a comment to test keyword classification..."* |
+| **Test Classification** button | Runs the matcher |
+| **Classification Result** | Shows which category(ies) matched and which specific keywords triggered the match |
+
+The result panel might show:
+
+> **Classification: Major Concern**
+> Matched keywords: "leak", "staining"
+
+If no keywords match:
+
+> **Classification: Uncategorized**
+> No matching keywords found.
+
+Uncategorized comments render in the neutral default style.
+
+---
+
+## How classification actually works
+
+When the renderer encounters a finding's narrative:
+
+1. The narrative text is lowercased
+2. Each category's keywords are checked for substring presence (also lowercased)
+3. The **first matching category** in priority order wins (typically Safety > Major > Minor > Maintenance > Informational)
+4. The renderer applies that category's color to the finding card
+
+### Priority order
+
+Categories have an implicit priority based on their creation/edit order. If a comment matches both "Safety" and "Major Concern", Safety wins (because more severe).
+
+To change priorities, you may need to delete and re-create categories in the desired order — this is platform-config rather than UI, so contact support for re-ordering.
+
+### Multi-keyword matches
+
+If a comment contains "leak" (Major Concern) AND "fire risk" (Safety), Safety wins because of priority. The Test Classification shows you which keywords matched, but the rendered output uses only the highest-priority match.
+
+---
+
+## Best practices
+
+- **Start narrow.** Add only the most obvious keywords per category — overly broad keywords (e.g. "old") trigger false matches across many comments.
+- **Test with real narratives.** Use the Test Classification pane against actual narratives from your library to validate.
+- **Be careful with negations.** The matcher is keyword-substring only — it doesn't understand "no leak" vs "leak". A comment that says *"No active leak observed"* matches `leak`. Avoid keywords prone to negation.
+- **Don't over-categorize.** 5–7 categories with focused keywords beats 15 categories with overlapping keywords.
+- **Document your category meanings.** Add a description to each category (where supported) so future inspectors know what a Major Concern means to your business.
+
+---
+
+## When keyword-based color coding is OFF
+
+If [Smart Comments](/1nspect/admin-operator/intelligence-hub/smart-comments) has the **Keyword-based color coding** toggle off:
+
+- The renderer **ignores** these keyword rules
+- All findings render in the neutral default style
+- The rules sit dormant — they're saved but not applied
+
+This is useful during initial setup: define rules, leave color coding off, verify in test mode, then turn on when satisfied.
+
+---
+
+## Errors and recovery
+
+| Alert | Cause | Fix |
+|---|---|---|
+| **Failed to add keywords** | Network or auth | Retry; if persistent, refresh |
+| **Failed to delete keyword** | Network during delete | Retry |
+| **Classification result: error** | Test endpoint timed out | Re-run; classify is normally instant |
+
+---
+
+## What this page does NOT do
+
+- **It does not edit narratives themselves.** That's [Narrative Collections](/1nspect/admin-operator/intelligence-hub/narrative-collections).
+- **It does not run AI classification.** Keyword matching is deterministic substring matching, not LLM categorization.
+- **It does not affect mobile.** The classification is rendered-PDF only. Mobile doesn't show color-coded findings during capture — only the published report does.
+- **It does not override severity rated by inspectors.** A finding rated `D` (Deficient) on mobile keeps that rating regardless of keyword classification — the rendering color is additive, not corrective.
+
+---
+
+## Related articles
+
+- [Smart Comments](/1nspect/admin-operator/intelligence-hub/smart-comments) — the parent page where Keyword Management lives, including the master Keyword-based color coding toggle
+- [Narrative Collections](/1nspect/admin-operator/intelligence-hub/narrative-collections) — the narratives these rules classify
+- [Intelligence Hub Overview](/1nspect/admin-operator/intelligence-hub/overview)

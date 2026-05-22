@@ -1,0 +1,202 @@
+---
+id: inspector-review-screen
+title: Review Screen
+persona: [inspector]
+surfaces: [mobile]
+category: inspector
+related: [inspector-capture-screen, inspector-ratings-screen, inspector-photos-and-media, features-ai-features]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Review Screen
+
+The Review tab is your **pre-publish workspace**. After capturing findings on the [Capture Screen](/1nspect/inspector/capture-screen) and confirming ratings on the [Ratings Screen](/1nspect/inspector/ratings-screen), the Review tab is where you walk through everything organized by section, edit anything that needs cleaning up, flag findings for the executive summary, run AI Priority Analysis, and finalize the inspection so the office can publish the report.
+
+This is the last stop on mobile before the inspection moves to the web admin's Report Workspace.
+
+---
+
+## When you use it
+
+- **Late-stage** during an inspection, to confirm you haven't missed anything before walking back to your truck
+- **Right before tapping Finish Inspection**, to do a full clean pass
+- **Anytime** you want to organize, re-tag, or reorder findings
+
+The Review tab is safe to revisit as often as you want — nothing on this screen takes destructive action without confirmation.
+
+---
+
+## Screen layout
+
+[SCREENSHOT: review-screen-overview.png — mobile, the Review tab showing the Section Overview heading at the top, a "Show summary items only" toggle, then expandable section accordions, each containing a list of findings with photo thumbnails, captions, and edit/delete actions.]
+
+Top to bottom:
+
+1. **Section Overview** header
+2. **Show summary items only** toggle — filter to just the findings flagged for the executive summary
+3. **Section accordions** — each report section, expandable to show its findings
+4. Per-finding:
+   - Photo or video thumbnail (tap to view)
+   - Caption
+   - Narrative preview
+   - **IN SUMMARY** badge (if flagged)
+   - Edit / Move / Delete buttons
+5. **Bottom action row** — buttons for AI Priorities, Finalize, Upload to Cloud, and similar
+6. **Empty state** — *"No deficiencies found"* if no findings have been captured yet
+
+---
+
+## Section Overview
+
+Each section accordion shows:
+
+- Section name
+- Count of findings in the section
+- A small expand/collapse chevron
+
+Tap to expand. Inside, each finding renders as a card.
+
+> **Empty subsections appear as headers without cards.** A section with no findings shows: *"No deficiencies in this section"* below the header.
+
+---
+
+## Show summary items only
+
+Toggling **Show summary items only** filters the entire screen to **just the findings you flagged ⚠️ Include in report summary** during capture. Useful pre-publish flow:
+
+1. Toggle on
+2. Verify each summary-flagged finding has the caption and narrative you want the client to see first
+3. Toggle off
+4. Scan everything else for cleanup
+
+---
+
+## Per-finding card
+
+Each finding card displays:
+
+| Element | What it shows |
+|---|---|
+| Photo or video | The hero media. Tap to enlarge (image) or play (video). The `🎥 Video` label appears on video thumbnails. |
+| Caption | The short title written on the Capture Screen |
+| Narrative preview | The first 2–3 lines of the narrative, truncated |
+| **IN SUMMARY** badge | A small badge on findings flagged for the executive summary |
+| Edit button | Reopens the [Capture Screen](/1nspect/inspector/capture-screen) for this finding (pre-loaded) |
+| Move button | Re-assign this finding to a different section/subsection |
+| Delete button | Remove the finding (with confirmation alert) |
+
+Tap a photo thumbnail to view it fullscreen. Tap a video thumbnail to play.
+
+### Editing a finding
+
+Tap **Edit** to return to the [Capture Screen](/1nspect/inspector/capture-screen) with this finding loaded. All fields (caption, narrative, rating, flags, photo) are editable. Tap **Save + Finish** or **Save + New** on the Capture Screen to return to Review.
+
+### Moving a finding
+
+Findings can be moved between sections and subsections if you tagged them incorrectly during capture. The Move action opens a picker — choose the new section, then the new subsection. The finding's media and narrative are preserved; only the location changes.
+
+### Deleting a finding
+
+A confirmation alert appears before deletion: *"Are you sure you want to delete this finding?"* Confirming deletes the finding from local storage and Firestore. There is no undo — deleted findings cannot be recovered without restoring from a cloud snapshot.
+
+---
+
+## AI Priority Analysis
+
+The Review screen has an AI feature for organizing the summary-flagged findings by severity. When tapped:
+
+1. The AI reads every finding you've flagged ⚠️ Include in report summary
+2. It ranks them by severity (safety hazards first, then structural, then moisture, etc.)
+3. A modal previews the proposed ranking
+
+[SCREENSHOT: ai-priorities-modal.png — mobile, the AI Priorities modal showing the proposed ordering of summary findings, with Accept and Cancel buttons at the bottom.]
+
+| Action | Result |
+|---|---|
+| **Accept** | The proposed ranking is applied to the summary order; the report renders findings in that priority |
+| **Cancel** | Modal closes; ranking unchanged |
+
+After acceptance: *"AI priorities have been applied to your summary findings."*
+
+If the call fails: *"Failed to save AI priorities. Please try again."* Retry; if persistent, the manual order from when you flagged the findings stays.
+
+### Cost
+
+AI Priority Analysis is bundled into the inspection's normal AI consumption — see [AI Features Guide](/1nspect/features/ai-features) for the operation registry. Costs are deducted only on Accept, not on preview.
+
+---
+
+## Bottom action row
+
+The actions at the very bottom of the Review screen are the final pre-publish steps:
+
+| Button | What it does |
+|---|---|
+| **Edit / Back to Capture** | Returns to the [Capture Screen](/1nspect/inspector/capture-screen) for the inspection — useful for adding a missed finding |
+| **AI Priorities** | Opens the AI Priority Analysis modal |
+| **Finalize Inspection** | Marks the inspection complete (terminal status — moves to Archived). A confirmation alert appears first. |
+| **Upload to Cloud** | Forces a synchronous upload of any pending findings or photos. Useful before walking away from the property. |
+
+After Finalize: *"Inspection finalized and ready for processing."* If the upload step encounters issues: *"Failed to finalize inspection"* — usually a network issue; retry.
+
+After successful Upload to Cloud: *"Inspection uploaded to cloud."*
+
+> **The Finalize Inspection action is the same as "Finish Inspection."** Both mark the inspection as completed. The button label may show either depending on the inspection's state.
+
+---
+
+## Confirmations and alerts
+
+| Alert | When | Action |
+|---|---|---|
+| **No active inspection found** | Tapped an action without an open inspection | Open an inspection from Assigned Inspections |
+| **Are you sure you want to delete this finding?** | Tapped Delete on a finding card | Confirm to delete, Cancel to keep |
+| **Are you sure you want to finalize this inspection?** | Tapped Finalize | Confirm to mark complete |
+| **Are you sure you want to upload?** | Tapped Upload to Cloud | Confirm to force-upload pending data |
+| **Inspection finalized and ready for processing** | Successful finalization | Inspection moves to Archived; report becomes available in the web admin's Report Workspace |
+| **Failed to finalize inspection** | Finalize hit an error | Check network, retry; if persistent, contact support |
+| **Inspection uploaded to cloud** | Successful upload | Pending data is now in the cloud; safe to leave the property |
+| **Success — AI priorities have been applied to your summary findings.** | AI Priority Analysis accepted | The proposed ranking is now in effect |
+
+---
+
+## The relationship with the web admin
+
+After you finalize an inspection on mobile:
+
+1. The inspection's status changes to `completed` on Firestore
+2. The inspection moves out of [Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections) and into [Archived Inspections](/1nspect/inspector/archived-inspections)
+3. Your office sees the inspection in the web admin's **Report Workspace** queue
+4. The office reviews, edits, runs AI Draft if needed, generates the PDF preview, and publishes the report
+
+You can re-open a finalized inspection from Archived (tap to review, edits flow back to the office). Coordinate with your office before editing a finalized inspection — if the report has been published, edits may require re-publication.
+
+---
+
+## Tips from inspectors
+
+- **Toggle Show summary items only before finalizing.** Confirms the executive summary will show what the client should see first.
+- **Edit captions to be customer-friendly.** Your shorthand during capture is great for AI; the customer sees a friendlier version after a quick edit.
+- **Don't delete findings to "clean up" — flag them as not-significant in the narrative instead.** Once deleted, they're gone. A flagged-but-noted finding is safer.
+- **Tap Upload to Cloud before leaving the property if you're heading somewhere without signal.** Forces a sync while you still have Wi-Fi at the property.
+- **For long inspections, finalize on Wi-Fi.** The finalize step writes several documents to Firestore; doing it on cellular is fine but slower.
+
+---
+
+## What Review does NOT do
+
+- **It does not publish the report.** That's the web admin's Report Workspace.
+- **It does not send the report email.** Email delivery is wired to the workflow engine, fires on `report.published` from the web admin.
+- **It does not capture new findings.** Use the Capture Screen for that.
+- **It does not change inspector assignment.** Reassignment is web-admin-only.
+
+---
+
+## Related articles
+
+- [Capture Screen](/1nspect/inspector/capture-screen) — where findings are written
+- [Ratings Screen](/1nspect/inspector/ratings-screen) — confirm every subsection rated before reviewing here
+- [Photos & Media](/1nspect/inspector/photos-and-media) — the photo-display behavior on cards
+- [AI Features Guide](/1nspect/features/ai-features) — AI Priority Analysis cost reference
+- [Generate Your First Report](/1nspect/getting-started/generate-your-first-report) — what happens on the web admin after you finalize

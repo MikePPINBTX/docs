@@ -1,0 +1,162 @@
+---
+id: inspector-home-and-assigned-inspections
+title: Home & Assigned Inspections
+persona: [inspector]
+surfaces: [mobile]
+category: inspector
+related: [inspector-overview, inspector-starting-an-inspection, inspector-archived-inspections, inspector-field-quote]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Home & Assigned Inspections
+
+The Home tab is your launch pad. From here, you reach your work queue (**Assigned Inspections**), past finished work still on the device (**View Completed Inspections**), or the quick-quote tool (**Field Quote**).
+
+This article covers the Home screen and the Assigned Inspections list. For the inspection-setup form that opens after you tap an assigned inspection, see [Starting an Inspection](/1nspect/inspector/starting-an-inspection).
+
+---
+
+## The Home screen
+
+[SCREENSHOT: home-screen.png — mobile, the Home tab showing the 1nspecT logo, "Streamlined Site Assessments" tagline, and three buttons stacked vertically: a blue Assigned Inspections primary button, then white-with-blue-border Completed Inspections and Field Quote buttons.]
+
+The Home screen has three buttons:
+
+| Button | What it does |
+|---|---|
+| **Assigned Inspections** (primary) | Opens your work queue — all inspections your office has routed to you that you have not yet completed |
+| **View Completed Inspections** | Opens the [Archived Inspections](/1nspect/inspector/archived-inspections) list — work you've finished that's still on this device |
+| **Field Quote** | Jumps directly to the [Field Quote](/1nspect/inspector/field-quote) tab — generate a price for a property on the spot |
+
+Below the buttons, the footer shows the copyright line. The MavTech LLC name confirms you are using the official 1nspecT app.
+
+### What happens if you have an inspection in progress
+
+If you tap **Assigned Inspections** while you already have an in-progress inspection on the device, the app will not interrupt your work. Tapping a different assigned inspection in the list prompts you with a choice:
+
+- **Continue Current** — return to the open inspection
+- **Start New Anyway** — save the current inspection's progress and switch
+- **Cancel** — back to the list
+
+This safety prompt prevents accidental loss of progress on a long inspection. See [Settings & Tokens](/1nspect/inspector/settings-and-tokens) for the **Resume Active Inspection** shortcut, which appears at the top of the Config tab whenever you have unfinished work.
+
+---
+
+## The Assigned Inspections list
+
+The Assigned Inspections screen is your queue. It pulls live from Firestore — when your office assigns or reassigns an inspection in the web admin, the change appears here within seconds without you having to refresh.
+
+[SCREENSHOT: assigned-inspections-list.png — mobile, the Assigned Inspections list with 3–4 inspection cards visible, showing ID, status badge, property address, client name, scheduled date, template name, and action buttons.]
+
+### What appears in this list
+
+An inspection shows up on Assigned Inspections only when **all** of these are true:
+
+1. **It is assigned to your inspector account** — your administrator added your name as `assignedInspectorName` on the order.
+2. **Its status is `assigned`, `in_progress`, or `inProgress`** — completed, cancelled, paid, delivered, and report-published inspections are filtered out and moved to [Archived Inspections](/1nspect/inspector/archived-inspections).
+3. **It has contract activity** — either the inspection is externally contracted (`skipWorkflow` flag set in the order), or the contract bundle has been sent to the client (any `contractStatus` except `pending_review`).
+4. **It is within 30 days of its scheduled date** — inspections scheduled more than 30 days out are hidden until they're closer. Past-due (overdue) inspections remain visible until you complete them.
+
+If an expected inspection does not appear, check those four conditions with your administrator in the web admin.
+
+### What each card shows
+
+Every card in the list shows:
+
+| Element | What it represents |
+|---|---|
+| **#1234** | The inspection's internal ID |
+| Status badge | `ASSIGNED` (blue) · `IN PROGRESS` (orange) · `COMPLETED` (green — though filtered to Archived) · `CANCELLED` (red) |
+| Property address | Where the inspection takes place |
+| **Client:** | Primary client name |
+| **Scheduled:** | Date and time (formatted to your device locale) |
+| **Template:** | The inspection template assigned to this order (e.g. "TREC Texas Residential") |
+| **Notes:** | Any free-text notes the office added (only shown if present) |
+
+The card itself appears full-opacity when ready to work; **dimmed (50%)** when gating prevents you from starting. See gating below.
+
+---
+
+## Action buttons on each card
+
+Action buttons differ by status.
+
+### When status is `ASSIGNED`
+
+A single **Start Inspection** button appears. Depending on gating, it may show:
+
+| Button label | Meaning | What to do |
+|---|---|---|
+| **Start Inspection** | Ready to begin — template and narrative collection assigned, contract handled | Tap to begin |
+| **Setup Required** (disabled) | Template and/or narrative collection not yet assigned by your administrator | Contact your administrator — this is a one-click fix in the web admin |
+| **Contract Not Signed** (disabled) | The inspection agreement has been sent to the client but they haven't signed yet | Wait for client to sign, or have your administrator follow up |
+
+If you tap a disabled button, an alert explains the same thing — for example: *"This inspection requires template and narrative collection assignment in the admin panel before it can be started."*
+
+### When status is `IN PROGRESS`
+
+A **Resume Inspection** button appears. Tap it to reopen the inspection where you left off.
+
+### Team QR — for team inspections
+
+If the inspection is flagged as **team-allowed** (admin setting), a **Team QR** button appears alongside the start/resume button. Tap it to show a QR code modal:
+
+- The modal shows the property address and a 200×200 QR code
+- Other inspectors on your team can scan the code with their 1nspecT mobile app to join this same inspection
+- All findings captured by team members sync to the same inspection record
+- The QR contains JSON: `{ "type": "inspection", "inspectionId": "<id>", "timestamp": <unix-ms> }`
+
+See [Capture Screen](/1nspect/inspector/capture-screen) for how team capture works on the inspection itself.
+
+---
+
+## Refreshing the list
+
+The list refreshes automatically — there is a real-time Firestore listener active whenever the screen is open. You will see new assignments and status changes appear in seconds.
+
+If something looks stale (rare), **pull down** anywhere on the list to manually refresh. The header briefly shows a spinner; the list re-reads from Firestore. The Refresh button on the empty-state view does the same thing.
+
+---
+
+## Empty state
+
+If you have no assigned inspections, the list shows:
+
+> **No Assigned Inspections**
+> Your assigned inspections will appear here when they're scheduled
+> [ Refresh ]
+
+This is normal for a new inspector account, between jobs, or when all your active inspections have been completed and moved to Archived.
+
+---
+
+## What happens when you tap Start Inspection
+
+1. The app fetches the inspection from Firestore (or merges with the local copy if you've worked on it before).
+2. You are taken to the **[Starting an Inspection](/1nspect/inspector/starting-an-inspection)** screen — the setup form where you confirm the property, capture the cover photo, set weather conditions, and review the AI baseline.
+3. From that screen, tapping **Start Inspection** at the bottom opens the **[Capture Screen](/1nspect/inspector/capture-screen)** — where the field work actually happens.
+
+So the full path is:
+
+`Home` → `Assigned Inspections` → tap card → `Starting an Inspection (setup form)` → `Capture Screen`
+
+---
+
+## Error handling
+
+| Error | Cause | Recovery |
+|---|---|---|
+| **Connection Error — Unable to sync inspections** | The device cannot reach Firestore | Check your network, then pull-to-refresh |
+| **Template Required** | The inspection has no template assigned | Contact your administrator to assign the template in the web admin |
+| **Network error — please check your connection** | Lost network while downloading inspection details after tapping Start | Confirm signal, tap **Retry** in the alert |
+
+---
+
+## Related articles
+
+- [Mobile App Overview](/1nspect/inspector/overview)
+- [Starting an Inspection](/1nspect/inspector/starting-an-inspection) — the form that opens when you tap an assigned inspection
+- [Archived Inspections](/1nspect/inspector/archived-inspections) — where completed inspections live
+- [Field Quote](/1nspect/inspector/field-quote) — the third Home-screen button
+- [Common Issues & Troubleshooting](/1nspect/troubleshooting/common-issues)

@@ -1,0 +1,302 @@
+---
+id: inspector-ai-during-capture
+title: AI During Capture
+persona: [inspector]
+surfaces: [mobile]
+category: inspector
+related: [inspector-capture-screen, inspector-photos-and-media, features-ai-features, features-it-tokens]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# AI During Capture
+
+The Capture Screen has four AI tools and one zero-cost local feature, all designed to reduce the writing burden during an inspection without removing your judgment. This article covers what each one does on-site, when to use it, what it costs, and what to do when it fails.
+
+For the platform-wide AI reference (including the web admin's AI Draft, Polish, and SPO tools), see [AI Features Guide](/1nspect/features/ai-features). For per-operation IT costs across the platform, see the [Complete AI Operation Cost Reference](/1nspect/features/ai-features#complete-ai-operation-cost-reference).
+
+---
+
+## The five tools at a glance
+
+[SCREENSHOT: ai-tools-row.png — mobile, the AI TOOLS row on the Capture Screen showing the four AI buttons: ✦ AI Generate, 👁 Vision Scan (with NEW badge), 🪄 Library, and ℹ️ Sys Info — plus FREE Library chips visible above.]
+
+| Tool | Where | What it does | Cost | Photo needed? |
+|---|---|---|---|---|
+| **FREE (Library) chips** | Below caption field, automatic | Local keyword match against your narrative library | 0 IT | No |
+| **🪄 Library** | AI Tools row | Semantic AI search of your narrative library | 1 IT | No |
+| **✦ AI Generate** *(Vision toggle OFF)* | AI Tools row | Generates a CAR narrative from caption + section context | 2 IT | No |
+| **✦ AI Generate** *(Vision toggle ON)* | AI Tools row → toggle 👁 first | Generates a narrative grounded in what's in the photo | 8 IT | **Yes** |
+| **ℹ️ Sys Info** | AI Tools row | OCR-extracts manufacturer / model / age from an equipment label photo | 3 IT (photo) or 1 IT (text) | Photo for OCR; text fallback otherwise |
+
+A subtle design point: **`✦ AI Generate` is the same button in both Vision and non-Vision modes** — the 👁 toggle just changes the path the AI Generate request takes. You don't tap Vision Scan to run it; you toggle Vision on, then tap AI Generate.
+
+---
+
+## FREE (Library) chips — the zero-cost first stop
+
+The cheapest, fastest, most under-used tool in 1nspecT. Most inspectors discover its value the second time they capture a finding type they've documented before.
+
+### What it does
+
+As you type the **Caption**, the app runs a **local keyword match** against your narrative library. Matching narratives appear as **green chips** labeled **FREE (Library)** just below the caption field. Tap a chip to insert that narrative into the **Narrative** field.
+
+### Why it's worth optimizing for
+
+- **0 IT** — completely free, runs on-device
+- **Works fully offline** — no network required
+- **Fast** — appears as you type, no API round-trip
+- **Library grows with use** — every narrative you save back to your library (via the Save to Library action on the narrative field) becomes a future FREE chip
+
+### How to make more chips appear
+
+The library is keyword-matched, so:
+
+- **Caption with specific words** matches better than generic captions. *"Double-tapped breaker at main panel"* matches more chips than *"Issue at panel."*
+- **Build the library over time.** After writing or editing any narrative, tap **Save to Library** below the narrative field. Cost: 1 IT to save (the system de-identifies the text). Future captures with similar captions auto-suggest it for 0 IT.
+- **Your library is private to your tenant.** Other inspection companies' libraries never feed into yours.
+
+For semantic search of the same library when keyword match returns nothing useful, see 🪄 Library Search below.
+
+---
+
+## ✦ AI Generate — text-only narrative
+
+The most-used AI tool on 1nspecT. Generates a full CAR-format narrative from your caption and the active section/subsection context.
+
+### What CAR means
+
+| Letter | What it stands for | Example sentence |
+|---|---|---|
+| **C** | Condition — what was observed | *"The main service panel has a double-tapped breaker at position 14, with two 12-gauge conductors landed under a single 20A breaker terminal."* |
+| **A** | Action — what is recommended | *"This condition should be evaluated and corrected by a licensed electrician."* |
+| **R** | Recommendation — who should do the work and why it matters | *"Double-tapping is a deviation from manufacturer listing and presents a fire-risk concern. Correction reduces liability and aligns the panel with TREC 7-6 standards."* |
+
+### How to use it
+
+1. Write a specific **caption** (the more specific, the better the narrative).
+2. Select the correct **section** and **subsection** — the AI uses these to calibrate severity and language.
+3. Make sure the **👁 Vision toggle is OFF**.
+4. Tap **✦ AI Generate**.
+5. In ~2 seconds the narrative populates the Narrative field.
+6. **Review and edit.** The AI produces a strong first draft — never publish it without reading it.
+
+### Cost: 2 IT
+
+This was previously documented as 4 IT in older release notes — that's out of date. Current cost is **2 IT** per call. See [Verification Notes](/1nspect/VERIFICATION-NOTES) for the drift history.
+
+### Best for
+
+- Common, well-described findings where your caption already tells the story
+- Inspectors with limited writing time on-site
+- Standardizing language across inspectors at the same company
+- Captures where you don't have a photo (e.g. functional tests, non-visual issues)
+
+### Tips
+
+- **Write the caption like the narrative isn't going to exist.** If the caption alone wouldn't be clear to a customer, the AI won't have enough to work with either.
+- **The AI follows TREC SoP language** by default for Texas residential inspections. If your template is for a different SoP, the language calibrates to that template's standards.
+- **The AI does not cite specific building codes** (GFCI, AFCI requirements, etc.) because code citations require knowledge of permit date, local amendments, and AHJ interpretation. Add code references manually if your standards require them.
+
+---
+
+## 👁 Vision Scan + ✦ AI Generate — photo-grounded narrative
+
+When you want the AI to write a narrative based on **what's actually in the photo**, not just the caption.
+
+### How to use it
+
+1. Capture a photo first (the 📷 button on the Capture Screen).
+2. Write a caption with meaningful context — at least 5–6 words describing what you're looking at.
+3. **Toggle 👁 Vision Scan ON** (the button has a NEW badge until you tap it).
+4. Tap **✦ AI Generate**.
+5. The AI sends the photo + caption to a multimodal model. In 10–15 seconds the narrative appears, often with a confirmation alert: *"🔬 Vision Analysis Complete — Professional narrative generated from photo. Review and edit as needed."*
+
+### Cost: 8 IT
+
+Replaces the 2 IT text-only cost — not in addition to it. One tap on AI Generate with Vision toggled on = 8 IT total.
+
+### Pre-flight balance check
+
+Vision Analysis pre-checks your tenant's IT balance before sending the photo to the model. If the balance is below 8, the call is rejected immediately with:
+
+> **Insufficient IT Tokens**
+> Vision Analysis requires 8 IT. Purchase a top-up pack in Settings.
+
+The "Settings" referenced here is the **web admin** Settings (mobile has no top-up flow). See [Settings & Tokens → IT Tokens](/1nspect/inspector/settings-and-tokens#it-tokens--whats-on-mobile-vs-web) for the full explanation.
+
+### Best for
+
+- **Complex visual deficiencies** where the photo tells more than the caption could (e.g. unusual moisture staining patterns, atypical structural defects).
+- **Verification that the narrative matches the photo** before you save the finding — Vision-generated narratives are unlikely to describe something not visible in the image.
+- **High-confidence safety hazards** where the AI's grounded analysis adds credibility.
+
+### Co-Inspector — the secondary-findings feature
+
+After Vision Analysis returns, the AI looks for **additional deficiencies** in the same photo that are *not* the primary finding. If it finds any high-confidence ones (it targets >85% confidence only), a **review modal** slides up automatically:
+
+[SCREENSHOT: co-inspector-modal.png — mobile, the Co-Inspector Review Modal showing the heading "🔬 Co-Inspector Spotted More" with 2 proposed findings, each with a + Queue and ✕ Skip button, plus a "Done — Skip Remaining" button at the bottom.]
+
+The modal title is **"🔬 Co-Inspector Spotted More"**. For each proposed finding:
+
+| Action | Result |
+|---|---|
+| **+ Queue** | Accepts the proposed finding — it appears as a green pending pill on the Capture Screen |
+| **✕ Skip** | Dismisses the proposed finding (it's not saved anywhere) |
+| **Done — Skip Remaining** | Dismisses all remaining proposed findings and closes the modal |
+
+After you accept findings, the workflow becomes:
+
+1. Finish writing/saving your **current** finding.
+2. Tap **💾 Save + New**.
+3. On the cleared form, **tap a green 📋 pill** at the top of the Capture Screen — the caption and narrative pre-populate for that pending finding.
+4. **Capture a new photo of that specific deficiency** (so the report has the right hero photo).
+5. Adjust section/subsection if needed.
+6. Save.
+7. Repeat until all pills are cleared.
+
+### Strict criteria — what Co-Inspector will and won't flag
+
+| Flagged | NOT flagged |
+|---|---|
+| Clearly visible safety hazards | Code compliance items (GFCI, AFCI) |
+| Definitive structural deficiencies | Missing labels or stickers |
+| Active moisture, rot, or mold | Cosmetic issues |
+| | Deferred-maintenance items |
+| | Anything requiring knowledge of build date or local codes |
+
+> **Co-Inspector findings are suggestions.** Always verify visually before saving. The AI is a second pair of eyes; your judgment is final.
+
+### Cost: included in the 8 IT Vision Analysis
+
+Secondary findings do NOT add extra cost — the Co-Inspector pass is bundled into the 8 IT Vision Analysis call.
+
+---
+
+## 🪄 Library Search — semantic AI matching
+
+When FREE chips don't surface what you're looking for, semantic Library Search casts a wider net.
+
+### How it differs from FREE chips
+
+- **FREE chips:** local keyword match. *"shingles damaged"* matches *"damaged shingles, granule loss visible"* because both contain "shingles" and "damaged".
+- **🪄 Library:** AI semantic match. *"roof issue"* might match *"damaged shingles, granule loss visible"* because the AI understands they're semantically related.
+
+### How to use it
+
+1. Write a caption (any quality works).
+2. Tap the **🪄** button in the AI Tools row.
+3. Up to **3 ranked suggestions** appear as chips below the caption.
+4. Tap a chip to insert that narrative.
+
+### Cost: 1 IT
+
+Each call costs 1 IT regardless of how many suggestions it returns.
+
+### Best for
+
+- Finding a past narrative for a finding type you've documented before when you can't remember the exact wording
+- Captures where the caption is short or generic
+- Inspectors with large libraries (>100 entries) where keyword search misses lots
+
+---
+
+## ℹ️ Sys Info — manufacturer / model / age extraction
+
+When you photograph an equipment label (water heater nameplate, HVAC manufacturer plate, electrical panel sticker), the **Sys Info** tool extracts manufacturer, model, and year of manufacture from the label.
+
+### How to use it
+
+1. Capture a clear photo of the label.
+2. Write a caption that mentions the equipment (e.g. *"Water heater label, garage"*).
+3. Tap the **ℹ️ Sys Info** button.
+4. The extracted information populates the relevant informational fields on the finding.
+
+If the caption mentions a manufacturer label but no photo was captured (e.g. *"Furnace serial number — Carrier, 1998"*), the tool falls back to a text-only extraction.
+
+### Cost
+
+- **3 IT** with a photo (OCR via Document AI)
+- **1 IT** as a text-only fallback (heuristic extraction from the caption)
+
+### Best for
+
+- HVAC equipment (where age and model number drive aging-equipment alerts)
+- Water heaters (where age is the primary deficiency indicator)
+- Electrical panels (where manufacturer matters — Federal Pacific, Zinsco, etc.)
+- Roof access ladders, attic equipment
+
+### The aging-equipment toast
+
+A separate but related feature: when Sys Info extracts a manufacture date that puts the equipment **near or past its expected service life**, an aging-equipment toast appears as you save the finding. The toast surfaces the calculated age and a recommended action (e.g. *"Water heater is 14 years old — typical service life is 8–12 years. Recommend evaluation for replacement timing."*).
+
+---
+
+## What happens when AI is unavailable
+
+The mobile app is designed to **fail gracefully** when the AI service can't be reached. Two distinct failure modes:
+
+### "⚠️ AI Offline" — network or service down
+
+If the AI service is unreachable (network outage, service maintenance), AI Generate returns this alert:
+
+> **⚠️ AI Offline**
+> AI service unreachable. A template CAR narrative has been pre-filled — edit as needed.
+
+The narrative field is populated with a **template CAR narrative** (boilerplate text scaffolded for your subsection). You edit it like a regular narrative and save. **No IT cost is deducted** for failed calls.
+
+### "⚠️ AI Unavailable" — service returned an error
+
+If the AI service responds but returns an error code:
+
+> **⚠️ AI Unavailable**
+> AI service returned 503. A template CAR narrative has been pre-filled — edit as needed.
+
+Same outcome — template fallback, no IT cost, edit and continue.
+
+### Other error states
+
+| Alert | Cause | What to do |
+|---|---|---|
+| **Photo Required** | Vision Analysis triggered without a captured photo | Capture a photo first, OR disable the Vision toggle to use text-only AI Generate |
+| **Insufficient IT Tokens** | Tenant balance too low for the requested operation | Administrator tops up on web admin; your work continues with the template fallback or manual entry |
+| **AI Generation Failed** | Generic AI error | Retry once; if persistent, write the narrative manually and continue |
+| **No narrative returned from Vision Analysis** | Caption too short for Vision context, or transient API error | Make caption more specific (5+ words), retry |
+
+---
+
+## A practical AI workflow
+
+For most findings, the cheapest-and-best sequence is:
+
+1. **Capture photo first** if relevant.
+2. **Write a specific caption** (6–15 words, mentioning the section, the component, and the condition).
+3. **Look at the FREE chips** — if one matches, tap it. Done. 0 IT.
+4. **If not,** decide:
+   - Caption clear, photo helpful → toggle **👁 Vision** ON, tap **✦ AI Generate** (8 IT, photo-grounded).
+   - Caption clear, no photo needed → keep Vision OFF, tap **✦ AI Generate** (2 IT, text-only).
+   - Need to find a past narrative → tap **🪄** (1 IT, semantic).
+5. **Review the narrative** — edit anything that doesn't match what you actually observed.
+6. **If you wrote a particularly good narrative**, tap **Save to Library** (1 IT) to make it a future FREE chip.
+
+Average inspectors using this workflow spend **30–80 IT per inspection** (depending on the number of findings and Vision use). Build the library over the first 5–10 inspections and the per-inspection cost drops as FREE chips replace AI calls.
+
+---
+
+## What AI does NOT do
+
+- **Auto-publish.** Every AI narrative populates the field — you must save the finding for it to commit. You can edit or reject any AI output.
+- **Replace inspector judgment.** Co-Inspector findings are *suggestions* the AI is >85% confident about, but you are the licensed inspector. Final decision is yours.
+- **Cite specific codes.** No GFCI/AFCI/clearance/load-calc citations — those require knowledge the AI doesn't have.
+- **Identify the inspector personally.** Narratives don't say "I observed" by name; they use the template's inspector-voice configured in your company settings.
+- **Cost money on rejection.** Rejecting an AI suggestion (or not saving the finding) does not refund the cost. AI calls deduct on send, not on accept.
+
+---
+
+## Related articles
+
+- [Capture Screen](/1nspect/inspector/capture-screen) — where the AI Tools row lives
+- [Photos & Media](/1nspect/inspector/photos-and-media) — capturing the photo that powers Vision and Sys Info
+- [AI Features Guide](/1nspect/features/ai-features) — platform-wide AI reference (mobile + web)
+- [Settings & Tokens](/1nspect/inspector/settings-and-tokens) — what to do when IT runs out
+- [Troubleshooting → AI errors](/1nspect/troubleshooting/common-issues) — additional error-state reference

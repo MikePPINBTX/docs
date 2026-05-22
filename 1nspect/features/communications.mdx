@@ -1,6 +1,17 @@
+---
+id: features-communications
+title: Communications & Workflow
+persona: [admin-operator]
+surfaces: [web]
+category: features
+related: [features-contracts, admin-operator-comms-cockpit]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
 # Communications & Workflow
 
-1nSpecT's communications system sends the right email to the right person at the right time — automatically. Every email is tied to an inspection event (booking confirmed, contract signed, report published, etc.) and fires according to your configured workflow.
+1nspecT's communications system sends the right email to the right person at the right time — automatically. Every email is tied to an inspection event (booking confirmed, contract signed, report published, etc.) and fires according to your configured workflow.
 
 ---
 
@@ -14,15 +25,46 @@ The workflow engine listens for **trigger events** on inspection records. When a
 
 ## Trigger Events
 
+The workflow engine supports the following user-configurable trigger events. (Internal trigger names like `report.html` and `report.pdf` are render lifecycle events and are not configurable as workflow steps.)
+
+### Lead & quote triggers
+
 | Trigger | When it fires |
 |---------|--------------|
-| `booking.confirmed` | Order is created and saved |
+| `quote.submitted` | A lead requests a quote via the public booking flow |
+| `quote.sent` | An operator manually sends a quote from the Quotes screen |
+| `quote.accepted` | The client accepts a quote (single or multiple primary services) |
+| `booking.confirmed` | Quote acceptance has produced a confirmed booking |
+
+### Contract triggers
+
+| Trigger | When it fires |
+|---------|--------------|
 | `contract.sent` | Contract bundle is sent to client |
 | `contract.signed` | Client completes signing on the portal |
-| `payment.received` | Payment is marked (manual or Stripe) |
-| `inspection.reminder` | N hours/days before scheduled date |
-| `inspection.completed` | Inspection marked complete |
+
+### Inspection lifecycle triggers
+
+| Trigger | When it fires |
+|---------|--------------|
+| `inspection.scheduled` | Inspection date/time is first set on the order |
+| `inspection.rescheduled` | The inspection's date or time is changed |
+| `inspection.reminder` | N hours/days before the scheduled date (use negative offset) |
+| `inspection.completed` | Inspection marked complete by inspector or operator |
+
+### Payment & report triggers
+
+| Trigger | When it fires |
+|---------|--------------|
+| `payment.received` | Payment is recorded (manual or Stripe) |
 | `report.published` | Report is published from Report Workspace |
+| `report.ancillary_uploaded` | An ancillary report (e.g. Sewer Scope PDF) is uploaded to the order |
+| `report.delivered` | Report has been delivered to the configured recipients |
+
+### Order closure triggers
+
+| Trigger | When it fires |
+|---------|--------------|
 | `order.closed` | Order marked closed |
 | `order.cancelled` | Order cancelled |
 
@@ -121,7 +163,7 @@ Emails send from your configured sender address (set in **Settings → Email**).
 
 ## Report Delivery — Client vs. Agent
 
-1nSpecT separates report delivery into two distinct emails:
+1nspecT separates report delivery into two distinct emails:
 
 **Client delivery** (`report.published` → Client recipient):
 - Full PDF report attached

@@ -1,0 +1,155 @@
+---
+id: admin-operator-templates-template-builder
+title: Template Builder
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-templates-overview, admin-operator-templates-template-editor, admin-operator-templates-schema-upload-and-review]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Template Builder
+
+Template Builder (route `/templates/builder`) is the **list hub** for all inspection templates in your account. From here you initialize the pre-built TREC template, clone or rename existing templates, delete unused ones, and click into a template to edit its schema or canvas.
+
+This article is the reference for the list/hub. For per-template settings, see [Template Editor](/1nspect/admin-operator/templates/template-editor). For schema-from-PDF extraction, see [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review).
+
+---
+
+## Screen layout
+
+[SCREENSHOT: template-builder-list.png — desktop, the Template Builder showing the page title, a + Initialize TREC button, and a card grid (or list) of existing templates each showing template name, last-modified date, and per-card edit/rename/delete actions.]
+
+The page is straightforward:
+
+- **Page header** with title and the **+ Initialize TREC Template** button
+- **Loading state** while templates fetch
+- **Empty state** if no templates exist (rare — every new tenant gets a starter TREC template)
+- **Card grid** of template entries
+
+Each template card displays:
+
+- Template name
+- Standard (TREC / ASHI / InterNACHI / Custom)
+- Section count
+- Last modified date
+- Published/Draft state
+- Action buttons: **Edit · Rename · Delete · Clone**
+
+---
+
+## Initialize TREC Template
+
+If your account has no templates yet (or you want a fresh starting point), click **+ Initialize TREC Template**. A confirmation dialog opens:
+
+> **Initialize TREC Template**
+> A complete TREC-compliant template will be added to your account, including all standard sections (Structural Systems through Optional Systems), TREC rating definitions (I / NI / NP / D), and pre-configured subsections and informational fields.
+> [Cancel] [Initialize]
+
+After confirmation:
+
+1. The TREC template is created in your tenant's Firestore at `artifacts/{tenant}/public/data/templates/{newId}`
+2. You are redirected to the [Template Editor](/1nspect/admin-operator/templates/template-editor) for the new template
+3. The template appears in the Builder's card grid
+
+The created template is a **draft** — toggle it to Published in the [Template Editor](/1nspect/admin-operator/templates/template-editor) before mobile inspectors can use it.
+
+---
+
+## Rename a template
+
+Click **Rename** on a template card. A dialog opens:
+
+> **Rename Template**
+> [text input — pre-filled with current name]
+> [Cancel] [Save]
+
+Renaming **does not break** any inspections currently using the template. The inspection records reference the template by ID, not by name. Mobile inspectors will see the new name on their next template-selection load.
+
+---
+
+## Delete a template
+
+Click **Delete** on a card. A confirmation dialog:
+
+> **Delete Template?**
+> This will permanently remove the template. Inspections already using this template will retain their snapshot of the template data, but no new inspections can be assigned to it.
+> [Cancel] [Delete]
+
+After confirmation, the template is removed from Firestore. **Inspections that have already started** keep their copy of the template (stored at inspection-creation time). **New orders cannot be assigned** to a deleted template — the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) excludes deleted templates from the picker.
+
+> **Prefer toggling to Draft over deleting.** A draft template is hidden from mobile and the Order Wizard but remains available for restoration. Deletion is irreversible.
+
+---
+
+## Clone (duplicate)
+
+Cloning copies an entire template — schema + canvas — into a new template with `(Copy)` appended to the name. Useful for:
+
+- Creating a customized version of TREC without modifying the original
+- A/B testing template changes safely
+- Spinning up a regional variant (e.g. "TREC — Austin Metro" with location-specific defaults)
+
+Click **Clone** on the card. The new template appears immediately in the grid. Edit it like any other.
+
+---
+
+## Standard column
+
+Each card displays the inspection standard the template was authored against:
+
+- **TREC** — Texas residential
+- **ASHI** — American Society of Home Inspectors
+- **InterNACHI** — International home inspector certification body
+- **CCPIA ComSOP** — Commercial property
+- **CUSTOM** — Any non-standard schema
+
+The standard affects:
+
+- AI calibration (narrative tone, severity language)
+- Rating definitions
+- Default sections at initialization time
+
+Edit the standard in the [Template Editor](/1nspect/admin-operator/templates/template-editor) → Template Information section.
+
+---
+
+## Sorting and search
+
+The Builder list does **not** currently expose search or filter — for a tenant with 5 or fewer templates, this is fine. If your account has many templates, common workarounds:
+
+- Use the browser's Ctrl/Cmd+F to find a template by name
+- Rename templates with a consistent prefix (e.g. `2026-` for 2026-archived) so they group naturally
+- Delete unused templates (or move them to Draft)
+
+A future enhancement (planned) will add search and tag-based filtering.
+
+---
+
+## Click to edit
+
+Clicking the template **card body** (not an action button) navigates to:
+
+- `/templates/builder/:templateId` — opens the [Template Editor](/1nspect/admin-operator/templates/template-editor) for that template
+
+From there you can edit settings, schema, canvas, and visual design via tabbed navigation.
+
+---
+
+## What this page does NOT do
+
+- **It does not edit schema directly.** That's [Template Editor](/1nspect/admin-operator/templates/template-editor) and [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review).
+- **It does not configure the canvas.** That's [Template Designer](/1nspect/admin-operator/templates/template-designer).
+- **It does not show usage analytics.** Inspector-by-inspector template usage lives in [Reports → Inspector Productivity](/1nspect/admin-operator/reports-and-publishing).
+- **It does not import templates from other 1nspecT tenants.** Templates are tenant-scoped; cross-tenant sharing requires manual export/import or platform-admin action.
+
+---
+
+## Related articles
+
+- [Templates Overview](/1nspect/admin-operator/templates/overview) — map of the whole template area
+- [Template Editor](/1nspect/admin-operator/templates/template-editor) — per-template settings
+- [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review) — extract schema from a PDF
+- [Template Designer](/1nspect/admin-operator/templates/template-designer) — visual canvas
+- [Build Your First Template](/1nspect/getting-started/build-your-first-template) — onboarding tutorial

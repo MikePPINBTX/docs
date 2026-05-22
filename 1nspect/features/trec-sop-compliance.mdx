@@ -1,0 +1,163 @@
+---
+id: features-trec-sop-compliance
+title: TREC SoP Compliance
+persona: [inspector, admin-operator]
+surfaces: [mobile, web]
+category: features
+related: [admin-operator-templates-overview, features-ai-features, glossary]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# TREC SoP Compliance
+
+1nspecT was built **TREC-first**. The Texas Real Estate Commission's Standards of Practice (SoP) for residential property inspections — the rules that define what a Texas inspector must inspect, how to rate it, what language to use, and what the report must contain — drives every default in the platform. This article documents how TREC compliance manifests across surfaces.
+
+For non-TREC inspection standards supported on the platform, see the "Other Standards" section near the end.
+
+---
+
+## What "TREC SoP" means
+
+The **Texas Real Estate Commission Standards of Practice** (TREC SoP, sometimes called "TREC 7-6" after the form designation) is the rulebook for Texas residential property inspectors. It specifies:
+
+- **Scope** — what systems an inspector must inspect
+- **Section structure** — Structural Systems / Electrical / Plumbing / HVAC / Roofing / Optional Systems
+- **Rating definitions** — the four ratings (I / NI / NP / D) and what each means
+- **Required disclosures** — limitations of liability, scope statements
+- **Photo requirements** — what must be photographed when deficient
+- **Report form** — the report's structure mirrors the SoP categories
+
+Every TREC-licensed Texas inspector is required to follow it. 1nspecT's defaults make TREC compliance the path of least resistance.
+
+---
+
+## How TREC manifests in 1nspecT
+
+### Templates
+
+- **Initialize TREC Template** on [Template Builder](/1nspect/admin-operator/templates/template-builder) — creates a fully TREC-compliant schema in one click. All required sections, subsections, and informational fields pre-configured.
+- **Inspection Standard** field on the template — set to `TREC` (Texas) for AI calibration.
+
+### Rating scale
+
+The default rating scale is **TREC Standard (I / NI / NP / D)**:
+
+| Rating | Letter | Meaning |
+|---|---|---|
+| **Inspected** | I | Inspected and no deficiency noted |
+| **Not Inspected** | NI | Could not inspect — explain why in narrative |
+| **Not Present** | NP | Component not present at the property |
+| **Deficient** | D | Deficiency noted — narrative required |
+
+A subsection can carry **both `I` AND `D`** ratings simultaneously — TREC explicitly permits this for cases like *"I inspected the panel and noticed a deficiency in one breaker."* The mobile [Capture Screen](/1nspect/inspector/capture-screen) and [Ratings Screen](/1nspect/inspector/ratings-screen) accept multi-ratings on the same subsection.
+
+### Section structure
+
+The TREC template ships with these top-level sections:
+
+1. **Structural Systems** (Foundations · Grading & Drainage · Roof Covering · Roof Structures & Attic · Walls · Ceilings & Floors · Doors · Windows · Stairways · Fireplaces & Chimneys · Porches & Decks · Other)
+2. **Electrical Systems** (Service Entrance · Branch Circuits · Fixtures & Switches & Receptacles · Smoke Alarms · Other)
+3. **Heating, Ventilation & Air Conditioning** (Heating Equipment · Cooling Equipment · Ducts & Vents · Other)
+4. **Plumbing System** (Plumbing Supply · Drains & Waste · Water Heating Equipment · Hydro-Massage Therapy · Other)
+5. **Appliances** (Dishwasher · Food Waste Disposer · Range Hood · Ranges · Oven · Microwave · Mechanical Exhaust Vents & Bathroom Heaters · Garage Door Operators · Dryer Exhaust Systems · Other)
+6. **Optional Systems** (Lawn Sprinkler · Swimming Pool · Spa · Outbuildings · Private Water Wells · Private Sewage Disposal · Other)
+
+These mirror the official TREC REI 7-6 form.
+
+### AI calibration
+
+When the template's Inspection Standard is set to TREC, the AI tools tune their output to TREC-appropriate language:
+
+| Tool | TREC calibration |
+|---|---|
+| **✦ AI Generate** | Narratives use TREC-style severity terms ("Recommend evaluation by a licensed [trade]") |
+| **👁 Vision Analysis** | Detection is calibrated to TREC's reportable-deficiency thresholds |
+| **🔬 Co-Inspector** | Secondary findings are filtered to TREC scope items (skips code-compliance, cosmetic, deferred-maintenance) |
+| **SPO generation** | Section summaries follow TREC SoP performance-opinion conventions |
+| **Movement Indicator** (Structural SPO) | TREC-specific foundation-performance assessment |
+
+### Reporting
+
+The TREC template's [Visual Page Designer](/1nspect/admin-operator/templates/visual-page-designer) defaults produce a report that:
+
+- Has the TREC-required header on every page
+- Shows I / NI / NP / D rating boxes in the format TREC expects
+- Includes the standard TREC scope statement
+- Includes the standard TREC limitations of liability
+
+---
+
+## What the AI does NOT do for TREC
+
+A few things the AI deliberately leaves to the inspector:
+
+- **No specific code citations.** The AI does not cite GFCI / AFCI requirements, clearance distances, or load calculations — those depend on permit date, local amendments, and AHJ interpretation. Inspectors add code references manually if their report style requires.
+- **No build-date assumptions.** The AI doesn't assert "this was required when built" — that requires knowledge the inspector has, not the AI.
+- **No prescriptive repair specifications.** Narratives recommend "evaluation by a licensed [trade]," not specific repairs.
+
+These restraints protect the inspector's liability and keep narratives accurate to what's observable.
+
+---
+
+## Other Standards supported
+
+Templates can be authored against other inspection standards too. Set the **Inspection Standard** field on the template:
+
+| Standard | Description |
+|---|---|
+| **TREC** (Texas) | Default. Most complete out-of-the-box experience. |
+| **ASHI** (American Society of Home Inspectors) | National ASHI-compliant inspections. AI calibrates language; rating definitions follow ASHI's |
+| **InterNACHI** | International Association of Certified Home Inspectors |
+| **CCPIA ComSOP** | Certified Commercial Property Inspectors Association — commercial property |
+| **CUSTOM** | Anything else |
+
+Each standard's selection changes AI language tuning. Section structure and rating scale default to the standard's conventions where applicable, but operators can override.
+
+> **"Other SoPs coming"** — additional state-mandated standards (California, Florida, Massachusetts) and international SoPs are on the roadmap. Until they have first-class support, use the `CUSTOM` standard and configure the schema manually.
+
+---
+
+## Multi-state / multi-license operators
+
+If your business operates across states or holds multiple licenses, configure **one template per standard**:
+
+- TREC Residential template — for Texas jobs
+- ASHI National template — for non-Texas jobs
+- Commercial template (CCPIA ComSOP) — for commercial work
+
+Inspectors pick the right template at inspection start. Each template snapshots its standard onto the inspection — so a TREC inspection captured today is calibrated to TREC regardless of future template edits.
+
+---
+
+## The TREC license number
+
+Inspector licenses appear on the report header and the signature page. Configure per inspector in the User profile.
+
+For Texas inspectors: TREC requires the license number on every report. The `$InspectorLicense` token in templates and contracts resolves to this value.
+
+If your company has a master license number distinct from individual inspectors' licenses, there's a `$CompanyLicense` field — useful for firms where one license covers the office.
+
+---
+
+## Compliance checklist
+
+For a TREC-compliant 1nspecT setup:
+
+- [ ] Tenant has Inspector License Numbers entered per inspector
+- [ ] TREC template is initialized and Published
+- [ ] Template's Inspection Standard is set to `TREC`
+- [ ] Cover Designer cover includes the required scope statement
+- [ ] Visual Page Designer page footer shows license number on every page
+- [ ] Communications workflow includes a report-delivery email referencing TREC reporting timelines
+- [ ] Contract bundle includes a TREC-conformant Pre-Inspection Agreement
+
+---
+
+## Related articles
+
+- [Build Your First Template](/1nspect/getting-started/build-your-first-template) — TREC template walkthrough
+- [Templates Overview](/1nspect/admin-operator/templates/overview) — standards picker
+- [AI Features Guide](/1nspect/features/ai-features) — calibration details
+- [Glossary](/1nspect/glossary) — TREC, SoP, REI 7-6, SPO definitions
+- [Mobile Capture Screen → Rating buttons](/1nspect/inspector/capture-screen) — I/NI/NP/D mechanics

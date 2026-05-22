@@ -1,0 +1,74 @@
+---
+id: admin-operator-templates-pdf-mapper
+title: Templates Hub (PDF Mapper)
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-templates-overview, admin-operator-templates-template-builder, admin-operator-templates-template-designer, admin-operator-templates-schema-upload-and-review]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Templates Hub (PDF Mapper)
+
+The Templates Hub at route `/templates` is a **card-based landing page** that surfaces shortcuts to the major template-creation tools. It's a thin wrapper — 61 lines of code total — that exists to give first-time users a guided choice of where to go.
+
+The internal file name is `PDFMapper.tsx`, but the page itself is titled **"Template Management"** in the UI. Don't confuse the file name with the page's purpose — there's no per-PDF mapping happening here; it's just a hub.
+
+This article documents the hub for completeness. Most operators bypass it after the first week and go directly to the deeper tools.
+
+---
+
+## When you see this page
+
+You land here by:
+
+- Clicking **Templates** in the sidebar **without** drilling into a specific template
+- Clicking the `/templates` link in an email or external doc
+- Navigating directly to `/templates`
+
+Most operators bypass the hub once they know which deeper tool they want — direct links to [Template Builder](/1nspect/admin-operator/templates/template-builder) (`/templates/builder`) and [Template Designer](/1nspect/admin-operator/templates/template-designer) (`/templates/designer`) work fine.
+
+---
+
+## Screen layout
+
+[SCREENSHOT: pdf-mapper-hub.png — desktop, the Templates Hub showing a header "Template Management" and a single card titled "Template Builder & Visual Designer" with descriptive text below.]
+
+The hub displays:
+
+1. **Header** — *"Template Management"*
+2. **One large card** titled *"Template Builder & Visual Designer"* with the subtitle *"All-in-one template creation and design tool"*
+3. **Four bullet points** describing the tool's capabilities:
+   - Create new templates with Gemini Vision AI schema extraction
+   - Design report layouts with drag-and-drop visual designer
+   - Copy and edit existing report templates
+   - Manage schemas, sections, fields, and formatting rules
+4. **A "Click to get started" prompt** at the bottom
+
+Tapping the card navigates to `/templates/builder` (i.e. opens [Template Builder](/1nspect/admin-operator/templates/template-builder)).
+
+---
+
+## Why this page exists
+
+It's a navigational on-ramp for new tenants. The full Templates area has several specialized tools — Schema Upload, Schema Review, Template Editor, Template Designer, Visual Page Designer — and a flat sidebar entry to "Templates" leaves first-time users uncertain about where to start.
+
+The hub funnels everyone to [Template Builder](/1nspect/admin-operator/templates/template-builder) as the canonical entry point, where the **+ Initialize TREC Template** flow guides them through their first template creation.
+
+---
+
+## What this page does NOT do
+
+- **It does not edit anything.** It's just a navigation landing.
+- **It does not map PDFs** despite the internal file name. The actual PDF-to-schema mapping happens in [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review).
+- **It does not list templates.** That's [Template Builder](/1nspect/admin-operator/templates/template-builder).
+
+---
+
+## Related articles
+
+- [Templates Overview](/1nspect/admin-operator/templates/overview) — the full map of the Templates area
+- [Template Builder](/1nspect/admin-operator/templates/template-builder) — where the hub card sends you
+- [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review) — the AI-powered extraction flow
+- [Template Designer](/1nspect/admin-operator/templates/template-designer) — the visual canvas

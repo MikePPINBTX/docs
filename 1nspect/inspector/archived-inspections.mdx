@@ -1,0 +1,131 @@
+---
+id: inspector-archived-inspections
+title: Archived Inspections
+persona: [inspector]
+surfaces: [mobile]
+category: inspector
+related: [inspector-home-and-assigned-inspections, inspector-review-screen, inspector-offline-and-sync]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Archived Inspections
+
+Archived Inspections is your record of completed work still on the device. After you mark an inspection complete, it moves out of [Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections) and into this archive. From here you can re-open a completed inspection to review what you captured, or delete it from the device to free up storage.
+
+> **What "archived" means here:** the inspection is **complete on your end**. Whether the report has been *published* on the web admin is a separate question — publishing happens in the [Generate Your First Report](/1nspect/getting-started/generate-your-first-report) workflow on the web. An inspection is "archived" on mobile as soon as you marked it complete; the office may still be drafting the final report.
+
+---
+
+## How an inspection lands here
+
+An inspection arrives in Archived as soon as its status is one of the terminal values:
+
+| Status (from Firestore) | Source | What it means |
+|---|---|---|
+| `completed` | Mobile — you marked the inspection complete | Field work done |
+| `complete` | Older mobile records | Same as `completed` |
+| `finalized` | Web admin | Office marked it finalized |
+| `submitted` | Web admin | Report submitted to the workflow |
+| `synced` | Sync engine | Mobile sync confirmed receipt by the server |
+
+All five normalize to a single "completed" view on this screen. The dual-tracking exists because the web admin and the mobile app evolved separately and each used a different status name — the app accepts all five.
+
+---
+
+## Opening the screen
+
+There are two ways to reach Archived Inspections:
+
+1. **Home → View Completed Inspections** (the third button on the Home screen)
+2. **Header back from a deep-link or notification** (if the web admin sends you a link to a specific completed inspection)
+
+[SCREENSHOT: archived-list.png — mobile, the Archived Inspections list with 3–4 completed inspection rows, each showing client name + address, date, and a green "Completed" status badge with a red Delete button on the right.]
+
+---
+
+## What each row shows
+
+Each archived inspection appears as a row with:
+
+| Element | Notes |
+|---|---|
+| Client name + property address | e.g. *"Robert & Lisa Smith - 123 Oak Dr, Austin TX"* |
+| Inspection date | Formatted to your device locale |
+| Status badge | **Completed** (green) — what you will normally see here. **In Progress** (orange) appears only for malformed records that landed here in error. |
+| **Delete** button | Red button on the right of each row — see Deleting below |
+
+If the list is empty, the screen shows: *"No archived inspections found."*
+
+---
+
+## Tapping a row
+
+Tap an archived inspection's row (anywhere except the Delete button) to **open it for review**. You are taken to the **[Starting an Inspection](/1nspect/inspector/starting-an-inspection)** screen with `isResuming: true` — meaning all the original fields are pre-filled and the inspection is treated as resumable.
+
+From that screen, the **Start Inspection** button at the bottom advances you to the [Capture Screen](/1nspect/inspector/capture-screen), where you can review and edit findings exactly as you did during the original inspection. Editing a published inspection re-marks it as in-progress; complete it again when you are done.
+
+> **Important:** opening an archived inspection does **not** automatically re-publish the report. If you make edits and your office has already published the report on the web, you'll need to coordinate so they re-publish after your changes sync.
+
+---
+
+## Deleting an archived inspection
+
+The **Delete** button on each row removes the inspection from this device. Before deletion, a confirmation alert appears:
+
+> **Delete Inspection**
+> Are you sure you want to delete this inspection? This cannot be undone.
+> [Cancel] [Delete]
+
+Tap **Delete** to confirm. The inspection is:
+
+- Removed from local storage on this device
+- Removed from your local Redux store (the in-memory state)
+- **Not** deleted from the cloud — the office's record remains intact in the web admin and Firestore
+
+The cloud is the source of truth. Deleting locally only frees up device storage. If you sign in to the same account on a different device, the inspection will reappear in Archived on that device (downloaded from Firestore).
+
+> **When to delete:** when device storage is tight, or when you've fully transitioned an inspection to web for post-processing and no longer need the local copy. Otherwise, leaving them archived is harmless — they are small (kilobytes per inspection, plus already-uploaded photos which live in the cloud, not on-device).
+
+---
+
+## Live sync from the cloud
+
+Archived Inspections runs a real-time Firestore listener while the screen is open. If the web admin marks an inspection finalized / submitted / synced while you're viewing this screen, it appears in seconds without you having to refresh.
+
+The listener uses your inspector identity to scope the query — you will only see your own inspections, never another inspector's. This matches the behavior in [Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections).
+
+---
+
+## Storage and lifecycle on the device
+
+By default, Archived Inspections are kept on-device indefinitely. The app does not auto-prune the archive. The trade-offs:
+
+- **Keeping the archive:** instant offline access to past work. Good for inspectors who reference old reports often (e.g. "I think I saw the same brand water heater last week — let me look").
+- **Pruning the archive:** less device storage used. Good for inspectors with older / lower-storage phones.
+
+Photos and videos attached to archived inspections live in the cloud after upload — they are *not* duplicated to local archive storage. So pruning archived inspections mostly frees up the inspection metadata (a few KB each), not the photo storage.
+
+To bulk-delete: there is currently no bulk-select action — you must tap **Delete** on each row. This is intentional for safety; bulk-delete is a planned future enhancement.
+
+---
+
+## What you cannot do on this screen
+
+The archive is read-mostly. You cannot from this screen:
+
+- **Re-publish a report** — that lives on the web admin Report Workspace
+- **Send the report to a different email** — also web admin
+- **Bulk-export inspections** — also web admin (Tools → Export)
+- **Edit assigned inspector** — that's an order-level change made on the web
+
+If you need any of those, switch to the web admin.
+
+---
+
+## Related articles
+
+- [Home & Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections) — your active queue, which feeds Archived
+- [Starting an Inspection](/1nspect/inspector/starting-an-inspection) — where you land when you tap a row to review
+- [Offline & Sync](/1nspect/inspector/offline-and-sync) — the rules that govern how cloud and local data merge
+- [Generate Your First Report](/1nspect/getting-started/generate-your-first-report) — the web-side workflow for publishing reports

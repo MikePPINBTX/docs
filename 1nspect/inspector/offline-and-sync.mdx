@@ -1,0 +1,229 @@
+---
+id: inspector-offline-and-sync
+title: Offline & Sync
+persona: [inspector]
+surfaces: [mobile]
+category: inspector
+related: [inspector-overview, inspector-photos-and-media, inspector-settings-and-tokens, troubleshooting-common-issues]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Offline & Sync
+
+1nspecT mobile is built **offline-first**. You can run an entire inspection in a basement with no signal, on a remote new-construction site, or on a flight, and never lose data. This article explains exactly what works offline, what needs network, what the sync engine does behind the scenes, and how to handle the occasional sync hiccup.
+
+The short version: **everything important works offline.** Findings, captions, ratings, photos — all written to local storage immediately and synced when network returns. AI features (Generate, Vision, Library Search, Sys Info) are the only operations that **require** network because they call the cloud AI service.
+
+---
+
+## What works offline (everything except AI)
+
+| Feature | Works offline? | Notes |
+|---|---|---|
+| **Login** | ❌ Requires network | First-time sign-in calls Firebase. After that, your session is cached and the app opens directly to Home. |
+| **Open an in-progress inspection** | ✅ | The inspection data is already on the device from the first time you opened it |
+| **Capture photos** | ✅ | Photos are saved to the device immediately. Upload queues for the next network window. |
+| **Capture video** | ✅ | Same as photos |
+| **Write caption + narrative** | ✅ | All text is local-first |
+| **Set ratings (I / NI / NP / D)** | ✅ | All local |
+| **Flag findings for summary** | ✅ | Local |
+| **Edit existing findings** | ✅ | Local |
+| **Move findings between sections** | ✅ | Local |
+| **Delete findings** | ✅ | Local |
+| **Photo markup** | ✅ | Local |
+| **Field Note** | ✅ | Local |
+| **FREE Library chips** | ✅ | The library is cached locally; keyword match runs on-device |
+| **AI Generate / Vision / Library Search / Sys Info** | ❌ Requires network | AI runs in the cloud. Without network, a template CAR narrative auto-fills as a fallback. No IT cost. |
+| **System Performance Opinion (SPO)** | ❌ Requires network (or manual write) | Auto-fall-back behaves like AI Generate |
+| **Finalize / mark complete** | ⚠️ Partial | The status changes locally; the cloud is notified when network returns |
+| **Open a new (not-yet-cached) assigned inspection** | ❌ | The first time you open an assigned inspection, the app downloads its template, narrative library, and metadata — that needs network |
+| **Field Quote — autocomplete + AI Insights** | ❌ Network only | Generating a quote and sending it via SMS both require network |
+| **Field Quote — manual entry + SMS** | ⚠️ Partial | If you fill the form manually and the lead-create endpoint is unreachable, the SMS won't send |
+
+---
+
+## How the sync engine works
+
+Three components run together. You don't start them or stop them — they initialize when you sign in and run for the life of the app.
+
+### 1. EcoSync Manager — battery-optimized Firestore sync
+
+EcoSync (also called "Lite Sync" in older release notes) is the heart of the platform's data persistence. It's optimized for **8 hours of inspections without a car charger** — battery life is a primary product concern.
+
+EcoSync runs in one of three modes:
+
+| Mode | When | Behavior |
+|---|---|---|
+| **Solo-Eco** (default) | One inspector on the inspection | 15-minute heartbeat to Firestore. Local writes happen continuously; cloud sync batches every 15 minutes for 30-second windows. |
+| **Team-Live** | Multi-inspector team inspection (via the Team QR feature) | Real-time sync — every change is pushed to Firestore immediately so all inspectors see each other's work as it happens |
+| **Low-Power** | Network is offline | Pure local-write mode. Changes queue for upload when network returns. |
+
+You don't manually switch modes — the app detects state and selects.
+
+### 2. Photo Upload Queue
+
+Photos and video have their own dedicated queue separate from the data sync. The queue:
+
+- **Receives** new photos as soon as you capture them
+- **Watches** for network state changes (Wi-Fi appears, cellular signal restored)
+- **Uploads in parallel** when network is available — multiple uploads at once when bandwidth allows
+- **Retries** failed uploads with exponential backoff
+- **Cleans up** successfully uploaded photos from the queue daily
+- **Removes permanently failed** photos from the queue on app startup (V18.9.1.2)
+
+Photos are stored on the device at `FileSystem.documentDirectory/deficiency_photos/` until uploaded — they survive app closures and device reboots.
+
+### 3. Network Detection
+
+A small background service watches the network state and notifies the queue and EcoSync. Three states matter:
+
+- **Wi-Fi available** — full sync activity
+- **Cellular available** — data syncs immediately; media uploads only if the Cellular Sync toggle is on (see [Settings & Tokens](/1nspect/inspector/settings-and-tokens))
+- **Offline** — everything queues locally
+
+---
+
+## The Cellular Sync toggle
+
+By default, the app **only uploads photos and videos on Wi-Fi**. The text data (captions, narratives, ratings, findings) syncs over **any** available network (cellular included) because it's tiny.
+
+To enable photo upload over cellular:
+
+1. Tap the **Config** tab
+2. Find **Sync Preferences**
+3. Toggle **Upload Media over Cellular** to **on**
+
+See [Settings & Tokens → Upload Media over Cellular](/1nspect/inspector/settings-and-tokens#upload-media-over-cellular) for the full discussion. Default is **off** for a reason — turning it on can use significant cellular data on photo-heavy inspections.
+
+---
+
+## What you'll see on the inspection
+
+The sync system is mostly invisible during use. Visible indicators:
+
+| Indicator | Meaning |
+|---|---|
+| **"Upload pending"** badge on a photo in [Review Screen](/1nspect/inspector/review-screen) | The photo has been captured locally but not yet uploaded |
+| Badge clears | The photo is now in Google Cloud Storage and visible on the web admin |
+| **Live** state | EcoSync's heartbeat just synced data to Firestore |
+| **Queued** state | Changes exist locally but haven't synced yet |
+| **Offline** state | No network — everything is queued locally |
+
+You typically don't see these states surfaced as a status banner — they're internal. The visible signal is the photo's "Upload pending" badge.
+
+---
+
+## What happens when network is lost mid-inspection
+
+Most common scenario: you walk into a basement and lose signal.
+
+1. **Captures continue normally.** Take photos, write narratives, set ratings.
+2. **Local writes happen immediately.** Every Save + New writes the finding to AsyncStorage and the local Redux store.
+3. **The queue accumulates.** Photos pile up in the upload queue. Findings text accumulates in the pending Firestore changes.
+4. **Network detection notices the loss** and switches the photo queue to standby. No retry attempts during offline.
+5. **AI buttons fail with the offline alert.** *"⚠️ AI Offline — AI service unreachable. A template CAR narrative has been pre-filled — edit as needed."* No IT cost is deducted.
+
+When network returns:
+
+1. **Network detection notices** and re-enables the queue.
+2. **EcoSync fires a sync window** within a minute or two.
+3. **Pending Firestore writes flush** — captions, narratives, ratings now visible on the web admin.
+4. **Photo uploads resume** under the queue's Wi-Fi/cellular rules.
+5. **AI buttons work again** — narrative regeneration, Vision Scan, etc.
+
+You don't need to take any action. The transition is automatic. If you want to confirm everything synced, watch the "Upload pending" badges in the Review tab disappear.
+
+---
+
+## What happens if the app is closed mid-upload
+
+The upload queue **survives app closure**. When you reopen the app:
+
+1. The Lite Sync System re-initializes
+2. The queue checks each pending photo's network-readiness
+3. Uploads resume from where they left off
+4. Permanently failed photos (typically corrupt files, missing references) are cleaned out
+
+You don't lose data by quitting the app. The local files in `FileSystem.documentDirectory/deficiency_photos/` are durable.
+
+---
+
+## What happens if the device is rebooted
+
+Same as closing the app — the queue persists. On reboot:
+
+1. You sign in (or auto-sign-in via cached Firebase session)
+2. Lite Sync initializes
+3. Pending uploads resume
+
+The only data that **doesn't** survive a reboot: the absolute newest finding-in-progress that you hadn't yet tapped Save + New or Save + Finish on. Tapping Save commits to durable storage; in-memory state is lost on reboot. **Save frequently.**
+
+---
+
+## Network-related troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| **Upload pending badge stuck** | Photo failed to upload (rare on Wi-Fi; common if Cellular Sync is off and you're on cellular) | Connect to Wi-Fi, wait ~5 minutes. Or enable Cellular Sync in Config. |
+| **Findings not appearing in the web admin** | Inspection data hasn't synced yet | Verify network. Pull-to-refresh the Assigned Inspections list on web admin after 1–2 minutes. |
+| **AI Generate fails repeatedly** | Network is unstable | Switch networks (Wi-Fi to cellular or vice versa). Use the template CAR fallback and proceed. |
+| **App says "Loading..." for 30+ seconds when opening an inspection** | First-time inspection download is in progress (template, narrative library, metadata) | Wait — this is one-time per inspection. Subsequent opens are instant. |
+| **Cellular Sync is on but photos still won't upload** | Carrier-level throttling (rare); upload backoff is in effect | Wait 5–10 minutes; if persistent, switch to Wi-Fi |
+| **Sign-in fails with "Network error"** | Firebase auth unreachable | Verify network. Carrier-blocked DNS occasionally hits this — try a different network. |
+| **Web admin shows inspection as "in progress" but mobile shows "completed"** | Finalize call hasn't completed its server round-trip | Wait 30 seconds; if persistent, pull-to-refresh on both sides |
+
+For more, see [Common Issues & Troubleshooting](/1nspect/troubleshooting/common-issues).
+
+---
+
+## Tips for low-signal inspections
+
+- **Open the inspection before walking into the property.** The first download (template + narrative library) needs network. Standing in your truck with signal, tap the inspection card so it downloads. Once inside, everything works offline.
+- **Disable AI in advance if you know you'll be offline.** Don't waste time tapping AI Generate to get the "AI Offline" alert. Plan to write narratives by hand for the basement; use AI when you re-emerge.
+- **Use FREE Library chips.** They work fully offline. If your library has good coverage of common findings, you can capture most of an inspection without any AI calls.
+- **Save aggressively.** Tap **Save + New** after every finding. Each save commits to durable storage — losing the app won't lose saved findings.
+- **Don't tap Finalize until you have signal.** The Finalize call writes several documents to Firestore and triggers downstream workflows. Doing it on Wi-Fi avoids any race condition.
+
+---
+
+## Data integrity — what we guarantee
+
+The platform's design commitments around your data:
+
+| Guarantee | What it means |
+|---|---|
+| **Local writes are durable** | Every Save commits to AsyncStorage before returning. No "saved in memory only" state. |
+| **Photos persist independently** | Photos live on the device file system. App crashes, reboots, and reinstalls *do not* erase them until upload succeeds. |
+| **Conflicts are resolved by timestamp** | If the same finding is edited on web and mobile simultaneously, the newer `updatedAt` wins. The platform errs on preserving local inspector work (BITE 2.1.9 ratings merge). |
+| **The cloud is the source of truth** | After successful sync, the cloud copy is canonical. Deleting locally doesn't delete from the cloud. |
+| **AI calls are atomic** | An AI call either succeeds (IT deducted, narrative inserted) or fails (no deduction, fallback narrative). No half-states. |
+
+---
+
+## What if I want to clear local data?
+
+If you need to fully reset the app's local storage:
+
+| Device | Steps |
+|---|---|
+| **iOS** | Delete the app and reinstall. iOS removes all app sandbox data including the documents directory. |
+| **Android** | Settings → Apps → 1nspecT → Storage → Clear Data, then optionally reinstall. |
+
+**Both are destructive.** Local-only inspections (not yet uploaded) will be lost. Only clear local data when:
+
+- You've confirmed every inspection has uploaded (Review tab shows no "Upload pending" badges)
+- You're swapping devices and want to start clean on the new one
+- Support specifically advises it
+
+The cloud copy survives — signing in on the new device pulls everything back from Firestore + Google Cloud Storage.
+
+---
+
+## Related articles
+
+- [Mobile App Overview](/1nspect/inspector/overview) — the high-level architecture
+- [Photos & Media](/1nspect/inspector/photos-and-media) — the upload queue from the photo perspective
+- [Settings & Tokens](/1nspect/inspector/settings-and-tokens) — the Cellular Sync toggle
+- [AI During Capture](/1nspect/inspector/ai-during-capture) — what AI features can and can't do offline
+- [Common Issues & Troubleshooting](/1nspect/troubleshooting/common-issues) — additional sync recovery scenarios

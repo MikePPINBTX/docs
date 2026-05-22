@@ -1,0 +1,173 @@
+---
+id: admin-operator-templates-visual-page-designer
+title: Visual Page Designer
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-templates-overview, admin-operator-templates-template-designer, admin-operator-cover-designer]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Visual Page Designer
+
+Visual Page Designer (route `/templates/builder/:templateId/visual-designer`) handles **per-page styling** for inspection report PDFs — page headers, footers, section header design, alignment, typography. It complements [Template Designer](/1nspect/admin-operator/templates/template-designer), which handles canvas-level concerns (margins, photo grids, finding card style).
+
+This article covers the controls. For schema editing, see [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review).
+
+---
+
+## When you use it
+
+- **After initial template setup** — once the schema is in place and the canvas is configured, this is where you fine-tune page-level rendering
+- **For white-label branding** — multi-brand inspection businesses can give each brand its own page header / footer style without separate templates
+- **For mock-driven design** — if marketing or a client provides a mockup for how the report should look, this is where you reproduce it
+
+Most operators visit Visual Page Designer once during template setup, then rarely again unless they update branding.
+
+---
+
+## Screen layout
+
+[SCREENSHOT: visual-page-designer.png — desktop, the Visual Page Designer showing a live page preview on the left and configuration controls on the right with sections for Page Header, Major Section Headers, and Page Footer.]
+
+Two main areas:
+
+1. **Live preview** of a sample report page rendering with current settings
+2. **Configuration panel** with grouped controls
+
+---
+
+## Live preview
+
+The preview shows a representative report page with:
+
+- The configured page header at the top
+- Company info (if shown): company name, phone, website
+- A sample section header
+- Sample finding cards
+- Page number footer
+
+The preview is live — every control change updates the preview within a moment.
+
+If no schema is uploaded yet, the preview shows:
+
+> **No schema data available for preview**
+> Upload a PDF schema first
+
+In that case, switch to [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review) to get a schema in place first.
+
+---
+
+## Page Header configuration
+
+The Page Header section controls what appears at the top of every report page (except the cover, which is governed by [Cover Designer](/1nspect/admin-operator/cover-designer)).
+
+| Field | Notes |
+|---|---|
+| **Show Logo** | Toggle — when on, the company logo renders in the page header (typically aligned to a corner) |
+| **Show Company Name** | Toggle — display the company name in the header (e.g. *"Your Company Name"*) |
+| **Show Contact Info** | Toggle — phone and website (e.g. *"(555) 123-4567 \| www.example.com"*) |
+| **Alignment** | Drop-down: **Left** · **Center** · **Right** — controls where the header content sits |
+| **Font Size** | Header text size in pixels |
+| **Font Weight** | Drop-down: **Normal** · **Bold** |
+| **Show Page Number** | Toggle — display page numbers in the header (otherwise they go in the footer) |
+
+When the logo is hidden but company name is shown, the page header renders text-only — useful for compact reports.
+
+---
+
+## Major Section Headers
+
+The largest design lever for the body of the report. Section headers are the breakpoint markers between major systems (Roofing, Structural, Electrical, etc.) on the report PDF.
+
+| Field | Notes |
+|---|---|
+| **Font Family** | Inherited from the template-level font unless overridden |
+| **Font Weight** | Drop-down: **Normal** · **Bold** |
+| **Font Size** | Section header size in pixels |
+| **Background Color** | Solid color or transparent — colored bars demarcate sections |
+| **Text Color** | Header text color (typically white if on a colored bar) |
+| **Alignment** | Left / Center / Right |
+| **Padding** | Vertical and horizontal padding around the header text |
+| **Border** | Top/bottom border thickness and color |
+
+Common designs:
+
+- **Minimalist:** white background, dark text, thin bottom border
+- **Bold brand color:** solid primary-color bar, white text
+- **Subtle gray header band:** light-gray background, dark text, no border
+
+Adjust here, watch the preview update, save when satisfied.
+
+---
+
+## Subsection Headers
+
+Below major section headers, subsection headers (Foundations, Roof Coverings, etc.) get their own styling. Typically less prominent than major section headers.
+
+| Field | Notes |
+|---|---|
+| Font Size | Smaller than section header |
+| Font Weight | Often Normal or Medium |
+| Text Color | Often the template's primary color, with no background |
+| Alignment | Usually Left |
+| Border below | Thin underline for visual separation |
+
+---
+
+## Page Footer
+
+The footer appears at the bottom of every body page.
+
+| Field | Notes |
+|---|---|
+| **Show Page Number** | Toggle — typically the page-number setting lives here, not in the header |
+| **Show Company Info** | Toggle — repeat company name / license number in the footer |
+| **Show License Number** | Toggle — TREC license or equivalent, appears as e.g. *"License # 12345"* |
+| **Footer Text** | Free-form text — e.g. a disclaimer, copyright, or contract reference |
+| **Alignment** | Left / Center / Right |
+
+The footer is rendered as a thin band at the page bottom with the page number on one side and company info on the other.
+
+---
+
+## Living within tenant defaults
+
+Like other template settings, Visual Page Designer values override your **tenant-level defaults** (configured in [Company Info](/1nspect/admin-operator/company-and-pricing/company-info)) for this specific template only.
+
+If a field is left at its default, it inherits from the tenant. Set explicit values here only for fields you want to **diverge** from the tenant default.
+
+---
+
+## Saving
+
+Visual Page Designer uses explicit save like [Template Designer](/1nspect/admin-operator/templates/template-designer). Click **Save** at the top-right or footer of the page. Unsaved changes are flagged with an indicator.
+
+---
+
+## Errors and recovery
+
+| Alert | Cause | Fix |
+|---|---|---|
+| **No schema data available for preview** | Template has no schema yet | Upload a schema first via [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review) |
+| **Failed to save page styles** | Network / auth | Retry |
+| **Invalid color** | Manual color entry has wrong format | Use the color picker, or enter valid hex (e.g. `#1E3A8A`) |
+
+---
+
+## What this page does NOT do
+
+- **It does not edit the report's content.** Schema is in [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review); narratives are in [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer).
+- **It does not design covers.** Use [Cover Designer](/1nspect/admin-operator/cover-designer).
+- **It does not handle canvas-level concerns** like margins and photo grids. Use [Template Designer](/1nspect/admin-operator/templates/template-designer).
+- **It does not preview against a real inspection.** Generate a PDF preview from [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) for that.
+
+---
+
+## Related articles
+
+- [Templates Overview](/1nspect/admin-operator/templates/overview)
+- [Template Designer](/1nspect/admin-operator/templates/template-designer) — canvas-level configuration
+- [Cover Designer](/1nspect/admin-operator/cover-designer) — covers shown above the page header
+- [Template Editor](/1nspect/admin-operator/templates/template-editor) — settings and branding overrides

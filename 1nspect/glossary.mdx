@@ -1,0 +1,138 @@
+---
+id: glossary
+title: Glossary
+persona: [inspector, admin-operator]
+surfaces: [mobile, web]
+category: reference
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Glossary
+
+Plain-language definitions of every 1nspecT-specific term that appears in the rest of this guide. Sorted alphabetically.
+
+---
+
+### AI Draft
+A web-admin batch tool that generates full CAR-format narratives for findings that have a **Field Note** but no narrative yet. Found in **Report Workspace → AI Draft** tab. Costs 2 IT per drafted finding. See [AI Features](/1nspect/features/ai-features).
+
+### AI Generate ✨
+The mobile-app button that asks the AI to write a finding's narrative. Two modes: text-only (uses the caption + section context, 2 IT) and Vision (uses the captured photo too, 8 IT). See [AI Features](/1nspect/features/ai-features).
+
+### Ancillary service
+An add-on inspection service billed in addition to the primary service — e.g. Sewer Scope, Thermal Imaging, Pool/Spa, Mold Screen. Each ancillary has its own fee in **Settings → Pricing** and can be assigned to a specific phase in a multi-phase order.
+
+### BITE
+Short for "**B**uild, **I**terate, **T**est, **E**volve" — the internal version naming convention used in the codebase (e.g. `BITE V18.6`, `BITE 60`). End users do not see BITE numbers in the product. They appear in code comments, internal release notes, and architectural documentation.
+
+### CAR narrative
+The recommended structure for inspection narratives: **C**ondition (what was observed) → **A**ction (what is recommended) → **R**ecommendation (who should do the work). The AI Generate and AI Draft tools follow this format by default.
+
+### Canvas (template canvas)
+The visual-design layer of a template, separate from its schema. Canvas settings control margins, colors, finding-card styling, photo-grid layout, and rating-column width when the report PDF is rendered. Edit in **Templates → [template] → Canvas** tab.
+
+### Caption
+The short (6–15 word) inspector-shorthand description of a finding. The caption is the title of the deficiency card on the PDF report and the input the AI uses for narrative generation. Distinct from the **narrative** (the full prose) and the **field note** (the private inspector observation).
+
+### Client portal
+The customer-facing branded web page where homeowner clients sign agreements, view their reports, and access deliverables. URL pattern: `/client-portal/:portalSlug`. The portal slug is derived deterministically from the client's email + your tenant.
+
+### Co-client
+A second client on the same order — typically a spouse or co-buyer. Has separate first name, last name, and email; receives the same emails as the primary client; signs the contract independently.
+
+### Co-Inspector (AI)
+The mobile-app feature that, after a Vision Analysis runs, scans the same photo for additional deficiencies the inspector might have missed. Up to 3 high-confidence (>85%) suggestions appear in a review modal. Accepted findings become green pending pills the inspector can work through one at a time. No additional IT cost — included in the 8 IT Vision Analysis charge.
+
+### Cover photo
+The image displayed on the cover page of the report PDF. Designated by the inspector on mobile (Review screen) or uploaded directly from the Report Workspace on web.
+
+### Deficiency
+A finding rated **D** (Deficient) per the TREC Standards of Practice. Generates a deficiency card on the report PDF with caption, narrative, photos, and section/subsection labels. Appears in the executive Summary if flagged.
+
+### EcoSync (Lite Sync)
+The 1nspecT mobile sync engine. Initialized on app startup (`LiteSyncInitializer`), it manages the photo upload queue, network-state detection, GPS throttling, and Firestore writes. Tolerates offline operation — inspection data is saved locally and uploaded when connectivity returns.
+
+### Field note
+A private, unformatted observation note the inspector writes on mobile (separate from the **caption** and the **narrative**). Field notes feed the AI Draft batch tool in the web admin so writing the full narrative can be deferred to the office. Not visible in the published report.
+
+### Finding
+A single record on an inspection — captures one observed condition. Has: a section, a subsection, a rating (I / NI / NP / D), an optional caption, an optional narrative, optional photos/videos, an optional field note. May be flagged for the executive summary.
+
+### IT (Inspection Token)
+The currency for AI operations on 1nspecT. Every account has an IT balance. Each AI call deducts IT according to the [token cost table](/1nspect/features/ai-features). Top up at **Settings → Subscription & Tokens**. Free operations include the FREE Library chips and the workflow engine.
+
+### Library Search 🪄
+The mobile-app magic-wand button that runs a semantic AI search over your Narrative Library and surfaces up to 3 ranked suggestions. Costs 1 IT. Distinct from the **FREE Library chips** (local keyword match, 0 IT) that appear automatically as you type.
+
+### Magic link
+A URL-based, one-tap authentication link sent in an email. Used by the realtor portal (90-day expiration) so agents do not have to create accounts.
+
+### Movement Indicator
+The TREC-calibrated assessment of foundation performance that appears in the Structural Systems SPO. Synthesized from all structural-subsection findings; not a separate finding.
+
+### Narrative
+The full inspector prose explaining a finding — the body text on the deficiency card in the report PDF. Distinct from the **caption** (short title) and the **field note** (private observation).
+
+### Narrative Library
+Your account's collection of reusable narratives, organized by section and finding type. Saved narratives become FREE chips in future inspections (mobile) or searchable entries (web admin → Intelligence Hub → Narrative Library). Saving a narrative costs 1 IT (the system de-identifies the text before storage); reusing one is always free.
+
+### Order
+The master engagement record. Holds the property, client(s), services, pricing, scheduling, and links to all child inspections, contracts, and reports. One order can have multiple inspections (multi-phase). Created via the Order Creation Wizard.
+
+### Phase (multi-phase order)
+A child inspection within an order. Used for new-construction or staged inspection projects. Each phase has its own date, time, and assigned inspector. Phase gating prevents Phase 2 from starting until Phase 1 is marked complete.
+
+### Polish
+Two operations distinct from generation: **Polish Narrative** (2 IT) rewrites a single narrative for tone and clarity; **Polish Report** (10 IT) does a whole-report polish pass.
+
+### Realtor portal
+The agent-facing branded web page sent to the buyer's agent after the report publishes. Read-only summary view; no pricing, no full repair request, no inspector contact details. URL pattern: `/portal/:tenantSlug`. Magic-link valid for 90 days.
+
+### Report Workspace
+The web-admin tab cluster (Findings / Narratives / AI Draft / Summary / Ratings / Preview / Publish) where reports are reviewed, edited, and published. Found at **Inspections → [inspection] → Report Workspace**.
+
+### Schema (template schema)
+The structural definition of a template — its sections, subsections, and fields. Edited in the Schema Builder (or imported via the Schema Upload flow). Distinct from the **canvas**, which controls visual rendering of the same schema.
+
+### Section
+The major divisions of an inspection (e.g. Structural Systems, Electrical, Plumbing). Each gets its own chapter with a color-coded header in the report PDF.
+
+### Skip Workflow (`skipWorkflow`)
+A per-inspection flag that suppresses all automated emails for that record. Used for manually imported orders migrated from another system. Toggle from the order detail page → **More Options → Skip Automated Communications**.
+
+### Smart Comment
+A reusable, parameterized comment fragment used during template authoring or report editing. Managed in the web admin **Intelligence Hub → Smart Comments**.
+
+### SoP (Standards of Practice)
+The TREC Texas Real Estate Commission rules governing residential inspection scope, terminology, and rating definitions. 1nspecT's TREC template, AI prompts, and SPO calibration all follow TREC SoP by default. The framework supports adding other state SoPs.
+
+### SPO (System Performance Opinion)
+A section-level AI-generated summary paragraph that synthesizes all findings within a major system (Structural, Electrical, Plumbing, HVAC, Roofing) into a single professional assessment. Appears in the report Summary tab. Costs 10 IT per section.
+
+### Subsection
+The individual inspection areas within a section (e.g. "Foundations" within Structural Systems). Each subsection gets a rating row on the PDF and can hold any number of fields and findings.
+
+### System Info Tag
+The mobile-app feature that extracts manufacturer, model, and manufacture date from a photo of an equipment label. Costs 3 IT (photo) or 1 IT (text-only fallback). Appears in capture flows for HVAC, water heaters, etc.
+
+### Tenant
+A 1nspecT subscriber account (an inspection company). All business objects (orders, inspections, templates, narratives) live under `artifacts/{tenant}/public/data/{collection}` in Firestore. Tenant isolation is enforced at the document-path level.
+
+### TREC 7-6 (TREC Texas Residential Form)
+The Texas Real Estate Commission's standardized property-inspection report form. The pre-built TREC template in 1nspecT mirrors this form's section structure and rating model.
+
+### Trigger event
+An event the workflow engine listens for. Seventeen user-configurable triggers exist across five groups: lead/quote (`quote.submitted`, `quote.sent`, `quote.accepted`, `booking.confirmed`), contract (`contract.sent`, `contract.signed`), inspection lifecycle (`inspection.scheduled`, `inspection.rescheduled`, `inspection.reminder`, `inspection.completed`), payment/report (`payment.received`, `report.published`, `report.ancillary_uploaded`, `report.delivered`), and order closure (`order.closed`, `order.cancelled`). See [Communications](/1nspect/features/communications).
+
+### Vision Analysis 🔬
+The mobile-app multimodal AI mode where a photo is sent to the AI alongside the caption to generate a narrative grounded in what is visually present. Cost: 8 IT. Required for the Co-Inspector secondary-finding feature.
+
+### Voice DNA (extract-persona)
+A heavy AI operation that analyzes a sample of an inspector's prior reports (PDF) to learn their writing voice. Subsequent AI Generate calls produce narratives that match that voice. Costs 50 IT — used once per inspector during onboarding. Found in the web admin onboarding flow.
+
+### Workflow engine
+The web-admin subsystem that listens for **trigger events** on inspection records and fires emails or other actions according to your configured **steps**. Configure at **Settings → Communications → Workflow**.
+
+### Zone
+A region of a template canvas (or a PDF page) used for layout. The zone-based report generator stamps inspection data into named zones at PDF render time.

@@ -1,0 +1,203 @@
+---
+id: admin-operator-inspections-list
+title: Inspections List
+persona: [admin-operator]
+surfaces: [web]
+category: admin-operator
+related: [admin-operator-overview, admin-operator-inspection-details, admin-operator-order-creation-wizard, admin-operator-inspection-reviewer]
+status: stable
+last_verified_against_code: 2026-05-08
+---
+
+# Inspections List
+
+The Inspections page (route `/inspections`) is your master queue — every order and inspection your company has ever booked, filterable, searchable, and exportable. It's where you go to find a specific job, check status across the team, and triage what needs attention.
+
+This article covers the list view. To create a new order, see [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard). To drill into one order, see [Inspection Details](/1nspect/admin-operator/inspection-details). To edit a finalized inspection's report, see [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer).
+
+---
+
+## What you see when you open it
+
+[SCREENSHOT: inspections-list.png — desktop, the Inspections page with a view toggle at the top (Inspections | Quotes), a row of filters (search, status, date range), a + New Order button, and a paginated table below with columns for order number, client, address, scheduled date, inspector, status badge, and actions.]
+
+The top of the page has:
+
+- A **view-mode toggle** — **Inspections** (the default) or **Quotes** (the leads waiting to be converted to orders)
+- A **search field** — matches across order number, client name, and property address
+- A **status filter** — All / Scheduled / Assigned / In Progress / Completed / Cancelled
+- A **date-range filter** — From / To dates
+- A **+ New Order** button (top-right) — opens the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard)
+
+Below, the **paginated table** of orders.
+
+---
+
+## The view-mode toggle
+
+The toggle changes the underlying Firestore collection the page reads from:
+
+| Toggle | Reads from | What appears |
+|---|---|---|
+| **Inspections** (default) | `artifacts/{tenant}/public/data/inspections` | Confirmed orders and their inspections |
+| **Quotes** | `artifacts/{tenant}/public/data/leads` | Submitted quotes / leads not yet converted to orders |
+
+Quotes come from two sources:
+
+1. **Mobile [Field Quote](/1nspect/inspector/field-quote)** — inspectors generate them on-site
+2. **Public booking** — homeowners submit them through `/book` or `/book/:slug` on your white-label site
+
+Toggle to Quotes to see the lead queue and convert promising ones into orders via the wizard.
+
+---
+
+## Filters
+
+All filters compose with AND logic — every active filter must match.
+
+| Filter | What it matches |
+|---|---|
+| **Search term** | Substring match (case-insensitive) on order number, client name, and property address |
+| **Status** | Exact status match. The `pending` and `assigned` statuses are both represented; UI displays uppercase (`ASSIGNED`) |
+| **Date From / Date To** | Matches the inspection's `scheduledDate` within the range. Master orders without their own date use the next-upcoming child's date |
+
+Filters apply client-side after the Firestore query — large historical lists may be slower to filter than to load.
+
+---
+
+## Table columns
+
+The default columns:
+
+| Column | Source field | Notes |
+|---|---|---|
+| **Order #** | `inspectionNumber` | Monospace; click to drill into [Inspection Details](/1nspect/admin-operator/inspection-details) |
+| **Client** | `clientName` | Primary client name only — co-client not shown |
+| **Property** | `inspectionAddress` | Single-line; full address in details view |
+| **Scheduled** | `scheduledDate` | Date + time. Master orders show the next-upcoming child phase. |
+| **Inspector** | `assignedInspectorName` | The inspector assigned to the next-upcoming phase, or — if unassigned |
+| **Type** | `inspectionType` | "Residential Property Inspection" / "New Construction Phase 1" / etc. |
+| **Template** | `templateName` | The template assigned (drives what the mobile app shows) |
+| **Total** | `totalAmount` | Gross billing for the order (currency-formatted) |
+| **Payment** | `paymentStatus` | A pill: paid / pending / partial / refunded |
+| **Status** | `status` | Color-coded pill — see Status colors below |
+| **Actions** | — | Per-row icon buttons |
+
+### Status colors
+
+| Status | Pill color |
+|---|---|
+| `scheduled` | Default (gray) |
+| `assigned` | Primary (royal blue) |
+| `in_progress` | Warning (amber) |
+| `completed` | Success (green) |
+| `cancelled` | Error (red) |
+
+> The underlying data may carry uppercase variants (`PENDING`, `COMPLETED`) from older or web-admin-side writes. The list normalizes lowercase for display.
+
+---
+
+## Per-row actions
+
+The Actions column on each row exposes icon buttons:
+
+| Icon | Action |
+|---|---|
+| 👁 **View** | Navigate to [Inspection Details](/1nspect/admin-operator/inspection-details) for the order |
+| ✏ **Edit** | Open the order in edit mode — opens an `InspectionForm` dialog |
+| 🔗 **Assign** | Quickly change the assigned inspector (multi-phase: changes the next-upcoming phase) |
+| 🔳 **QR Code** | Show the team-inspection QR (for orders that allow team capture) |
+| 🗑 **Delete** | Delete the order — with confirmation dialog |
+
+### Deletion safety
+
+Tapping Delete opens a confirmation:
+
+> **Are you sure you want to delete this inspection?**
+> [Cancel] [Delete]
+
+Deletion removes the order document and (separately) any associated child inspections. **The action does not delete uploaded media** — photos remain in Google Cloud Storage and would need to be cleaned up via a maintenance script if you want to fully expunge.
+
+> **Recommend marking as cancelled instead of deleting.** Cancelled orders remain in the list (filterable), keep their history, and can be referenced for reporting. Deletion erases the audit trail.
+
+---
+
+## Multi-phase orders — master + children
+
+Multi-phase orders (New Construction Phase 1 / 2 / Final) have a **master order document** plus per-phase **child inspection documents**. The list **shows the master, hides the children** to keep things readable.
+
+When the master is opened in [Inspection Details](/1nspect/admin-operator/inspection-details), the children appear in the **Inspections** tab.
+
+The scheduled date shown on a master order row resolves as:
+
+1. **Next upcoming** child phase's `scheduledDate` (where status is not completed/cancelled)
+2. If all phases done, the **last completed** phase's date
+3. If neither, the master's own `scheduledDate`
+4. If still none, blank
+
+### Legacy standalone inspections
+
+Older inspections written before the master/child architecture (pre-Phase 6.1) have no `projectId`. The list shows these as their own rows regardless of ID format — your historical inspections do not disappear.
+
+---
+
+## Pagination
+
+Default page size: **20 rows**. Adjust with the page-size selector at the bottom (10 / 20 / 50 / 100). Page count and total row count are displayed.
+
+The Firestore query loads all matching documents up-front (client-side sort + filter). For tenants with thousands of historical inspections, expect a moment of latency on the initial load — subsequent pagination is instant.
+
+---
+
+## Pagination + filter sync
+
+When you change a filter, pagination resets to page 1. Status changes do the same. The filter state is **not persisted across page reloads** — refreshing the page returns you to defaults.
+
+---
+
+## Empty states
+
+| Condition | Display |
+|---|---|
+| No inspections in your account | *"No inspections yet — tap + New Order to create your first."* |
+| Filters return nothing | *"No matches — try widening your filters."* |
+| Quotes view, no leads | *"No quotes — leads from mobile Field Quote and public booking will appear here."* |
+| Error loading | An MUI Alert with the error message |
+
+---
+
+## Creating a new order
+
+The **+ New Order** button (top-right) opens the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) at `/inspections/new`. The wizard walks through client info, property, services, pricing, scheduling, and review.
+
+You can also create an order indirectly:
+
+- **Convert a quote** — open the Quotes view, click a lead, "Convert to Order" runs the wizard pre-filled
+- **From the Dashboard** — Quick Actions tile
+
+---
+
+## What this page does NOT do
+
+- **It does not show individual deficiencies.** That's the inspection-detail and [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) workspace.
+- **It does not run reports or analytics.** That's the [Reports](/1nspect/admin-operator/reports-and-publishing) tab.
+- **It does not send messages or contracts.** That's the [Comms Cockpit](/1nspect/admin-operator/comms-cockpit) and [Contracts Cockpit](/1nspect/admin-operator/contracts-cockpit) for bulk operations, or the per-order detail page for one-offs.
+- **It does not edit pricing rules.** That's [Pricing Manager](/1nspect/admin-operator/company-and-pricing/pricing-manager).
+
+---
+
+## Tips
+
+- **Bookmark `/inspections?status=in_progress`** if you want to land on "what's happening today" every morning.
+- **Use the Quotes toggle weekly** to clear out stale leads. The Field Quote and public booking flows pile up; a Monday review keeps the queue clean.
+- **For multi-inspector teams**, sort by Inspector to see what each person's day looks like.
+- **Date range From=today, To=today** is your "today's calendar" view without needing the calendar integration.
+
+---
+
+## Related articles
+
+- [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) — the form behind + New Order
+- [Inspection Details](/1nspect/admin-operator/inspection-details) — what opens when you click a row
+- [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer) — where you finalize the report
+- [Web Admin Overview](/1nspect/admin-operator/overview)
