@@ -1,245 +1,208 @@
 ---
-id: features-ai-features
-title: AI Features Guide
-persona: [inspector, admin-operator]
-surfaces: [mobile, web]
-category: features
-related: [features-it-tokens, inspector-ai-during-capture, admin-operator-reports-and-publishing]
-status: stable
-last_verified_against_code: 2026-05-08
+id: "features-ai-features"
+title: "AI features"
+description: "Every AI capability in 1nspecT, what it does, where you use it, and the rules that keep the writing honest."
+sidebarTitle: "AI features"
+keywords:
+  - "AI"
+  - "narrative"
+  - "vision"
+  - "VoiceDNA"
+  - "polish"
+  - "co-inspector"
+persona:
+  - "inspector"
+  - "admin-operator"
+surfaces:
+  - "mobile"
+  - "web"
+category: "features"
+related:
+  - "features-it-tokens"
+  - "inspector-ai-during-capture"
+  - "admin-operator-reports-and-publishing"
+status: "stable"
+last_verified_against_code: "2026-10-28"
 ---
 
-# AI Features Guide
+1nspecT uses AI to write report narratives in your own voice, inside the rules of your inspection standard. Rule-based checks review that writing before anything is published. This page is the catalogue of every AI capability: what it does, where you find it, and the guardrails that keep it accurate. For costs and allowances, see [AI Credits](/1nspect/features/it-tokens).
 
-1nspecT uses AI throughout the inspection and report workflow to reduce writing time, improve narrative quality, and surface deficiencies the inspector might miss. This guide covers every AI-powered feature, what it does, when to use it, and what it costs.
+## How the AI fits into the workflow
 
----
+Think of the AI as a drafting assistant, not an autopilot. In the field, it writes a narrative or extracts a reading so you can move to the next room. At the desk, it drafts anything left blank, cleans up language and flags anything that does not match the standard. You still approve every word.
 
-## IT Tokens — The AI Currency
+A typical path through an inspection uses the AI in three waves:
 
-Every AI operation consumes **IT (Inspection Tokens)**. Your subscription includes a monthly allotment. Tokens refresh with your billing cycle. You can view your current balance in **Settings → Subscription & Tokens**.
+1. **In the field, as you capture:** AI Generate on tricky findings, Vision Scan on findings where the photo tells the story, Scan Label / Reading for every nameplate and gauge, Smart Search for anything you have already written up before.
+2. **On the drive back:** Finish & Draft Report runs one batch call on the server that drafts every blank narrative.
+3. **At the desk:** Review flagged narratives, Polish anything you want tightened, draft System Performance Opinions, publish.
 
-| Feature | Cost |
-|---------|------|
-| AI Generate (text-only) | 2 IT |
-| Vision Analysis (photo) | 8 IT |
-| Library Search (🪄 semantic) | 1 IT |
-| FREE (Library) chips | 0 IT |
-| AI Draft (batch, per finding) | 2 IT each |
-| Batch SPO generation | 10 IT per section |
+## Field capabilities (mobile)
 
-> **Zero-cost tip:** Build your narrative library over time. The more narratives you save, the more FREE chips appear — reducing your AI spend on repeat finding types.
+### AI Generate
 
----
+Writes a finding's narrative from your caption, the field note and the inspection standard. Produces a Condition / Analysis / Recommendation (CAR) narrative that you can edit on the spot.
 
-## AI Generate — Text-Only Narrative
+- **Where:** Capture screen on the finding
+- **Best for:** Common findings where your caption and notes already describe the problem
+- **Tips:** The more specific your caption, the better the narrative. Make sure the section and subsection are correct before you tap AI Generate: the AI uses that context to calibrate severity and recommended action.
 
-**Where:** Inspection Capture Screen → ✨ button (Vision toggle OFF)
+### Vision Scan
 
-**What it does:** Takes your caption and section context and generates a full CAR-format narrative:
-- **Condition** — what was observed
-- **Action** — what repair or evaluation is recommended
-- **Recommendation** — who should perform the work and why it matters
+A modifier on AI Generate, not a separate button. Arm Vision Scan, then tap AI Generate. The photo goes up with the caption and field note, and the AI drafts the narrative from what it sees in the picture. The Co-Inspector pass runs on the same photo and flags up to three additional findings you did not note.
 
-**Best for:** Common, well-described findings where your caption clearly communicates the deficiency. Example: "Double-tapped breaker at main panel" → full narrative generated in 2 seconds.
+- **Where:** Capture screen on the finding
+- **Best for:** Findings where the photo tells the story better than words can
+- **Co-Inspector output:** Accept each suggestion into a new finding or dismiss it. The suggestions are suggestions only. You are the licensed inspector and your judgment is final.
 
-**Tips:**
-- Write a specific caption — the more detail you give, the better the narrative
-- Select the correct section and subsection before generating — the AI uses this context to calibrate severity and recommended action
-- The AI follows TREC Standards of Practice language by default for Texas residential inspections
-- Generated narratives always require your review — treat them as a strong first draft
+### Scan Label / Reading
 
-**Cost:** 2 IT
+Reads values off a photo (a furnace data plate, a thermometer, an app screenshot) or routes a typed `field label: value` into the matching field on the Ratings screen. Always shows a confirm screen before applying.
 
----
+- **Where:** Capture screen
+- **Best for:** Any time you would otherwise type a reading. One screenshot of a Fieldpiece or similar tool extracts every reading on screen in a single call.
+- **Match is forgiving:** "Furnace supply air temperature" finds "Furnace Tested Supply Air Temperature" without a perfect match.
 
-## Vision Analysis — Photo-Grounded Narrative
+### Smart Search
 
-**Where:** Inspection Capture Screen → enable the 🔬 toggle → ✨ AI Generate
+Semantic search across your narrative library. Pulls a narrative you have already written and refined. Faster than regenerating when your library has a close match.
 
-**What it does:** Sends your photo to a multimodal AI model along with the caption. The AI analyzes what is visually present in the photo and generates a narrative grounded in the actual image — not just the caption.
+- **Where:** Capture screen on the finding
+- **Best for:** Repeat findings where the wording you have already approved is better than anything the AI would write fresh
 
-**Best for:**
-- Complex or ambiguous deficiencies where the visual context is critical
-- Situations where the caption alone doesn't fully describe what you're seeing
-- Verifying that the narrative matches the photo before saving
+### Add to Summary
 
-**How it works:**
-1. Capture a photo
-2. Write a caption describing what you're looking at
-3. Enable the 🔬 Vision toggle
-4. Tap ✨ AI Generate
-5. The photo is analyzed and a narrative is returned within 10–15 seconds
+Not AI, but it works hand in hand with the AI. Marks a finding for the report's summary section. Use it on safety items and potentially costly repairs so the client sees them front and center.
 
-**Vision Analysis with Co-Inspector** — see the [Co-Inspector](#co-inspector) section below.
+### Finish & Draft Report
 
-**Cost:** 8 IT
+The batch call. One tap syncs everything from the phone and asks the AI to draft every blank narrative on the server. The inspector gets a notification when the drafts are back.
 
----
+- **Where:** Review screen
+- **Best for:** The drive back to the office. Most inspectors leave light drafting for the field and let Finish & Draft handle the rest.
 
-## Co-Inspector — Secondary Deficiency Detection
+### System Performance Opinion (on mobile)
 
-**Where:** Activates automatically after Vision Analysis if additional deficiencies are detected
+Drafts a section-level professional opinion (for example, Foundation Performance). You can write it by hand if you prefer.
 
-**What it does:** After generating the primary narrative, the AI scans the photo for additional deficiencies that are *not* the primary finding. If it finds any (up to 3), a review modal slides up.
+### Property Intelligence (included)
 
-**Strict criteria — the AI only flags:**
-- Clearly visible safety hazards
-- Definitive structural deficiencies
-- Active moisture, rot, or mold
+A pre-built AI summary of the property pulled from its address. Includes age, square footage, foundation type, flood zone, radon zone, termite risk, climate zone and era-typical construction materials. Appears on the inspection setup screen.
 
-**The AI will NOT flag:** code compliance items (GFCI, AFCI), missing labels, cosmetic issues, deferred maintenance, or anything requiring knowledge of build date or local codes.
+### Offline AI queue
 
-**The workflow:**
-1. Vision Analysis completes → primary narrative populates
-2. If secondary findings exist → review modal appears automatically
-3. For each proposed finding:
-   - Tap **+ Queue** to accept it (adds a pill to the pending queue)
-   - Tap **✕ Skip** to dismiss it
-4. Finish your current finding → Save + New
-5. Tap a green **📋 pill** to pre-populate the next form with that finding's caption and narrative
-6. Capture a photo of that specific deficiency → adjust section/subsection → Save
-7. Repeat until all pills are consumed
+Scan Label / Reading calls that need the cloud (any photo-based scan) queue on the device when you have no signal and finish automatically when you reconnect. AI Generate and Vision Scan need a live connection when you run them.
 
-**Important:** Co-Inspector findings are suggestions only. Always verify the finding visually before saving. The AI targets >85% confidence findings only, but you are the licensed inspector — your judgment is final.
+## Office capabilities (web)
 
-**Cost:** Included in the 8 IT Vision Analysis cost — no additional charge for secondary findings.
+### AI Draft
 
----
+The web Reviewer version of AI Generate. Fills in every blank narrative on a finding one at a time, or in a batch.
 
-## Library Search — Semantic Narrative Matching
+- **Where:** Report Workspace, per finding or on the AI Draft tab
+- **Best for:** Reviewing a mobile-captured inspection where the inspector left narratives blank for the office
 
-**Where:** Inspection Capture Screen → 🪄 Magic Wand button
+### AI Draft and Polish (single click)
 
-**What it does:** Takes your caption and uses AI semantic ranking to find the most relevant narratives in your library — even if the wording doesn't exactly match. Returns up to 3 suggestions.
+Drafts every eligible finding, fills required performance opinions, then runs Polish Report. One button, one trip.
 
-**Best for:** Finding a past narrative for a finding type you've documented before, when you can't remember the exact wording.
+- **Where:** Report Workspace, top of page
 
-**Cost:** 1 IT
+### Polish Narrative
 
----
+Rewrites one narrative for tone and clarity. Keeps the facts, polishes the wording.
 
-## FREE Library Chips — Zero-Cost Local Search
+### Polish Report
 
-**Where:** Appear automatically below the caption field as you type
+Whole-report polish pass with a before and after review. Flags absolute claims so you can soften anything the standard requires you to hedge.
 
-**What it does:** Runs a keyword match against your narrative library locally on the device. Completely offline-capable. Returns matching narratives as tappable chips.
+### Spell check
 
-**Best for:** Common repeat findings where you have library entries — roof shingles, GFCI outlets, water heater age, etc.
+Fixes spelling and dictation stutters across the report. Limited to spelling so it never changes your findings.
 
-**Cost:** 0 IT — always free
+### Vision Analysis (web)
 
----
+The web equivalent of mobile Vision Scan. Drafts a narrative from a photo attached to a finding.
 
-## Narrative Library
+### Label and nameplate reading
 
-**Where:** Settings → Narrative Library (web admin) / saved from the Capture Screen (mobile)
+The web equivalent of Scan Label / Reading. Fills equipment fields from a plate photo or an uploaded screenshot.
 
-The narrative library is your personal collection of reusable inspection narratives, organized by section and finding type. Every narrative you save becomes available as a FREE chip in future inspections.
+### Bundle Findings
 
-**Building your library:**
-- After writing or editing a narrative on mobile, tap **Save to Narrative Library**
-- In the web admin, you can manage, edit, and delete library entries
-- Narratives are scoped to your account — not shared across subscribers
+Merges several related findings into one narrative. Useful when several captures describe facets of the same issue.
 
-**Library search hierarchy (mobile):**
-1. Local keyword match → FREE chips (0 IT, offline)
-2. Semantic search via 🪄 → ranked results (1 IT, requires network)
+### System Performance Opinion
 
----
+Drafts a professional opinion for a system from every finding in that section. Appears on the report summary.
 
-## AI Draft — Batch Narrative Generation
+### VoiceDNA
 
-**Where:** Report Workspace → AI Draft tab
+Learns your company's writing voice from sample reports (up to 8). Future AI Generate calls produce narratives that match that voice. Adjust tone and length with simple dials; narrative format control (bullets, paragraphs, structured, mixed) is on the roadmap. Owners and admins run VoiceDNA.
 
-**What it does:** Generates full CAR narratives for all findings that have a **Field Note** (a brief on-site observation note) but no narrative yet. Useful when inspectors jot quick field notes on mobile and the full narrative writing happens in the office during report review.
+### Repair Request narratives (included)
 
-**How to use:**
-1. Open the Report Workspace for a completed inspection
-2. Go to the **AI Draft** tab
-3. Review the list of findings eligible for drafting (have field note, no narrative)
-4. Click **Draft All** or draft individual findings
-5. Review each generated narrative — approve, edit, or reject
+When a buyer or buyer's agent builds a repair request from the client-facing report, the AI rewrites each selected deficiency in a plain, actionable, contractor-ready voice. No separate credit cost.
 
-**Field Notes vs. Captions:** The Field Note is a private, unformatted observation note the inspector writes on mobile (separate from the caption). It gives the AI more raw material to work with. Example field note: *"rust at base, looks like slow leak, maybe 2-3 years old"* → AI generates a full professional narrative about corrosion at the water heater base with recommended evaluation.
+### Business Insights (included)
 
-**Cost:** 2 IT per drafted finding
+Dashboard commentary written from three viewpoints: CEO (strategy), Operations (throughput and quality) and Finance (revenue and margin). Refreshes three times a day. Appears on the Dashboard.
 
----
+## What keeps the AI honest
 
-## System Performance Opinion (SPO)
+These are rule-based checks written in code, not AI. They are what let you ship AI-drafted narratives without worrying about the AI inventing details.
 
-**Where:** Report Workspace → Summary tab → System Performance Opinion section
+### Specialist writing rules
 
-**What it does:** Generates a section-level performance summary for each major system (Structural, Electrical, Plumbing, HVAC, Roofing). The SPO synthesizes all the deficiency ratings across the subsections of that system into a single professional paragraph — giving the client an at-a-glance assessment of each major system.
+HVAC, electrical, plumbing, site and grading, gas and fire safety findings each get their own writing rules. The AI uses the right voice for the trade and refers the right trade professional for the work.
 
-**How it works:**
-1. The AI reads all findings and ratings for a given section
-2. It identifies the severity distribution (how many I / NI / NP / D ratings)
-3. It synthesizes a narrative that accurately represents the overall system condition
-4. For Structural Systems, the SPO includes **Movement Indicator** analysis — a TREC-calibrated assessment of foundation performance based on all structural subsection findings
+### Standard-of-practice checks
 
-**The SPO is standards-aware:** It uses the severity thresholds defined in your SOP rules to calibrate language — a section with 2 minor deficiencies gets different language than one with 5 major deficiencies.
+Every draft is checked against the rules of the selected standard and flagged for review if something is off. Examples:
 
-**Cost:** 10 IT per section SPO
+- Numbers must come from your captured readings. The AI cannot invent an amperage or a temperature.
+- Causes cannot be stated as certain. "Possibly caused by" stays "possibly caused by."
+- Your hedging stays. If you wrote "appears to," the AI will not promote it to "is."
 
----
+### Plain-language pass
 
-## AI Knowledge Base & SOP Awareness
+As narratives are drafted, jargon is replaced with plainer words. Your client reads the report.
 
-The AI narratives are calibrated to:
+### Computed, not guessed
 
-- **TREC Standards of Practice** (Texas residential) — severity language, recommended actions, and inspector liability language follow TREC SOP
-- **Section context** — Electrical narratives mention qualified electricians; Plumbing narratives mention licensed plumbers; Structural narratives reference foundation specialists
-- **Confidence thresholds** — The Co-Inspector only flags findings it is >85% confident about; ambiguous observations are omitted to protect inspector liability
-- **No code compliance** — The AI does not cite specific building codes (GFCI requirements, clearances, load calculations) because code compliance requires knowledge of permit date, local amendments, and AHJ interpretation. Inspectors should add code references manually if required by their SOP.
+HVAC temperature-split verdicts, equipment service life and roof-covering limitations are calculated from the readings you captured. The AI only words them. If you capture a 24°F supply-return split and the rule says 18 to 22 is normal, the finding reports "above expected range" because the math says so, not because the AI guessed.
 
+### Pre-publish checks
 
----
+The report cannot be published until the required items are complete. Before publishing, you review every flagged narrative, and every finding without a narrative must be drafted or explicitly signed off (with a record of who signed it off).
 
-## Complete AI Operation Cost Reference
+## Finding types and the AI
 
-The following table lists every AI operation 1nspecT performs and its current IT token cost. The codename column matches the operation key in `apps/backend-api/src/billing/token.service.ts` so platform admins and integrators can correlate billing events to user actions.
+The AI adjusts how it frames findings for each inspection type. The template you choose tells it which type to use.
 
-### Inspector-facing operations (mobile)
+| Inspection type | What changes in the AI's wording |
+| --- | --- |
+| Resale | Standard tone: observations, implications, recommendations |
+| Pre-listing | Softer framing for seller-side disclosure |
+| New-build final | Punch-list voice, builder-ready |
+| Pre-pour | Pre-construction scope language, references to drawings and plans |
+| Pre-drywall | In-progress scope language, reservations about covered systems |
+| 11-month warranty | Builder-warranty voice |
+| Historical | Era-aware, references to typical construction of the period |
+| Commercial | Business-ready scope language |
+| Reinspection | Repair-verification voice (confirming completion, flagging incomplete) |
 
-| Operation | Codename | Cost | Surface |
-|-----------|----------|------|---------|
-| AI Generate (text-only) | `generate-narrative` | 2 IT | Capture screen → ✨ button (Vision OFF) |
-| Vision Analysis | `vision-analyze` | 8 IT | Capture screen → ✨ button (Vision ON) |
-| Library Search 🪄 | `semantic-search` | 1 IT | Capture screen → 🪄 magic-wand button |
-| FREE Library chips | _(local)_ | 0 IT | Capture screen — automatic on caption typing |
-| Save to Narrative Library | `provision-library-entry` | 1 IT | Capture screen → Save to Narrative Library |
-| System Info Tag (photo) | `extract-metadata-photo` | 3 IT | Capture screen → System Info Tag (with label photo) |
-| System Info Tag (text) | `extract-metadata-text` | 1 IT | Capture screen → System Info Tag (text-only fallback) |
+## Where this does not go
 
-### Admin-facing operations (web)
+Features in this list are not available even if you have seen them mentioned in product screens or older docs:
 
-| Operation | Codename | Cost | Surface |
-|-----------|----------|------|---------|
-| AI Draft (per finding) | `generate-narrative` | 2 IT | Report Workspace → AI Draft tab |
-| Polish Narrative | `polish-narrative` | 2 IT | Report Workspace → narrative editor |
-| Polish Report | `polish-report` | 10 IT | Report Workspace → Polish Report action |
-| System Performance Opinion (per section) | `generate-spo` | 10 IT | Report Workspace → Summary tab |
-| Bundle Findings | `bundle-findings` | 2 IT | Report Workspace — finding consolidation |
-| Voice DNA — extract inspector persona | `extract-persona` | 50 IT | Onboarding flow — one-time per inspector |
-| Schema extraction (OCR + structured) | `extract-structured-ocr` | 3 IT | Template upload → schema review |
+- Voice dictation is not built in. The app cleans up stutters and inspection-term typos (for example, "freeze" to "frieze") in whatever your phone keyboard dictates, but there is no 1nspecT voice engine.
+- There is no in-app report viewer on the mobile app. Reports are mobile-first web pages and PDFs that open in any browser from the client link.
+- The AI does not cite specific building codes. Code compliance depends on permit date, local amendments and the authority having jurisdiction. If your standard requires a code reference, add it yourself.
 
-### Free operations (0 IT)
+## Related articles
 
-| Operation | Codename | Why it's free |
-|-----------|----------|---------------|
-| Repair Request generation | `repair-request` | Bundled into report.published downstream |
-| Property Baseline | `property-baseline` | Reference data lookup |
-| PDF schema extraction | `extract-pdf-schema` | Template authoring tool |
-| Structured text extraction (no OCR) | `extract-structured-text` | Pure text parsing |
-
-### How to read your usage
-
-The IT balance shown in **Settings → Subscription & Tokens** is the live remaining balance. Each AI call deducts atomically — if your balance is below the operation's cost when you tap the button, the call is blocked with a clear message naming the operation, the cost, and your current balance.
-
-> **Vision Analysis pre-flight:** Vision specifically pre-checks your balance before sending the photo to the model. If you have less than 8 IT, the call is rejected immediately so you do not wait for the network round-trip and the photo upload before seeing the error.
-
-### Rate limiting
-
-AI operations are throttled at the controller level. Burst requests above the rate limit return HTTP 429 with a Retry-After header. The mobile and web clients handle this transparently — you may see a brief "AI is busy" message and a retry.
+- [AI Credits](/1nspect/features/it-tokens) — what each capability costs
+- [AI During Capture](/1nspect/inspector/ai-during-capture) — the mobile buttons step by step
+- [Report Workspace](/1nspect/admin-operator/inspection-reviewer) — AI in the office
+- [Narrative Library](/1nspect/admin-operator/intelligence-hub/narrative-library) — building the library the AI pulls from
