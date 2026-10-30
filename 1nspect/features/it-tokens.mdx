@@ -22,22 +22,22 @@ related:
   - "admin-operator-company-and-pricing-company-settings"
   - "inspector-settings-and-tokens"
 status: "stable"
-last_verified_against_code: "2026-10-28"
+last_verified_against_code: "2026-10-30"
 ---
 
 AI Credits are the currency 1nspecT uses to meter AI work. Every AI call (narrative drafts, vision analysis, polish, label reading, performance opinions, VoiceDNA) draws from your company's monthly allowance. This page is the authoritative reference: what each capability costs, what your plan includes, and how to add more when you need them.
 
 <Note>
-  AI Credits were previously called **1nspecTokens** or **IT**. The product is standardizing on "AI Credits" everywhere. The counter and billing math haven't changed.
+  AI Credits were previously called 1nspecTokens or IT. The product is standardizing on "AI credits" everywhere. The Billing page already uses the new name; a few other places (the Dashboard's AI tile, some mobile alerts) still show the older "IT" label. The counter and billing math are the same regardless of which label you see.
 </Note>
 
 ## Where you see your balance
 
-Your balance lives on the **web admin**. There is no credit counter on the mobile app on purpose, so field inspectors stay focused on inspecting.
+Your balance lives on the web admin. There is no credit counter on the mobile app on purpose, so field inspectors stay focused on inspecting.
 
-**Web admin:** Sign in as an owner or admin and open **Business Ops › Billing**. The Billing page shows your current balance, your monthly allowance, usage so far this period, and recent top-ups.
+**Web admin:** Sign in as an owner or admin and open **Settings › Billing** (the page lives at `/settings/billing`). The page title is **Billing**. Under the **Usage** card, the **AI credits** subsection shows the credits remaining in this period's plan allowance plus any purchased credits (which never expire).
 
-**Mobile:** Inspectors see credit information only in two places: an alert when a call is blocked for insufficient credits, and a link in that alert to the web Billing page (owners and admins only).
+**Mobile:** Inspectors see credit information only when a call is blocked for insufficient credits. The alert links to the web Billing page (owners and admins only).
 
 The balance is shared across your whole company. Every inspector draws from the same bucket.
 
@@ -79,18 +79,18 @@ The authoritative cost reference. Capabilities marked **Included** draw no credi
   The costs above are the current rates. If a cost changes, your Billing page is always authoritative.
 </Tip>
 
-## Your monthly allowance
+## Your plan's monthly allowance
 
-Each plan includes a monthly allowance of credits. Unused credits do not roll over.
+Each plan includes a monthly allowance of credits. Unused plan credits do not roll over at the end of the period; purchased credits never expire.
 
 | Plan | Monthly allowance |
 | --- | --- |
-| Starter | 2,000 credits |
-| Pro | 5,000 credits |
-| Team | 5,000 credits per seat, pooled across the team |
+| Solo | Included allowance (see Billing for current numbers) |
+| Professional | Included allowance (see Billing for current numbers) |
+| Team | Included allowance per seat, pooled across the team (see Billing for current numbers) |
 
 <Note>
-  Plan names, limits and allowances are being updated under an upcoming billing release. Open **Business Ops › Billing** for your current plan's exact numbers.
+  Open **Settings › Billing** for your current plan's exact allowance. That page is the authoritative source.
 </Note>
 
 ## Typical inspection cost
@@ -103,28 +103,26 @@ A single inspection usually draws between 30 and 150 credits. The range depends 
 | Standard: AI Generate on most findings, Vision Scan on 2 to 5, SPOs on major systems | 80 to 150 credits |
 | Heavy vision: Vision Scan on nearly every finding, every system opinion | 200 to 300 credits |
 
-A 2,000-credit monthly allowance covers roughly 15 to 25 inspections at the standard pattern.
-
 ## Buying more credits
 
 If you run through your allowance, you can top up without changing plans.
 
 <Steps>
   <Step title="Open the Billing page">
-    Business Ops › Billing (owners and admins).
+    Settings › Billing (owners and admins only).
   </Step>
-  <Step title="Choose a credit pack">
-    Pack sizes are shown with current prices. The current entry-level pack is 1,000 credits for \$19.
+  <Step title="Find the AI credits card">
+    Under **Usage**, the **AI credits** subsection shows your remaining plan credits for the period and any purchased credits. Purchased credits do not expire.
+  </Step>
+  <Step title="Buy a credit pack">
+    The top-up button is labeled **Buy 1,000 AI credits** and shows the current price inline.
   </Step>
   <Step title="Pay through Stripe">
-    Checkout is handled by Stripe, the same processor you use to receive client payments.
-  </Step>
-  <Step title="Credits appear immediately">
-    Your balance updates within seconds. The next AI call draws from the new total.
+    Checkout is handled by Stripe. Credits appear in your balance within seconds and the next AI call draws from the new total.
   </Step>
 </Steps>
 
-You can also buy inspection bundles the same way (10 extra reports for \$49, valid 90 days), useful if you are on Starter and hit the monthly report cap.
+If you are on the **Solo** plan, the same Usage card also lets you buy inspection packs when you approach the monthly inspection cap. The button is labeled **Buy 10 inspections** and shows the price and validity window inline. Professional and Team plans do not need inspection packs.
 
 ## How deduction works
 
@@ -140,7 +138,7 @@ Running low does not stop your inspection or your reports. AI is an accelerator,
 | --- | --- |
 | Vision Scan | Blocked with an "insufficient credits" alert that links to the Billing page |
 | AI Generate | Blocked; you can type the narrative yourself or pull one from Smart Search |
-| Smart Search | Blocked; the free library chips (local, no credits) keep working |
+| Smart Search | Blocked; the library autocomplete chips (local, no credits) keep working |
 | Scan Label / Reading | Blocked; type the values into the fields directly |
 | Publishing the report | Not affected; publishing never calls the AI |
 | Taking photos, rating areas, editing | Not affected |
@@ -157,13 +155,13 @@ Owners get a cap-alert email when the account reaches 80% and 100% of its allowa
 
 ## Where to see usage
 
-- **Billing page** (Business Ops › Billing): your current balance, the allowance, usage this period, and your top-up history.
-- **Inspection Details** (per order): the AI calls that ran against that order and what they cost.
-- **Inspector Productivity report** (Business Ops › Reports): credit spend grouped by inspector.
+- **Billing page** (Settings › Billing): your current plan, inspection usage this period, remaining AI credits, and seats.
+- **Inspection Details** (per order): the AI calls that ran against that order.
+- **Reports** (top-nav Reports item): usage grouped by inspector and date range.
 
 ## Related articles
 
-- [AI Features Guide](/1nspect/features/ai-features) — every capability in detail
+- [AI features](/1nspect/features/ai-features)
 - [Settings (Config) & AI Credits](/1nspect/inspector/settings-and-tokens) — the mobile view
-- [Company Settings](/1nspect/admin-operator/company-and-pricing/company-settings) — where to adjust defaults
-- [AI During Capture](/1nspect/inspector/ai-during-capture) — how the mobile AI buttons work
+- [Company Settings](/1nspect/admin-operator/company-and-pricing/company-settings)
+- [AI During Capture](/1nspect/inspector/ai-during-capture)

@@ -20,6 +20,15 @@ last_verified_against_code: "2026-10-28"
 
 Plain-language definitions of every 1nspecT-specific term that appears in the rest of this guide. Sorted alphabetically.
 
+### Add to Existing Finding
+
+The mobile Capture-screen button for the two situations where a new capture belongs with an existing finding, not on its own. The button opens a panel with two modes:
+
+- **Extra photo** attaches an additional close-up or context photo to a finding that already exists, with an optional caption. Use it when the current finding needs another angle or a detail shot.
+- **Another location** records the same deficiency at a new location on the property. Use it when the same issue repeats (a loose receptacle in two bedrooms, say). The repeated locations group onto one finding card in the report.
+
+This button replaces the older **Location Tag** button; the behavior is similar, the UI shape is new.
+
 ### Add to Summary
 
 The mobile button that flags a finding into the report's summary section. Use it for safety items and potentially costly repairs. Available on any finding on the Capture screen.
@@ -81,7 +90,7 @@ A reusable group of narratives or captions, typically scoped to a template, a pr
 
 ### Cover Designer
 
-The visual tool for building branded report cover pages. Supports layers, frames, logos, backgrounds and dynamic text. Found at **Templates › Cover Designer**.
+The visual tool for building branded report cover pages. Supports layers, frames, logos, backgrounds and dynamic text. Reached from the top-nav **Cover Designer** item.
 
 ### Cover photo
 The photograph displayed on the cover page of the report PDF. Inspectors set it on mobile from the Review screen; owners can also set it from the Report Workspace on web.
@@ -103,18 +112,14 @@ A private observation the inspector writes on mobile. Separate from the caption 
 
 ### Field Quote
 
-The mobile Quick Quote screen. Lets an inspector price a job on site: address autocomplete pulls property details, services and add-ons are selected, and the price is calculated from your pricing rules. The inspector can text the client a quote link or book the inspection directly from the same screen.
-
-### Finalize Inspection
-
-The mobile action that locks the inspection once every rating is set and every finding has a narrative. Required before publishing from the field.
-
-### Finding
-A single record on an inspection: a captured observation of one condition. Carries a section, a subsection, a rating, an optional caption, an optional narrative, optional photos and video, an optional field note, and an optional summary flag.
+The mobile Quick Quote flow. The button on the mobile Home screen is labeled **Field Quote** and the screen's own title is **Quick Quote**. Lets an inspector price a job on site: address autocomplete pulls property details, services and add-ons are selected, and the price is calculated from your pricing rules. The inspector can text the client a quote link or book the inspection directly from the same screen.
 
 ### Finish & Draft Report
 
-The mobile batch action that syncs everything to the cloud and asks the AI to draft every blank narrative on the server. Costs 50 credits per report. Most inspectors use Finish & Draft on the drive back to the office and polish from the web later.
+See the dedicated entry below. The mobile Review screen has four actions: **Resume Inspection**, **Sync to Cloud**, **Finish & Draft Report**, and **Publish Report** (shown only when your company has enabled per-user mobile publishing). The older **Finalize Inspection** button has been removed.
+
+### Finding
+A single record on an inspection: a captured observation of one condition. Carries a section, a subsection, a rating, an optional caption, an optional narrative, optional photos and video, an optional field note, and an optional summary flag.
 
 ### Haven
 
@@ -132,9 +137,9 @@ A quote that has been created but not accepted. Leads appear in the Inspections 
 
 See [Collection](#collection-narrative-or-caption) and [Narrative Library](#narrative-library).
 
-### Location Tag
+### Location Tag (former name)
 
-The mobile button that routes everything after a colon in your caption to a location field (for example, `Water meter location: left of driveway near street`). Also used to link a finding that repeats across several places: reuse the exact caption and the app will offer to link the second instance to the first.
+The prior name of the Capture-screen button that is now called **Add to Existing Finding**. See that entry.
 
 ### Multi-instance subsection
 
@@ -168,7 +173,7 @@ The embeddable booking page clients use to request an inspection from your websi
 
 ### Quick Quote
 
-The address-first mobile quoting flow (also called the Field Quote). See [Field Quote](#field-quote).
+The title the mobile screen uses for the Field Quote flow. The Home-screen button that launches it is labeled **Field Quote**. See [Field Quote](#field-quote).
 
 ### Realtor portal
 
@@ -219,7 +224,7 @@ The rulebook your inspections follow. 1nspecT ships with TREC (Texas), InterNACH
 
 ### SoP Manager
 
-The web screen for browsing standards and rating scales, and for cloning a standard to customize its ratings (including reinspection ratings). Found at **/sop-manager** in the web admin.
+The web screen for browsing standards and rating scales, and for cloning a standard to customize its ratings (including reinspection ratings). Reached from the top-nav **SoP Manager** item.
 
 ### SPO (System Performance Opinion)
 A section-level professional opinion that synthesizes all findings within a major system into one assessment (for example, Foundation Performance). Appears in the report summary. The AI drafts it on request; you can also write it by hand. Costs 10 credits.
