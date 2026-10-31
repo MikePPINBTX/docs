@@ -1,0 +1,62 @@
+---
+id: "start-here-how-1nspect-works"
+title: "How 1nspecT works"
+description: "The three parts of the 1nspecT platform (web admin, mobile app, client portals) and how data flows between them."
+sidebarTitle: "Platform overview"
+keywords: ["overview", "platform", "architecture", "how it works"]
+persona: ["admin-operator", "inspector"]
+surfaces: ["web", "mobile"]
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-10-30"
+---
+
+1nspecT is one platform split into three surfaces that share the same data in real time. The web admin is where you set up and run the business. The mobile app is for field capture. The client and agent web pages are what your customers see. This page is the quick tour.
+
+## The three surfaces
+
+| Surface | Who uses it | Main jobs |
+| --- | --- | --- |
+| Web admin (browser) at `app.1nspect.app` | Owners, office admins, inspectors at a desk | Orders, report review and publishing, templates and libraries, pricing, email automation, team, business reports |
+| Mobile inspector app (iOS and Android) | Inspectors in the field | Assigned inspections, offline capture, photos and video, AI drafting, reinspections, quoting and booking on site |
+| Client and agent web pages (no login) | Home buyers, sellers, agents | Booking, quotes, signing, payment, the online report, repair requests, the realtor portal |
+
+Clients and agents never need an account or an app. Everything reaches them as a branded web link.
+
+## The web admin top navigation
+
+Ten top-level items run across the top bar of the web admin. On phones they collapse into a hamburger drawer.
+
+| Item | What it is |
+| --- | --- |
+| **Dashboard** | KPIs, action items, upcoming inspections, business insights |
+| **Inspections** | The list of every order and quote, plus the Order Creation Wizard and the Report Workspace for each one |
+| **Templates** | Build and edit your inspection templates |
+| **SoP Manager** | Browse standards of practice and clone one to customize ratings |
+| **Narrative Management** | Your caption and narrative library (also opens as Intelligence Hub) |
+| **Contacts** | Clients and agents |
+| **Cover Designer** | Build branded report cover pages |
+| **Reports** | Business reporting: monthly reconciliation, Stripe payouts, invoices, A/R aging, service mix, agent referrals, inspector productivity, activity log, tax summary |
+| **Business Ops** | Company info, pricing, payments, contracts, communications, quotes, integrations |
+| **Settings** | Branding (color scheme, preset themes, white-label), the booking-embed snippet, and your team (Users) |
+
+Separately, Billing lives at `Settings › Billing` (route `/settings/billing`). It is owner- and admin-only.
+
+## Where your data lives
+
+Your company's data is isolated from every other company on 1nspecT. Each request is checked against the signed-in user's identity. Public forms are protected by reCAPTCHA and rate limits. Report files are served through short-lived signed links behind each report's permanent web address.
+
+## What runs offline (mobile)
+
+Field capture is offline-first. Photos, video, captions, ratings, field notes, caption-library autocomplete, offline library search, and reinspection checklists all work without signal. The AI (AI Generate, Vision Scan, publishing, booking) needs a connection when you run it. Scan Label / Reading photo scans queue on the device if you have no signal and finish automatically when you reconnect.
+
+## What you need before you start
+
+For the essentials-only path (what the specialist walks you through in the first session), you need: your company name and logo, your inspector licenses, your service list and prices, your inspection standard, and a draft of your service agreement. Everything else you can refine later.
+
+## Related
+
+- [Welcome](/1nspect/getting-started/welcome)
+- [Company profile](/1nspect/getting-started/company-profile)
+- [Branding](/1nspect/getting-started/branding)
+- [Add your team](/1nspect/getting-started/add-your-team)
