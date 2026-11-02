@@ -86,7 +86,9 @@
                   "1nspect/admin-operator/payments-and-contracts",
                   "1nspect/admin-operator/reports-and-publishing",
                   "1nspect/admin-operator/cover-designer",
-                  "1nspect/admin-operator/contacts"
+                  "1nspect/admin-operator/contacts",
+                  "1nspect/admin-operator/sop-manager",
+                  "1nspect/admin-operator/users"
                 ]
               },
               {

@@ -1,0 +1,69 @@
+---
+id: "admin-users"
+title: "User management"
+description: "The Settings › Users tab. Add team members, set roles, working hours, Google Calendar connections, TREC sponsor info and mileage origin. Owner- and admin-only."
+sidebarTitle: "Users"
+keywords: ["users", "user management", "team members", "roles", "inspector toggle", "trec sponsor", "working hours"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "admin-operator"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+User management is where you add and manage every team member on your account: inspectors, admins, owners. Lives under the Settings page as the Users tab.
+
+## Where to find it
+
+**Settings** top-nav (last of ten items) › the **Users** tab (second of two tabs: Company and Users). The page header inside the Users tab reads **User Management**.
+
+## The user list
+
+The tab shows two sections:
+
+- **Active users** — current team members
+- **Disabled users** — team members who have been disabled; shown below Active users in a separate section
+
+Each row shows: display name, email, role chip, connected calendar status.
+
+## Add Team Member
+
+Top of the list: **Add Team Member** button. Opens the Add Team Member dialog (same dialog switches to **Edit Team Member** when you click into an existing user).
+
+Fields covered in [Add your team](/1nspect/getting-started/add-your-team):
+
+- Display Name (required)
+- Email (required; immutable after creation)
+- Temporary Password (required for new users; minimum 6 characters)
+- License Number
+- Role
+- Inspector toggle
+- Google Calendar (connect per user)
+- Working Schedule (per-day hours + Timezone from a US dropdown)
+- TREC Sponsor Information (Sponsor Name, Sponsor License Number — required for Texas)
+- Mileage Calculation (Home Address)
+- Signature Image URL
+
+## Disabling vs. deleting
+
+- **Disable** moves the user to the Disabled section and frees their seat for a new user. Past history on their orders stays intact.
+- **Delete** is not supported; disabling is the final state. This preserves the audit trail of inspections they completed.
+
+## Seats
+
+Each plan includes a set number of seats. Open **Settings › Billing** to see your current seat count and buy additional seats. To remove a paid seat, first disable the user here, then remove the seat on Billing.
+
+## Roles
+
+- **Owner** — full access, including Billing and dangerous actions
+- **Admin** — can access everything except Billing and some owner-only settings
+- **Inspector** — can access their own assigned inspections on mobile; limited web access
+
+Fine-grained role gating is covered in each feature's doc where it applies.
+
+## Related
+
+- [Add your team](/1nspect/getting-started/add-your-team) (Start Here walk-through)
+- [Google Calendar](/1nspect/features/calendar-integration)
+- [AI Credits](/1nspect/features/it-tokens) (seat-related billing)
+- [Settings page overview](/1nspect/admin-operator/overview)

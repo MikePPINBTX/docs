@@ -1,143 +1,66 @@
 ---
-id: admin-operator-intelligence-hub-option-lists
-title: Option Lists
-persona: [admin-operator]
-surfaces: [web]
-category: admin-operator
-related: [admin-operator-intelligence-hub-overview, admin-operator-templates-overview, admin-operator-intelligence-hub-narrative-collections]
-status: stable
-last_verified_against_code: 2026-05-08
+id: "admin-option-lists"
+title: "Option Lists"
+description: "Reusable pick lists that feed Select fields across every template. One list, many fields across many templates. Edits propagate to every bound field."
+sidebarTitle: "Option Lists"
+keywords:
+  - "option lists"
+  - "pick lists"
+  - "dropdowns"
+  - "select fields"
+  - "propagate"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "admin-operator"
+status: "stable"
+last_verified_against_code: "2026-11-02"
 ---
 
-# Option Lists
+Option Lists are reusable pick lists that feed template Select fields across every template on your account. One list, many fields across many templates. Edit the list and the change propagates to every template field bound to it.
 
-Option Lists (route `/option-lists`) is the **dropdown library**. Whenever a template field has a fixed set of choices — Foundation Type, Cladding Type, Roof Covering, HVAC System, Parties Present — that field is backed by an Option List. Build them once here; reuse across every template.
+## Where to find it
 
-This article documents the list view, the create/edit dialogs, and how option lists are referenced from templates.
+**Narrative Management** top-nav › **Intelligence & Library Hub** › the **Option Lists** tab (fourth tab). Or at `/option-lists` directly.
 
----
+## The lists view
 
-## When you use it
+The page shows every option list on your account as a card:
 
-- **First-week setup** — create option lists for every informational field your templates need
-- **Adding a new field type** — define the option list before adding the field to a template
-- **Updating choices** — adding a new "Hardie Board" cladding option, removing an obsolete one
-- **Multi-language support** — duplicate an option list with translated values (advanced)
+| Element | What it is |
+| --- | --- |
+| Name | The list name (e.g. `Foundation Types`, `Cladding Materials`, `Roof Covering`) |
+| Option count | How many options the list carries |
+| Where it's used | Count of fields across templates that bind to this list |
 
-After initial setup, option lists rarely change. The dropdown values are stable for most inspection businesses.
+## Add a new list
 
----
+Click **Create Option List** (or **Create Option List** in the empty state when no lists exist). The editor dialog opens with the title **Create Option List**. Capture:
 
-## Screen layout
+- List name
+- The options themselves (one per line, each with an optional display label)
+- Default option (if applicable)
 
-[SCREENSHOT: option-lists-page.png — desktop, the Option Lists page showing a search bar, a grid or list of existing option lists, and a + Create Option List action.]
+Save to add.
 
-| Element | Purpose |
-|---|---|
-| **Search field** | Substring match on option list name. Placeholder: *"Search option lists..."* |
-| **Option list grid** | Each list as a card showing name, type, count of options |
-| **+ Create Option List** | Opens the create dialog |
-| **Empty state** | *"No option lists yet — Create your first option list to get started"* |
+## Edit a list
 
-Each option list card displays:
+Click a list card to open the edit dialog (title **Edit Option List**). The same fields as the create dialog. Save to update.
 
-- Name
-- Description (if any)
-- Type (Single Select / Multi-Select)
-- Number of options
-- Per-card actions: **Edit / Duplicate / Delete**
+## Propagation
 
----
+When you add, remove or rename an option in a list, the change propagates to:
 
-## Create Option List dialog
+- Every template field bound to the list (dropdown options update)
+- Every mobile Capture screen rendering those fields
+- The next published report (past reports show the historical values they were captured with)
 
-Click **+ Create Option List** to open a modal:
+## Deleting a list
 
-[SCREENSHOT: option-list-create.png — desktop, the Create Option List dialog with fields for Name, Description, Type, and an option-values editor.]
+Delete a list only if no template field binds to it (otherwise those fields lose their options). The UI warns if you try to delete a list that's in use.
 
-| Field | Required | Notes |
-|---|---|---|
-| **Name** | ✅ | Plain text — e.g. *"General Conditions"*, *"Foundation Type"* |
-| Description | — | Optional internal context |
-| **Type** | ✅ | **Single Select** — one option per response; **Multi-Select** — multiple options allowed |
-| **Options** | ✅ | The list of dropdown values, one per row. Add / Reorder / Delete inline |
+## Related
 
-Each option in the options editor has:
-
-- **Value** — the stored/internal value
-- **Label** (optional) — the display text; defaults to the value if blank
-- **Display order** — drag-and-drop to reorder
-
-For TREC compliance, common option lists include:
-
-| Option list | Type | Common values |
-|---|---|---|
-| Foundation Type | Single | Slab · Pier and Beam · Crawl Space · Basement |
-| Exterior Cladding | Single | Brick Veneer · Stone · Wood · Hardie Board · Stucco · Vinyl · Metal |
-| Roof Covering | Single | Composition Shingle · Metal · Tile · Slate · Flat (TPO/EPDM) · Wood Shake |
-| HVAC System Type | Single | Central Forced Air · Heat Pump · Mini-Split · Window Unit · Boiler · Radiant |
-| Water Heater Type | Single | Tank (Gas) · Tank (Electric) · Tankless (Gas) · Tankless (Electric) · Heat Pump · Solar |
-| Parties Present | Multi | Client · Co-client · Realtor · Seller · Builder · Insurance · Other |
-
-After save, the option list is immediately available as a dropdown source for any field in any template.
-
----
-
-## Edit Option List dialog
-
-The Edit dialog is identical to Create but pre-fills with the current values. Save commits changes.
-
-### What changes when you edit
-
-- **Adding new options** — immediately available; existing inspection records are unaffected
-- **Removing options** — existing records that selected the removed option keep their selection (the legacy value is preserved); but the option no longer appears as a choice in new selections
-- **Reordering** — affects display order in new selections only
-
-### Implications of editing
-
-Edits **do not** retroactively update existing inspection records. If you remove "Asbestos Shingle" from the Roof Covering list, the historical inspections that selected that option still display "Asbestos Shingle" — only new inspections lose access to it.
-
-If you want to migrate historical records (e.g. all Asbestos Shingle → Wood Shake), this requires a manual data migration via support or a database script. UI-driven bulk editing of historical records is not currently supported.
-
----
-
-## Duplicating an option list
-
-Click **Duplicate** on a card to create a copy with `(Copy)` appended. Edit the duplicate to make a variant — useful for regional dialects (e.g. UK English variants for international markets) or test versions.
-
----
-
-## Deleting an option list
-
-The **Delete** action prompts confirmation. Deleting an option list:
-
-- Removes it from the dropdown source list
-- Does **not** affect template fields that reference it — those fields now show as orphaned drop-downs
-- Does **not** affect historical inspection data
-
-> **Prefer renaming to deletion.** Rename to `"ARCHIVED — Foundation Type"` and move it to the bottom. Template fields still resolve; the dropdown still works; you can revive it later if needed.
-
----
-
-## How templates reference option lists
-
-When you build a template field in [Template Editor](/1nspect/admin-operator/templates/template-editor) or [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review), informational fields can reference an Option List by name. Once referenced, the field renders as a dropdown on mobile (and in the web Order Wizard) with the configured options.
-
-If the referenced option list is deleted, the field falls back to free-text entry. This is by design — the inspection can still proceed even if option lists drift.
-
----
-
-## What this page does NOT do
-
-- **It does not configure narrative templates.** That's [Narrative Collections](/1nspect/admin-operator/intelligence-hub/narrative-collections).
-- **It does not edit fields directly on a template.** Those edits happen in [Template Editor](/1nspect/admin-operator/templates/template-editor).
-- **It does not import options from CSV** in the current UI. Bulk import is a planned enhancement.
-
----
-
-## Related articles
-
-- [Intelligence Hub Overview](/1nspect/admin-operator/intelligence-hub/overview)
-- [Templates Overview](/1nspect/admin-operator/templates/overview) — where option lists are referenced
-- [Template Editor](/1nspect/admin-operator/templates/template-editor) — where you reference option lists in template fields
-- [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review) — AI extraction can detect dropdown fields suitable for option lists
+- [Template schema editor](/1nspect/admin-operator/templates/template-editor) (where fields bind to lists)
+- [Intelligence & Library Hub overview](/1nspect/admin-operator/intelligence-hub/overview)
