@@ -1,7 +1,7 @@
 ---
 id: "mobile-review-screen"
 title: "Review screen"
-description: "The Review tab shows every finding grouped by area, a summary filter, inline edits and the four finish actions: Resume, Sync, Finish & Draft Report, Publish Report."
+description: "The Review tab shows every finding grouped by area and a summary filter, with five actions: the readiness check, Resume, Sync, Finish & Draft Report and Publish Report."
 sidebarTitle: "Review"
 keywords:
   - "review"
@@ -19,7 +19,7 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-The Review tab is where you check your work before you leave the inspection. Every finding grouped by area, a summary-only filter so you can scan the deficiencies you flagged, inline edits for anything you want to tweak, and four actions at the bottom to finish the job and get the report moving.
+The Review tab is where you check your work before you leave the inspection. Every finding grouped by area, a summary-only filter so you can scan the deficiencies you flagged, an Edit button on each finding, and five actions at the bottom to finish the job and get the report moving.
 
 ## Where to find it
 
@@ -32,24 +32,25 @@ A section-by-section list of every finding on the inspection:
 - Section → area → subsection → finding
 - The rating, caption and (if any) narrative for each finding
 - A **Summary-only** filter toggle at the top (shows only findings flagged into the report summary)
-- Inline edit on any finding to tweak the caption, narrative or field note without going back to the Capture screen
+- An **✏️ Edit** button on each finding that opens the Capture screen (there is no inline editing)
 
 Also at the top: the **upload-fail banner** (if any), which jumps to the Failed Uploads screen when tapped. See [Photos and media](/1nspect/inspector/photos-and-media).
 
-## The four finish actions
+## The five actions
 
 At the bottom of the Review screen:
 
 | Action | What it does |
 | --- | --- |
+| **✓ Complete Inspection** (being renamed **Readiness Audit**) | Only runs the completion check. It does not complete the inspection, upload anything or notify anyone. |
 | **📷 Resume Inspection** | Jump back into the Capture screen for this inspection. |
 | **☁️ Sync to Cloud** | Push your captures and data to the server without drafting or publishing. The alert reads: _"Pending photos and videos uploaded to the cloud. The inspection is not marked complete, use Finish & Draft or Publish when ready."_ |
-| **✨ Finish & Draft Report** | Send everything for batch narrative generation. The AI drafts every blank narrative on the server. 50 AI credits per report. Most inspectors use this on the drive back to the office. |
-| **🚀 Publish Report** | Runs the QA audit (ratings, narratives) and publishes the report straight from the phone. Only shown when your company has enabled per-user mobile publishing (see note). |
+| **✨ Finish & Draft Report** | Send everything for batch narrative generation. The AI drafts every blank narrative on the server. 50 AI credits per report. This is what marks the job completed and moves it to Archived. Most inspectors use this on the drive back to the office. |
+| **🚀 Publish Report** | Runs the QA audit (ratings, narratives) and publishes the report straight from the phone. Only shown when mobile publishing is enabled (see note). |
 
-### Publishing from the field (per-user)
+### Publishing from the field
 
-**Publish Report** may be switched off for you. Publishing from the mobile app is enabled per user by your firm, so report QA stays with whoever owns it. If you don't see Publish Report, that's by design — talk to your admin.
+**Publish Report** is controlled by a company switch first: **Allow Publishing Reports from Mobile** in Business Ops › Company Info, which is **off by default**. When it is on, an admin can still opt a specific user out in Settings › Users. If you don't see Publish Report, that's by design — talk to your admin.
 
 ## QA that runs on Publish
 
@@ -58,6 +59,7 @@ When you tap Publish Report, the app:
 - Confirms every area that takes a rating has one
 - Confirms every finding has a narrative (or has been signed off as Publish without narrative)
 - Confirms required SoP items are complete
+- Runs the narrative compliance review
 - Then publishes the report to the client's permanent URL and fires the Report Published workflow trigger
 
 If any item is unresolved, the audit shows the blockers so you can resolve them before Publish will go.

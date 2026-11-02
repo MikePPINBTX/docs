@@ -32,23 +32,24 @@ One-time setup, done on the Ancillary Services tab:
 Business Ops › Pricing, then the Ancillary Services tab.
 </Step>
 <Step title="Add or edit a Structural ancillary">
-Set the Category to **Structural**. Give it a descriptive name (e.g. `Detached Garage`, `Workshop`, `Guest House`, `Barn`).
+Tick **Priced by square footage**. This checkbox, not the Category, is what enables sqft pricing (Structural is a sensible Category). Give it a descriptive name (e.g. `Detached Garage`, `Workshop`, `Guest House`, `Barn`).
 </Step>
 <Step title="Define the sqft tiers">
-On the per-structure sqft table, add a row per tier: a size and the fee at that size. 1nspecT interpolates between tiers.
+On the per-structure sqft table, add a row per tier, either a flat fee or a per-sq-ft rate. Tiers are **first-match**: 1nspecT uses the first tier the square footage falls in, with **no interpolation** between tiers.
 </Step>
 <Step title="Fill the rest of the ancillary fields">
 Duration per minute, Taxable, Pass-Through, Revenue Model as usual.
 </Step>
-<Step title="Save Fees & Surcharges">
-Commits with the rest of the Ancillary / Packages / Discounts / Surcharges / Settings changes.
+<Step title="Save">
+Click Save Fees & Surcharges. It commits with the rest of the Ancillary / Packages / Discounts / Surcharges / Settings changes.
 </Step>
 </Steps>
 
 ## Adding structures on an order
 
-On the Order Creation Wizard and the Edit Order modal, the **Detached Structures on this order** section shows an **Add structure** row list. For each row you pick:
+On the Order Creation Wizard and the Edit Order modal, the wizard section is titled **Detached Structures** (Residential only) and shows an **Add structure** row list. For each row you pick:
 
+- **Label**: a name for this structure
 - **Type**: the detached-structure ancillary (one of the ones you set up above)
 - **Sqft**: the square footage of that structure
 

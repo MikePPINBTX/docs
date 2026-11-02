@@ -1,17 +1,28 @@
 ---
 id: "troubleshooting-inspection-didnt-sync"
 title: "My inspection didn't sync to the phone"
-description: "The top first-run issue. The job is set up on the web but the inspector can't find it in Assigned Inspections on mobile. Four causes, four fixes."
+description: "The top first-run issue. The job is set up on the web but the inspector can't find it in Assigned Inspections on mobile. Check the three hide reasons first."
 sidebarTitle: "Inspection didn't sync"
-keywords: ["inspection didn't sync", "not on phone", "missing inspection", "first-run", "template", "narrative collection", "caption library"]
-persona: ["admin-operator", "inspector"]
-surfaces: ["web", "mobile"]
+keywords:
+  - "inspection didn't sync"
+  - "not on phone"
+  - "missing inspection"
+  - "first-run"
+  - "template"
+  - "narrative collection"
+  - "caption library"
+persona:
+  - "admin-operator"
+  - "inspector"
+surfaces:
+  - "web"
+  - "mobile"
 category: "troubleshooting"
 status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-An inspection was created on the web but the inspector cannot find it in Assigned Inspections on mobile. This is the single most common first-run problem and almost always comes down to one of four causes. Walk this page top to bottom.
+An inspection was created on the web but the inspector cannot find it in Assigned Inspections on mobile. This is the single most common first-run problem and almost always comes down to one of the causes below. Walk this page top to bottom.
 
 ## 1. The real reasons a job doesn't appear on the phone
 
@@ -25,19 +36,13 @@ Fix any of these and the job appears on the next pull-to-refresh in Assigned Ins
 
 A missing **template** does not hide the job; it shows a "Setup Required" card on the inspection. Confirm the inspection has a template and a narrative collection assigned; the caption library is optional (missing it means an empty autocomplete, not a block).
 
-## 2. The caption or narrative library isn't associated with the template
+## 2. No narrative collection is set
 
-If you've just created a brand-new template and the four fields above look correct, the library might not be bound to the template.
-
-- Open **Narrative Management** › **Intelligence & Library Hub** › **Narrative Library** tab
-- Find the caption collection and the narrative collection you expect this template to use
-- On each one, use the template-picker action to confirm it's associated with your template
-
-If the picker shows no template, the association didn't save. Reopen and set it.
+A narrative collection is needed to **start** the inspection (it does not hide the job). Libraries are set per inspection on Inspection Details, with company defaults in Business Ops › Company Info › Inspection Defaults. The template association in the Narrative Library is only a fallback. A missing caption library is not a block; the caption autocomplete is just empty.
 
 ## 3. The inspector isn't marked as an Inspector
 
-If the Inspector field above shows an inspector who doesn't appear on the mobile sign-in, their user profile may not have the Inspector toggle on.
+The **Inspector** toggle affects the booking roster (who can be booked), **not** what appears on mobile. If the inspector is missing from the booking form or scheduling, check the toggle:
 
 - Open **Settings** › **Users** tab
 - Edit the inspector
@@ -54,8 +59,8 @@ If the inspection is on the phone but Start is disabled, the agreement hasn't be
 
 On the phone:
 
-- Pull down on Home to refresh
-- Confirm the inspector is signed in as the right user (bottom of Config shows the account)
+- Pull down to refresh on **Assigned Inspections**
+- Confirm the inspector is signed in as the right user (Config does not show the account, so check the sign-in email)
 - Confirm the inspection is scheduled within the next 30 days (older or far-future jobs don't appear in Assigned Inspections)
 
 ## Still not working
@@ -64,7 +69,7 @@ Email `support@mymavtech.com` with:
 
 - The order number
 - The expected inspector's email
-- Confirmation of each of the four fields (Inspector, Template, Narrative Collection, Caption Library)
+- Confirmation of the assigned inspector's exact display name, the template and the narrative collection
 
 ## Related
 

@@ -7,7 +7,7 @@ keywords:
   - "primary services"
   - "service registry"
   - "sqft tiers"
-  - "flat fee"
+  - "single tier"
   - "reinspection"
   - "large building"
   - "pricing tiers"
@@ -26,7 +26,7 @@ Primary services are the main inspections you sell. Residential Resale, each New
 
 **Business Ops › Pricing** (or `/pricing`), then the **Primary Services** tab (the first tab).
 
-The left panel lists every service on your account with its code and pricing model (`P1 · SqFt-Based`, `RS · SqFt-Based`, `RI · Reinspection · Internal`). Click a service to open its edit panel on the right. Click **\+ Add** at the top of the list to add a new service.
+The left panel, titled **Service Types**, lists every service on your account with its code and pricing model (`P1 · SqFt-Based`, `RS · SqFt-Based`, `RI · Reinspection · Internal`). Click a service to open its edit panel on the right. Click **\+ Add** at the top of the list to add a new service.
 
 ## Service identity and billing configuration
 
@@ -37,7 +37,7 @@ The top block of the edit panel sets the service's identity:
 | Service Label | What subscribers and clients see. Example: `Residential Resale`. |
 | ID Suffix | A short code appended to order numbers. Example: `RS` yields `Booking ID: 2026-0001-RS`. |
 | Sort Order | Where this service sorts on the booking form (1 = first). |
-| Pricing Model | **SqFt-Based**, **Flat Fee**, **Reinspection**, or **Custom** (commercial, coming soon). |
+| Pricing Model | **SqFt-Based**, **Reinspection**, or **Custom** (disabled for now). There is no Flat Fee model: for a flat price, use a single tier. |
 | Inspection Type | Stamped onto the inspection at order creation. Drives AI narrative framing. A Pre-Pour or Pre-Drywall service left unset is written up as a resale inspection, so set this one. |
 
 ## Defaults for new inspections
@@ -79,7 +79,7 @@ Four checkboxes and two advanced fields:
 | Internal Only | Hide this service from the client quote form. Useful for crew-only extras. |
 | Can Be Standalone | Allow an order of this service without a primary inspection. |
 | Own Agreement | This service needs its own agreement sent separately from the primary. |
-| Bundle Agreement Group | A text identifier (for example, `new_construction_phases`). Services in the same group share one agreement. |
+| Bundle Agreement Group | A text identifier. It is saved but **never read**, so it has no effect on agreements today. |
 | Revenue Model | In-House, Managed (3rd Party), or Referral. |
 
 ## Pricing Tiers
@@ -113,9 +113,9 @@ You can mix styles across tiers. You might have:
 
 Entirely up to you — add tiers with **Add Tier**, remove with the delete icon. Click **Save Tiers** at the bottom of the tiers section to commit this one service's tier changes. The top-right **Save Registry** button saves the entire primary-services list.
 
-### Flat Fee pricing
+### Flat pricing
 
-Pick **Flat Fee** as the Pricing Model and the Pricing Tiers section collapses to a single fee. The service bills that one fee regardless of square footage.
+There is no Flat Fee pricing model. To bill one price regardless of square footage, keep a single tier with a high enough Max Sq Ft (or no Max) and no per-sqft overage.
 
 ### Reinspection pricing
 

@@ -19,7 +19,7 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Tap into an assigned inspection from Home and the job setup screen opens. Confirm or edit the pre-filled information, review the Property Baseline, and tap into the first section to open the Capture screen.
+Open **Assigned Inspections** from Home and tap a job; the job setup screen opens. Confirm or edit the pre-filled information, review the Property Baseline, and tap **Start Inspection** to open the Capture screen.
 
 ## The setup screen top to bottom
 
@@ -28,9 +28,9 @@ The setup screen is one scroll with four main sections, in this order:
 1. **Client Information** — primary client name, email, phone (pre-filled from the order; edit if the office captured anything wrong)
 2. **Additional Client (Optional)** — the co-client row; show it when there is a co-signer or spouse
 3. **Property Address** — the inspected property's address, with Google Places autocomplete if you need to edit
-4. **Property Baseline (for AI Findings)** — Site Conditions (soil, flood, radon, termite, climate zone) and Construction-era materials. Intelligence for you, not shown to the client.
+4. **Property Baseline (for AI Findings)** — Site Conditions (soil, shrink-swell, flood, radon and termite only; no climate zone or insulation on mobile) and Construction-era materials. Intelligence for you, not shown to the client. The baseline fields always show; the **🤖 Review Full AI Baseline** button appears only when a baseline exists.
 
-After the Property Baseline section, a Start action takes you into the Capture screen for the inspection.
+The setup screen also has its own **Template**, **Narrative Collection** and **Caption Library** pickers, and **Start Weather** and **End Weather** fields. Then tap **Start Inspection**.
 
 ## What's pre-filled
 
@@ -63,7 +63,7 @@ These fields print on the report and feed context to the AI narrative drafting.
 
 An AI-assembled snapshot of the inspected property appears on the setup screen. Two subsections:
 
-- **Site Conditions** — soil map unit, dominant component, shrink-swell potential, FEMA flood zone, EPA radon zone, termite pressure, and DOE/PNNL climate zone with recommended attic insulation
+- **Site Conditions** — soil map unit, dominant component, shrink-swell potential, FEMA flood zone, EPA radon zone and termite pressure (the web adds climate zone and attic insulation)
 - **Construction-era materials** — construction materials typical for this build year and region (water supply piping, drain/waste/vent, cladding, roof covering), each with prevalence and severity
 
 This is intelligence for you, not a finding. It is not shown to the client. Use it to know what to look for before you walk the home.
@@ -82,16 +82,15 @@ These feed the AI's narrative framing and the aged-systems check.
 
 The inspection won't open to Capture until:
 
-- A **template** is assigned to the inspection
-- A **caption library** is linked to that template
-- A **narrative library** is linked to that template
+- A **template** is assigned to the inspection (otherwise the job shows a Setup Required card)
+- A **narrative collection** is set. The caption library is optional.
 - The **agreement** has been signed by the client
 
 If any is missing, Start shows the specific blocker and a note on who can fix it. See [First-run gotchas](/1nspect/getting-started/first-run-gotchas).
 
 ## Tapping into Capture
 
-Once setup is complete, tap into any section from the section list. The Capture screen opens on that section's first subsection, ready to work. See [Capture screen](/1nspect/inspector/capture-screen).
+Once setup is complete, tap **Start Inspection**. The Capture screen opens on the first section, ready to work. See [Capture screen](/1nspect/inspector/capture-screen).
 
 ## Related
 

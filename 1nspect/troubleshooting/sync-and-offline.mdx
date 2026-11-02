@@ -31,7 +31,8 @@ For the authoritative behavior reference, see [Offline and sync](/1nspect/inspec
 | Scan Label / Reading with typed `label: value` | Fully offline (parses on-device) |
 | Scan Label / Reading photo-based | Queues, finishes on reconnect |
 | Media uploads | Queue in the background, upload on connection |
-| AI Generate, Vision Scan, Smart Search, Finish & Draft, Publish | Need a live connection |
+| Smart Search (free keyword search of the cached library) | Works offline |
+| AI Generate, Vision Scan, Finish & Draft, Publish | Need a live connection |
 
 ## Reconnecting after being offline
 
@@ -45,7 +46,8 @@ If an upload fails, a banner shows at the top of Review: _"N Media file(s) faile
 
 - **Retry** — queue for another upload attempt
 - **Export** — save a copy to the camera roll (so the photo isn't lost)
-- **Delete** — drop it from the inspection
+- **Retry All** — retry every failed item
+- **Delete** — removes the photo from the upload queue only
 
 Nothing is silently lost. Keep capturing. Don't fall back to your phone's camera roll.
 
@@ -57,17 +59,17 @@ Nothing is silently lost. Keep capturing. Don't fall back to your phone's camera
 
 ## I lost signal in the field; what happens to my work?
 
-Nothing you've captured. Photos, captions, ratings, field notes and typed values are stored on the device. When you reconnect, the sync engine pushes everything up. The only AI operations that need the network at tap time (AI Generate, Vision Scan, Smart Search) are not available; use typed captures and Finish & Draft on reconnect.
+Nothing you've captured. Photos, captions, ratings, field notes and typed values are stored on the device. When you reconnect, the sync engine pushes everything up. The only AI operations that need the network at tap time (AI Generate, Vision Scan) are not available; use typed captures and Finish & Draft on reconnect.
 
 ## Scan Label / Reading photo queued and never finished
 
-- Confirm the queue is working: pull down to refresh on the Review screen
-- Check the Failed Uploads screen for a stuck item
+- A queued scan waits in the **AI processing queue**, not in Failed Uploads. Reconnect and give it a moment; the results apply automatically.
+- Review has no pull-to-refresh, so reopen the screen to check
 - If the scan hangs after reconnect, Export the photo and try Scan Label / Reading on it fresh
 
 ## Reinspection checklist shows no items
 
-The parent inspection's findings may not have synced yet. Pull down to refresh on Home. If the parent still shows missing data after a sync, confirm the parent inspection has been fully synced by its original inspector.
+Reinspection items come from the work list chosen on the web when the reinspection was created. If the list is empty, check the checklist selection on the web order. Pull down to refresh on **Assigned Inspections**.
 
 ## Related
 

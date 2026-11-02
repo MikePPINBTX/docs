@@ -1,11 +1,20 @@
 ---
 id: "start-here-contracts"
 title: "Contract templates"
-description: "Create your service agreement in Contracts Cockpit. Insert dynamic tags for client details and signatures, test-send to any inspection, and set when the agreement is sent automatically."
+description: "Create your service agreement in Contracts Cockpit. Insert dynamic tags for client details and signatures, and choose which orders it applies to. Test Send is a real send."
 sidebarTitle: "Contracts"
-keywords: ["contracts", "agreement", "e-signature", "insert tag", "test send", "signature block"]
-persona: ["admin-operator"]
-surfaces: ["web"]
+keywords:
+  - "contracts"
+  - "agreement"
+  - "e-signature"
+  - "insert tag"
+  - "test send"
+  - "require co-client"
+  - "signature block"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
 category: "getting-started"
 status: "stable"
 last_verified_against_code: "2026-11-02"
@@ -28,23 +37,20 @@ Click the add action to open the Agreement editor. Fill in:
 | Field | Notes |
 | --- | --- |
 | Agreement name | What subscribers see. Placeholder: `Agreement name (e.g. Primary Service Agreement)`. |
-| Send this agreement when | The trigger: when the agreement is sent to the client (for example, after booking confirmed). |
+| Scope | **All orders** or specific services. This is a choice, not a trigger. |
+| Active | Toggle to enable or disable the agreement. |
+| Require co-client to sign | When on, the co-client must sign as well. |
 | Agreement Body | The rich-text body of the agreement. Use **Insert Tag** to insert dynamic fields. |
 
 ### Insert Tag
 
 Click **Insert Tag** to open the tag picker. Tags are grouped:
 
-- **Contract Date** — the date on the agreement itself
-- **Client** — primary client details
-- **Co-Client** — co-signer details
-- **Address** — property address
-- **Service** — primary and ancillary services on the order
-- **Scheduling** — inspection date, time, inspector
-- **Pricing** — the fee breakdown
-- **Signature — Client** — the required signature block for the primary client
-- **Signature — Co-Client** — the required signature block for the co-signer
-- **Company** — your company name, address, logo
+- **Order Fields** — client, address, scheduling, pricing and service tags
+- **Reinspection** — reinspection scope tags
+- **Inspector / Company** — inspector name and license, company name and logo
+- **Signature — Client** — signature, Date and Initials blocks for the primary client
+- **Signature — Co-Client** — signature, Date and Initials blocks for the co-signer
 
 Tags render at send time, so each client sees their own name, address, fee and signature block. For the full catalog with every tag's purpose, see [Variable tags reference](/1nspect/getting-started/variable-tags-reference).
 
@@ -52,9 +58,11 @@ Tags render at send time, so each client sees their own name, address, fee and s
 
 Click **Save Agreement** at the bottom of the editor.
 
-## Test the agreement
+## Test Send is a real send
 
-Use **Test Send** (next to Save) to preview the agreement filled in with a real order's data without sending it to the client.
+<Warning>
+  **Test Send** (next to Save) is not a safe preview. It calls the live send, fires the `contract.sent` trigger and emails the real client on that inspection. Use a test order that carries your own email address.
+</Warning>
 
 <Steps>
 <Step title="Open Test Send">
@@ -64,7 +72,7 @@ At the bottom of the Agreement editor, click **Test Send**. A panel opens.
 Enter the ID of an existing inspection. Placeholder: `Inspection ID (e.g. 2026-0062-RS)`.
 </Step>
 <Step title="Send">
-Click **Send**. 1nspecT sends every applicable agreement for that inspection in test mode. You see exactly what the client would see.
+Click **Send**. 1nspecT sends every applicable agreement for that inspection for real, to the client on that inspection.
 </Step>
 </Steps>
 

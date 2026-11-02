@@ -19,7 +19,7 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-The Ratings tab is the overview of your inspection: every area with its rating, its progress bar, and the editable system-info fields. Add area comments with library suggestions. Clean areas get a "no deficiencies" comment automatically. The Complete Inspection check runs from here (and from Review).
+The Ratings tab is the overview of your inspection: every area with its rating, its progress bar, and the editable system-info fields. Add area comments with library suggestions. An area rated I with no D and no findings gets a "no deficiencies" comment automatically. The readiness check runs from here (and from Review).
 
 ## Where to find it
 
@@ -53,19 +53,22 @@ Below the area header, tap **\+ Add Comments** to open the area comment editor. 
 
 ### "No deficiencies" is automatic (comment only)
 
-For an area with no deficiencies, 1nspecT automatically adds the area **comment**: _"[area name]: inspected following current standards of practice, no deficiencies noted."_ You do not have to type it.
+When you rate an area **I** with no **D** rating and no findings, 1nspecT automatically adds the area **comment**: _"[area name]: inspected following current standards of practice, no deficiencies noted."_ You do not have to type it.
 
-This auto-adds the comment only. **It does not auto-set the rating.** You still rate the area yourself from the mobile Ratings tab or the Capture screen. If an area is unrated, the Complete Inspection check blocks finishing until you set its rating.
+This auto-adds the comment only. **It does not auto-set the rating.** You still rate the area yourself from the mobile Ratings tab or the Capture screen. If an area is unrated, the completion check blocks finishing until you set its rating.
 
 ## Completion check
 
-The Ratings tab also carries a **Complete Inspection** action (also available on Review). It won't let you finish while:
+The Ratings tab also carries the completion check (also on Review). Only these block completion:
 
-- Any area that takes a rating is unrated
+- Any subsection that takes a rating is unrated
 - A required field is empty
-- Any finding without a narrative hasn't been resolved (drafted or signed off)
 
-If any item is unresolved, the action reminds you with the specific count and the first blocker.
+A missing narrative is only a soft warning. The alert lists up to 15 items.
+
+## Generate SPO
+
+The screen offers **Generate SPO** (System Performance Opinion), which costs 10 AI credits.
 
 ## Related
 

@@ -23,14 +23,15 @@ Ancillary services are the add-ons you bill on top of a primary inspection: sewe
 | --- | --- |
 | ID | Short identifier, auto-filled. |
 | Name | What subscribers and clients see. New rows default to `New Service`. |
-| What this does | Short description shown in dropdowns and on the quote. |
+| What this does | Holds capability tags that describe what the service covers. |
+| Priced by square footage | Checkbox that switches the service to sqft-tier pricing (this is how detached structures work). See [Detached structures](/1nspect/getting-started/detached-structures). |
 | Internal Only | Toggle to hide from the public booking form. Useful for crew-only extras. |
 | Category | Standard, Environmental, Structural, Custom. See below. |
 | Base Fee ($) | The regular price per inspection. |
 | New Construction ($) | Optional override for new-construction orders. Placeholder: `same` means it uses Base Fee. |
 | Duration (min) | How many minutes this service adds to the on-site time. |
 | Taxable | Whether sales tax applies. |
-| Pass-Through | Whether the fee is passed through to a third party (not kept as revenue). |
+| Pass-Through | Grosses up the fee for card processing: (fee + flat) ÷ (1 − rate). It has nothing to do with tax or third parties. |
 | Standalone | Whether this can be sold on its own without a primary service. |
 | Standalone Price ($) | Price when sold standalone. |
 | Own Agreement | Whether this service needs its own agreement sent separately. |
@@ -61,7 +62,7 @@ The revenue model affects how the Inspector Productivity report and the monthly 
 
 ## Pass-through fees
 
-Turn on **Pass-Through** when the fee is money you collect on behalf of someone else (a city permit, a specialist's set rate). Pass-through amounts don't count toward your tax liability or your net revenue.
+Turn on **Pass-Through** when you want the client to cover the card-processing cost of this fee. The price is grossed up using your Processing Rate and Flat Fee (Pricing › Settings): (fee + flat fee) ÷ (1 − rate). Pass-Through is not about tax, and it does not mean the money goes to a third party.
 
 ## Standalone sales
 

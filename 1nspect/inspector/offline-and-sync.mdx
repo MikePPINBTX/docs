@@ -32,7 +32,7 @@ last_verified_against_code: "2026-11-02"
 | Ratings | Yes |
 | Field notes | Yes |
 | Caption library autocomplete | Yes |
-| Narrative library offline search (chip suggestions) | Yes |
+| Smart Search (free keyword search of the cached library) | Yes |
 | Scan Label / Reading with a typed `label: value` caption | Yes (parses on the device) |
 | Reinspection checklists (original photo and narrative visible) | Yes |
 
@@ -42,7 +42,7 @@ last_verified_against_code: "2026-11-02"
 | --- | --- |
 | Scan Label / Reading (photo) | Queues on the device; finishes automatically when you reconnect |
 | Media uploads (photos, videos) | Queue and upload in the background when connectivity returns |
-| Save to Narrative Library | Queues; charges 1 AI credit when the sync completes (the AI de-identifies the narrative before storing) |
+| Save to Narrative Library | A free direct write to your library. There is no AI de-identification on mobile |
 
 ## What needs a live connection
 
@@ -50,7 +50,7 @@ last_verified_against_code: "2026-11-02"
 | --- | --- |
 | AI Generate | Shows an offline alert: _"AI Generate Unavailable Offline. You're offline. Save this finding now (Save + New) and use Finish & Draft once you're reconnected — it will batch-draft all pending narratives at once."_ |
 | Vision Scan | Requires a live connection when you tap AI Generate with Vision armed |
-| Smart Search | Opens an alert if there is no connection |
+| Smart Search | Works offline: it is a free keyword search of the cached library |
 | Finish & Draft Report | Server-side batch; needs a live connection to start |
 | Publish Report (from the phone) | Server-side; needs a live connection |
 | Field Quote booking | Needs a live connection to confirm the slot |
@@ -69,7 +69,7 @@ If an upload fails, a banner on the **Review** screen reads _"N Media file(s) fa
 
 ## Save without overwriting
 
-Multiple inspectors on the same team inspection, each capturing offline, come back online and sync. 1nspecT keys ratings, comments and findings per inspector so one inspector's save does not overwrite another's.
+Multiple inspectors on the same team inspection, each capturing offline, come back online and sync. Findings record who captured them, but ratings are stored **per area, not per inspector**, so two inspectors rating the same area overwrite each other.
 
 ## Finish & Draft on the drive home
 

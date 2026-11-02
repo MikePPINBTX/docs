@@ -26,10 +26,10 @@ Capture takes photos and up to 60-second videos directly from the Capture screen
 
 Tap the camera on the Capture screen. The native camera opens. Take the shot, confirm, and the photo attaches to the current finding. You can take several photos per finding; each becomes part of the finding.
 
-Import from the camera roll with the picker action next to the camera button.
+The media buttons are icon-only: 📷 (photo), 🎥 (video) and 📁 (import from the camera roll).
 
 <Note>
-  iPhone photos are HEIC by default. 1nspecT converts HEIC to JPEG on upload so published reports render in every browser. You don't need to change your camera settings.
+  iPhone photos are HEIC by default. 1nspecT converts HEIC to JPEG when you import from the camera roll, so published reports render in every browser. You don't need to change your camera settings.
 </Note>
 
 ## Video capture
@@ -49,7 +49,7 @@ This button replaces the older **Location Tag** button; the behavior is similar,
 
 ## Photo markup
 
-Tap into any attached photo to open the markup editor: arrows, circles, rectangles and lines in six colors. See [Photo markup](/1nspect/inspector/photo-markup).
+Tap **Edit** under an attached photo to open the markup editor: arrows, circles, rectangles and lines in six colors. See [Photo markup](/1nspect/inspector/photo-markup).
 
 ## Upload queue and background uploads
 
@@ -65,8 +65,9 @@ The upload queue runs even when the Capture screen is in the background. You can
 If an upload fails, a banner appears at the top of the Review screen reading _"N Media file(s) failed to upload, tap to manage (retry / export / delete)"_ (where N is the count). Tap into it and the Failed Uploads screen opens. Per-item actions:
 
 - **Retry** — queue it for another upload attempt (works once you have signal)
+- **Retry All** — retry every failed item at once
 - **Export** — save a copy to the camera roll
-- **Delete** — drop it from the inspection
+- **Delete** — removes the photo from the upload queue only
 
 Nothing is silently lost. Keep capturing; do not fall back to your phone's camera roll.
 
