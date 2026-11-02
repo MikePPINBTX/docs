@@ -194,7 +194,9 @@
               "1nspect/troubleshooting/common-issues",
               "1nspect/troubleshooting/web-admin",
               "1nspect/troubleshooting/mobile",
-              "1nspect/troubleshooting/sync-and-offline"
+              "1nspect/troubleshooting/sync-and-offline",
+              "1nspect/troubleshooting/inspection-didnt-sync",
+              "1nspect/troubleshooting/billing-and-credits"
             ]
           },
           {

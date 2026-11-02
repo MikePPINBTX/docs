@@ -1,0 +1,71 @@
+---
+id: "troubleshooting-billing-and-credits"
+title: "Billing and AI Credits"
+description: "Fixes for the common billing and credit situations: AI blocked, pack purchased but not showing, plan change didn't take, Billing page says 0 but Dashboard says more."
+sidebarTitle: "Billing & credits"
+keywords: ["billing troubleshooting", "ai credits", "insufficient credits", "pack purchase", "plan change"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "troubleshooting"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Fixes for the common billing and AI Credits situations. The Billing page lives at **Settings › Billing** (owners and admins only).
+
+## AI Generate / Vision Scan says "insufficient credits"
+
+Your company's AI credit balance has run out for the current period. The inspector sees the alert on mobile; the alert links to the web Billing page for someone with admin rights.
+
+Fix:
+
+1. Open **Settings › Billing**
+2. Under the Usage card, find the **AI credits** section
+3. Click **Buy 1,000 AI credits** (shows the current price inline)
+4. Pay through Stripe
+5. The balance updates within seconds; the next AI call draws from the new total
+
+Purchased credits never expire; plan credits reset each period.
+
+## I bought a credit pack but the balance didn't update
+
+- Wait 10 to 20 seconds and refresh the Billing page. Stripe webhook propagation is almost always fast but can occasionally lag.
+- If the balance still shows the old amount after a minute, check that the Stripe payment succeeded (your email receipt from Stripe confirms the charge)
+- If the charge succeeded but the balance didn't update, email `support@mymavtech.com` with the Stripe charge ID
+
+## Billing says X credits remaining, Dashboard says a different number
+
+The Dashboard's AI tile (labeled `IT spent · remaining` in the current UI) and the Billing page refer to the same balance but can drift briefly by seconds because they refresh on different schedules. The Billing page is authoritative. We're rolling the Dashboard tile over to use `AI credits` as the label too; until then both labels mean the same balance.
+
+## I changed plans and it didn't take
+
+- Confirm Stripe accepted the plan change (your Stripe email receipt confirms)
+- Refresh the Billing page
+- Plan changes are usually immediate; if the Billing page still shows the old plan after a few minutes, email support
+
+## I added a seat but the user I invited can't sign in
+
+Adding a seat and inviting a user are two separate actions:
+
+1. Add a seat on **Settings › Billing** (increases the plan's seat allowance)
+2. Add a team member on **Settings › Users** (creates the user)
+
+If you did step 1 but not step 2, the user doesn't exist yet. Head to Users and add them.
+
+## I need to downgrade
+
+Open **Settings › Billing**. Click **Switch to [Plan]** on the plan you want. Confirm. The change takes effect immediately for upgrades and at the end of the current billing cycle for downgrades (so your current period's prepaid access stays intact).
+
+## I need to cancel
+
+Open **Settings › Billing**. Scroll to the cancel action. Confirm. Your current period stays active; the subscription ends at the period boundary. Published reports remain accessible via their permanent URLs.
+
+## Non-billing admins can't open Billing
+
+Billing is owner- and admin-only. Non-billing users see: _"Billing is managed by your company's account admin. Ask them to change your plan or add inspections."_
+
+## Related
+
+- [AI Credits](/1nspect/features/it-tokens) (full reference)
+- [Plans, billing and seats](/1nspect/getting-started/add-your-team) (seats and plan context)
+- [Common issues](/1nspect/troubleshooting/common-issues)
