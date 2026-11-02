@@ -161,7 +161,8 @@
               "1nspect/features/agent-referrals",
               "1nspect/features/inspector-productivity",
               "1nspect/features/activity-log",
-              "1nspect/features/tax-summary"
+              "1nspect/features/tax-summary",
+              "1nspect/features/standards-overview"
             ]
           },
           {

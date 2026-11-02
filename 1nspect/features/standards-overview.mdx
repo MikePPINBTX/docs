@@ -1,0 +1,70 @@
+---
+id: "standards-overview"
+title: "Standards of Practice"
+description: "The four Standards of Practice 1nspecT ships with (TREC, InterNACHI, Phase 1 Pre-Pour, Phase 2 Pre-Drywall), how they drive your templates and AI narratives, and how to customize one."
+sidebarTitle: "Standards overview"
+keywords: ["sop", "standards of practice", "trec", "internachi", "pre-pour", "pre-drywall", "rating scale"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+A Standard of Practice (SoP) is the rulebook your inspections follow. It defines the rating scale, the layout family for printed reports, and the AI narrative language. 1nspecT ships with four SoPs ready to use: Texas TREC, InterNACHI, Phase 1 Pre-Pour, and Phase 2 Pre-Drywall. On paid plans you can clone any of these into a custom SoP and edit the rating scale.
+
+## The four platform SoPs
+
+| SoP | ID | What it covers |
+| --- | --- | --- |
+| **Texas TREC REI 7-6** | `trec_7_6` | Texas Real Estate Commission residential property inspection form. See [TREC](/1nspect/features/trec-sop-compliance). |
+| **InterNACHI** | `internachi_2024` | International Association of Certified Home Inspectors residential standard. See [InterNACHI](/1nspect/features/internachi). |
+| **Phase 1 Pre-Pour Foundation** | `phase_1_pre_pour` | New-construction foundation inspection before the slab is poured. See [Phase inspections](/1nspect/features/phase-inspections). |
+| **Phase 2 Pre-Drywall** | `phase_2_pre_drywall` | New-construction framing and systems inspection before drywall. See [Phase inspections](/1nspect/features/phase-inspections). |
+
+## What an SoP controls
+
+Every SoP defines:
+
+- **The rating scale** (for example TREC's I / NI / NP / D) with each rating's label and whether it counts as a deficiency
+- **The reinspection rating scale** (for example Repairs Complete / Repairs Not Complete / New Deficiency)
+- **The report layout family** (which Section and Summary Blueprints are allowed)
+- **The AI narrative language** (what tone, hedging, trade terminology to use when drafting)
+- **The specialist writing rules** (HVAC, electrical, plumbing, site and grading, gas and fire safety all get their own)
+- **The required items** that gate publishing
+
+## How templates bind to SoPs
+
+Every template points to one SoP through its `sopId` field. Open a template in the Universal Template Builder and the SoP badge on the card shows which one it uses. The template's schema is tuned to that SoP's required items; its layout picker is limited to the Blueprints the SoP allows.
+
+## Seeded templates per subscriber
+
+When you sign up, 1nspecT reads your Standard of Practice choice from the signup form and seeds the matching residential template on your account, plus the two Phase templates:
+
+| You chose at signup | You get |
+| --- | --- |
+| TREC | TREC 7-6 residential template + Phase 1 Pre-Pour + Phase 2 Pre-Drywall |
+| InterNACHI | InterNACHI residential template + Phase 1 Pre-Pour + Phase 2 Pre-Drywall |
+| Other | A placeholder that signals the platform team to configure your SoP + Phase 1 + Phase 2 |
+
+## Platform vs. tenant SoPs
+
+SoPs come in two kinds:
+
+- **Platform SoPs** — the four shipped standards. Their primary rating scale is locked (`primaryRatingsLocked: true`) to keep you compliant with the official standard. Reinspection ratings are editable in your clone.
+- **Tenant SoPs** — SoPs you cloned from a platform SoP via Clone to Customize. Ratings and labels can be edited. Managed in SoP Manager.
+
+## Clone to customize
+
+From **SoP Manager** (top-nav), pick a platform SoP and click **Clone to Customize**. Give the clone a name (the default appends `(Custom)`), click **Clone**, then edit the ratings in the Rating Scale Viewer. Templates can be re-pointed from the platform SoP to your clone.
+
+Custom-SoP cloning is a paid-plan feature. The free tier shows the Standards of Practice page with every platform SoP viewable and usable, with a note that customization requires an upgrade.
+
+## Related
+
+- [TREC Standard of Practice](/1nspect/features/trec-sop-compliance)
+- [InterNACHI](/1nspect/features/internachi)
+- [Phase inspections](/1nspect/features/phase-inspections)
+- [Reinspection rating scales](/1nspect/features/reinspection-rating-scales)
+- [Choose your Standard of Practice](/1nspect/getting-started/choose-your-sop)
+- [AI features](/1nspect/features/ai-features)
