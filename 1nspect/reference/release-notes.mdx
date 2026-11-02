@@ -53,7 +53,14 @@ This release is primarily a documentation release that catches the help center u
 ### Reports
 
 - **All 9 financial and operational reports** are now available with CSV export: Monthly Reconciliation, Stripe Payouts, All Invoices, Outstanding A/R, Service Mix, Agent Referrals, Inspector Productivity, Activity Log, Tax Summary.
-- **Dashboard** — five KPI tiles (Revenue, Inspections completed, Average ticket, Collection rate, Signed pipeline), a Performance Metrics row, three charts (revenue trend, pipeline funnel, service mix), Action Items panel, Upcoming, Top Agents.
+- **Dashboard tiles trimmed (#537)** — the AI hours saved tile and the NPS card were removed. The Dashboard now shows five KPI tiles: Revenue, Inspections completed, Average ticket, Collection rate, and Signed pipeline (with its own 7d / 30d / 90d / All toggle independent of the period filter). A Performance Metrics row (Ancillary attach, Quote close, Inspection time) sits below the tiles. Three charts (revenue trend, pipeline funnel, service mix) and the Action Items / Upcoming / Top Agents panels remain.
+
+### Email delivery and bounces (#536)
+
+- Per-recipient **delivery status** now appears on the Communications tab of each order (sent, delivered, bounced, failed).
+- A **bounce banner** surfaces on Inspection Details when a client email bounced.
+- A **bounce notice email** goes to the subscriber when a client email bounces, so you know to call the client.
+- A **Dashboard alert** at the top of the home screen aggregates "emails didn't arrive" cases so you don't have to open each order to find them.
 
 ### SoP
 
