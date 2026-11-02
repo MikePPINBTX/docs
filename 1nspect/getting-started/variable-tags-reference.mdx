@@ -1,0 +1,172 @@
+---
+id: "start-here-variable-tags-reference"
+title: "Variable tags reference"
+description: "Every variable tag you can use in contract templates and communication templates. Tags are engine-specific: Contracts and Communications each resolve their own, with a shared core."
+sidebarTitle: "Variable tags"
+keywords: ["variable tags", "insert tag", "template tags", "merge fields", "ClientNames", "InspectionDate", "ReportLink"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Two editors in 1nspecT use variable tags: **Contract templates** (Business Ops › Contracts) and **Communication templates** (Business Ops › Communications › Email Templates). Both share the same `$TagName` syntax and a core set of names, but each engine has its own resolver. **A tag from one engine does not work in the other.** This page is the full reference, organized by engine, with a column that calls out tags shared across both.
+
+<Info>
+**Send-time behavior differs.** Contract sends are blocked if a required tag would come out blank, and are blocked if the template contains any unrecognized `$Tag`. Communication sends are not blocked for unrecognized tags: they just print as typed, so proofread your templates.
+</Info>
+
+## Contracts tags
+
+Used in agreements built in **Business Ops › Contracts**. Values are filled in by the Contracts send pipeline.
+
+### Order fields
+
+| Tag | Purpose | Also in Comms |
+| --- | --- | --- |
+| `$ClientNames` | All client full names joined with "and" (`Jane Smith and John Smith`), or a single name. **Required to send.** | Yes |
+| `$ClientFirstNames` | First names only (`Jane and John`). | Yes |
+| `$ClientFirstName` | Primary client's first name. | Yes |
+| `$ClientLastName` | Primary client's last name. | Yes |
+| `$Client2FirstName` | Co-client's first name. Blank if there isn't one. | Yes |
+| `$Client2LastName` | Co-client's last name. Blank if there isn't one. | Yes |
+| `$InspectionAddress` | Property address. **Required to send.** | Yes |
+| `$InspectionDate` | Trip date, written out in words. On a multi-phase order it falls back to the earliest phase. **Required to send.** | Yes |
+| `$InspectionTime` | Trip time, from `scheduledTime` or the time part of `scheduledDate`. **Required to send.** | Yes |
+| `$InspectionScheduleTable` | Table listing every phase's date and time, for multi-phase orders. | — |
+| `$TripFee` | Dollar total for this inspection/trip only. | — |
+| `$InspectionFee` | Dollar total for the whole order. | — |
+| `$BaseFee` | Base inspection fee only, without ancillaries. | — |
+| `$ServiceFee` | Fee for the service this agreement is scoped to. Falls back to the order total if the agreement has no service scope. | — |
+| `$TripFeeTable` | Itemized table for this trip: base, its ancillaries, discounts and total. Use on per-service agreements. | — |
+| `$AllOrderFeesTable` | Itemized table for the whole order: every phase plus a grand total. | — |
+| `$InspectionFeeTable` | Legacy, hidden from the picker. Identical to `$AllOrderFeesTable`. Kept so older templates still work. | — |
+| `$ContractDate` | The date the agreement was generated (`November 2, 2026`). | — |
+
+### Reinspection only
+
+These resolve to a value only on reinspection agreements. On any other agreement they are blank, so the tag simply disappears from the printed PDF.
+
+| Tag | Purpose |
+| --- | --- |
+| `$ReinspectionScope` | Scope label: Summary, Repairs or Full. |
+| `$ReinspectionItemCount` | Number of items carried over from the original report. |
+| `$ReinspectionScopeTable` | Scope-of-work table with one row per checked finding (Section · Subsection · Finding). Captured when the reinspection was created, so later edits to the parent report cannot change a signed agreement. |
+
+### Inspector and company
+
+| Tag | Purpose | Also in Comms |
+| --- | --- | --- |
+| `$InspectorName` | The assigned inspector. Never falls back to the owner's name, to avoid misrepresentation on a legal document. **Required to send.** | Yes |
+| `$InspectorLicense` | Inspector's license number (TREC or other). **Required to send.** | Yes |
+| `$CompanyName` | Company name. | Yes |
+| `$CompanyLogo` | Logo image from Company Info, or nothing if no logo has been uploaded. | — |
+
+### Signature fields (double-bracket syntax)
+
+Use these to drop a signature, date or initials block into the agreement. Single-bracket syntax is also accepted.
+
+| Tag | Purpose |
+| --- | --- |
+| `[[sig\|req\|signer1]]` | Client's signature. Becomes the signature image plus an audit line. |
+| `[[date\|req\|signer1]]` | Date the client signed. |
+| `[[sig\|req\|signer2]]` | Co-client's signature. |
+| `[[date\|req\|signer2]]` | Date the co-client signed. |
+
+<Note>
+Co-client (`signer2`) tags render as a "Pending Signature" box both before and after signing, because the signing step today only fills in `signer1`. Use co-client signature tags for agreements that need the second signer, with the understanding they stay pending.
+</Note>
+
+## Communications tags
+
+Used in email templates built in **Business Ops › Communications › Email Templates**. Values are filled in by the email send pipeline.
+
+### People
+
+| Tag | Purpose | Also in Contracts |
+| --- | --- | --- |
+| `$ClientNames` | Combined names, same as in contracts. | Yes |
+| `$ClientFirstNames` | First names only. | Yes |
+| `$ClientFirstName` | Primary client's first name. | Yes |
+| `$ClientLastName` | Primary client's last name. | Yes |
+| `$Client2FirstName` | Co-client's first name. | Yes |
+| `$Client2LastName` | Co-client's last name. | Yes |
+| `$BuyerAgentFirstName` | Buyer's agent's first name. | — |
+| `$BuyerAgentLastName` | Buyer's agent's last name. | — |
+| `$BuyerAgentEmail` | Buyer's agent's email address. | — |
+| `$ListingAgentFirstName` | Listing agent's first name. | — |
+| `$ListingAgentLastName` | Listing agent's last name. | — |
+| `$ListingAgentEmail` | Listing agent's email address. | — |
+
+### Inspection and company
+
+| Tag | Purpose | Also in Contracts |
+| --- | --- | --- |
+| `$InspectionAddress` | Property address. | Yes |
+| `$InspectionDate` | Scheduled date. | Yes |
+| `$InspectionTime` | Scheduled time. | Yes |
+| `$InspectorName` | Assigned inspector. | Yes |
+| `$InspectorLicense` | Inspector's license number. | Yes |
+| `$CompanyName` | Company name. | Yes |
+
+### Links
+
+| Tag | Purpose |
+| --- | --- |
+| `$ContractLink` | Link for the client to review and sign agreements. |
+| `$PaymentLink` | Payment page. Only populated while the inspection is still unpaid. |
+| `$ReportLink` | Client's report link. Locked until payment, so do not use it on "Published, awaiting payment" emails. |
+| `$AgentReportLink` | Agent's view of the report. |
+| `$PortalLink` | General portal link. |
+| `$ClientPortalLink` | Client portal, for e-signing and inspection history. Use this for pay-to-unlock nudges. |
+| `$BookingLink` | Public booking page (`app.1nspect.app/book/<slug>`). Blank if no booking slug is set. |
+| `$GoogleReviewLink` | Google review link from Company Info. |
+| `$YelpLink` | Yelp review link from Company Info. |
+
+<Tip>
+Using a link tag as a button URL is safe. If the editor accidentally prepends `https://` in front of the tag, 1nspecT strips the extra prefix at send time.
+</Tip>
+
+### Manual payment handles
+
+| Tag | Purpose |
+| --- | --- |
+| `$VenmoHandle` | Your Venmo handle, from Payments setup. |
+| `$ZelleContact` | Your Zelle contact (phone or email). |
+| `$CashAppHandle` | Your Cash App handle. |
+
+### Quote delivery
+
+| Tag | Purpose |
+| --- | --- |
+| `$QuoteLink` | Page where the client views and accepts the quote. |
+| `$AdminOrderLink` | Internal link straight to the order in web admin, for staff notifications. |
+| `$QuoteTotal` | Formatted quote total (`$750.00`). |
+| `$QuoteFeeTable` | Itemized quote breakdown as HTML. |
+
+### Hidden from the picker (advanced)
+
+Recognized by the backend but not listed in the Insert Tag picker. Available if you type them in by hand.
+
+| Tag | Purpose |
+| --- | --- |
+| `$CustomMessage` | The inspector's own note from the Deliver button in the Report Workspace. Use in a delivery email template that passes through the inspector's message. |
+| `$RecipientRole` | `client` or `agent`, so one template can be worded for either audience. |
+| `$SenderName` | The name of whoever sent the message (`from Vicky`). Automated emails fall back to the inspector or company name. |
+
+## Which tags cross engines
+
+As a quick lookup:
+
+**Only in Contracts:** every fee tag (`$TripFee`, `$InspectionFee`, `$BaseFee`, `$ServiceFee`), every fee table (`$TripFeeTable`, `$AllOrderFeesTable`, `$InspectionFeeTable`), the schedule table (`$InspectionScheduleTable`), the reinspection tags, `$CompanyLogo`, `$ContractDate`, and every signature field (`[[sig|...]]`, `[[date|...]]`).
+
+**Only in Communications:** every agent tag (`$BuyerAgent*`, `$ListingAgent*`), every link tag (`$ContractLink`, `$PaymentLink`, `$ReportLink`, `$AgentReportLink`, `$PortalLink`, `$ClientPortalLink`, `$BookingLink`, `$GoogleReviewLink`, `$YelpLink`), every manual payment handle, every quote tag, and the three hidden tags above.
+
+**Available in both:** `$ClientNames`, `$ClientFirstNames`, `$ClientFirstName`, `$ClientLastName`, `$Client2FirstName`, `$Client2LastName`, `$InspectionAddress`, `$InspectionDate`, `$InspectionTime`, `$InspectorName`, `$InspectorLicense`, `$CompanyName`.
+
+## Related
+
+- [Contract templates](/1nspect/getting-started/contracts)
+- [Communication templates](/1nspect/getting-started/communication-templates)
+- [Communication workflows](/1nspect/getting-started/communication-workflows)
