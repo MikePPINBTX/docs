@@ -31,66 +31,6 @@
         "tab": "1nSpecT Platform",
         "groups": [
           {
-            "group": "Getting Started",
-            "pages": [
-              "1nspect/getting-started/account-and-branding",
-              "1nspect/getting-started/create-your-first-order",
-              "1nspect/getting-started/mobile-inspection-walkthrough",
-              "1nspect/getting-started/generate-your-first-report"
-            ]
-          },
-          {
-            "group": "Web Admin",
-            "pages": [
-              {
-                "group": "Foundation",
-                "pages": []
-              },
-              {
-                "group": "Operations",
-                "pages": []
-              },
-              {
-                "group": "Templates",
-                "pages": [
-                  "1nspect/admin-operator/templates/visual-page-designer"
-                ]
-              },
-              {
-                "group": "Intelligence Hub",
-                "pages": []
-              },
-              {
-                "group": "Company & Pricing",
-                "pages": []
-              }
-            ]
-          },
-          {
-            "group": "Workflows",
-            "pages": [
-              "1nspect/workflows/template-to-finished-report",
-              "1nspect/workflows/assigning-and-handoff",
-              "1nspect/workflows/aging-equipment-flagging"
-            ]
-          },
-          {
-            "group": "Features",
-            "pages": [
-              "1nspect/features/communications",
-              "1nspect/features/contracts",
-              "1nspect/features/multi-tenant-and-team"
-            ]
-          },
-          {
-            "group": "Troubleshooting",
-            "pages": []
-          },
-          {
-            "group": "Reference",
-            "pages": []
-          },
-          {
             "group": "Start Here",
             "pages": [
               "1nspect/getting-started/welcome",
