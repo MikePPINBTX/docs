@@ -202,7 +202,8 @@
           {
             "group": "Reference",
             "pages": [
-              "1nspect/glossary"
+              "1nspect/glossary",
+              "1nspect/reference/release-notes"
             ]
           }
         ]
