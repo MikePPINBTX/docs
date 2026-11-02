@@ -41,11 +41,16 @@ The slug is generated on publish and is permanent across republishes.
 
 ## Payment-locked reports
 
-If your company requires payment before the client can read the report, the client link redirects to a Payment Required page until payment lands. The agent link may be unlocked independently depending on your workflow (default: agent sees the report locked with its own Report Locked Pending Payment message).
+Every published report is locked until the inspection is marked paid. **Both** the client's link and the agent's link return a Payment Required page until that happens. There is no setting to disable this; it's always on.
 
-Once payment is recorded (Stripe webhook or manual Mark as Paid), both links unlock automatically. The Report Delivered workflow trigger fires.
+The locked page shows the property address and a **Go to Client Portal to Pay** button. It does not show the amount; the amount lives on the client portal where payment is collected.
 
-See [Payments setup](/1nspect/admin-operator/payments-and-contracts) for how to turn payment-locking on or off.
+Only two events unlock the report:
+
+- A successful **Stripe payment** (confirmed by webhook)
+- A manual **Mark as Paid** action in the web admin
+
+See [Payment-locked reports](/1nspect/features/payment-locked-reports) for the full details.
 
 ## PDF download
 

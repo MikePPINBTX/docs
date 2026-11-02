@@ -66,9 +66,9 @@ Send when the preview looks right.
 
 ## Payment-locked reports
 
-If your company settings require payment before the client can read the report, the client's report link redirects to the payment page until payment lands. The agent link may be unlocked independently depending on your workflow. Once payment is recorded (Stripe or Mark as Paid), the client link unlocks automatically and the Report Delivered trigger fires.
+Every published report is locked until the inspection is marked paid. Both the client's link and the agent's link return a Payment Required page until payment is recorded (via Stripe webhook or manual Mark as Paid). There is no setting to disable this.
 
-See [Payments setup](/1nspect/admin-operator/payments-and-contracts) for how to turn payment-locking on or off.
+See [Payment-locked reports](/1nspect/features/payment-locked-reports).
 
 ## Haven
 

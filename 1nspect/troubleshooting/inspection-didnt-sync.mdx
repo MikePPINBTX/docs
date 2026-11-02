@@ -13,18 +13,17 @@ last_verified_against_code: "2026-11-02"
 
 An inspection was created on the web but the inspector cannot find it in Assigned Inspections on mobile. This is the single most common first-run problem and almost always comes down to one of four causes. Walk this page top to bottom.
 
-## 1. The inspection setup fields are incomplete
+## 1. The real reasons a job doesn't appear on the phone
 
-Open the inspection on the web admin (**Inspections** top-nav › the order). Confirm **all four** of these are set on the inspection:
+Three conditions hide a job from the Assigned Inspections list on mobile. Check them in order:
 
-- **Inspector** (assigned)
-- **Template**
-- **Narrative Collection**
-- **Caption Library**
+- **No agreement has been sent** to the client (unless the inspection is marked externally contracted). Send the agreement and the job appears on the next pull-to-refresh.
+- **The inspection is more than 30 days in the future.** The Assigned Inspections list only shows jobs within a 30-day window. A booking two months out stays hidden until it enters the window.
+- **The inspector's display name doesn't exactly match the assigned name on the inspection.** The match is case- and whitespace-sensitive. If the inspector's user profile has "Jane Smith" but the inspection says "Jane  Smith" (two spaces) or "jane smith", the job is hidden.
 
-Any one missing blocks the sync. Set them, save, and the inspection appears on the phone within a few seconds.
+Fix any of these and the job appears on the next pull-to-refresh in Assigned Inspections.
 
-Setting the **Inspection Type** is optional but recommended; it sharpens the AI narratives.
+A missing **template** does not hide the job; it shows a "Setup Required" card on the inspection. Confirm the inspection has a template and a narrative collection assigned; the caption library is optional (missing it means an empty autocomplete, not a block).
 
 ## 2. The caption or narrative library isn't associated with the template
 

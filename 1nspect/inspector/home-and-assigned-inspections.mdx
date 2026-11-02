@@ -47,14 +47,26 @@ Each job tells you whether its template and libraries have been downloaded to th
 
 Tap into any job to download the missing pieces automatically.
 
+## Why a job might not appear on the phone
+
+Jobs are hidden from the Assigned Inspections list when any of these are true:
+
+1. **No agreement has been sent** (unless the inspection is marked externally contracted)
+2. **The job is more than 30 days in the future** — jobs appear only within a 30-day window
+3. **The inspector's display name doesn't exactly match the assigned name** on the inspection
+
+If a job you expect isn't there, check all three. The display-name match is case- and whitespace-sensitive.
+
 ## Start guards
 
-A job won't start until these conditions are met:
+Once a job is visible, Start requires:
 
-1. The **agreement** has been signed by the client
-2. A **template**, a **narrative collection**, and a **caption collection** are all assigned to the inspection on the web admin
+- A **template** and a **narrative collection** on the inspection (caption library is optional; if missing, the mobile autocomplete is empty but the inspection still runs)
+- A **signed agreement**
 
-If anything is missing, the Start button is disabled with a clear message naming the missing piece. See [Starting an inspection](/1nspect/inspector/starting-an-inspection) for how to resolve.
+If the template is missing, the card shows a "Setup Required" message rather than hiding the job.
+
+See [Starting an inspection](/1nspect/inspector/starting-an-inspection) for the setup screen details.
 
 ## Resume Active Inspection
 
