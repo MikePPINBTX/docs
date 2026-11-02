@@ -22,6 +22,8 @@ last_verified_against_code: "2026-11-02"
 
 The AI tools on the Capture screen split into two jobs: getting data into fields (Scan Label / Reading) and building the narrative (AI Generate, Vision Scan, Smart Search). Add to Summary flags findings for the report summary. The one-button Finish & Draft Report on the Review screen handles batch drafting on the drive home. This page covers each tool in detail.
 
+**Mobile cost summary.** Smart Search, typed `label: value` reads, Save to Narrative Library and the Property Baseline lookup are **free** on mobile. The paid mobile capabilities are: AI Generate (6 credits text-only, 10 with Vision Scan armed), Scan Label / Reading from a photo (4 credits), System Performance Opinion (10 credits) and Finish & Draft Report (50 credits per report).
+
 ## Scan Label / Reading
 
 The workhorse. One button handles three things: reading a data plate, reading an instrument, or capturing a value you type yourself. It always shows a confirm screen before anything is applied.
@@ -33,13 +35,13 @@ The workhorse. One button handles three things: reading a data plate, reading an
 3. Tap **Scan Label / Reading**. The AI reads the values off the photo and matches them to the right fields using your caption plus the section and subsection you are in. The match is forgiving: `Furnace Supply Air Temperature` finds `Furnace Tested Supply Air Temperature`.
 4. **Confirm**. A Confirm sheet shows what the AI found. Review, edit anything off, uncheck anything wrong, then Apply.
 
-Cost: 3 AI credits per photo.
+Cost: 4 AI credits per photo.
 
 ### Typing a value yourself
 
 Type the caption as `field label: value` (for example, `Furnace supply air temp: 114.5°F`), then tap **Scan Label / Reading**. Everything after the colon goes to the matching field, same confirm sheet.
 
-Cost: 1 AI credit per text parse (works fully offline, deducts when back online).
+Cost: **free**. Typed `label: value` reads are parsed on the phone and never deduct credits. Works fully offline.
 
 ### Screenshots count as photos
 
@@ -65,7 +67,7 @@ Writes the finding's narrative on the spot, from your caption and field notes, i
 
 - **Where**: Capture screen, on the finding
 - **When**: Tap when the caption and field note together describe the finding, and you want the narrative done now
-- **Cost**: 2 AI credits (text-only); 8 if Vision Scan is armed
+- **Cost**: 6 AI credits (text-only); 10 if Vision Scan is armed
 
 ### Offline guard
 
@@ -77,15 +79,15 @@ Vision Scan is not a standalone button. It is a **modifier** on AI Generate. Tog
 
 ### Co-Inspector pass
 
-After the primary narrative is drafted, Vision Scan runs the **Co-Inspector**: the AI re-reads the photo and surfaces up to three additional findings it noticed. For each, accept into a new finding or dismiss. No separate cost — included in the 8-credit Vision Scan call.
+After the primary narrative is drafted, Vision Scan runs the **Co-Inspector**: the AI re-reads the photo and surfaces up to three additional findings it noticed. For each, accept into a new finding or dismiss. No separate cost — included in the 10-credit Vision Scan call.
 
 ### Requires a photo
 
-If you tap AI Generate with Vision Armed but no photo attached, the app alerts: _"Vision Scan requires a photo. Capture a photo first."_
+The alert appears when you **arm the toggle** without a photo attached: _"Vision Scan requires a photo. Capture a photo first."_ Attach a photo first, then arm Vision Scan and tap AI Generate.
 
 ## Smart Search
 
-Toggle at the top of the narrative field (`🔍 Smart Search`). When open, a search bar lets you pull a narrative you have already written from your library. Faster than regenerating for repeat findings. Cost: 1 AI credit per search.
+Toggle at the top of the narrative field (`🔍 Smart Search`). When open, a search bar lets you pull a narrative you have already written from your cached library. **Free, offline keyword search.** Mobile Smart Search never calls the server, so there is no credit cost and no network dependency.
 
 Label flips to `✕ Close Search` when the search bar is open. Tap to close.
 
@@ -97,18 +99,19 @@ Not AI, but it works hand in hand. Flags a finding into the report summary. Use 
 
 The batch call. One tap on the Review screen syncs everything from the phone and asks the AI to draft every blank narrative on the server. You get a notification when the drafts are back.
 
-Cost: 50 AI credits per report. Most inspectors use Finish & Draft on the drive back to the office.
+Cost: 50 AI credits per report. Most inspectors use Finish & Draft on the drive back to the office. When drafts finish, Review shows a 6-second banner (there's no push notification).
 
 ## What's offline-capable
 
 | Tool | Offline behavior |
 | --- | --- |
-| Scan Label / Reading (text, `label: value`) | Parses on the device; deducts credits when back online |
-| Scan Label / Reading (photo) | Queues on the device; finishes automatically when you reconnect |
-| AI Generate | Requires a live connection |
-| Vision Scan | Requires a live connection |
-| Smart Search | Requires a live connection |
-| Finish & Draft Report | Requires a live connection |
+| Scan Label / Reading (text, `label: value`) | Parses on the device; free; no network needed |
+| Scan Label / Reading (photo) | Queues on the device; finishes automatically when you reconnect. The deferred result auto-applies and shows a review pill. |
+| Smart Search | Works fully offline (keyword search of the cached library) |
+| Save to Narrative Library | Direct write to the library; free |
+| AI Generate | Needs a live connection (or defer with Finish & Draft) |
+| Vision Scan | Needs a live connection |
+| Finish & Draft Report | Needs a live connection to start |
 
 See [Offline and sync](/1nspect/inspector/offline-and-sync).
 

@@ -91,7 +91,7 @@ A pre-built snapshot of the inspected property pulled from its address. In the w
 
 ### Offline AI queue
 
-Scan Label / Reading calls that need the cloud (any photo-based scan) queue on the device when you have no signal and finish automatically when you reconnect. AI Generate and Vision Scan need a live connection when you run them.
+Most paid AI calls defer when you're offline. Scan Label / Reading photo scans queue on the device and finish automatically when you reconnect; narrative drafts you queue up also defer and run on reconnect. AI Generate and Vision Scan tapped live still require a live connection at tap time; use Finish & Draft on the drive back to batch any that weren't drafted in the field.
 
 ## Office capabilities (web)
 
@@ -108,9 +108,9 @@ Drafts every eligible finding, fills required performance opinions, then runs Po
 
 - **Where:** Report Workspace
 
-### Polish Narrative
+### AI Polish (single narrative)
 
-Rewrites one narrative for tone and clarity. Keeps the facts, polishes the wording.
+Rewrites one narrative for tone and clarity. Keeps the facts, polishes the wording. The web button label is **AI Polish**.
 
 ### Polish Report
 
@@ -170,7 +170,7 @@ As narratives are drafted, jargon is replaced with plainer words. Your client re
 
 ### Computed, not guessed
 
-HVAC temperature-split verdicts, equipment service life and roof-covering limitations are calculated from the readings you captured. The AI only words them. If you capture a 24°F supply-return split and the rule says 18 to 22 is normal, the finding reports "above expected range" because the math says so, not because the AI guessed.
+HVAC temperature-split verdicts, equipment service life and roof-covering limitations are calculated from the readings you captured. The AI only words them. If you capture a cooling supply-return split outside the normal 15–22°F window, the finding reports "outside expected range" because the math says so, not because the AI guessed.
 
 ### Pre-publish checks
 
@@ -178,7 +178,7 @@ The report cannot be published until the required items are complete. Before pub
 
 ## Finding types and the AI
 
-The AI adjusts how it frames findings for each inspection type. The template you choose tells it which type to use.
+The AI adjusts how it frames findings for each inspection type. The **service or order** tells it which type to use (not the template).
 
 | Inspection type | What changes in the AI's wording |
 | --- | --- |

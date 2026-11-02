@@ -3,9 +3,17 @@ id: "voicedna-deep"
 title: "VoiceDNA deep dive"
 description: "Upload a handful of your past reports and the AI learns your writing voice. Future AI Generate calls produce narratives that sound like you wrote them. One-time setup, 50 AI credits per extraction."
 sidebarTitle: "VoiceDNA"
-keywords: ["voicedna", "voice dna", "ai persona", "writing voice", "persona importer", "gemini", "extract persona"]
-persona: ["admin-operator"]
-surfaces: ["web"]
+keywords:
+  - "voicedna"
+  - "voice dna"
+  - "ai persona"
+  - "writing voice"
+  - "persona importer"
+  - "extract persona"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
 category: "features"
 status: "stable"
 last_verified_against_code: "2026-11-02"
@@ -17,7 +25,7 @@ VoiceDNA is the AI feature that learns your company's writing voice from a handf
 
 **Narrative Management** top-nav › **Intelligence & Library Hub** › the **AI Persona (Voice DNA)** tab (third tab).
 
-The VoiceDNA page is owner- and admin-only. Inspectors do not see this tab.
+The VoiceDNA page is owner- and admin-only. Inspectors see the tab but it's locked for them.
 
 ## The two sections on the page
 
@@ -31,6 +39,8 @@ Independent of the extracted profile; works even with no profile set. Saved thro
 
 - **Narrative length** (tenant-level axis the AI reads at draft time)
 - **Tone** (how formal or informal the drafts should read)
+- **Narrative format** (bullets, paragraphs, structured, mixed)
+- **Include Analysis** (whether narratives include a dedicated Analysis section between Condition and Recommendation)
 - Other style knobs covered in the editor
 
 The writing preferences layer on top of the extracted voice: the profile sets the voice; the preferences shape how it comes out on each draft.
