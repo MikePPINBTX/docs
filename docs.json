@@ -169,8 +169,7 @@
               "1nspect/admin-operator/templates/template-builder",
               "1nspect/admin-operator/templates/template-editor",
               "1nspect/admin-operator/templates/template-designer",
-              "1nspect/admin-operator/templates/schema-upload-and-review",
-              "1nspect/admin-operator/templates/pdf-mapper"
+              "1nspect/admin-operator/templates/schema-upload-and-review"
             ]
           },
           {
@@ -181,7 +180,6 @@
               "1nspect/admin-operator/intelligence-hub/narrative-collections",
               "1nspect/admin-operator/intelligence-hub/smart-comments",
               "1nspect/admin-operator/intelligence-hub/option-lists",
-              "1nspect/admin-operator/intelligence-hub/keyword-management",
               "1nspect/admin-operator/intelligence-hub/supplemental-documents",
               "1nspect/admin-operator/intelligence-hub/reference-snippets"
             ]
@@ -339,6 +337,16 @@
     {
       "source": "/1nspect/admin-operator/templates/visual-page-designer",
       "destination": "/1nspect/admin-operator/templates/template-designer",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/admin-operator/templates/pdf-mapper",
+      "destination": "/1nspect/admin-operator/templates/template-builder",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/admin-operator/intelligence-hub/keyword-management",
+      "destination": "/1nspect/admin-operator/intelligence-hub/smart-comments",
       "permanent": true
     }
   ]
