@@ -1,23 +1,34 @@
 ---
 id: "report-tax-summary"
 title: "Tax Summary"
-description: "Annual revenue grouped by tax category, by month. For year-end accounting and 1099 generation. Pick a year, export to CSV, hand to your CPA."
+description: "An annual revenue summary grouped by service category. Shows gross revenue, inspections, service mix and monthly breakdown for the year you pick."
 sidebarTitle: "Tax Summary"
-keywords: ["tax summary", "annual revenue", "1099", "cpa", "year-end", "tax category"]
-persona: ["admin-operator"]
-surfaces: ["web"]
+keywords:
+  - "tax summary"
+  - "annual revenue"
+  - "service categories"
+  - "year-end"
+  - "cpa"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
 category: "features"
 status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Tax Summary is the report you hand your CPA at year-end. Annual revenue grouped by tax category, broken out by month. No fuss, no filtering gymnastics: pick a year, click CSV, send.
+Tax Summary is the year-end revenue report. Pick a year and you get your gross revenue, inspection count, service mix and a month-by-month breakdown. Export to CSV and hand to your CPA.
+
+<Note>
+  Despite the name, this report does **not** compute sales tax. It shows revenue; your CPA handles the tax calculation from your deposit records.
+</Note>
 
 ## Where to find it
 
 **Reports** top-nav › the **Tax Summary** card.
 
-## Filters
+## Filter
 
 | Filter | Options |
 | --- | --- |
@@ -25,27 +36,48 @@ Tax Summary is the report you hand your CPA at year-end. Annual revenue grouped 
 
 ## What the report shows
 
-Stat grid with the year's totals: total revenue, taxable revenue, non-taxable revenue (pass-through), tax collected.
+### Headline stats
 
-Table grouped by month, with:
+- **Gross revenue** — total billed revenue for the year
+- **Total inspections** — count of completed inspections
+- **Service categories** — count of distinct service types sold
+- **Avg per inspection** — revenue divided by inspection count
+
+### Monthly table
+
+One row per month:
 
 - Month
-- Taxable revenue
-- Non-taxable (pass-through) revenue
-- Tax collected
-- Refunds issued
-- Net revenue
+- Inspections (count)
+- Revenue (dollars)
+
+### By-category table
+
+Revenue broken down by service type:
+
+- Service name
+- Inspection count
+- Revenue
+- Share of total
 
 ## Export to CSV
 
-Click the **CSV** button to download. The CSV is organized by month and includes a totals row at the bottom.
+Click the **CSV** button to download the report (monthly table + by-category table) in one file.
+
+## What this is not
+
+- Not a sales tax report. 1nspecT does not compute collected or owed sales tax here.
+- Not a profit-and-loss statement.
+- Not a 1099 summary.
+- Not a refund-aware report. The numbers reflect current inspection state (so cancelled or refunded orders drop out of the totals), but there are no refund entries called out.
 
 ## For your CPA
 
-This is a bookkeeping-grade summary, not a tax return. Your CPA will use it alongside your actual Stripe deposits, bank statements, and expense records. The Tax Summary tells them what you collected from clients; it does not calculate your deductions or your tax liability.
+Hand the CSV to your bookkeeper or CPA. They'll pair it with your actual Stripe deposits, bank statements, and expense records to produce your year-end books. The Tax Summary tells them what you billed; it does not tell them what you owe.
 
 ## Related
 
+- [Monthly Reconciliation](/1nspect/features/monthly-reconciliation) (billed vs. deposited)
 - [All Invoices](/1nspect/features/all-invoices)
-- [Monthly Reconciliation](/1nspect/features/monthly-reconciliation)
+- [Service Mix](/1nspect/features/service-mix) (deeper on service-by-service)
 - [Rates, taxes and processing fees](/1nspect/getting-started/rates-taxes-fees) (where you set your sales tax rate)
