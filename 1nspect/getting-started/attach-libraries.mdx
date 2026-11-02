@@ -1,0 +1,82 @@
+---
+id: "start-here-attach-libraries"
+title: "Attach caption and narrative libraries"
+description: "A template needs at least one caption library and one narrative library associated with it before inspections can sync to the phone. This is where that happens."
+sidebarTitle: "Attach libraries"
+keywords: ["narrative library", "caption library", "associate template", "intelligence hub", "collection"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Your template defines the structure of an inspection: sections, subsections, fields and ratings. Your **caption library** feeds the caption autocomplete on mobile, and your **narrative library** feeds AI drafting and Smart Search. A template needs at least one of each linked to it, or inspections will not sync to the phone.
+
+<Info>
+**Required** to run your first inspection: a caption library and a narrative library associated with your template.
+</Info>
+
+<Warning>
+This is the number-one reason a first test run stalls. If the inspector's caption dropdown comes up empty on mobile, the libraries are not associated. Confirm this before you run a test inspection.
+</Warning>
+
+## Where to find it
+
+In the top bar, click **Narrative Management** (fifth top-nav item). The page header reads **Intelligence & Library Hub**.
+
+Five tabs run across the page:
+
+| Tab | What it does |
+| --- | --- |
+| **Narrative Library** | Your caption and narrative collections, with the Associate-Template picker |
+| **Supplemental Documents** | Disclosure PDFs that attach to reports by rule (year built, foundation, service) |
+| **AI Persona (Voice DNA)** | Your company's writing voice (owners and admins only) |
+| **Option Lists** | Reusable pick lists for template fields |
+| **Reference Snippets** | Short curated reference text inspectors can attach to findings |
+
+For this step, stay on the **Narrative Library** tab.
+
+## Create collections
+
+Inside the Narrative Library tab, you'll see every collection on your account. Collections are groups of captions and narratives organized by template, property type, era, or any other grouping you want. New subscribers typically start with:
+
+- A caption collection and a narrative collection for the primary residential SoP you selected at signup (TREC or InterNACHI)
+- One or more collections for new-construction phase inspections (Phase 1 Pre-Pour, Phase 2 Pre-Drywall)
+
+To add captions and narratives, open a collection and click into the Collection Detail view. You can also import an existing library in XML format (including HomeInspectorPro exports) from the **Import** tab.
+
+## Associate a collection with your template
+
+On a collection card, click the template-picker action. Pick the template you want the collection to feed. The collection becomes the source for that template's caption autocomplete (if it's a caption collection) or narrative drafting and Smart Search (if it's a narrative collection).
+
+<Tip>
+**One template can carry multiple collections of each type.** Same compliant ratings, different wording. A single TREC template can serve a 2026 new build and an 1881 historical home, each with its own deficiency language. You pick which collection applies when you set up the inspection on the order.
+</Tip>
+
+## Confirm the association before your test run
+
+Before your first inspection:
+
+<Steps>
+<Step title="Open the Narrative Library tab">
+Top nav Narrative Management, Narrative Library tab (first tab).
+</Step>
+<Step title="Find each collection you expect to use">
+At minimum, one caption collection and one narrative collection per template.
+</Step>
+<Step title="Verify the template picker shows your template name">
+If the picker shows no template, the association didn't save. Reopen the picker and set it.
+</Step>
+</Steps>
+
+## What to do next
+
+- [Additional Information Provided by Inspector](/1nspect/getting-started/aipi): add inspector-supplied context to the right collection, where your SoP allows it.
+- Services and pricing done, template built, libraries linked, you're ready for Stage 4.
+
+## Related
+
+- [Build your inspection template](/1nspect/getting-started/build-your-first-template)
+- [AI features](/1nspect/features/ai-features)
+- [Choose your Standard of Practice](/1nspect/getting-started/choose-your-sop)

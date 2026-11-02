@@ -1,0 +1,80 @@
+---
+id: "start-here-smart-equipment-fields"
+title: "Smart equipment fields"
+description: "Add fields to your template that capture readings in the right units and compute values like temperature rise and equipment age, with advisory ranges that flag out-of-range values in the field."
+sidebarTitle: "Smart fields"
+keywords: ["smart fields", "computed fields", "advisory range", "temperature rise", "delta-t", "equipment age", "HVAC", "schema"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Inside your template's schema editor, you can add fields that go beyond simple text and numbers. **Smart equipment fields** capture readings in the right units, compute values from other fields (temperature rise, equipment age), and flag out-of-range readings automatically in the field before the inspector moves to the next room.
+
+## Where to add them
+
+Open the template in **Templates** (top nav), click the edit icon, then open the subsection you want to add a field to. The field form opens. The key field is **Data Format**, with five options:
+
+| Data format | Use for | Example |
+| --- | --- | --- |
+| Text | Any free-form text | Equipment serial number |
+| Number | A numeric reading | Supply air temperature, amperage draw |
+| Date | A date | Equipment manufacture date, installation date |
+| Select | A choice from a dropdown | Equipment type, fuel source |
+| Computed (Δ-T, age…) | A value derived from other fields | Temperature split, equipment age |
+
+## Computed fields
+
+Select **Computed (Δ-T, age…)** as the data format, and the form opens up an operand picker. Pick:
+
+- **A compute operation** (for example, subtract)
+- **The operands** (which other numeric or computed fields to use)
+
+### Typical examples
+
+| Field | Operands | Operation |
+| --- | --- | --- |
+| Supply/return temperature split (Δ-T) | Supply Air Temperature − Return Air Temperature | Subtract |
+| Cooling delta | Return Air Temperature − Supply Air Temperature | Subtract |
+| Equipment age | Current Year − Manufacture Year | Subtract |
+
+Computed fields update live as the inspector enters the operand values on mobile. Nothing to tap, no need to type the result.
+
+## Advisory ranges
+
+On any number or computed field, you can set an **advisory range**: an expected minimum and maximum. When the captured value falls outside the range, 1nspecT flags it in the field (on mobile) and queues a draft deficiency narrative, so the inspector can act on it before leaving the system.
+
+### Where ranges come from
+
+You can source the range from one of three places:
+
+1. **The manufacturer's rating** — if the data plate specifies an expected split or draw
+2. **An industry-standard SoP** — for example, 14 to 22°F for an air conditioner supply/return split
+3. **A value you set** — your own threshold
+
+### What happens on mobile
+
+When the inspector saves a field with an advisory range:
+
+- **Within range** → the Co-Inspector prompts an acceptable-performance narrative draft
+- **Out of range** → the Co-Inspector prompts a deficiency narrative draft
+- **Aged equipment** (equipment age field, if you added service-life thresholds) → the Co-Inspector flags the age against the service life and drafts the note
+
+The inspector still approves every word. See [AI features](/1nspect/features/ai-features) for the full narrative-drafting flow.
+
+## Where to start
+
+A great first smart field for most companies is a **furnace temperature-rise check**: supply air temperature, return air temperature, computed difference, advisory range from the manufacturer's rating plate. Your onboarding specialist can help you set up a few of these.
+
+## What to do next
+
+- [Cover page and report layout](/1nspect/getting-started/cover-and-layout)
+- [Attach caption and narrative libraries](/1nspect/getting-started/attach-libraries)
+
+## Related
+
+- [Build your inspection template](/1nspect/getting-started/build-your-first-template)
+- [AI features](/1nspect/features/ai-features)
+- [AI Credits](/1nspect/features/it-tokens)
