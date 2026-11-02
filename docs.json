@@ -205,6 +205,34 @@
               "1nspect/glossary",
               "1nspect/reference/release-notes"
             ]
+          },
+          {
+            "group": "Start Here",
+            "pages": []
+          },
+          {
+            "group": "Daily Operations",
+            "pages": []
+          },
+          {
+            "group": "Dashboard and Reports",
+            "pages": []
+          },
+          {
+            "group": "AI and Credits",
+            "pages": []
+          },
+          {
+            "group": "Standards",
+            "pages": []
+          },
+          {
+            "group": "Client and Agent Experience",
+            "pages": []
+          },
+          {
+            "group": "Payments",
+            "pages": []
           }
         ]
       },
