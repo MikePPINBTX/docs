@@ -1,0 +1,78 @@
+---
+id: "start-here-google-calendar"
+title: "Google Calendar connection"
+description: "Connect each inspector's Google Calendar so booking only offers times they are actually free, and every inspection is added to their calendar automatically."
+sidebarTitle: "Google Calendar"
+keywords: ["google calendar", "calendar sync", "availability", "primary booking calendar", "oauth"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Connecting Google Calendar is the one integration setup most subscribers care about on day one. Once an inspector connects their calendar, booking honors their real availability and inspection events are written to the calendar automatically. Nothing double-books, nothing shows up on a day they already blocked for a dentist appointment.
+
+<Info>
+The integration is optional. Without it, booking offers every slot inside each inspector's working hours regardless of what else is on their calendar.
+</Info>
+
+## Per-inspector connection (recommended)
+
+Each inspector connects their own Google account. This is the setup covered in [Add your team](/1nspect/getting-started/add-your-team).
+
+<Steps>
+<Step title="Open the Users tab">
+Top nav **Settings** then the **Users** tab.
+</Step>
+<Step title="Edit the inspector">
+Click edit on the inspector's row.
+</Step>
+<Step title="Connect in the Google Calendar section">
+Under **Google Calendar**, click Connect. Google's OAuth prompt opens in a new tab. Approve 1nspecT's access to calendar availability and events.
+</Step>
+<Step title="Confirm">
+After approval, the page shows the connected account. Close the OAuth tab. The inspector's bookings will now check availability on this calendar.
+</Step>
+</Steps>
+
+Repeat for every inspector. Each inspector controls their own connection.
+
+## Company-wide "Primary Booking Calendar"
+
+In addition to per-inspector calendars, you can set a single calendar as the account's **Primary Booking Calendar**:
+
+- Open **Business Ops › Company Info**
+- Find the **Google Calendar for Inspection Scheduling** section
+- Connect the primary account
+
+Use this when your office runs one shared calendar for everyone (common for small firms with a single inspector or a shared schedule).
+
+## What syncs
+
+When Calendar is connected:
+
+- **Availability** — bookings on the public form check free/busy on the inspector's calendar and only show open slots
+- **Event creation** — when a new inspection is created (public booking, order wizard, or Field Quote), 1nspecT writes a calendar event with the property address, client name, service type and estimated duration
+- **Event updates** — rescheduling an inspection updates the event; cancelling removes it
+
+## What does not sync
+
+- Non-Google calendars (Outlook, iCal, Apple Calendar) are not supported today
+- Events are one-way from 1nspecT to Google. Editing an event in Google does not change the 1nspecT inspection.
+- Shared calendars appearing in a connected account are not read for availability. 1nspecT only reads the primary calendar for the connected account.
+
+## Troubleshooting
+
+- **Clients see slots on days the inspector blocked.** The inspector probably has not connected their calendar yet, or the connection is to a different Google account than where the block is.
+- **Inspections aren't appearing on the calendar.** Confirm the OAuth is still valid; if you changed Google passwords, you may need to reconnect.
+
+## What to do next
+
+- [Review requests](/1nspect/getting-started/review-requests)
+- Stage 5: a full practice run
+
+## Related
+
+- [Add your team](/1nspect/getting-started/add-your-team)
+- [Online booking and the booking link](/1nspect/getting-started/online-booking)

@@ -55,7 +55,11 @@
               "1nspect/getting-started/aipi",
               "1nspect/getting-started/choose-your-sop",
               "1nspect/getting-started/contracts",
-              "1nspect/getting-started/communication-templates"
+              "1nspect/getting-started/communication-templates",
+              "1nspect/getting-started/communication-workflows",
+              "1nspect/getting-started/online-booking",
+              "1nspect/getting-started/google-calendar",
+              "1nspect/getting-started/review-requests"
             ]
           },
           {

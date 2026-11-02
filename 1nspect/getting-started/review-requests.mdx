@@ -1,0 +1,70 @@
+---
+id: "start-here-review-requests"
+title: "Review requests"
+description: "Automatically ask clients for a review after the report is delivered. Set up your Google, Yelp or custom review links and build the review-request email."
+sidebarTitle: "Review requests"
+keywords: ["review request", "google review", "yelp", "review link", "testimonial", "workflow"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+An email that asks the client for a review after the report is delivered is one of the highest-ROI touchpoints on the whole workflow. 1nspecT ships with the plumbing for it: set your review link once, use the review-link tag in your email template, and configure the workflow step to fire after delivery.
+
+## Add your review links
+
+In the top bar, click **Business Ops**, then open **Company Info** (first tab). Set:
+
+- **Google review link** — the direct link to leave a Google review for your company
+- **Yelp review link** — the direct link for Yelp (if you want it)
+
+Save Company Info.
+
+These links are available as dynamic tags in your email templates.
+
+## Build the review-request template
+
+Open **Business Ops › Communications › Email Templates**. Add a new template (or edit the existing starter):
+
+- A friendly subject line (for example, _"Thanks for choosing [Company name]"_)
+- A short body thanking the client for the inspection, asking for a review
+- Use **Insert Tag** to drop the review link into the body (the link renders as a clickable button or link in the email)
+- Preview to confirm your link renders correctly
+
+Save the template.
+
+## Add the workflow step
+
+Open **Business Ops › Communications › Workflow**. Add a step:
+
+- **Trigger**: Report Delivered (after payment unlock)
+- **Template**: your review-request template
+- **Recipient**: Primary client (and co-client if you want)
+- **Delay**: a day or two after delivery (not immediately — give the client time to actually read the report)
+- **Enabled**: on
+
+Save the step.
+
+<Tip>
+Delivery is a better trigger than publishing. If the report is published but still locked behind payment, the client has not actually read it yet, so a review request lands at the wrong moment.
+</Tip>
+
+## Test it
+
+Send a test order through the whole flow (booking → agreement → payment → publish → deliver). Confirm the review-request email arrives at the right moment with the right review link rendered as a working link.
+
+## When clients click the link
+
+The review link opens the review page on Google or Yelp directly. Clients leave the review on the platform where it lives. 1nspecT does not host or store the review itself.
+
+## What to do next
+
+- Stage 5: a full test run end-to-end before your first real client.
+
+## Related
+
+- [Communication templates](/1nspect/getting-started/communication-templates)
+- [Communication workflows](/1nspect/getting-started/communication-workflows)
+- [Company profile](/1nspect/getting-started/company-profile)

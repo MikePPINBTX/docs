@@ -1,0 +1,76 @@
+---
+id: "start-here-online-booking"
+title: "Online booking and the booking link"
+description: "Share your public booking page or embed it on your own website. Clients book themselves, pricing is calculated live from your rules, and the agreement sends automatically."
+sidebarTitle: "Online booking"
+keywords: ["public booking", "booking link", "embed", "iframe", "booking form", "inspection quote wizard"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+1nspecT gives you a public booking page where clients enter the property address, pick services, see the live price, and book an inspection in one flow. You can share the link directly, text it from the field, or embed it on your website so clients book without ever leaving your site.
+
+## Your booking link
+
+Every subscriber gets a public booking URL under `app.1nspect.app/book/`. The slug is set from your Company Info (see [Company profile](/1nspect/getting-started/company-profile)).
+
+### Where to copy it
+
+Open **Business Ops › Company Info**. The booking link is shown with a copy action.
+
+Share the link directly in email signatures, business cards, agent-partner materials, and SMS. Clients open the link and see your branded booking page.
+
+## Embed the booking form on your website
+
+For subscribers who want booking right on their company website, 1nspecT provides a copy-paste iframe snippet.
+
+### Where to copy the embed snippet
+
+In the top bar, click **Settings**. On the Settings page's Company tab, find the **Embed Your Wizard** section. The embed snippet is:
+
+```html
+<iframe
+  src="https://app.1nspect.app/quote?embed=true"
+  width="100%"
+  height="800"
+  frameborder="0"
+  title="Inspection Quote Wizard">
+</iframe>
+```
+
+Click the copy action to put it on your clipboard (an alert confirms _"Embed code copied to clipboard"_). Paste it into any HTML page on your site.
+
+### Sizing
+
+The default height is 800px. You can adjust `height` to fit your layout. The iframe is responsive on `width="100%"`.
+
+## What clients see
+
+The public booking page walks a client through:
+
+1. Property address (with autocomplete)
+2. Property questions (bed and bath, year built, square footage)
+3. Service selection (primary services and ancillaries from your Pricing Manager)
+4. The live price (from your pricing rules)
+5. Client details and a date and time (checked against inspector calendars)
+6. Submission (which triggers your workflow: Booking Confirmed, Contract Sent, and so on)
+
+The page uses your logo, your colors and your branding (set in [Branding and white-label](/1nspect/getting-started/branding)).
+
+## Internal booking (admin-only)
+
+If you want a booking link that only your admins can submit against (for over-the-phone bookings), create orders directly in the Order Creation Wizard (**Inspections** top nav). That path is covered in detail later and does not go through the public booking page.
+
+## What to do next
+
+- [Google Calendar connection](/1nspect/getting-started/google-calendar) — so booking honors your inspectors' real availability
+- [Review requests](/1nspect/getting-started/review-requests)
+
+## Related
+
+- [Company profile](/1nspect/getting-started/company-profile)
+- [Branding and white-label](/1nspect/getting-started/branding)
+- [Communication workflows](/1nspect/getting-started/communication-workflows)
