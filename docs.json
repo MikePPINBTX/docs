@@ -178,7 +178,6 @@
               "1nspect/admin-operator/intelligence-hub/overview",
               "1nspect/admin-operator/intelligence-hub/narrative-library",
               "1nspect/admin-operator/intelligence-hub/narrative-collections",
-              "1nspect/admin-operator/intelligence-hub/smart-comments",
               "1nspect/admin-operator/intelligence-hub/option-lists",
               "1nspect/admin-operator/intelligence-hub/supplemental-documents",
               "1nspect/admin-operator/intelligence-hub/reference-snippets"
@@ -347,6 +346,11 @@
     {
       "source": "/1nspect/admin-operator/intelligence-hub/keyword-management",
       "destination": "/1nspect/admin-operator/intelligence-hub/smart-comments",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/admin-operator/intelligence-hub/smart-comments",
+      "destination": "/1nspect/admin-operator/intelligence-hub/overview",
       "permanent": true
     }
   ]
