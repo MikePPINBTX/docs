@@ -166,7 +166,11 @@
               "1nspect/features/internachi",
               "1nspect/features/phase-inspections",
               "1nspect/features/reinspection-rating-scales",
-              "1nspect/features/quote-page"
+              "1nspect/features/quote-page",
+              "1nspect/features/realtor-portal",
+              "1nspect/features/report-viewer",
+              "1nspect/features/repair-request-builder",
+              "1nspect/features/haven-binder"
             ]
           },
           {

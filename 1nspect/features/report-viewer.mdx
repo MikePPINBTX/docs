@@ -1,0 +1,64 @@
+---
+id: "client-experience-report-viewer"
+title: "Web report viewer"
+description: "The mobile-first web page where your clients and agents read the published report. Section-by-section navigation, photo lightbox, equipment specs. A PDF download button for the compliant document."
+sidebarTitle: "Report viewer"
+keywords: ["report viewer", "report link", "online report", "mobile-first", "client view", "agent view", "payment locked"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+The web report viewer is the mobile-first page your clients and agents use to read the published report. One permanent URL per report, two views (client and agent), payment-locking if your account requires it, and a PDF download button for the compliant document. Opens in any browser; no account or app needed.
+
+## Two views, one URL slug
+
+Every published report lives at `/report/[slug]`:
+
+- `/report/[slug]` — **client view**, with everything the client can see including the full narrative content and photos
+- `/report/[slug]/agent` — **agent view**, with the agent-facing summary (and the Repair Request Builder for the agent to use)
+
+The slug is generated on publish and is permanent across republishes.
+
+## What the client sees
+
+- Full report with section-by-section navigation
+- A summary filter (show only findings flagged into the executive summary)
+- A photo lightbox (tap any photo to open it full-screen, swipe to the next)
+- Equipment specs (per subsection, pulled from the inspection's system info)
+- Reinspection results side-by-side with original photos (on reinspection reports)
+- Any attached supplemental documents
+- Any attached inspection videos (via the Video Player)
+- A PDF download button for the official compliant PDF
+
+## What the agent sees (agent view)
+
+- The same report content as the client view
+- The **Repair Request Builder** (ticked findings become a repair request). See [Repair request builder](/1nspect/features/repair-request-builder).
+- No pricing or inspector contact details
+
+## Payment-locked reports
+
+If your company requires payment before the client can read the report, the client link redirects to a Payment Required page until payment lands. The agent link may be unlocked independently depending on your workflow (default: agent sees the report locked with its own Report Locked Pending Payment message).
+
+Once payment is recorded (Stripe webhook or manual Mark as Paid), both links unlock automatically. The Report Delivered workflow trigger fires.
+
+See [Payments setup](/1nspect/admin-operator/payments-and-contracts) for how to turn payment-locking on or off.
+
+## PDF download
+
+The compliant document is the PDF. A download button at the top of the viewer gets the client the official PDF for their records. The web viewer is the easier-to-read version; the PDF is the archive copy.
+
+## No in-app mobile viewer
+
+The 1nspecT mobile app does not have a built-in report viewer. The published report is a mobile-first web page that opens in any mobile browser, plus the PDF download. See [Mobile app overview](/1nspect/inspector/overview).
+
+## Related
+
+- [Repair request builder](/1nspect/features/repair-request-builder)
+- [Haven binder](/1nspect/features/haven-binder)
+- [Realtor portal](/1nspect/features/realtor-portal)
+- [Client portal](/1nspect/features/portals)
+- [Publishing and delivery](/1nspect/workflows/publishing-and-delivery)
