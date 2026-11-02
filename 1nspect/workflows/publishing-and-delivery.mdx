@@ -1,0 +1,105 @@
+---
+id: "daily-ops-publishing-and-delivery"
+title: "Publishing and delivery"
+description: "Publish writes the final PDF and generates the client and agent report links. Deliver emails the report with a template preview. Payment-locked reports stay locked until paid."
+sidebarTitle: "Publishing & delivery"
+keywords: ["publish", "deliver", "report link", "client link", "agent link", "haven", "payment-locked", "custom message"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "workflows"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Publishing locks the report and makes it available at a permanent URL. Delivery emails that URL to the client (and the agent) with a message you can personalize. On accounts that lock reports until paid, the client's link stays password-protected until payment lands.
+
+## Where to publish
+
+Open the Report Workspace: **Inspections** top nav › the order › the inspection › Report Workspace. The Publish action is at the top of the page.
+
+## Prerequisites
+
+Before Publish will accept the report:
+
+- Every required SoP item is resolved (see [Pre-publish checks](/1nspect/workflows/pre-publish-checks))
+- Every finding either has a narrative or has been signed off as Publish without narrative
+- Required ratings and area comments are complete
+
+If anything is missing, Publish shows a clear message naming the blockers. Resolve and retry.
+
+## What Publish does
+
+<Steps>
+<Step title="Lock the inspection">
+No more edits without a Republish. The inspection is immutable from this point.
+</Step>
+<Step title="Upload the final PDF">
+1nspecT writes the final branded PDF to secure cloud storage.
+</Step>
+<Step title="Generate links">
+The client's report link (permanent URL) and the agent's report link are generated. Each is served through short-lived signed URLs behind the permanent slug.
+</Step>
+<Step title="Record the publish">
+The Order History gets a Publish event with the time, the version number, and the caller.
+</Step>
+<Step title="Fire the workflow trigger">
+The matching workflow trigger fires:
+
+- **Report Published — already paid** if the order is paid in full
+- **Report Published — awaiting payment** if payment is still due
+</Step>
+</Steps>
+
+## Deliver the report
+
+Publish does not email the client on its own. Open **Deliver** to send the report (or do nothing if your workflow sends the Delivered email automatically on the trigger).
+
+The Deliver dialog captures:
+
+- **Role**: Client or Agent (switches which subscriber-configured delivery template is used)
+- **Email**: the recipient's address
+- **Name**: who to greet
+- **Custom message**: an optional personal note from you; it drops into the delivery email through the `$CustomMessage` tag if your template includes it
+- **Preview**: 1nspecT renders a live preview of the subject and body of every delivery email that will send, with your custom message filled in
+
+Send when the preview looks right.
+
+## Payment-locked reports
+
+If your company settings require payment before the client can read the report, the client's report link redirects to the payment page until payment lands. The agent link may be unlocked independently depending on your workflow. Once payment is recorded (Stripe or Mark as Paid), the client link unlocks automatically and the Report Delivered trigger fires.
+
+See [Payments setup](/1nspect/admin-operator/payments-and-contracts) for how to turn payment-locking on or off.
+
+## Haven
+
+If your account has Haven set up, publishing a report also sends it to the client's Haven home binder. Covered under integrations.
+
+## Republishing
+
+If you need to change the published report, Republish creates a new version. The permanent URL stays the same (so clients keep the link they already have), but a new version marker is attached. The Order History records both versions.
+
+Use Republish sparingly: once a client has read a report and acted on it, changing the content can create confusion.
+
+## Preview PDF without publishing
+
+If you want the PDF but don't want to lock the inspection yet (for a walk-through with the client, for a draft review), use **Preview PDF**. It generates the PDF without locking, warns if there are publish blockers, and skips the slug generation.
+
+## What the client sees
+
+The client opens the report link in any browser. The report is a mobile-first web viewer with:
+
+- Section-by-section navigation
+- Summary filter
+- Photo lightbox
+- Equipment specs
+- Reinspection results (if this is a reinspection report)
+- A PDF download button for the official document
+
+The PDF is the compliant deliverable; the web viewer is the easier-to-read version.
+
+## Related
+
+- [Pre-publish checks](/1nspect/workflows/pre-publish-checks)
+- [The order lifecycle](/1nspect/workflows/booking-to-published-report)
+- [Variable tags reference](/1nspect/getting-started/variable-tags-reference) ($CustomMessage, $ReportLink, $AgentReportLink)
+- [Communication workflows](/1nspect/getting-started/communication-workflows) (Report Delivered trigger)
