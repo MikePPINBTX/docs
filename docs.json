@@ -174,7 +174,12 @@
               "1nspect/features/manual-payments",
               "1nspect/features/payment-locked-reports",
               "1nspect/features/invoices",
-              "1nspect/features/refunds"
+              "1nspect/features/refunds",
+              "1nspect/features/integrations-overview",
+              "1nspect/features/haven-integration",
+              "1nspect/features/google-maps-places",
+              "1nspect/features/data-sources",
+              "1nspect/features/resend-email"
             ]
           },
           {

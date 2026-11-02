@@ -1,0 +1,55 @@
+---
+id: "integrations-google-maps"
+title: "Google Maps and Places"
+description: "Address autocomplete, geocoding, and mileage calculation. Always on, nothing to set up. Powers the booking form, the Order Creation Wizard, and mileage surcharges."
+sidebarTitle: "Google Maps"
+keywords: ["google maps", "places", "address autocomplete", "geocoding", "mileage"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+1nspecT uses Google Maps and Google Places for every address-related interaction: autocompletion in the booking form, geocoding to pin a property on a map, and distance calculation for mileage surcharges. The integration is always on for every subscriber; there's nothing to connect or configure.
+
+## Where you see it in use
+
+| Where | What it does |
+| --- | --- |
+| Public booking form | Address autocompletes as the client types |
+| Order Creation Wizard | Address autocomplete and auto-fill of property details |
+| Mobile Field Quote | Address autocomplete and Property Baseline lookup |
+| Mileage surcharge calculation | Distance from the inspector's home address (set in Settings › Users) to the property |
+| Property Baseline | Lat/lng used to look up site conditions (soil, flood, radon, termite, climate) |
+
+## What this means for you
+
+Address fields across the product behave like Google's standard address input. Start typing and 1nspecT suggests valid addresses with their full postal form. Picking a suggestion fills in city, state, and ZIP without re-entry.
+
+## Mileage calculation
+
+For orders where a mileage surcharge applies:
+
+1. 1nspecT geocodes the inspector's home address (set in Settings › Users under Mileage Calculation)
+2. 1nspecT geocodes the property address on the order
+3. The Google Maps distance (driving distance, round trip if your surcharge is set to Round Trip ×2) is calculated
+4. The mileage surcharge is applied to the order per your Surcharges tab configuration
+
+See [Primary services](/1nspect/getting-started/primary-services) and [Packages, discounts and surcharges](/1nspect/getting-started/packages-discounts-surcharges) for mileage surcharge setup.
+
+## Rate limits and cost
+
+Google Maps and Places have per-month quotas and per-call costs. 1nspecT pays for these as part of your subscription; you don't pay Google directly, and there's no per-call fee passed to you.
+
+## Fallback when autocomplete isn't available
+
+If the Google service is unavailable (brief outage, network issue), address fields fall back to free text. The client or admin can type the full address manually; it saves correctly but doesn't auto-fill extra details.
+
+## Related
+
+- [Public booking form](/1nspect/features/public-booking)
+- [Order creation wizard](/1nspect/admin-operator/order-creation-wizard)
+- [Field Quote](/1nspect/inspector/field-quote)
+- [Packages, discounts and surcharges](/1nspect/getting-started/packages-discounts-surcharges) (mileage surcharge setup)
+- [Data sources](/1nspect/features/data-sources) (what Property Baseline reads)

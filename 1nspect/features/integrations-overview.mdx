@@ -1,0 +1,46 @@
+---
+id: "integrations-overview"
+title: "Integrations"
+description: "The services 1nspecT connects to: Stripe Connect, Google Calendar, Haven, Google Maps, data sources (soil, flood, radon, termite, climate), and Resend email. What each one does and where to connect it."
+sidebarTitle: "Integrations overview"
+keywords: ["integrations", "stripe", "google calendar", "haven", "google maps", "places", "resend", "data sources"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+1nspecT connects to a handful of outside services for payments, scheduling, delivery, address and property data, and email. Most are either already connected for you (data sources, Resend) or wired through a simple one-time setup (Stripe Connect, Google Calendar, Haven). This page is the map; each integration has its own detail page.
+
+## The seven integrations
+
+| Integration | What it does for you | Where to connect it |
+| --- | --- | --- |
+| **Stripe Connect** | Card payments paid straight into your own Stripe account, with refunds and payout reconciliation | Business Ops › Payments. See [Payments setup](/1nspect/admin-operator/payments-and-contracts). |
+| **Google Calendar** | Each inspector's calendar drives booking availability; inspection events are created and updated automatically | Settings › Users (per inspector) and Business Ops › Company Info (primary booking calendar). See [Google Calendar](/1nspect/features/calendar-integration). |
+| **Haven** (formerly HomeBinder) | Published reports delivered to the client's Haven home binder | Business Ops › Integrations. See [Haven integration](/1nspect/features/haven-integration). |
+| **Google Maps and Places** | Address autocomplete, geocoding, mileage surcharge calculation | Always on. See [Google Maps and Places](/1nspect/features/google-maps-places). |
+| **Data sources** | Soil (USDA NRCS SSURGO), flood (FEMA NFHL), radon (EPA), termite (IRC R301.2(6)), climate zone (DOE/PNNL) | Always on. See [Data sources](/1nspect/features/data-sources). |
+| **Resend email** | Branded transactional and automated emails sent in your company's name | Always on. See [Resend email](/1nspect/features/resend-email). |
+| **InterNACHI** | Member ID captured at signup; appears on reports via dynamic tag | Signup form only. See [InterNACHI](/1nspect/features/internachi). |
+
+## What's not supported today
+
+1nspecT does not yet connect to:
+
+- **Outlook or iCal calendars** — Google Calendar only
+- **SMS or push notification services** — email automation only
+- **QuickBooks or other accounting software** — reconciliation is through the Reports CSV export instead
+- **Third-party e-signature services** (DocuSign, Dropbox Sign, Adobe Sign) — 1nspecT's own e-signature is built in
+
+If any of these are on your must-have list, let your onboarding specialist know.
+
+## Related
+
+- [Google Calendar](/1nspect/features/calendar-integration)
+- [Haven integration](/1nspect/features/haven-integration)
+- [Google Maps and Places](/1nspect/features/google-maps-places)
+- [Data sources](/1nspect/features/data-sources)
+- [Resend email](/1nspect/features/resend-email)
+- [Payments setup](/1nspect/admin-operator/payments-and-contracts)

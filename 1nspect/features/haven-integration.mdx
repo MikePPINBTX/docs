@@ -1,0 +1,72 @@
+---
+id: "integrations-haven"
+title: "Haven integration"
+description: "Connect your Haven account (formerly HomeBinder) and 1nspecT will automatically send published reports to the client's Haven home binder."
+sidebarTitle: "Haven integration"
+keywords: ["haven", "homebinder", "haven integration", "api key", "partner name", "binder template"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Haven (formerly HomeBinder) is a third-party home-management service that gives homeowners a lifetime binder for their home. When your company has Haven set up and the per-order Send to Haven toggle is on, 1nspecT automatically sends the published report to the client's Haven binder when you publish. This page covers the admin side; for the client experience see [Haven binder](/1nspect/features/haven-binder).
+
+## Where to connect it
+
+**Business Ops** top-nav › the **Integrations** tab (last of seven tabs).
+
+The Haven card is one of the integration cards on the Integrations tab. The card shows an Active indicator at the top when the integration is both enabled and fully configured.
+
+## Required credentials
+
+Four fields must be filled in for Haven to be usable. If any is missing, 1nspecT disables the Send to Haven behavior automatically (the stored `enabled: true` cannot outlive its config):
+
+| Field | What it is |
+| --- | --- |
+| **Haven API Key** | The key Haven issued to your Haven account. Haven issues this once from your settings tab; it can't be regenerated. If you need it replaced, contact Haven support. Required. |
+| **Partner Name** | Your partner name as Haven knows you |
+| **Binder Template ID** | The ID of the Haven binder template to use for new homeowner binders |
+| **Partner Email** | The email Haven uses for admin notifications |
+
+After filling in all four, flip **Enable Haven integration** on.
+
+## Getting your Haven credentials
+
+1. Sign in to your Haven dashboard
+2. Open your settings tab
+3. Find the API Key, Partner Name, Binder Template ID and Partner Email in the API or Integrations section
+4. Paste into 1nspecT and save
+
+If Haven does not show these to you, contact Haven support.
+
+## Per-order Send to Haven toggle
+
+Once Haven is enabled at the tenant level, every order carries a **Send to Haven on publish** toggle on its Inspection Details page. Defaults to **on**. Uncheck for orders you don't want sent (for example, commercial inspections or multi-unit buildings where Haven isn't the right fit).
+
+If Haven is not configured or enabled at the tenant level, the per-order toggle doesn't appear at all.
+
+## What happens on publish
+
+When the report is published and the per-order toggle is on:
+
+1. 1nspecT's Publish action completes normally (lock the inspection, write the PDF, generate links)
+2. The publish workflow fires the Report Published trigger as usual
+3. Separately, Haven receives an API call with the published PDF and the client's name and email
+4. Haven creates (or updates) the client's home binder with the report attached and emails the client
+
+If the Haven call fails, 1nspecT logs the failure but does not block the publish. You can resend to Haven from the Inspection Details page.
+
+## When Haven doesn't fire
+
+- The tenant-level switch is off
+- The per-order toggle is off
+- The order has no client email (Haven needs an email to create or update the binder)
+- The Haven API returns a failure (log is captured; a Resend to Haven action retries)
+
+## Related
+
+- [Haven binder](/1nspect/features/haven-binder) (what the client sees)
+- [Publishing and delivery](/1nspect/workflows/publishing-and-delivery)
+- [Integrations overview](/1nspect/features/integrations-overview)

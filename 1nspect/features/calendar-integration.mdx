@@ -1,175 +1,92 @@
 ---
-id: features-calendar-integration
-title: Calendar Integration
-persona: [admin-operator]
-surfaces: [web]
-category: features
-related: [admin-operator-order-creation-wizard, admin-operator-company-and-pricing-company-info, workflows-assigning-and-handoff]
-status: stable
-last_verified_against_code: 2026-05-08
+id: "integrations-google-calendar"
+title: "Google Calendar"
+description: "Connect each inspector's Google Calendar. Booking honors their real availability and inspection events are created, updated and removed automatically."
+sidebarTitle: "Google Calendar"
+keywords:
+  - "google calendar"
+  - "calendar integration"
+  - "oauth"
+  - "availability"
+  - "booking"
+  - "scheduling"
+  - "primary booking calendar"
+persona:
+  - "admin-operator"
+  - "inspector"
+surfaces:
+  - "web"
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
 ---
 
-# Calendar Integration
+Google Calendar is the one integration most firms care about on day one. Connect each inspector's Google account and the public booking form will only offer slots they're actually free for. Every inspection you create is written to their calendar automatically. Reschedules update the event; cancellations remove it.
 
-1nspecT integrates with **Google Calendar** to check inspector availability at scheduling time and to auto-create calendar events for confirmed inspections. The integration is OAuth-based, per-inspector — each team member connects their own Google account.
+## Two levels of connection
 
-This article covers what the integration does, how to connect it, and how to troubleshoot.
+### Per inspector (recommended)
 
----
+Each inspector connects their own Google account. This is the setup covered in [Add your team](/1nspect/getting-started/add-your-team).
 
-## What it does
+1. Open **Settings** top-nav › **Users** tab
+2. Edit the inspector
+3. Under **Google Calendar**, click Connect
+4. Google's OAuth prompt opens in a new tab; approve 1nspecT's access to calendar availability and events
+5. Confirmation shows the connected Google account
 
-When connected, the platform:
+Each inspector controls their own connection. Repeat for every inspector.
 
-| Action | When it happens |
-|---|---|
-| **Availability check** | While the operator picks a scheduled time in the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) |
-| **Conflict warnings** | Surface ⚠ Busy or 🔄 Tentative on inspector dropdowns |
-| **Auto-create event** | When an order is confirmed, an event is created on the assigned inspector's calendar |
-| **Auto-update event** | When the inspection is rescheduled, the existing event updates |
-| **Auto-cancel event** | When the order is cancelled, the event is deleted |
+### Primary Booking Calendar (company-wide fallback)
 
-The platform does NOT read non-1nspecT events from your calendar except for availability — your personal entries are not exposed to other operators.
+For firms that run a single shared calendar for the whole team, you can also configure a company-wide Primary Booking Calendar:
 
----
+1. Open **Business Ops** › **Company Info**
+2. Find the **Google Calendar for Inspection Scheduling** section
+3. Connect the primary Google account
 
-## OAuth scope
+Use this when a single inspector or a shared ops calendar handles the whole schedule. For multi-inspector firms, the per-inspector connections above are the better model.
 
-The integration requests:
+## What syncs
 
-- **calendar.events** — read/write access to create/update/cancel inspection events
+Once connected:
 
-The scope is narrow. The platform cannot:
+- **Availability** — booking checks free/busy on the inspector's calendar and only offers open slots that fit the estimated duration
+- **Event creation** — a new inspection writes a calendar event with the property address, client name, service type and estimated duration
+- **Event updates** — rescheduling an inspection updates the event in place
+- **Event removal** — cancelling an inspection removes the event
 
-- Read your email
-- See contacts
-- Access Drive files
-- Modify any calendar settings (timezone, default reminders)
+## What does not sync
 
-The OAuth consent screen shows this scope explicitly — verify before connecting.
+- **Non-Google calendars** (Outlook, iCal, Apple Calendar) are not supported today
+- **Edits to the calendar event in Google** are not pulled back into 1nspecT (one-way: 1nspecT writes to Google, not the other way around)
+- **Shared calendars** appearing in a connected account are not read for availability; only the primary calendar on the connected account counts
+- **Private calendar events** show as busy for availability (the title and details stay private) but their time blocks the slot
 
----
+## OAuth scopes 1nspecT requests
 
-## Connecting Google Calendar
+- Read calendar free/busy (for availability)
+- Write calendar events (for creation / update / removal)
 
-### Per-tenant or per-inspector?
-
-There are two modes:
-
-| Mode | Behavior |
-|---|---|
-| **Per-tenant** | A single Google account at your company is connected. All inspector calendar events are written to this shared account. |
-| **Per-inspector** | Each team member connects their own Google account. Events are written to their personal calendar. |
-
-Per-inspector is **recommended** for teams — gives each inspector visibility into their own schedule. Per-tenant is simpler for solo operators.
-
-### Connecting
-
-1. **Per-tenant:** in **Settings → Integrations → Google Calendar**, click **Connect**
-2. **Per-inspector:** each inspector goes to their User Profile and clicks **Connect Calendar**
-
-The OAuth flow:
-
-1. Click Connect
-2. Browser redirects to Google's OAuth consent screen
-3. Sign in (or pick) the Google account
-4. Review the requested scope (`calendar.events`)
-5. Click **Allow**
-6. Google redirects back to `/calendar-connected` with the OAuth token
-7. The platform stores the token (per-tenant or per-inspector)
-8. The integration is live
-
-### Disconnecting
-
-The Disconnect action removes the platform's OAuth token. Future events will not be auto-created. Existing events remain on the Google Calendar — you can manually delete them if needed.
-
-The disconnect does NOT delete the underlying Google account or revoke 1nspecT's OAuth grant at Google's end — to fully revoke, visit https://myaccount.google.com/permissions and remove "1nspecT" from the list.
-
----
-
-## Availability check mechanics
-
-When you assign an inspector + date/time in the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard):
-
-1. The platform queries the inspector's connected calendar for events between the proposed start time and proposed end time (start + estimated duration)
-2. Events are classified:
-   - **Free** — no events overlap → ✅ Available
-   - **Busy** — confirmed events overlap → ⚠ Busy
-   - **Tentative** — events marked tentative → 🔄 Tentative
-
-The check happens client-side as you change inputs — within a couple of seconds.
-
-If you assign with a conflict, a confirmation alert:
-
-> **Conflict detected**
-> [Inspector] has another event during this window. Assign anyway?
-> [Cancel] [Confirm]
-
-You can confirm and proceed — the platform doesn't prevent overlapping bookings, only warns.
-
----
-
-## Auto-event format
-
-The auto-created event on the inspector's calendar:
-
-| Field | Value |
-|---|---|
-| **Title** | *"1nspecT — [PropertyAddress] — [ClientName]"* |
-| **Start time** | The scheduled inspection start |
-| **End time** | Start + estimated duration |
-| **Description** | A link to the inspection details + key data (client phone, services) |
-| **Location** | The property address |
-| **Reminders** | 1 hour before (configurable per tenant) |
-
-The event includes a deep-link back to [Inspection Details](/1nspect/admin-operator/inspection-details) for the inspector to access from their phone's calendar app.
-
----
-
-## Multi-phase orders
-
-Each phase of a multi-phase order creates its own calendar event. Phase 1 has one event, Phase 2 has another, etc. The events are linked in their descriptions ("Phase 2 of project X — see Phase 1 at [link]").
-
----
-
-## What the integration does NOT do
-
-- **It does not block conflicting bookings.** You can override the conflict warning.
-- **It does not create events in clients' calendars.** That's not currently supported — clients receive email reminders only.
-- **It does not sync with Microsoft Outlook / Apple Calendar / Calendly.** Google Calendar only.
-- **It does not push real-time notifications.** Notifications use email; the calendar event triggers your normal Google reminder.
-- **It does not import existing Google events into 1nspecT.** Inspections come from the order flow; the calendar integration is one-way.
-
----
+1nspecT does not read event content from your calendar; only the busy-time windows are read.
 
 ## Troubleshooting
 
-| Issue | Cause | Fix |
-|---|---|---|
-| **"Calendar not connected"** alert | OAuth token expired or revoked | Reconnect from Settings |
-| **Conflict warning when no real conflict** | Inspector created a private event without the right visibility | Check the inspector's calendar; tentative entries trigger this |
-| **Event title incorrect** | Older auto-events use older title format | Reconnect to refresh the integration |
-| **Cancelled order's event still on calendar** | Network glitch during cancel | Manually delete the event |
-| **Multiple events for one inspection** | Reassignment to a different inspector | The old inspector's event isn't auto-deleted; manually clean up |
+### Clients see slots on days the inspector blocked
 
----
+The inspector has not connected their calendar yet, or the connection is to a different Google account than where the block is. Check **Settings › Users** on the inspector and confirm the connected email matches where the blocked time lives.
 
-## Future enhancements
+### Inspections aren't appearing on the calendar
 
-Roadmap items mentioned in product discussions:
+Confirm the OAuth is still valid. If the inspector changed Google passwords recently, they may need to reconnect.
 
-- Microsoft Outlook / 365 integration
-- iCal feed export (read-only feed for any calendar app)
-- Two-way sync (clients can RSVP from their calendar)
-- Resource calendars (truck, equipment scheduling)
+### "Scheduling buffer" slots are showing up
 
-None of these have committed ship dates.
+Each inspector can set a scheduling buffer (minutes before and after each slot) in their Users profile. If their calendar looks fully booked due to buffer, adjust the buffer value.
 
----
+## Related
 
-## Related articles
-
-- [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) — where availability is checked
-- [Assigning Inspectors & Handoff](/1nspect/workflows/assigning-and-handoff) — full assignment workflow
-- [Company Info](/1nspect/admin-operator/company-and-pricing/company-info) — where OAuth status lives
-- [Communications](/1nspect/features/communications) — reminder emails that complement calendar events
+- [Add your team](/1nspect/getting-started/add-your-team)
+- [Online booking and the booking link](/1nspect/getting-started/online-booking)
+- [Order creation wizard](/1nspect/admin-operator/order-creation-wizard)
+- [Integrations overview](/1nspect/features/integrations-overview)
