@@ -43,15 +43,15 @@ The metered currency for AI operations in 1nspecT. Each plan includes a monthly 
 
 ### AI Draft
 
-A web Report Workspace batch tool that generates narratives for every finding that has a caption and field note but no narrative yet. Costs 2 credits per drafted finding. See [AI Features](/1nspect/features/ai-features).
+A web Report Workspace batch tool that generates narratives for every finding that has a caption and field note but no narrative yet. Costs a flat 50 credits per Draft pass. See [AI Features](/1nspect/features/ai-features).
 
 ### AI Generate
 
-The mobile button that writes a finding's narrative from your caption, field note and the inspection standard. Costs 2 credits text-only. When Vision Scan is armed, the same button runs the vision-aware draft for 8 credits.
+The mobile button that writes a finding's narrative from your caption, field note and the inspection standard. Costs 6 credits. When Vision Scan is armed, the same button runs the vision-aware draft for 10 credits.
 
 ### AIPI (Additional Information Provided by Inspector)
 
-A reusable block of inspector-supplied information attached to a narrative collection. Some standards of practice allow or require inspectors to add context (installer qualifications, inspection scope caveats, product-specific notes) to the published report, and AIPI is where that content lives. Reinspection reports can carry their own AIPI with reinspection-specific limitations. Manage AIPIs in **Intelligence Hub › Narrative Management** and attach them to the relevant collection.
+A reusable block of inspector-supplied information attached to a narrative collection. Some standards of practice allow or require inspectors to add context (installer qualifications, inspection scope caveats, product-specific notes) to the published report, and AIPI is where that content lives. Reinspection reports can carry their own AIPI with reinspection-specific limitations. Manage AIPIs from the buttons on the narrative-library cards in the Intelligence Hub (not available for caption libraries).
 
 ### Ancillary service
 
@@ -59,11 +59,11 @@ An add-on inspection service billed in addition to the primary service. Examples
 
 ### Area comment
 
-A plain-language note attached to an area of the report (as distinct from a finding). Areas with no deficiencies automatically get a "no deficiencies" area comment. You can add, edit and delete area comments on mobile from the Ratings screen and on web in the Report Workspace.
+A plain-language note attached to an area of the report (as distinct from a finding). An area you rate I with no D ratings and no findings automatically gets a "no deficiencies" area comment. You can add, edit and delete area comments on mobile from the Ratings screen and on web in the Report Workspace.
 
 ### CAR narrative
 
-The recommended structure for inspection narratives: **C**ondition (what was observed), **A**nalysis (why it matters), **R**ecommendation (what should be done and by whom). AI Generate and AI Draft follow this format by default.
+The recommended structure for inspection narratives: **C**ondition (what was observed), **A**nalysis (why it matters), **R**ecommendation (what should be done and by whom). AI Generate and the web Draft pass follow this format by default.
 
 ### Caption
 
@@ -71,7 +71,7 @@ The short (6 to 15 word) description of a finding that titles its card in the re
 
 ### Caption library
 
-The reusable collection of captions attached to a template. Appears as autocomplete in the Caption field on mobile and works offline. New captions you type save back to the library. Templates must have at least one caption library linked before the inspection will sync to the phone.
+The reusable collection of captions, set per inspection (with company defaults in Business Ops › Company Info › Inspection Defaults). Appears as autocomplete in the Caption field on mobile and works offline. Saving a caption back to the library is manual (the Save to Caption Library button). The caption library is optional: a missing one just means empty autocomplete, and it does not block the inspection from syncing.
 
 ### Client portal
 
@@ -82,7 +82,7 @@ A second client on the same order (typically a spouse or co-buyer). Has their ow
 
 ### Co-Inspector
 
-The second-opinion pass the AI runs after a Vision Scan. The model re-reads the photo and surfaces up to three additional issues it noticed. You accept each one into a new finding or dismiss it. No separate credit cost: it is part of the 8-credit Vision Scan.
+The second-opinion pass the AI runs after a Vision Scan. The model re-reads the photo and surfaces up to three additional issues it noticed. You accept each one into a new finding or dismiss it. No separate credit cost: it is part of the 10-credit Vision Scan.
 
 ### Collection (narrative or caption)
 
@@ -116,7 +116,7 @@ The mobile Quick Quote flow. The button on the mobile Home screen is labeled **F
 
 ### Finish & Draft Report
 
-See the dedicated entry below. The mobile Review screen has four actions: **Resume Inspection**, **Sync to Cloud**, **Finish & Draft Report**, and **Publish Report** (shown only when your company has enabled per-user mobile publishing). The older **Finalize Inspection** button has been removed.
+See the dedicated entry below. The mobile Review screen's actions include **Resume Inspection**, **Sync to Cloud**, **Finish & Draft Report** and **Publish Report**. Publish Report appears only when the company switch **Allow Publishing Reports from Mobile** (Business Ops › Company Info, off by default) is on and the user has not been opted out in Settings › Users. The older **Finalize Inspection** button has been removed.
 
 ### Finding
 A single record on an inspection: a captured observation of one condition. Carries a section, a subsection, a rating, an optional caption, an optional narrative, optional photos and video, an optional field note, and an optional summary flag.
@@ -169,7 +169,7 @@ An AI-assembled snapshot of the inspected property pulled from its address. The 
 
 ### Public booking form
 
-The embeddable booking page clients use to request an inspection from your website. Shows your services, prices, and inspector availability live, and sends the agreement automatically after booking.
+The embeddable booking page clients use to request an inspection from your website. Shows your services, prices, and inspector availability live. A booking creates a lead (pending review) and fires the Quote Submitted trigger; no order is created and no agreement is sent until your office converts the lead.
 
 ### Quick Quote
 
@@ -185,7 +185,7 @@ A short, curated reference text (for example, a code article, a manufacturer cav
 
 ### Reinspection
 
-A follow-up inspection to confirm whether called-out repairs have been completed. Created from any completed inspection, with a chosen scope (summary, requested repairs or full report) and a fee that can be set per inspector. Has its own rating scale (Repairs Complete, Not Complete, New Deficiency) and before-and-after photo pairs on the report.
+A follow-up inspection to confirm whether called-out repairs have been completed. Created from any completed inspection, with a chosen scope (summary, requested repairs or full report). The reinspection fee comes from your service pricing and is editable per reinspection, with a Payer option (Client, Realtor or Complimentary). Has its own rating scale (Repairs Complete, Not Complete, New Deficiency) and before-and-after photo pairs on the report.
 
 ### Repair request
 
@@ -197,34 +197,30 @@ The web page where you review, edit, polish and publish a report. Found at **Ins
 
 ### Review request
 
-The automated email sent to the client after a report is delivered, inviting them to leave a review (Google, Yelp or any link you configure). Set up in **Business Ops › Communications**.
+The automated email sent to the client after a report is published, inviting them to leave a review (Google, Yelp or any link you configure). Use the dedicated **Review Request** workflow trigger, which fires on every publish with a Send Offset such as `+7d`, not Report Delivered. Set up in **Business Ops › Communications**.
 
 ### Schema (template schema)
 
-The structural definition of a template: its sections, subsections and fields. Edited in **Templates › Template Editor**. Distinct from the visual page design, which controls how that schema prints.
+The structural definition of a template: its sections, subsections and fields. Edited on the template's Schema page (Templates › Edit › Schema). Distinct from the visual page design, which controls how that schema prints.
 
 ### Scan Label / Reading
 
-The mobile button that reads data off a photo (an equipment nameplate, a thermometer, an app screenshot) or routes a typed `field label: value` into the matching field. Always shows a confirm screen before applying. Costs 3 credits (photo) or 1 credit (text only).
+The mobile button that reads data off a photo (an equipment nameplate, a thermometer, an app screenshot) or routes a typed `field label: value` into the matching field. Always shows a confirm screen before applying. Costs 4 credits (photo) or 1 credit (text only) when run through AI. On mobile, typing a `label: value` reading is parsed on the phone and is free.
 
 ### Section
 A major division of an inspection (Structural Systems, Electrical, Plumbing, HVAC, Roofing, and so on). Each section gets its own chapter in the report PDF with a color-coded header.
 
-### Smart Comment
-
-A reusable, parameterized comment fragment used during template authoring or report editing. Managed in **Intelligence Hub › Smart Comments**.
-
 ### Smart Search
 
-The mobile library-search button. Pulls narratives you have already written and refined from your library. Costs 1 credit per search. Best for your bread-and-butter findings: faster than regenerating and worded the way you already approved.
+The mobile library-search button. A free, offline keyword search of the narrative library cached on the phone (mobile never calls semantic search; web semantic search costs 1 credit). Best for your bread-and-butter findings: faster than regenerating and worded the way you already approved.
 
 ### SoP (Standards of Practice)
 
-The rulebook your inspections follow. 1nspecT ships with TREC (Texas), InterNACHI and Phase 1 pre-pour. Each company can copy a standard and customize its rating scale in **SoP Manager**.
+The rulebook your inspections follow. 1nspecT ships with four: TREC (Texas), InterNACHI and the two Phase SoPs (Phase 1 Pre-Pour and Phase 2 Pre-Drywall). Clones inherit narrative rules live from the base. Primary ratings stay locked on TREC and InterNACHI clones; only the reinspection set is editable, using **Edit Ratings** in **SoP Manager**. Custom SoPs per plan: Solo 0, Professional 1, Team 3.
 
 ### SoP Manager
 
-The web screen for browsing standards and rating scales, and for cloning a standard to customize its ratings (including reinspection ratings). Reached from the top-nav **SoP Manager** item.
+The web screen for browsing standards and rating scales, and for cloning a standard (Professional and Team plans only). On clones, the reinspection ratings are editable with Edit Ratings; primary ratings on TREC and InterNACHI clones are locked. Reached from the top-nav **SoP Manager** item.
 
 ### SPO (System Performance Opinion)
 A section-level professional opinion that synthesizes all findings within a major system into one assessment (for example, Foundation Performance). Appears in the report summary. The AI drafts it on request; you can also write it by hand. Costs 10 credits.
@@ -243,11 +239,11 @@ An automatic or manual price adjustment on an order: mileage, age of home, multi
 
 ### Supplemental document
 
-A disclosure or reference PDF that attaches to the published report automatically by rule (based on year built, foundation type, property type or selected service). Managed in **Intelligence Hub › Narrative Management**.
+A disclosure or reference PDF that is offered as a download in the client portal by rule (based on year built, property type or selected service, or always). It is not merged into the report PDF and is not attached to the delivery email. Managed in the Intelligence Hub.
 
 ### Team inspection
 
-An inspection where two or more inspectors work the same job at the same time. The lead shows a QR code; teammates scan to join. Every finding records who captured it, and ratings and comments are keyed per inspector so they do not overwrite each other.
+An inspection where two or more inspectors work the same job at the same time. The lead shows a QR code; teammates scan to join. Every finding records who captured it. Ratings are stored per area, not per inspector, so two inspectors rating the same area overwrite each other.
 
 ### Template
 
@@ -259,7 +255,7 @@ Your company's isolated account in 1nspecT. All of your orders, inspections, tem
 
 ### Trigger event
 
-An event the workflow engine listens for and can act on. The main triggers are booking confirmed, agreement sent, agreement signed, inspection reminder, inspection completed, payment received, report published, report delivered and review request. Configure the emails that fire on each one in **Business Ops › Communications**.
+An event the workflow engine listens for and can act on. The main triggers are booking confirmed, agreement sent, agreement signed, inspection reminder, inspection completed (fires when an admin sets the status to Completed on the web), payment received, report published, report delivered (Stripe payment after publish, or the manual Deliver button) and review request (fires on every publish). Configure the emails that fire on each one in **Business Ops › Communications**.
 
 ### VoiceDNA
 
@@ -267,11 +263,11 @@ The AI pass that learns your company's writing voice from sample reports (up to 
 
 ### Vision Scan
 
-The mobile "co-inspector" mode. Vision Scan is not a standalone button: you arm it, then tap AI Generate, and the whole payload (photo plus caption plus field notes) goes up for analysis. The co-inspector reads the photo and flags additional findings you did not note. Costs 8 credits.
+The mobile "co-inspector" mode. Vision Scan is not a standalone button: you arm it, then tap AI Generate, and the whole payload (photo plus caption plus field notes) goes up for analysis. The co-inspector reads the photo and flags additional findings you did not note. Costs 10 credits.
 
 ### White-label mode
 
-The company setting that hides 1nspecT branding from your reports, emails, agreements and client portal, leaving only your logo and colors. 1nspecT has no white-label tier at the plan level; white-label mode is included on every plan.
+A setting that changes only the web admin's own top bar so it shows your branding instead of 1nspecT's. It does not change reports, PDFs, emails, agreements or the client and realtor portals. 1nspecT has no white-label tier at the plan level. The Settings toggle is saved in the browser only; the Business Ops checkbox saves to your account.
 
 ### Workflow engine
 

@@ -20,14 +20,18 @@ Timing matters more than wording:
 | Timing | Expected response rate |
 | --- | --- |
 | Immediately after Publish (report still locked) | Low (client hasn't read the report yet) |
-| Immediately after Delivery (report unlocked, client just got email) | Medium |
-| 1 to 2 days after Delivery | Highest |
-| 1 week after Delivery | Diminishing returns |
-| 1 month after Delivery | Rare |
+| Immediately after the client pays and the report unlocks | Medium |
+| 1 to 2 days after Publish | Highest |
+| 1 week after Publish | Diminishing returns |
+| 1 month after Publish | Rare |
 
-**Set your workflow step to fire on the Report Delivered trigger with a 1 to 2 day delay.** This hits the sweet spot: the client has had time to read the report, acted on it (shared with their agent, built a repair request), and the experience is still fresh.
+**Set your workflow step to fire on the dedicated Review Request trigger with a Send Offset such as `+1d` or `+2d`.** The Review Request trigger fires on every publish, so the offset gives the client time to read the report, share it with their agent and build a repair request while the experience is still fresh.
 
-Never use **Report Published** as the trigger if your account locks reports until paid. Published and unpaid means the client cannot read the report; a review request at that moment confuses them.
+<Warning>
+  Do not use **Report Delivered** for review requests. That trigger fires only when a Stripe payment unlocks a published report, or when someone clicks the manual Deliver button. In the normal pay-first flow it never fires, so the review request would never go out.
+</Warning>
+
+Avoid **Report Published** as the trigger too: it fires immediately, with no offset control tied to the review, and an unpaid client cannot read the report yet.
 
 ## What to say in the email
 
@@ -37,7 +41,7 @@ Short, warm, specific. The template that works best:
 - **Reference the property** (specific, not generic) by address or by a one-line note (`"your new place on Oak Street"`)
 - **Make the ask clear and small**: "If you have 60 seconds, your Google review really helps our small business"
 - **One link** (not three). Pick Google or Yelp, not both; the one you pick is the one most clients will use.
-- **Reply-to is you**. Make sure the from address shows your company name and the reply-to is your real inbox.
+- **Keep the voice personal.** Workflow emails go out from your company name. There is no configurable reply-to on workflow emails, so don't promise that replies land in your inbox; give a phone number or a contact email in the body if you want to hear back.
 
 Avoid:
 

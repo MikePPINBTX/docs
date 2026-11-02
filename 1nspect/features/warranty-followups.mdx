@@ -15,7 +15,7 @@ For new-construction clients, the one-year builder's warranty is where repeat bu
 
 ## The pattern
 
-Automate one or more follow-up emails after the final new-construction inspection, offering the client an 11-month warranty inspection before the builder's warranty expires. Timing, cadence and wording are entirely up to you: pick what fits your voice and your market. Common approaches:
+1nspecT includes a dedicated **New Build Warranty Reminder** trigger for exactly this. It fires automatically on the first publish of a report, and you scope it with the step's **Service Types** so it only applies to new-construction orders. Timing, cadence and wording are up to you through the step's **Send Offset**. Common approaches:
 
 - A single, well-timed reminder a few months before the warranty expires
 - A gentle check-in earlier (building rapport) followed by a clearer ask closer to the warranty expiry
@@ -34,16 +34,21 @@ Business Ops › Communications › Email Templates. Add a new template with a w
 <Step title="Add the workflow step">
 Business Ops › Communications › Workflow. Add a step with:
 
-- **Trigger**: Inspection Completed (the parent new-construction final inspection)
+- **Trigger**: New Build Warranty Reminder (fires on the first publish of the report)
 - **Template**: your warranty-reminder template
-- **Recipient**: Primary client (and co-client if you want)
-- **Delay**: however many days or months after the parent inspection you want the email to send
+- **Recipient**: Primary Client (and Secondary Client if you want)
+- **Send Offset**: how long after the publish you want the email to send (for example about 9 to 10 months out)
+- **Service Types**: the new-construction services this step applies to
 - **Enabled**: on
 </Step>
-<Step title="Scope to new construction (recommended)">
-If your workflow engine supports it, scope the step to orders where the primary service is new-construction (not resale). Otherwise, every inspection triggers the warranty email, which is noise for resale clients.
+<Step title="Scope to new construction">
+Fill in the step's **Service Types** filter with your new-construction services. Without it, every first publish triggers the warranty email, which is noise for resale clients.
 </Step>
 </Steps>
+
+<Note>
+  The **Inspection Completed** trigger is not an automatic alternative. It fires only when someone sets the inspection status to Completed in the web status picker; it does not fire on its own when the inspector finishes on mobile.
+</Note>
 
 ## When the client books
 
