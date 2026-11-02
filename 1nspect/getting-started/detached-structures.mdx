@@ -1,0 +1,72 @@
+---
+id: "start-here-detached-structures"
+title: "Detached structures"
+description: "Price detached garages, workshops, guest houses and barns as sq-ft-priced ancillaries. On each order, add structure rows with the structure type and its square footage."
+sidebarTitle: "Detached structures"
+keywords: ["detached structures", "garage", "workshop", "guest house", "outbuilding", "sq-ft ancillary"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Many properties have a separate garage, workshop, guest house or barn that the client wants inspected along with the main home. 1nspecT handles these as **detached structures**: separate billable items set up once as sq-ft-priced ancillary services, then added row by row on each order where they apply.
+
+<Info>
+New subscribers get two detached-structure services seeded on their account as placeholders. You can edit, rename, or delete them.
+</Info>
+
+## How detached structures are priced
+
+Under the hood, a detached structure is a **sq-ft-priced ancillary service** with the **Structural** category. One structure = one fee line on the order. The fee scales with the structure's square footage using the sqft tiers you set on the ancillary, exactly like a primary service does.
+
+Because each structure is billed per square footage, the Base Fee and the New Construction overrides from a regular ancillary do not apply. Instead you set a sqft-tier table for the structure.
+
+## Setting up a structure type
+
+One-time setup, done on the Ancillary Services tab:
+
+<Steps>
+<Step title="Open Pricing Manager">
+Business Ops › Pricing, then the Ancillary Services tab.
+</Step>
+<Step title="Add or edit a Structural ancillary">
+Set the Category to **Structural**. Give it a descriptive name (e.g. `Detached Garage`, `Workshop`, `Guest House`, `Barn`).
+</Step>
+<Step title="Define the sqft tiers">
+On the per-structure sqft table, add a row per tier: a size and the fee at that size. 1nspecT interpolates between tiers.
+</Step>
+<Step title="Fill the rest of the ancillary fields">
+Duration per minute, Taxable, Pass-Through, Revenue Model as usual.
+</Step>
+<Step title="Save Fees & Surcharges">
+Commits with the rest of the Ancillary / Packages / Discounts / Surcharges / Settings changes.
+</Step>
+</Steps>
+
+## Adding structures on an order
+
+On the Order Creation Wizard and the Edit Order modal, the **Detached Structures on this order** section shows an **Add structure** row list. For each row you pick:
+
+- **Type**: the detached-structure ancillary (one of the ones you set up above)
+- **Sqft**: the square footage of that structure
+
+1nspecT reads the sqft tiers you set up for that type, calculates the fee for the entered sqft, and adds a line to the order. It also rolls the structure's duration (in minutes) into the on-site time estimate.
+
+Add as many rows as there are structures on the property. Remove a row to drop that structure (and its fee and duration) from the order.
+
+## When structures are included vs. extra
+
+Structures are **always billed in addition** to the primary inspection. There is no package or discount that merges them into the main service price. If you want a bundle (for example, a large-home package that includes a garage inspection), build it under Packages and add the structure ancillary as a package line with a discount.
+
+## What to do next
+
+- Finish setting up Stage 2, then move to Stage 3 (Reports) and build out your template.
+- [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) covers how structures appear at order time.
+
+## Related
+
+- [Ancillary services](/1nspect/getting-started/ancillary-services)
+- [Pricing Manager overview](/1nspect/getting-started/pricing-manager-overview)
+- [Packages, discounts and surcharges](/1nspect/getting-started/packages-discounts-surcharges)

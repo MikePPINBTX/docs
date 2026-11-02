@@ -1,0 +1,87 @@
+---
+id: "start-here-pricing-manager-overview"
+title: "Pricing Manager overview"
+description: "The six tabs of Pricing Manager, where each one saves, and the order to set them up."
+sidebarTitle: "Pricing overview"
+keywords: ["pricing manager", "pricing", "services", "fees", "save registry", "save fees"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Pricing Manager is where you tell 1nspecT what you sell and how it costs. Every quote, every booking price, every invoice reads from the rules you set here. Set this up before contracts, before online booking, before your first test order.
+
+<Info>
+**Required** to run your first inspection: at least one Primary Service with a valid price.
+</Info>
+
+## Where to find it
+
+There are two ways to open the same page:
+
+- Open **Business Ops** in the top bar and click the **Pricing** tab (second of seven tabs). The page is embedded inline.
+- Go directly to `/pricing`.
+
+Either way, the page header reads **Pricing Manager**.
+
+## The six tabs
+
+| Tab | What's inside |
+| --- | --- |
+| **Primary Services** | Your main inspection products: residential resale, new-construction phases, re-inspections, and any sq-ft-priced ancillaries (like detached structures). Each service has a 2-character code that appears on order numbers. |
+| **Ancillary Services** | Add-ons priced per order: sewer scope, pool and spa, radon, mold, thermal imaging, WDI, and so on. Categorized as Standard, Environmental, Structural or Custom. |
+| **Packages** | Bundles of primary and ancillary services with a built-in discount applied per phase. |
+| **Discounts** | Reusable discounts (military, repeat client, referral) that can be applied to any order. |
+| **Surcharges** | Fixed, percentage, per-unit (mileage, units) or age-based surcharges. Can apply automatically or be marked mandatory. |
+| **Settings** | Tax rate, payment processing rate and flat fee, inspection-duration formula, and schedule metadata. |
+
+## The two Save buttons
+
+Pricing Manager has two different Save actions, and which one you need depends on which tab you are on:
+
+| On this tab | Click | Scope |
+| --- | --- | --- |
+| Primary Services | **Save Registry** (top right) | Commits the entire primary-services list. There is also a per-service **Save Tiers** on the inner panel if you just changed one service's tiers. |
+| Ancillary Services, Packages, Discounts, Surcharges, Settings | **Save Fees & Surcharges** (top right, repeated at the bottom of the page) | Commits every change on these five tabs together. |
+
+<Warning>
+If you edit on multiple tabs without saving, keep track of which Save covers what. Ancillary Services, Packages, Discounts, Surcharges and Settings all save together under **Save Fees & Surcharges**. Primary Services is on its own save.
+</Warning>
+
+## Suggested setup order
+
+Go through the tabs in this order on your first pass:
+
+<Steps>
+<Step title="Primary Services">
+Add your main inspections first (resale, new-build phases, re-inspection). Save Registry when done.
+</Step>
+<Step title="Settings">
+Set your tax rate and payment processing. Save Fees & Surcharges.
+</Step>
+<Step title="Ancillary Services">
+Add the add-ons you offer (sewer scope, radon, WDI, pool, mold).
+</Step>
+<Step title="Surcharges">
+Add mileage, age-of-home, crawlspace and other surcharges. Decide which should Auto-Apply.
+</Step>
+<Step title="Discounts">
+Add military, repeat-client, referral discounts.
+</Step>
+<Step title="Packages">
+Bundle for new-construction (Phase 1 + Phase 2 + final) or other combinations. Set discount per line.
+</Step>
+<Step title="Save Fees & Surcharges">
+Final save covers everything you did after Primary Services.
+</Step>
+</Steps>
+
+## Related
+
+- [Primary services](/1nspect/getting-started/primary-services)
+- [Ancillary services](/1nspect/getting-started/ancillary-services)
+- [Packages, discounts and surcharges](/1nspect/getting-started/packages-discounts-surcharges)
+- [Rates, taxes and fees](/1nspect/getting-started/rates-taxes-fees)
+- [Detached structures](/1nspect/getting-started/detached-structures)

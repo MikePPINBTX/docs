@@ -1,0 +1,82 @@
+---
+id: "start-here-ancillary-services"
+title: "Ancillary services"
+description: "Add-on inspections priced per order: sewer scope, radon, pool, WDI, mold. Categorized, taxable, pass-through or standalone, each with its own duration."
+sidebarTitle: "Ancillary services"
+keywords: ["ancillary", "add-ons", "sewer scope", "radon", "pool", "wdi", "mold"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Ancillary services are the add-ons you bill on top of a primary inspection: sewer scope, pool and spa, radon, mold, WDI, thermal imaging, and so on. Each ancillary has its own fee, duration, tax treatment, and category.
+
+## Where to find it
+
+**Business Ops › Pricing**, then the **Ancillary Services** tab (second tab, labeled `ancillary` under the hood).
+
+## Fields per ancillary
+
+| Field | Notes |
+| --- | --- |
+| ID | Short identifier, auto-filled. |
+| Name | What subscribers and clients see. New rows default to `New Service`. |
+| What this does | Short description shown in dropdowns and on the quote. |
+| Internal Only | Toggle to hide from the public booking form. Useful for crew-only extras. |
+| Category | Standard, Environmental, Structural, Custom. See below. |
+| Base Fee ($) | The regular price per inspection. |
+| New Construction ($) | Optional override for new-construction orders. Placeholder: `same` means it uses Base Fee. |
+| Duration (min) | How many minutes this service adds to the on-site time. |
+| Taxable | Whether sales tax applies. |
+| Pass-Through | Whether the fee is passed through to a third party (not kept as revenue). |
+| Standalone | Whether this can be sold on its own without a primary service. |
+| Standalone Price ($) | Price when sold standalone. |
+| Own Agreement | Whether this service needs its own agreement sent separately. |
+| Revenue Model | In-House, Managed (3rd Party), or Referral. See below. |
+
+## Categories
+
+Four categories group ancillaries in menus and reports:
+
+| Category | Typical services |
+| --- | --- |
+| Standard | Thermal imaging, sewer scope, WDI, pool and spa, lawn irrigation |
+| Environmental | Radon, mold, air quality, water quality |
+| Structural | Detached garage, outbuilding, guest house, barn (see [Detached structures](/1nspect/getting-started/detached-structures)) |
+| Custom | Anything not covered by the three above |
+
+## Revenue model
+
+Tells 1nspecT how to track revenue and payouts for the ancillary:
+
+| Model | When to use it |
+| --- | --- |
+| **In-House** | Your inspectors do the work. Full fee is your revenue. |
+| **Managed (3rd Party)** | You bill it, a sub does the work. The fee passes through to the sub net of your margin. |
+| **Referral** | You pass the client to the vendor and get a flat referral spiff. |
+
+The revenue model affects how the Inspector Productivity report and the monthly reconciliation report attribute dollars.
+
+## Pass-through fees
+
+Turn on **Pass-Through** when the fee is money you collect on behalf of someone else (a city permit, a specialist's set rate). Pass-through amounts don't count toward your tax liability or your net revenue.
+
+## Standalone sales
+
+Orders can be ancillary-only (no primary service) when the ancillary has **Standalone** turned on. Use this for recall inspections, re-inspection add-ons, or an on-demand pool-only visit. The Standalone Price often differs from the Base Fee because there's no primary service to piggyback on.
+
+## Save
+
+**Save Fees & Surcharges** at the top right or the bottom of the page commits every ancillary change along with any changes you made on the Packages, Discounts, Surcharges and Settings tabs.
+
+## What to do next
+
+- [Packages, discounts and surcharges](/1nspect/getting-started/packages-discounts-surcharges)
+- [Detached structures](/1nspect/getting-started/detached-structures)
+
+## Related
+
+- [Pricing Manager overview](/1nspect/getting-started/pricing-manager-overview)
+- [Primary services](/1nspect/getting-started/primary-services)

@@ -1,0 +1,94 @@
+---
+id: "start-here-primary-services"
+title: "Primary services"
+description: "Define your main inspection products on the Primary Services tab. Pick a pricing model, set tiers, and pick what the sqft number means for each service."
+sidebarTitle: "Primary services"
+keywords: ["primary services", "service registry", "sqft tiers", "flat fee", "reinspection"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Primary services are the main inspections you sell. Residential Resale, each New Construction phase, Re-Inspection: these all live on the Primary Services tab of Pricing Manager. Each service has its own pricing model, duration formula, and 2-character code that shows up in your order numbers.
+
+## Where to find it
+
+**Business Ops › Pricing** (or `/pricing`), then the **Primary Services** tab (the first tab, labeled with `registry` under the hood).
+
+## Service identity
+
+For every primary service, set:
+
+| Field | Notes |
+| --- | --- |
+| Name | What subscribers and clients see. Example: `Residential Resale`. New rows default to `New Service`. |
+| Code (suffix) | A 2-character code appended to order numbers. Example: `RS` yields `2026-0001-RS`. Placeholder: `e.g. RS`. |
+| Display order | Where it sorts in dropdowns. Placeholder: `e.g. 1`. |
+| Active | Toggle on to make the service available for new orders. |
+
+## Pricing model
+
+One of four options for each service:
+
+| Model | When to use it | How it prices |
+| --- | --- | --- |
+| **SqFt-Based** (tiered) | Residential inspections where price scales with home size | Price tiers by square footage with overage per 1,000 sqft above the top tier |
+| **Flat Fee** | Any service with one price regardless of size | Single fee |
+| **Reinspection** | Follow-ups to confirm repairs | Flat, percentage of the original, or custom (set at booking) |
+| **Custom (commercial)** | Commercial / large residential with bespoke scope | Coming soon — not available for new services yet |
+
+### SqFt-Based tiers
+
+Add a row per tier: a size (sqft) and a fee at that size. 1nspecT interpolates between tiers and bills overage per 1,000 sqft above the top tier.
+
+### Flat Fee
+
+Set the single fee under **Flat Fee**. Placeholder: `e.g. 150`.
+
+### Reinspection
+
+Under **Reinspection Pricing**, pick a basis:
+
+- **Flat Fee** — one price for every re-inspection of this service
+- **% of Original Fee** — a percentage of what the original inspection cost
+- **Custom (set at booking)** — leave the price open for the admin to set per order
+
+There's also an **Include Mileage** toggle to carry the mileage surcharge through to the re-inspection fee.
+
+## What the sqft number means
+
+Each service decides what the sqft field on an order represents:
+
+| Basis option | When to use it |
+| --- | --- |
+| Home square footage (default) | Standard resale inspections |
+| Foundation footprint | Phase inspections (Pre-Pour, Pre-Drywall) where the slab is the measurement |
+| Building total (all units) | Multi-family where every unit counts |
+
+## Standard tie-in
+
+Under **Default SoP**, pick which Standard of Practice to apply when this service is on an order. If left blank, the service defaults to Residential Resale behavior. Set this per service so pre-pour, pre-drywall, 11-month-warranty and resale each follow the right rulebook.
+
+## Duration
+
+Any service can override the global duration formula (from Settings) with its own Base Duration, Base Sqft, Slope and Floor. Covered in [Rates, taxes and fees](/1nspect/getting-started/rates-taxes-fees).
+
+## Save
+
+- **Save Tiers** (per-service, inside the inner panel) commits the tiers for that one service.
+- **Save Registry** (top right of the tab) commits the entire Primary Services list.
+
+Both are safe to click repeatedly: no destructive side effects.
+
+## What to do next
+
+- [Ancillary services](/1nspect/getting-started/ancillary-services) — your add-ons
+- [Packages, discounts and surcharges](/1nspect/getting-started/packages-discounts-surcharges)
+- [Rates, taxes and fees](/1nspect/getting-started/rates-taxes-fees)
+
+## Related
+
+- [Pricing Manager overview](/1nspect/getting-started/pricing-manager-overview)
+- [Detached structures](/1nspect/getting-started/detached-structures)
