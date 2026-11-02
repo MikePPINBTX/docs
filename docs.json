@@ -208,7 +208,28 @@
           },
           {
             "group": "Start Here",
-            "pages": []
+            "pages": [
+              {
+                "group": "Stage 1 — Business identity",
+                "pages": []
+              },
+              {
+                "group": "Stage 2 — Services and pricing",
+                "pages": []
+              },
+              {
+                "group": "Stage 3 — Reports",
+                "pages": []
+              },
+              {
+                "group": "Stage 4 — Client paperwork and comms",
+                "pages": []
+              },
+              {
+                "group": "Stage 5 — Go live",
+                "pages": []
+              }
+            ]
           },
           {
             "group": "Daily Operations",
