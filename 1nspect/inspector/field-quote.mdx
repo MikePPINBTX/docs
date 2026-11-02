@@ -32,28 +32,27 @@ Field Quote is the on-site quoting flow. Enter an address, pick services, see th
 
 The screen opens with the header **Quick Quote** and a subheader: _"Generate and text a quote in seconds."_
 
+## The screen top to bottom
+
+The Quick Quote screen is one scroll. Section headers in order:
+
+1. **Property Address** — type the address; Google Places autocomplete suggests matches. Picking one triggers a Property Baseline lookup that pre-fills year built, square footage and foundation type.
+2. **Primary Service** — pick the inspection type (Residential Resale, New Construction, Reinspection, etc.) from your Pricing Manager.
+3. **Add-On Services** — pick ancillaries (sewer scope, radon, pool, WDI, etc.).
+4. **Detached Structures** — for properties with a detached garage, workshop, guest house, barn: add one row per structure with type and sqft. Each prices per its own sqft tier.
+5. **Discount (Optional)** — apply a discount from your Discounts list.
+6. **Manual Adjustments** — admins and owners only. A one-off discount or surcharge not in your rules.
+7. **Client Phone** — the client's phone number. The quote link gets texted to this number from your personal number via SMS. In book mode, this is saved on the order.
+8. **Book this as an order** — toggles book-on-the-spot mode (asks for client name, email and co-client if applicable). In quote mode (toggle off), the quote is texted to the client to accept.
+
+The live price updates at the top of the screen as you build the quote, so you always see the running total.
+
 ## The flow
 
-<Steps>
-  <Step title="Property Address">
-    Type the address. Address autocomplete suggests matches as you type. Pick one to drop in the property details (year built, square footage, foundation type) via the Property Baseline lookup.
-  </Step>
-  <Step title="Services">
-    Pick primary services and ancillaries. Pricing calculates live from your Pricing Manager rules: tiers, surcharges, discounts, taxes.
-  </Step>
-  <Step title="Units and structures (if applicable)">
-    For multi-unit properties, set the unit count and building total. For properties with detached structures (garage, workshop, guest house, barn), add rows with structure type and sqft. 1nspecT prices each per its sqft-tier table.
-  </Step>
-  <Step title="Client details">
-    Name and email (and co-client if there is one). Phone number if you want to text the quote.
-  </Step>
-  <Step title="Review the price">
-    The live price is shown at the top of the screen as you build the quote. Confirm it looks right before you send.
-  </Step>
-  <Step title="Send or book">
-    Three paths: text the quote, book on the spot, or save as a lead.
-  </Step>
-</Steps>
+Two paths through the screen:
+
+- **Text a quote** — fill in Property, Services, (Structures, Discount), Client Phone. Tap **Text a Quote** to send the client an SMS with a link to accept the quote online.
+- **Book on the spot** — toggle **Book this as an order**, fill in client name and email (and co-client details if needed). Pick a date and time from available slots on each inspector's Google Calendar. Tap **Book** to confirm. The agreement sends automatically per your Communications workflow.
 
 ## Text a quote
 
