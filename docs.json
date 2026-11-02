@@ -170,7 +170,11 @@
               "1nspect/features/realtor-portal",
               "1nspect/features/report-viewer",
               "1nspect/features/repair-request-builder",
-              "1nspect/features/haven-binder"
+              "1nspect/features/haven-binder",
+              "1nspect/features/manual-payments",
+              "1nspect/features/payment-locked-reports",
+              "1nspect/features/invoices",
+              "1nspect/features/refunds"
             ]
           },
           {

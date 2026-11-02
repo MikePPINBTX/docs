@@ -1,0 +1,68 @@
+---
+id: "payments-manual"
+title: "Manual payments"
+description: "Clients pay through Venmo, Zelle or Cash App. Your handles show in their portal; you mark the order paid when the money arrives."
+sidebarTitle: "Manual payments"
+keywords: ["manual payments", "venmo", "zelle", "cash app", "mark as paid", "off-stripe"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Some clients want to pay through Venmo, Zelle or Cash App instead of a card. 1nspecT supports that: configure your handles in **Business Ops › Payments**, the client sees them in their portal, and you mark the order paid in the web admin when the money arrives.
+
+## Configuring your handles
+
+In **Business Ops › Payments**, the **Manual Payment Options** section carries three fields. Fill in only the ones you accept; blank fields are hidden from the client portal.
+
+| Service | Field format |
+| --- | --- |
+| Venmo | Your username without the `@` |
+| Zelle | Email address or phone number registered with Zelle |
+| Cash App | Your cashtag without the `$` |
+
+See [Payments setup](/1nspect/admin-operator/payments-and-contracts).
+
+## What the client sees
+
+In their client portal, under the Payment section, each configured handle appears as a copy-to-clipboard field. The client taps to copy the handle, opens the matching app, and sends the payment themselves.
+
+## Marking the order paid
+
+Once the money arrives:
+
+<Steps>
+<Step title="Open the order">
+Inspections top-nav then the order.
+</Step>
+<Step title="Click Mark as Paid">
+The Mark Paid modal opens.
+</Step>
+<Step title="Enter the details">
+Amount received, date, and an optional note for your records.
+</Step>
+<Step title="Save">
+The order is marked paid. The Payment Received trigger fires, the report unlocks (if payment-locking is on), and the Monthly Reconciliation report picks up the payment.
+</Step>
+</Steps>
+
+## Partial payments
+
+If a client sends only part of the balance, Mark as Paid can record the partial amount. The order shows a balance due; the client portal still shows the handles so they can send the rest.
+
+## Reconciling manual payments
+
+Manual payments appear in Monthly Reconciliation under the **Manual** method filter. The report shows gross amount with a Stripe fee of $0 (because no Stripe fee was deducted). Pair with your Venmo / Zelle / Cash App activity for your month-end books.
+
+## Why not just Stripe?
+
+Stripe is simpler (auto-unlocks reports, no manual marking, auto-reconciles), but some clients prefer manual payment to avoid card fees or because they trust Venmo more than card entry. Supporting both gives you flexibility.
+
+## Related
+
+- [Payments setup](/1nspect/admin-operator/payments-and-contracts)
+- [Payment-locked reports](/1nspect/features/payment-locked-reports)
+- [Managing orders](/1nspect/workflows/managing-orders)
+- [Monthly Reconciliation](/1nspect/features/monthly-reconciliation)

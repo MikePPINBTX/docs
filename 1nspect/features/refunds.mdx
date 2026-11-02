@@ -1,0 +1,84 @@
+---
+id: "payments-refunds"
+title: "Refunds"
+description: "Refund an order through 1nspecT when a client cancels, when you need to issue a goodwill refund, or when an ancillary is removed from a paid order."
+sidebarTitle: "Refunds"
+keywords: ["refunds", "refund", "stripe refund", "credit note", "partial refund"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+1nspecT handles refunds through the same channel the payment came in on. A Stripe-paid order refunds through Stripe, straight back to the client's card. A manually-paid order (Venmo / Zelle / Cash App) you refund outside 1nspecT and then record the refund in the web admin.
+
+## When refunds happen
+
+| Trigger | Refund scope |
+| --- | --- |
+| Cancel Order (full) | Full refund of the order total |
+| Cancel Order (one phase, multi-phase order) | Partial refund for the cancelled phase |
+| Remove Ancillary on a paid order | Partial refund for the removed ancillary |
+| Goodwill refund | Any amount, your choice |
+
+Covered on the order side in [Managing orders](/1nspect/workflows/managing-orders).
+
+## Refunding a Stripe-paid order
+
+<Steps>
+<Step title="Open the order">
+Inspections top-nav then the order.
+</Step>
+<Step title="Pick the refund action">
+Cancel Order (full refund), or Remove Ancillary (partial), or a direct Refund action.
+</Step>
+<Step title="Confirm the amount">
+1nspecT calculates the refund amount from the cancellation / removal / direct entry. Review before confirming.
+</Step>
+<Step title="Send to Stripe">
+1nspecT calls Stripe's refund API. The refund hits the client's card in Stripe's standard timeline (typically 5 to 10 business days).
+</Step>
+<Step title="Credit note generated">
+A credit note PDF is attached to the order. The order's balance updates. Monthly Reconciliation picks up the refund on the next report run.
+</Step>
+</Steps>
+
+## Refunding a manually-paid order
+
+Since you own the Venmo / Zelle / Cash App transaction, you send the refund through those apps directly. Then come back to 1nspecT and record the refund:
+
+<Steps>
+<Step title="Send the refund in the app">
+Open Venmo (or Zelle or Cash App), find the original payment, and send the refund back.
+</Step>
+<Step title="Record the refund in 1nspecT">
+Open the order, use the refund action, enter the refunded amount and the date. The order balance updates and the credit note is attached.
+</Step>
+</Steps>
+
+## Partial refunds
+
+All of the above support partial amounts. Enter the amount you want to refund (not necessarily the full order total). A partial refund leaves the order with a reduced net paid amount.
+
+## What a refund does on the client's side
+
+For the client:
+
+- They receive the refund through the original payment channel (Stripe to their card, or you Venmo them back)
+- The invoice PDF updates to show the credit note alongside the original invoice
+- The report link stays unlocked (refunds do not lock a previously-unlocked report)
+- An email notification can fire if your Communications workflow has a Refund Issued trigger set up
+
+## Reconciling refunds
+
+- **Monthly Reconciliation** report shows refunds as negative entries in the period, with the method (Stripe or manual)
+- **All Invoices** report shows the credit note separately from the original invoice
+- **Tax Summary** report deducts refunded tax from the taxable total
+
+## Related
+
+- [Managing orders](/1nspect/workflows/managing-orders)
+- [Payments setup](/1nspect/admin-operator/payments-and-contracts)
+- [Monthly Reconciliation](/1nspect/features/monthly-reconciliation)
+- [All Invoices](/1nspect/features/all-invoices)
