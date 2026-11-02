@@ -1,0 +1,51 @@
+---
+id: "report-tax-summary"
+title: "Tax Summary"
+description: "Annual revenue grouped by tax category, by month. For year-end accounting and 1099 generation. Pick a year, export to CSV, hand to your CPA."
+sidebarTitle: "Tax Summary"
+keywords: ["tax summary", "annual revenue", "1099", "cpa", "year-end", "tax category"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Tax Summary is the report you hand your CPA at year-end. Annual revenue grouped by tax category, broken out by month. No fuss, no filtering gymnastics: pick a year, click CSV, send.
+
+## Where to find it
+
+**Reports** top-nav › the **Tax Summary** card.
+
+## Filters
+
+| Filter | Options |
+| --- | --- |
+| Year | Dropdown with the current year and the two prior years. |
+
+## What the report shows
+
+Stat grid with the year's totals: total revenue, taxable revenue, non-taxable revenue (pass-through), tax collected.
+
+Table grouped by month, with:
+
+- Month
+- Taxable revenue
+- Non-taxable (pass-through) revenue
+- Tax collected
+- Refunds issued
+- Net revenue
+
+## Export to CSV
+
+Click the **CSV** button to download. The CSV is organized by month and includes a totals row at the bottom.
+
+## For your CPA
+
+This is a bookkeeping-grade summary, not a tax return. Your CPA will use it alongside your actual Stripe deposits, bank statements, and expense records. The Tax Summary tells them what you collected from clients; it does not calculate your deductions or your tax liability.
+
+## Related
+
+- [All Invoices](/1nspect/features/all-invoices)
+- [Monthly Reconciliation](/1nspect/features/monthly-reconciliation)
+- [Rates, taxes and processing fees](/1nspect/getting-started/rates-taxes-fees) (where you set your sales tax rate)

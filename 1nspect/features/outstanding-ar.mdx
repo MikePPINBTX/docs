@@ -1,0 +1,58 @@
+---
+id: "report-outstanding-ar"
+title: "Outstanding A/R"
+description: "Orders billed but not paid, bucketed by aging: 0 to 30, 31 to 60, 61 to 90, 90+. Export to CSV."
+sidebarTitle: "Outstanding A/R"
+keywords: ["ar", "accounts receivable", "outstanding", "aging", "unpaid invoices", "collections"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Outstanding A/R is the report you open when you want to see who still owes you money, how long they've owed it, and whether you need to send a follow-up. Orders that were billed but not fully paid, bucketed by how long the balance has been open: 0 to 30 days, 31 to 60, 61 to 90, and 90+.
+
+## Where to find it
+
+**Reports** top-nav › the **Outstanding A/R** card.
+
+## Filters
+
+| Filter | Options |
+| --- | --- |
+| Period | Date-range picker (defaults to all unpaid). |
+
+## What the report shows
+
+Stat grid with totals for each aging bucket: 0 to 30, 31 to 60, 61 to 90, 90+, and the grand total outstanding.
+
+Table with one row per unpaid order:
+
+- Order number
+- Client name
+- Property address
+- Invoice date
+- Days outstanding (and the bucket it falls into)
+- Amount billed
+- Amount paid
+- Balance due
+- Latest action (last email sent, last mark-paid attempt)
+
+## Export to CSV
+
+Click the **CSV** button to download. The CSV filename is `outstanding-ar.csv`.
+
+## Taking action
+
+From each row you can jump to the order to:
+
+- Resend the invoice email
+- Mark as Paid for an off-Stripe payment that landed
+- Open the order and apply a discount or write off (via Edit Order)
+
+## Related
+
+- [All Invoices](/1nspect/features/all-invoices)
+- [Monthly Reconciliation](/1nspect/features/monthly-reconciliation)
+- [Managing orders](/1nspect/workflows/managing-orders)

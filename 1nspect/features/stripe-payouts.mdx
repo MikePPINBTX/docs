@@ -1,0 +1,51 @@
+---
+id: "report-stripe-payouts"
+title: "Stripe Payouts"
+description: "Group transactions by the Stripe deposit that hit your bank. Click any payout to drill into its line items and per-customer fees."
+sidebarTitle: "Stripe Payouts"
+keywords: ["stripe", "payouts", "deposits", "bank", "line items"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Stripe Payouts is a deposit-centric view of your Stripe money: each row is a payout that landed in your bank, and clicking into it shows the line-item transactions that made up that deposit, with per-customer fees. Use it when your bookkeeper sees a deposit on the bank statement and asks "what was in this one?"
+
+## Where to find it
+
+**Reports** top-nav › the **Stripe Payouts** card.
+
+## Filters
+
+| Filter | Options |
+| --- | --- |
+| Period | Date-range picker. The report uses a slightly wider window than Monthly Reconciliation because the underlying Stripe charges that make up a payout can span a few days before the payout date. |
+
+## What the report shows
+
+At the top, a stat grid for the period: total paid out to your bank, total Stripe fees, number of payouts.
+
+Below, a list of payouts. Each payout row shows:
+
+- Payout date (the date the money hit your bank)
+- Expected arrival date
+- Payout amount (net, after Stripe fees)
+- Transaction count
+- Status (paid, in transit, pending)
+
+Click a payout to drill in and see every transaction that rolled up into it, with per-customer order number, charge amount, fee, net.
+
+## Export to CSV
+
+Click the **CSV** button to download. The export includes both the payout summary and the line items.
+
+## Reconcile to your bank
+
+Match each payout row to a deposit on your bank statement. If a deposit on the bank doesn't appear here, check your Stripe account directly (the Stripe Dashboard will have the full detail). If a payout here doesn't appear on the bank, it may still be in transit.
+
+## Related
+
+- [Monthly Reconciliation](/1nspect/features/monthly-reconciliation) — the order-centric view
+- [All Invoices](/1nspect/features/all-invoices)

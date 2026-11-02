@@ -147,7 +147,19 @@
               "1nspect/features/portals",
               "1nspect/features/public-booking",
               "1nspect/features/calendar-integration",
-              "1nspect/features/multi-tenant-and-team"
+              "1nspect/features/multi-tenant-and-team",
+              "1nspect/features/dashboard-overview",
+              "1nspect/features/iboss-insights",
+              "1nspect/features/reports-overview",
+              "1nspect/features/monthly-reconciliation",
+              "1nspect/features/stripe-payouts",
+              "1nspect/features/all-invoices",
+              "1nspect/features/outstanding-ar",
+              "1nspect/features/service-mix",
+              "1nspect/features/agent-referrals",
+              "1nspect/features/inspector-productivity",
+              "1nspect/features/activity-log",
+              "1nspect/features/tax-summary"
             ]
           },
           {
