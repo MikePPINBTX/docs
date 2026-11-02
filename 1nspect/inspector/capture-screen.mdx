@@ -20,33 +20,54 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-The Capture screen is the heart of the mobile app. It is built so you never leave it: photo, caption, rating, AI tools and save all on one screen. Section and subsection buttons run across the middle to move you through the inspection; the bottom bar carries Home, Review, Ratings, Quote and Config.
+The Capture screen is the heart of the mobile app. It is built so you never leave it: photo, caption, rating, AI tools and save all in one scroll. This page walks the screen top to bottom, then covers each piece in detail.
 
-## The screen at a glance
+## The screen top to bottom
 
-- **Top**: current section header and the field tools row
-- **Middle**: section and subsection buttons for the SoP you're inspecting against
-- **Below middle**: the capture area (photo, caption, rating, field notes, narrative)
-- **Bottom**: the five tabs (Home, Review, Ratings, Quote, Config)
+In order, as you scroll down the Capture screen:
+
+1. **Media area** at the top — the camera / video / files picker (or the thumbnails of what you've captured so far)
+2. **Section selector** — one button per inspection section (STRUCT, ELEC, HVAC, PLUMB, and so on). The selected section highlights.
+3. **Subsection selector** — one button per subsection inside the current section (FOUND, GRADE, ROOF_COV, and so on). The selected subsection highlights.
+4. **Fields chip** — a collapsible `📋 Fields · N of M` chip with an orange badge showing how many required fields remain (when the subsection carries system-info fields)
+5. **Caption field** — placeholder `Enter caption for this deficiency...`
+6. **Add field note** — a collapsible row (`▸ Add field note`) that reveals a private notes field
+7. **Narrative field** — the full narrative text area with `🔍 Smart Search` and formatting chips (`• Start`, `1. Start`, `Clear`) above it
+8. **Condition Rating** — the SoP rating buttons (TREC shows I / NI / NP / D with their full labels — Inspected / Not Inspected / Not Present / Deficient)
+9. **AI Tools** — the AI action buttons (covered in detail below)
+10. **Save + New / Save + Finish / 🗑** — the save row at the very bottom of the finding form
+11. **Bottom tabs** — Home, Review, Ratings, Quote, Config (fixed below everything)
 
 The section and subsection buttons change with your SoP. A TREC job, an InterNACHI job, and a custom Pre-Pour foundation job each show their own sections, subsections, and ratings. Same screen, different shape.
 
 ## The core loop
 
-For each finding (deficiency, observation, or system detail):
+For each finding (deficiency, observation, or system detail), work the screen in this order:
 
 <Steps>
-  <Step title="Take a photo">
-    Tap the camera to capture, or pick from your camera roll. Video and file attachments work the same way.
+  <Step title="Pick the section and subsection">
+    Tap the section (STRUCT, ELEC...) and then the subsection (FOUND, GRADE...). The screen scopes to that subsection.
+  </Step>
+  <Step title="Capture media">
+    Tap the camera, video, or files icon in the media area at the top. Add as many photos as the finding needs.
+  </Step>
+  <Step title="Fill required fields (if any)">
+    Tap the `📋 Fields · N of M` chip to open the system-info fields. Fill the required ones; the orange badge counts down. Smart (computed) fields update live.
   </Step>
   <Step title="Type a caption">
-    A short description of what you see. The caption is what the AI reads to draft a narrative, and the title of the deficiency card on the report.
+    A short description of what you see. The caption is what the AI reads to draft the narrative, and the title of the deficiency card on the report.
+  </Step>
+  <Step title="Add a field note (optional)">
+    Expand **▸ Add field note** and drop any private context you want the AI to read but the client to never see.
+  </Step>
+  <Step title="Draft the narrative">
+    Type it yourself, pull one from your library with **🔍 Smart Search**, or tap **AI Generate** in the AI Tools section below.
   </Step>
   <Step title="Set a rating">
-    Rate the subsection. The rating options come from your SoP (TREC shows I / NI / NP / D; other standards show their own).
+    Tap the rating button that matches (TREC: I / NI / NP / D).
   </Step>
   <Step title="Save">
-    **Save + New** clears the form and keeps you on the screen for the next capture. **Save + Finish** saves and leaves. Lean on Save + New.
+    **Save + New** clears the form and keeps you on the screen for the next capture. **Save + Finish** saves and leaves. The 🗑 at the end deletes the finding without saving. Lean on Save + New.
   </Step>
 </Steps>
 
