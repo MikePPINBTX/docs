@@ -131,7 +131,8 @@
               "1nspect/workflows/assigning-and-handoff",
               "1nspect/workflows/aging-equipment-flagging",
               "1nspect/workflows/managing-orders",
-              "1nspect/workflows/reinspections"
+              "1nspect/workflows/reinspections",
+              "1nspect/workflows/pre-publish-checks"
             ]
           },
           {
