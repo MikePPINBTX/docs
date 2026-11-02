@@ -233,6 +233,34 @@
           {
             "group": "Payments",
             "pages": []
+          },
+          {
+            "group": "Communications",
+            "pages": []
+          },
+          {
+            "group": "Templates",
+            "pages": []
+          },
+          {
+            "group": "Intelligence Hub",
+            "pages": []
+          },
+          {
+            "group": "Integrations",
+            "pages": []
+          },
+          {
+            "group": "Admin Reference",
+            "pages": []
+          },
+          {
+            "group": "Troubleshooting (new)",
+            "pages": []
+          },
+          {
+            "group": "Reference (new)",
+            "pages": []
           }
         ]
       },
