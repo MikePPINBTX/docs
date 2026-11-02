@@ -1,0 +1,91 @@
+---
+id: "voicedna-deep"
+title: "VoiceDNA deep dive"
+description: "Upload a handful of your past reports and the AI learns your writing voice. Future AI Generate calls produce narratives that sound like you wrote them. One-time setup, 50 AI credits per extraction."
+sidebarTitle: "VoiceDNA"
+keywords: ["voicedna", "voice dna", "ai persona", "writing voice", "persona importer", "gemini", "extract persona"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+VoiceDNA is the AI feature that learns your company's writing voice from a handful of past reports and uses it on every future AI Generate call. The AI stops sounding generic and starts sounding like you wrote it. One-time setup, 50 AI credits per extraction, admins and owners only.
+
+## Where to find it
+
+**Narrative Management** top-nav › **Intelligence & Library Hub** › the **AI Persona (Voice DNA)** tab (third tab).
+
+The VoiceDNA page is owner- and admin-only. Inspectors do not see this tab.
+
+## The two sections on the page
+
+### Active Voice DNA Profile
+
+Shows your current profile (if you have one). An **Edit Voice DNA Profile** button opens the writing-preferences editor. Empty state (no profile yet) shows: _"No Voice DNA profile set. Upload reports below to extract your writing style."_
+
+### Writing Preferences
+
+Independent of the extracted profile; works even with no profile set. Saved through its own endpoint. Tune:
+
+- **Narrative length** (tenant-level axis the AI reads at draft time)
+- **Tone** (how formal or informal the drafts should read)
+- Other style knobs covered in the editor
+
+The writing preferences layer on top of the extracted voice: the profile sets the voice; the preferences shape how it comes out on each draft.
+
+## Extracting a profile
+
+<Steps>
+<Step title="Gather sample reports">
+Pick up to 8 PDF reports your company has published. More variety (resale, pre-pour, pre-drywall, 11-month warranty) gives the AI a better read on your range.
+</Step>
+<Step title="Upload the PDFs">
+Drag the files into the upload zone on the AI Persona tab. The page shows a progress indicator while uploading.
+</Step>
+<Step title="Click Extract Voice DNA">
+The button reads **Extract Voice DNA (50 AI credits)**. On click, the AI analyzes the uploads with Gemini 2.5 Pro and extracts your writing style.
+</Step>
+<Step title="Wait for extraction">
+The progress label reads _"Extracting… (this may take up to 2 minutes)."_ The AI reads narrative structure, sentence patterns, hedging conventions, trade terminology, and the quirks of how you word findings.
+</Step>
+<Step title="Profile is active">
+Once extraction completes, the Active Voice DNA Profile section updates. Every future AI Generate call reads from this profile.
+</Step>
+</Steps>
+
+## Cost
+
+**50 AI credits** per extraction. The one-time cost is justified by the depth of analysis Gemini 2.5 Pro runs over up to 8 full PDF reports.
+
+## When to re-extract
+
+- You hired new inspectors with a markedly different writing voice and want the average
+- You changed your SoP (TREC to InterNACHI, for example) and want the voice recalibrated to the new SoP's language
+- The AI output started feeling off and you suspect the profile has drifted
+
+Re-extraction replaces the current profile; the old one is not kept.
+
+## How the profile affects AI output
+
+For every subsequent AI Generate, AI Draft, and Polish call:
+
+- The server reads the tenant's active VoiceDNA profile
+- The profile becomes part of the system instruction for the AI call
+- The returned narrative matches your voice (sentence structure, vocabulary, hedging, length preferences)
+
+Smart Search is unaffected: it pulls narratives you wrote, so it already sounds like you.
+
+## What VoiceDNA is not
+
+- Not a style transfer for existing narratives (it affects new drafts only; it does not re-polish past reports)
+- Not a template editor (it does not change your schema or sections)
+- Not a per-inspector profile (it is tenant-wide; one profile per company)
+- Not a replacement for Polish (you can still Polish any narrative to refine the AI's take)
+
+## Related
+
+- [AI features](/1nspect/features/ai-features)
+- [AI Credits](/1nspect/features/it-tokens)
+- [Intelligence & Library Hub overview](/1nspect/admin-operator/intelligence-hub/overview)

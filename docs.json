@@ -179,7 +179,8 @@
               "1nspect/features/haven-integration",
               "1nspect/features/google-maps-places",
               "1nspect/features/data-sources",
-              "1nspect/features/resend-email"
+              "1nspect/features/resend-email",
+              "1nspect/features/voicedna"
             ]
           },
           {
