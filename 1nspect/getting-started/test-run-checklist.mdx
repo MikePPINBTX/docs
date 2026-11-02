@@ -1,0 +1,100 @@
+---
+id: "start-here-test-run-checklist"
+title: "Test run checklist"
+description: "Before your first real client, do one full practice run with your onboarding specialist. This checklist walks you through it end to end."
+sidebarTitle: "Test run"
+keywords: ["test run", "practice run", "go live", "first inspection", "checklist", "dry run"]
+persona: ["admin-operator", "inspector"]
+surfaces: ["web", "mobile"]
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Before your first real client, do a full dry run with your onboarding specialist. One test order carried end to end (booking, agreement, payment, inspection, published report, delivered to client) will surface anything you missed in Stages 1 through 4. Fix it in the test and then you are live.
+
+## Setup checklist
+
+Confirm every item is in place before you create the test order.
+
+**Stage 1 — Identity**
+
+- Company name is set and the logo displays on the web admin
+- Brand colors look right in the Settings page Live Preview
+- At least one inspector is in Settings › Users with the **Inspector** toggle on
+
+**Stage 2 — Services and pricing**
+
+- Primary Services tab has at least one service with a valid price (Save Registry committed)
+- Ancillary Services, Packages, Discounts, Surcharges and Settings have been reviewed (Save Fees & Surcharges committed)
+- Any surcharge you want applied has its **Active** toggle on
+
+**Stage 3 — Reports**
+
+- The template you plan to use is Active on the Universal Template Builder
+- At least one caption library and one narrative library are associated with the template (open Narrative Management › Narrative Library and confirm)
+- Your cover page design is set
+
+**Stage 4 — Client paperwork and comms**
+
+- At least one agreement in Business Ops › Contracts applies to **All orders**
+- Every workflow step you want to fire is Enabled in Business Ops › Communications › Workflow
+- The booking link in Company Info works
+- The inspector you'll use has Google Calendar connected
+
+## Test run steps
+
+<Steps>
+<Step title="Create a test order">
+From the top bar, open **Inspections** and click new. Walk through the Order Creation Wizard with yourself as the client and a real property address. Confirm the price looks right.
+</Step>
+<Step title="Confirm the inspection details">
+On the Inspection Details screen for the test order, confirm these four fields are set:
+
+- **Inspector** (assigned)
+- **Template** (your template)
+- **Narrative Collection** (your narrative library)
+- **Caption Library** (your caption library)
+
+Setting the **Inspection Type** is optional but sharpens the AI narratives, so set it. If any of the four required items is missing, the inspection will not sync to the phone.
+</Step>
+<Step title="Send yourself the agreement">
+Trigger the agreement send (depends on your workflow). Open your email, click the agreement link, and sign in the client portal.
+</Step>
+<Step title="Pay the test order">
+If your workflow charges at signing or at publishing, process the test payment (use a Stripe test card for sandbox).
+</Step>
+<Step title="Open the inspection on mobile">
+Sign in to the 1nspecT mobile app as the assigned inspector. Confirm the test inspection appears in your Assigned Inspections list and marks as Ready offline.
+</Step>
+<Step title="Run the inspection">
+Capture a few findings on the Capture screen. Try the AI buttons: AI Generate, Vision Scan, Scan Label / Reading. Rate every area. Finish and Draft the report when you're done.
+</Step>
+<Step title="Publish the report">
+From the Report Workspace in the web admin, run AI Draft and Polish, review the narratives, then Publish.
+</Step>
+<Step title="Confirm the delivery">
+Check the client email you receive. Confirm:
+
+- The report link opens the mobile-first web viewer
+- The PDF opens with your branding, your cover design, your logo, your colors
+- Any secondary emails fire (payment receipt, review request)
+</Step>
+<Step title="Clean up the test order">
+Mark the test order cancelled or deleted so it doesn't appear in your real reports.
+</Step>
+</Steps>
+
+## What to do if something is wrong
+
+See [First-run gotchas](/1nspect/getting-started/first-run-gotchas) for the specific fixes to the most common problems.
+
+## When your test run passes
+
+You are ready for your first real client. Your onboarding specialist will mark your account live and the free trial period starts counting your first published reports.
+
+## Related
+
+- [First-run gotchas](/1nspect/getting-started/first-run-gotchas)
+- [Welcome](/1nspect/getting-started/welcome)
+- [How 1nspecT works](/1nspect/getting-started/how-1nspect-works)
