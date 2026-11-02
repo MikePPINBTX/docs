@@ -163,7 +163,9 @@
               "1nspect/features/activity-log",
               "1nspect/features/tax-summary",
               "1nspect/features/standards-overview",
-              "1nspect/features/internachi"
+              "1nspect/features/internachi",
+              "1nspect/features/phase-inspections",
+              "1nspect/features/reinspection-rating-scales"
             ]
           },
           {
