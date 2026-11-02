@@ -1,0 +1,77 @@
+---
+id: "admin-intelligence-hub-supplemental-documents"
+title: "Supplemental Documents"
+description: "PDFs that attach to published reports automatically by rule. Attach a slab-foundation disclosure to every slab home, a WDI advisory on every WDI service, a radon notice on every radon add-on."
+sidebarTitle: "Supplemental Documents"
+keywords: ["supplemental documents", "disclosures", "auto attach", "rule-based", "foundation disclosure", "wdi advisory"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "admin-operator"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Supplemental Documents are PDFs that attach to a published report automatically based on properties of the inspection. A slab-foundation disclosure attaches to every slab home. A WDI advisory attaches when the WDI ancillary is on the order. A radon notice attaches when radon is a service. Set the rule once; every report that matches gets the document attached without manual effort.
+
+## Where to find it
+
+**Narrative Management** top-nav › **Intelligence & Library Hub** › the **Supplemental Documents** tab (second tab).
+
+## What a supplemental document is
+
+A stored PDF plus a rule that decides when to attach it. Documents attach to the final published report alongside the inspection PDF; the client sees them in their portal and in the delivery email.
+
+## Fields per document
+
+| Field | Notes |
+| --- | --- |
+| Name | What subscribers see on this page |
+| File | The PDF to attach |
+| Rule | The condition that triggers the attach |
+| Active | Toggle to enable/disable without deleting |
+
+## Rule types
+
+Documents attach based on one of these rule types:
+
+- **Year built** — matches when the property's year built falls in a range (useful for era-specific disclosures)
+- **Foundation type** — matches slab, pier and beam, basement, crawlspace, or combinations
+- **Property type** — matches resale, new-build, commercial, historical
+- **Service on order** — matches when a specific primary or ancillary service is on the order (WDI, radon, pool, sewer scope)
+
+## Adding a document
+
+<Steps>
+<Step title="Click add">
+From the Supplemental Documents tab.
+</Step>
+<Step title="Upload the PDF">
+Drop in the file. 1nspecT stores it in your tenant's document storage.
+</Step>
+<Step title="Set the rule">
+Pick the rule type and configure its parameters (year range, service list, foundation type).
+</Step>
+<Step title="Save">
+The document is Active and will attach on the next qualifying report.
+</Step>
+</Steps>
+
+## Deleting
+
+Click the delete icon on a document card. Confirmation: _"Delete this supplemental document? This cannot be undone."_ Already-attached copies on past reports are not removed, only future attachments stop.
+
+## When supplementals attach
+
+Attachment runs at publish time. For each supplemental document that is Active and whose rule matches the inspection, the PDF is bundled with the report delivery. The client sees it as part of the report package.
+
+## What this is not
+
+- Not for narrative content. Narratives live in the narrative library.
+- Not for the AIPI. AIPI is per-collection and prints inside the report, not as a separate attachment.
+- Not for one-off attachments. For an attachment on a specific inspection only, use Add Service / third-party report upload on that order.
+
+## Related
+
+- [Intelligence & Library Hub overview](/1nspect/admin-operator/intelligence-hub/overview)
+- [AIPI](/1nspect/getting-started/aipi)
+- [Narrative Library](/1nspect/admin-operator/intelligence-hub/narrative-library)

@@ -109,7 +109,9 @@
                   "1nspect/admin-operator/intelligence-hub/narrative-collections",
                   "1nspect/admin-operator/intelligence-hub/smart-comments",
                   "1nspect/admin-operator/intelligence-hub/option-lists",
-                  "1nspect/admin-operator/intelligence-hub/keyword-management"
+                  "1nspect/admin-operator/intelligence-hub/keyword-management",
+                  "1nspect/admin-operator/intelligence-hub/supplemental-documents",
+                  "1nspect/admin-operator/intelligence-hub/reference-snippets"
                 ]
               },
               {

@@ -1,156 +1,101 @@
 ---
-id: admin-operator-templates-template-editor
-title: Template Editor
-persona: [admin-operator]
-surfaces: [web]
-category: admin-operator
-related: [admin-operator-templates-template-builder, admin-operator-templates-template-designer, admin-operator-templates-schema-upload-and-review]
-status: stable
-last_verified_against_code: 2026-05-08
+id: "admin-templates-editor"
+title: "Template schema editor"
+description: "Edit a template's sections, subsections and fields. Add smart equipment fields that compute values and flag out-of-range readings. Mark subsections multi-instance for several HVAC units or water heaters."
+sidebarTitle: "Schema editor"
+keywords:
+  - "schema editor"
+  - "sections"
+  - "subsections"
+  - "fields"
+  - "smart fields"
+  - "computed fields"
+  - "multi-instance"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "admin-operator"
+status: "stable"
+last_verified_against_code: "2026-11-02"
 ---
 
-# Template Editor
+The template schema editor is where you shape what the inspector sees on the mobile Capture screen: the sections across the middle, the subsections underneath, and the fields each subsection carries. Open the schema editor by clicking the edit icon on any template card in the Universal Template Builder.
 
-Template Editor (route `/templates/builder/:templateId`) is where you edit a **specific template's settings** — its name, standard, default font, branding overrides, and publish state. The schema (sections/subsections/fields) and canvas (layout/colors) are accessed from this page via links into the deeper editors.
+## Where to find it
 
-This is the **per-template settings** page. For the list of all templates, see [Template Builder](/1nspect/admin-operator/templates/template-builder).
+**Templates** top-nav › **Universal Template Builder** › click the edit icon on a template card. The schema editor opens with the template's current sections listed.
 
----
+## The hierarchy
 
-## When you arrive here
+Every template has a two-level hierarchy:
 
-You reach this page by:
+- **Sections** — major divisions of the inspection (Structural, Electrical, Plumbing, HVAC, Roofing)
+- **Subsections** — individual inspection areas within a section (Foundations, Grading, Roof Covering)
 
-- Clicking a template card body in [Template Builder](/1nspect/admin-operator/templates/template-builder)
-- Clicking **+ Initialize TREC Template** in [Template Builder](/1nspect/admin-operator/templates/template-builder) (auto-redirects to the new template)
-- Clicking **Edit** on a template's row in the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) when picking the template for a new order
+Each subsection carries fields and findings.
 
----
+## Adding to the schema
 
-## Sections on this page
+- **Add Section** (top of the editor) — adds a new section
+- **Add Subsection** (inside a section) — adds a subsection under it
+- **Add Field** (inside a subsection) — adds a field (text, number, date, select, or computed)
 
-[SCREENSHOT: template-editor-page.png — desktop, the Template Editor showing the template's name and a few major sections: Template Information at top, Branding & Typography below, with deeper-editor links (Edit Schema, Open Designer) on the side.]
+Rename a section or subsection inline. Reorder with drag handles. Remove with the delete icon.
 
-The page is organized as several stacked configuration sections, each with an h6 header.
+## Fields
 
-### Template Information
+Each field has a **Data Format** that drives the input type on mobile:
 
-Basic identification.
+| Data format | Mobile input | Use for |
+| --- | --- | --- |
+| Text | Free-form text input | Equipment serial, free notes |
+| Number | Numeric keyboard with units | Supply/return temperatures, amperage, pressure |
+| Date | Date picker | Manufacture date, install date |
+| Select | Dropdown fed from an Option List | Equipment type, fuel source, cladding material |
+| Computed (Δ-T, age…) | Read-only, calculated from other fields | Temperature split, equipment age |
 
-| Field | Notes |
-|---|---|
-| **Template Name** | Display name shown on mobile and in pickers |
-| **Standard** | TREC / ASHI / InterNACHI / CCPIA ComSOP / CUSTOM — affects AI tuning and default rating definitions |
-| **Description** | Optional internal notes (not shown to mobile inspectors) |
-| **Published** | Toggle — when on, mobile inspectors can choose this template in new inspections |
+For Select fields, the dropdown contents come from a reusable Option List managed in the Intelligence Hub. One list can feed many fields across many templates.
 
-Changing the standard does **not** automatically restructure the schema — it changes how the AI calibrates language. If you switch from TREC to ASHI, the AI Generate narratives will start using ASHI-style language, but the sections you have stay the way you've defined them.
+## Smart equipment fields (computed)
 
-### Branding & Typography
+Pick **Computed (Δ-T, age…)** as the data format and the form opens an operand picker:
 
-This section overrides your global tenant branding (set in [Company Info](/1nspect/admin-operator/company-and-pricing/company-info)) for this specific template's PDF rendering.
+- A **compute operation** (subtract is most common)
+- The **operands** (which other number or computed fields to use)
 
-| Field | Notes |
-|---|---|
-| **Font Family** | Drop-down with 12 options: Arial, Helvetica, Times New Roman, Georgia, Verdana, Courier New, Trebuchet MS, Palatino, Garamond, Bookman, Tahoma, Impact |
-| **Primary Color** | Override the global primary color for this template only |
-| **Secondary Color** | Override the global secondary color |
-| **Accent Color** | Override the global accent |
-| **Logo** | Upload a template-specific logo (defaults to your tenant logo if unset) |
+Common patterns:
 
-Leave overrides empty to inherit from your tenant defaults. Setting them lets you have e.g. a more formal-looking Commercial template alongside your branded Residential template.
+| Computed field | Operands | Operation |
+| --- | --- | --- |
+| Cooling delta (Δ-T) | Return air temp − Supply air temp | Subtract |
+| Equipment age | Current year − Manufacture year | Subtract |
 
-### Schema link
+### Advisory ranges
 
-A button or link card that says **Edit Schema** or **Open Schema Builder** (label varies by build). Clicking navigates to the deeper schema editor — see [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review) for the schema-editing surfaces.
+Set a **minimum** and **maximum** on any number or computed field. The range triggers behavior on mobile:
 
-### Canvas link
+- **Within range** → the Co-Inspector prompts an acceptable-performance narrative draft
+- **Out of range** → prompts a deficiency narrative draft
+- **Aged equipment** (age field with a service-life threshold) → flags the age in the field
 
-Similarly, an **Open Designer** or **Visual Designer** link takes you to [Template Designer](/1nspect/admin-operator/templates/template-designer) for the visual canvas.
+Ranges can come from the manufacturer's rating, an industry-standard SoP, or your own threshold. See [Smart equipment fields](/1nspect/getting-started/smart-equipment-fields) for the Start Here walk-through.
 
-### Visual Page Designer link
+## Multi-instance subsections
 
-A **Page Styling** or **Visual Page Designer** link goes to [Visual Page Designer](/1nspect/admin-operator/templates/visual-page-designer) — the per-page header/footer/section-header configuration.
+Some subsections hold several instances of the same equipment: two HVAC units, three water heaters, four exterior spigots. Mark a subsection **multi-instance** in its editor and the mobile Capture screen gets an instance switcher at the top of that subsection. Each instance has its own location and field values; findings are tagged to the right one.
 
-### Default Cover
+## Required fields
 
-A picker showing every cover designed in your [Cover Designer](/1nspect/admin-operator/cover-designer). The selected cover renders as the first page of every PDF generated from this template.
+Mark any field **Required**. Required fields show on the mobile Fields counter chip (📋 Fields · N of M) and block the Complete Inspection check until filled in.
 
-| Option | Behavior |
-|---|---|
-| **None** | No cover page — the report starts on the first content page |
-| A specific cover name | That cover renders as page 1 |
+## Save
 
-Default value: the cover you marked as default in Cover Designer. You can override per-template here.
+Changes save as you make them. The template version number increments when you commit a structural change; past inspections keep the schema version they were captured against.
 
----
+## Related
 
-## Saving
-
-The page does **not** auto-save like the [Inspection Reviewer](/1nspect/admin-operator/inspection-reviewer). You must explicitly click **Save Changes** at the bottom (or top-right action bar).
-
-A small confirmation banner appears: *"Template saved successfully."* Unsaved changes are flagged with an indicator near the page header.
-
-Navigating away without saving prompts a confirmation:
-
-> **Unsaved Changes**
-> Leave the page without saving? Your edits will be lost.
-> [Stay] [Leave without saving]
-
----
-
-## Publishing
-
-The Published toggle is the gate between **draft** (edits in progress) and **live** (mobile inspectors can use it):
-
-| State | Visible on mobile? | Visible in Order Wizard? |
-|---|---|---|
-| Draft | No | No |
-| Published | Yes | Yes |
-
-Switching a published template back to draft hides it from new inspections, but **inspections already using it continue to work** — they're operating on a snapshot captured at inspection-creation time.
-
----
-
-## Inheritance: template fields override tenant defaults
-
-A reminder of how settings cascade:
-
-1. **Tenant defaults** (set in [Company Info](/1nspect/admin-operator/company-and-pricing/company-info)) apply unless overridden
-2. **Template overrides** (set on this page) override tenant defaults for inspections using that template
-3. **Inspection snapshot** captures the resolved values at inspection-creation time — so editing the template after an inspection starts doesn't change that inspection's rendering
-
-So a clean way to set up a multi-template account:
-
-- Set your **brand defaults** at the tenant level once
-- Create one template for each inspection type (Residential / Commercial / New Construction)
-- Override branding **only** where it differs (e.g. Commercial uses a more formal font)
-
----
-
-## Errors and recovery
-
-| Alert | Cause | Fix |
-|---|---|---|
-| **Failed to save template** | Network or auth | Retry; if persistent, refresh and try again |
-| **Template not found** | URL contains an invalid template ID | Return to [Template Builder](/1nspect/admin-operator/templates/template-builder) |
-| **Cannot delete published template** | Tried to delete via builder while published | Toggle to Draft first |
-
----
-
-## What this page does NOT do
-
-- **It does not edit the schema directly.** That happens in [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review) or the deeper schema editor.
-- **It does not edit the canvas.** That's [Template Designer](/1nspect/admin-operator/templates/template-designer).
-- **It does not run reports against the template.** That's [Reports → Inspector Productivity](/1nspect/admin-operator/reports-and-publishing).
-
----
-
-## Related articles
-
-- [Templates Overview](/1nspect/admin-operator/templates/overview)
-- [Template Builder](/1nspect/admin-operator/templates/template-builder) — the list this page is opened from
-- [Template Designer](/1nspect/admin-operator/templates/template-designer) — the canvas
-- [Schema Upload & Review](/1nspect/admin-operator/templates/schema-upload-and-review) — schema-from-PDF workflow
-- [Visual Page Designer](/1nspect/admin-operator/templates/visual-page-designer) — per-page styling
-- [Cover Designer](/1nspect/admin-operator/cover-designer) — designing report covers referenced in Default Cover
+- [Smart equipment fields](/1nspect/getting-started/smart-equipment-fields)
+- [Option Lists](/1nspect/admin-operator/intelligence-hub/option-lists)
+- [Visual Page Designer](/1nspect/admin-operator/templates/template-designer)
+- [Capture screen](/1nspect/inspector/capture-screen) (the field inspector's view)
