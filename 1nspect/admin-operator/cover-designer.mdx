@@ -1,7 +1,7 @@
 ---
 id: "admin-cover-designer"
 title: "Cover Designer"
-description: "Build branded report cover pages: layers, frames, logos, text with dynamic tokens. Each template can carry its own cover design."
+description: "Build branded report cover pages: layers, frames, logos, text with dynamic tokens. Bind a cover to templates from inside the designer."
 sidebarTitle: "Cover Designer"
 keywords:
   - "cover designer"
@@ -51,23 +51,24 @@ The template name input at the top has placeholder `Cover template name`. Save w
 | Text block | Any text with dynamic field tokens pulled from the order at render time |
 | Static text | Fixed text that doesn't change per report |
 | Group block | A grouped set of elements that move together |
+| Photo Block | A photo placeholder that fills in at render time |
 
 ## Dynamic tokens
 
-Text layers can carry tokens that fill in at render time:
-
-- Property address
-- Client name(s)
-- Inspection date
-- Inspector name
-- Company name
-- Company logo
+Text layers can carry any of **21 tokens** that fill in at render time, including the property address, client name(s), inspection date, inspector name, company name and company logo. The full list is in the designer's token picker.
 
 Tokens render per-report so your cover auto-populates for every inspection using this template.
 
 ## Assigning a cover to a template
 
-The cover is bound to the template on the template card in the Universal Template Builder. One template, one cover. For firms with different brands per service, build one cover per template.
+Binding happens inside the designer, not on the template card. Use the **Applies to templates** picker, and tick **Default cover** to make it the template's default.
+
+When a PDF is generated, it looks for a cover in this order:
+
+1. The cover ID set explicitly on the inspection
+2. A cover linked to the template
+3. The template's default cover
+4. The organization default cover
 
 ## Related
 

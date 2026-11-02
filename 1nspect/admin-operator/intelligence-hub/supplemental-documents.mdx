@@ -1,17 +1,29 @@
 ---
 id: "admin-intelligence-hub-supplemental-documents"
 title: "Supplemental Documents"
-description: "PDFs that attach to published reports automatically by rule. Attach a slab-foundation disclosure to every slab home, a WDI advisory on every WDI service, a radon notice on every radon add-on."
+description: "PDFs offered as downloads in the client portal by rule: a slab-foundation disclosure for every slab home, a WDI advisory on every WDI service. They are not merged into the report PDF or the delivery email."
 sidebarTitle: "Supplemental Documents"
-keywords: ["supplemental documents", "disclosures", "auto attach", "rule-based", "foundation disclosure", "wdi advisory"]
-persona: ["admin-operator"]
-surfaces: ["web"]
+keywords:
+  - "supplemental documents"
+  - "disclosures"
+  - "auto attach"
+  - "rule-based"
+  - "foundation disclosure"
+  - "wdi advisory"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
 category: "admin-operator"
 status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Supplemental Documents are PDFs that attach to a published report automatically based on properties of the inspection. A slab-foundation disclosure attaches to every slab home. A WDI advisory attaches when the WDI ancillary is on the order. A radon notice attaches when radon is a service. Set the rule once; every report that matches gets the document attached without manual effort.
+Supplemental Documents are PDFs that appear as **downloads in the client portal** based on properties of the inspection. Set the rule once; every matching inspection offers the document.
+
+<Note>
+  Supplemental documents appear **only** as downloads in the client portal. Merging them into the report PDF is switched off, and the delivery email does not carry them.
+</Note>
 
 ## Where to find it
 
@@ -19,7 +31,7 @@ Supplemental Documents are PDFs that attach to a published report automatically 
 
 ## What a supplemental document is
 
-A stored PDF plus a rule that decides when to attach it. Documents attach to the final published report alongside the inspection PDF; the client sees them in their portal and in the delivery email.
+A stored PDF plus a rule that decides when to offer it. The client sees matching documents as downloads in their portal.
 
 ## Fields per document
 
@@ -27,17 +39,18 @@ A stored PDF plus a rule that decides when to attach it. Documents attach to the
 | --- | --- |
 | Name | What subscribers see on this page |
 | File | The PDF to attach |
-| Rule | The condition that triggers the attach |
-| Active | Toggle to enable/disable without deleting |
+| Rules | The conditions that decide when to offer it. Rules are **OR-combined**: any matching rule is enough |
+
+There is no Active field. There is also an **Always include in every client portal** option.
 
 ## Rule types
 
 Documents attach based on one of these rule types:
 
-- **Year built** — matches when the property's year built falls in a range (useful for era-specific disclosures)
-- **Foundation type** — matches slab, pier and beam, basement, crawlspace, or combinations
-- **Property type** — matches resale, new-build, commercial, historical
-- **Service on order** — matches when a specific primary or ancillary service is on the order (WDI, radon, pool, sewer scope)
+- **Year built** — `< N` or `> N` (not a range)
+- **Property type** — free-text matching
+- **Service on order** — free-text matching against the services on the order (WDI, radon, pool, sewer scope)
+- **Always include in every client portal**
 
 ## Adding a document
 
@@ -52,23 +65,23 @@ Drop in the file. 1nspecT stores it in your tenant's document storage.
 Pick the rule type and configure its parameters (year range, service list, foundation type).
 </Step>
 <Step title="Save">
-The document is Active and will attach on the next qualifying report.
+The document is offered in the client portal for the next qualifying inspection.
 </Step>
 </Steps>
 
 ## Deleting
 
-Click the delete icon on a document card. Confirmation: _"Delete this supplemental document? This cannot be undone."_ Already-attached copies on past reports are not removed, only future attachments stop.
+Click the delete icon on a document card. Confirmation: _"Delete this supplemental document? This cannot be undone."_ Only future offerings stop.
 
-## When supplementals attach
+## When supplementals appear
 
-Attachment runs at publish time. For each supplemental document that is Active and whose rule matches the inspection, the PDF is bundled with the report delivery. The client sees it as part of the report package.
+For each supplemental document whose rules match the inspection, the PDF shows as a download in the client portal. It is not bundled into the report PDF and not attached to the delivery email.
 
 ## What this is not
 
 - Not for narrative content. Narratives live in the narrative library.
 - Not for the AIPI. AIPI is per-collection and prints inside the report, not as a separate attachment.
-- Not for one-off attachments. For an attachment on a specific inspection only, use Add Service / third-party report upload on that order.
+- Not for one-off attachments on a single inspection.
 
 ## Related
 

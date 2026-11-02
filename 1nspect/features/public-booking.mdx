@@ -19,7 +19,7 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-The public booking form is the branded web page where your clients can request an inspection without talking to anyone. It opens at `app.1nspect.app/book/[your-slug]` with your logo, your colors, your services and your live prices. Clients walk through the flow, pick a time, submit, and the agreement sends automatically.
+The public booking form is the branded web page where your clients can request an inspection without talking to anyone. It opens at `app.1nspect.app/book/[your-slug]` with your logo, your colors, your services and your live prices. Clients walk through the flow, pick a time and submit. A booking creates a **lead** for your office to review; it does not create an order or send an agreement by itself.
 
 ## Where the client lands
 
@@ -29,7 +29,7 @@ Your public booking URL is set from your Company Info slug: **Business Ops › C
 
 <Steps>
   <Step title="Property address">
-    Address autocomplete suggests matches as the client types. Picking one pre-fills the property details (year built, square footage, foundation type) via the Property Baseline lookup.
+    Address autocomplete suggests matches as the client types. The Property Baseline lookup is a gated button the client taps to pre-fill property details (year built, square footage, foundation type). Site conditions are hidden from the public.
   </Step>
   <Step title="Service selection">
     Primary services and ancillaries from your Pricing Manager. Only services with Internal Only off appear.
@@ -41,10 +41,10 @@ Your public booking URL is set from your Company Info slug: **Business Ops › C
     Name, email, phone. A co-client row is optional.
   </Step>
   <Step title="Date and time">
-    Available slots from each inspector's Google Calendar for the estimated duration. Taken slots are greyed out. Booking warns on a clash.
+    Available slots from each inspector's Working Schedule and Google Calendar for the estimated duration. Taken slots are greyed out. Booking warns on a clash.
   </Step>
   <Step title="Submit">
-    Submission creates the order. 1nspecT fires the Booking Confirmed trigger (per your Communications workflow), which typically sends the agreement to the client in the next few seconds.
+    Submission creates a **lead** with status `pending_review` and fires the **Quote Submitted** trigger (per your Communications workflow). No order is created and no agreement is sent. Your office converts the lead to an order, and the agreement goes out from there.
   </Step>
 </Steps>
 
@@ -56,21 +56,13 @@ Your public booking URL is set from your Company Info slug: **Business Ops › C
 
 ## Embedding on your website
 
-Open **Settings** (top-nav) › the **Company** tab › the **Embed Your Wizard** section. The snippet looks like:
+Open **Business Ops › Company Info** and find the **Public Booking Form** section. It gives you an iframe of your booking page at `/book/{slug}`. Paste it into any HTML page on your site and adjust `height` to fit your layout.
 
-```html
-<iframe
-  src="https://app.1nspect.app/quote?embed=true"
-  width="100%"
-  height="800"
-  frameborder="0"
-  title="Inspection Quote Wizard">
-</iframe>
-```
+<Warning>
+  Do not use the **Embed Your Wizard** snippet on the Settings › Company tab. It points at `/quote?embed=true`, which has no public route, so the iframe lands on the login page.
+</Warning>
 
-Click the copy action to put it on your clipboard (an alert confirms _"Embed code copied to clipboard"_). Paste it into any HTML page on your site. The default height is 800px; adjust `height` to fit your layout. The iframe is responsive on `width="100%"`.
-
-The embedded form inherits your branding automatically; it looks the same as the standalone page.
+The embedded form inherits your branding the same as the standalone page.
 
 ## Internal Only ancillaries
 

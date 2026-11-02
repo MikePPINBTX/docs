@@ -3,18 +3,25 @@ id: "start-here-company-profile"
 title: "Company profile"
 description: "Set your company name, office address and support email in Business Operations. These values appear on reports, portals and client emails."
 sidebarTitle: "Company profile"
-keywords: ["company", "profile", "identity", "business ops", "company info"]
-persona: ["admin-operator"]
-surfaces: ["web"]
+keywords:
+  - "company"
+  - "profile"
+  - "identity"
+  - "business ops"
+  - "company info"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
 category: "getting-started"
 status: "stable"
 last_verified_against_code: "2026-10-30"
 ---
 
-Your company profile is the foundation that the rest of 1nspecT builds on. The name you set here goes on every report, email, agreement and portal page the client sees. Set it up before you touch any other section.
+Your company profile is the foundation that the rest of 1nspecT builds on. The name you set here goes on every report, email, agreement and portal page the client sees. (White-label mode, by contrast, changes only the web admin's own top bar.) Set it up before you touch any other section.
 
 <Info>
-**Required** to run your first inspection: Company name.
+  **Required** to run your first inspection: Company name.
 </Info>
 
 ## Where to find it
@@ -26,16 +33,22 @@ In the web admin top bar, open **Business Ops**. You land on the **Company Info*
 | Field | Notes |
 | --- | --- |
 | Company name | Required. Appears on reports, emails, agreements, portals, invoices. Placeholder: `Your Company Name`. |
-| Office address | Street address, City, State, ZIP. Used to calculate mileage surcharges when you charge for travel. |
+| Office address | Street address, City, State, ZIP. Only the **fallback** for mileage surcharges: the inspector's home address is used first, and public bookings use the office address. |
 | Support email | Appears on client-facing notifications and portal pages. Placeholder: `support@yourcompany.com`. |
 
+The same page has more fields you can set now or later: Account ID, Company Phone, Brand Colors (Primary, Secondary, Accent), Logo URL, Inspection Defaults, White-Label, Dynamic Rating UI, Allow Publishing Reports from Mobile, Save Inspection Photos to Inspectors' Camera Rolls, Booking Page Slug, and your Google and Yelp review links. See [Company Info](/1nspect/admin-operator/company-and-pricing/company-info) for each one.
+
+<Note>
+  Two forms edit these fields. **Business Ops › Company Info** (button **Save Changes**) is the full one. **Settings › Company** has a subset.
+</Note>
+
 <Tip>
-Use a monitored inbox for the support email. Clients reply to automated emails from this address when they have questions, so make sure someone sees them.
+  Use a monitored inbox for the support email. This address appears on client-facing notifications. Workflow emails have no reply-to, so replies do not automatically land in this inbox; make sure clients can reach someone through it.
 </Tip>
 
 ## Save
 
-At the bottom of the Company Info tab, click **Save Company Info**. Save confirmation appears inline.
+At the bottom of the Company Info tab, click **Save Changes**. Save confirmation appears inline.
 
 ## What to do next
 

@@ -28,7 +28,7 @@ Every order in 1nspecT follows the same path: a quote or booking becomes an orde
 
 <Steps>
   <Step title="Quote or booking">
-    A quote or booking comes in from the public booking form, from an admin in the Order Creation Wizard, or from the Field Quote on mobile. 1nspecT creates an order (or converts a quote to one).
+    A quote or booking comes in from the public booking form, from an admin in the Order Creation Wizard, or from the Field Quote on mobile. A public booking or a field quote creates a **lead** (pending review) and fires Quote Submitted; your office converts the lead to an order. An admin in the Order Creation Wizard creates the order directly.
   </Step>
   <Step title="Agreement sent">
     The matching service agreement is sent to the client automatically (per your Communications workflow). Multiple agreements are bundled.
@@ -46,22 +46,22 @@ Every order in 1nspecT follows the same path: a quote or booking becomes an orde
     Narratives are drafted by the AI (either in the field or batched by Finish & Draft) and arrive in the Report Workspace in the web admin.
   </Step>
   <Step title="Report reviewed">
-    An admin opens the Report Workspace, runs AI Draft and Polish (or polishes manually), works through pre-publish checks, and resolves anything flagged.
+    An admin opens the Report Workspace, runs the Draft pass and Polish (or polishes manually), works through pre-publish checks, and resolves anything flagged.
   </Step>
   <Step title="Report published">
     Publish writes the final PDF to storage, locks the inspection, and generates the client and agent report links.
   </Step>
   <Step title="Report delivered">
-    Delivery emails the client (and the agent) the report link. If your account requires payment first, the report stays locked until the invoice is paid.
+    When the order is already paid, Publish fires `report.published`, which sends your configured delivery emails. If the order is unpaid, Publish fires the payment-pending variant instead, and the report stays locked until the invoice is paid. The **Deliver** button sends the report manually.
   </Step>
   <Step title="Payment received">
-    Stripe (or a manual mark-paid) records the payment. The report link unlocks automatically on card payment.
+    Stripe (or a manual **Record Payment**) records the payment and unlocks the report link. Reports are always locked until the order is paid.
   </Step>
   <Step title="Review requested">
-    A day or two after delivery, the review-request email goes out with your Google or Yelp link.
+    The review-request email goes out on the dedicated **Review Request** trigger, which fires on every publish with your Send Offset (for example `+2d`), with your Google or Yelp link.
   </Step>
   <Step title="Order closed">
-    An admin marks the order closed, or 1nspecT closes it when the inspection is complete and paid.
+    An admin picks Order Closed by hand. Nothing sets it automatically.
   </Step>
 </Steps>
 
@@ -87,13 +87,13 @@ Every order in 1nspecT follows the same path: a quote or booking becomes an orde
 | Report reviewing | **Inspections › this order ›** Report Workspace |
 | Publishing | Report Workspace › Publish |
 | Delivery | Report Workspace › Deliver |
-| Payment | Stripe (card), or **Mark as Paid** on the order (manual) |
-| Review request | Fires on the **Report Delivered** workflow trigger |
-| Order close | Automatic when complete and paid, or manual from the order |
+| Payment | Stripe (card), or **Record Payment** on the order (manual) |
+| Review request | Fires on the **Review Request** workflow trigger |
+| Order close | Manual only, from the order |
 
 ## Multi-phase orders (new construction)
 
-New-construction orders bundle several phase inspections under one order and one agreement (if you use **Bundle Agreement Group** on your primary services). Each phase has its own date, inspector, inspection and report. The order lifecycle plays out once per phase, with the agreement signed once at the start. See [Primary services](/1nspect/getting-started/primary-services) for setup.
+New-construction orders bundle several phase inspections under one order. Each phase has its own date, inspector, inspection and report. (The **Bundle Agreement Group** field on primary services is saved but not used today.) See [Primary services](/1nspect/getting-started/primary-services) for setup.
 
 ## Reinspections
 
@@ -103,7 +103,7 @@ A reinspection is a special child of a completed inspection, created on the pare
 
 Clients add a service, properties come in bigger than expected, dates slip. The order flexes:
 
-- **Edit Order** changes clients, co-clients, property, services, pricing. Delta billing re-prices and generates a top-up or refund.
+- **Edit Order** changes clients, co-clients, property, services, pricing. Billing is recomputed and the order's single invoice is regenerated in place; a price drop only flags a refund, and Stripe refunds happen only from Cancel Order or Remove Ancillary.
 - **Add Service** adds a service to a signed order without voiding the agreement. A reusable Resend Bundle action re-sends the right agreements where needed.
 - **Reschedule** moves an inspection against the inspector's availability.
 - **Cancel Order** cancels the whole order or one phase.
@@ -114,9 +114,9 @@ See [Managing orders](/1nspect/workflows/managing-orders).
 
 Each stage has blockers 1nspecT enforces so a half-finished state cannot ship:
 
-- The agreement must be signed before the inspection can start on the phone
+- The agreement must be signed before the inspection can start on the phone, and it must have been sent for the job to appear there at all
 - Required pre-publish items must be resolved before Publish will accept the report
-- Payment can be required before the report link unlocks for the client
+- The report link stays locked until the order is paid (always on)
 - A booking must have an inspector assigned before it can go to the mobile app
 
 For the specific error you see at each stage, see [First-run gotchas](/1nspect/getting-started/first-run-gotchas) and the [Troubleshooting](/1nspect/troubleshooting/common-issues) section.

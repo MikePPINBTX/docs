@@ -10,7 +10,7 @@ keywords:
   - "availability"
   - "booking"
   - "scheduling"
-  - "primary booking calendar"
+  - "working schedule"
 persona:
   - "admin-operator"
   - "inspector"
@@ -23,32 +23,26 @@ last_verified_against_code: "2026-11-02"
 
 Google Calendar is the one integration most firms care about on day one. Connect each inspector's Google account and the public booking form will only offer slots they're actually free for. Every inspection you create is written to their calendar automatically. Reschedules update the event; cancellations remove it.
 
-## Two levels of connection
+## Per-inspector connection
 
-### Per inspector (recommended)
-
-Each inspector connects their own Google account. This is the setup covered in [Add your team](/1nspect/getting-started/add-your-team).
+Google Calendar is connected per inspector. There is no company-wide calendar. Each inspector connects their own Google account. This is the setup covered in [Add your team](/1nspect/getting-started/add-your-team).
 
 1. Open **Settings** top-nav › **Users** tab
-2. Edit the inspector
+2. Click **Edit** on the inspector. The Google Calendar connect button appears only when you are _editing_ an existing user, not when creating one.
 3. Under **Google Calendar**, click Connect
-4. Google's OAuth prompt opens in a new tab; approve 1nspecT's access to calendar availability and events
-5. Confirmation shows the connected Google account
+4. You are redirected to Google in the **same browser tab** (not a new tab); approve 1nspecT's access
+5. Google sends you back to 1nspecT and the user shows the connected Google account
 
 Each inspector controls their own connection. Repeat for every inspector.
 
-### Single-inspector firms
-
-A one-person firm gets "one calendar for everyone" by having that single inspector connect their own Google account on their user profile. There is no separate company-wide calendar to configure.
-
-(The Primary Booking Calendar box in Business Ops › Company Info is not wired to anything today and will be removed in an upcoming release. Per-inspector connections are what drive availability and event creation.)
+A one-person firm gets "one calendar for everyone" by having that single inspector connect their own Google account.
 
 ## What syncs
 
 Once connected:
 
-- **Availability** — booking checks free/busy on the inspector's calendar and only offers open slots that fit the estimated duration
-- **Event creation** — a new inspection writes a calendar event with the property address, client name, service type and estimated duration
+- **Availability** — booking reads **every calendar** the connected user owns or can write to (not just the primary) and only offers open slots that fit the estimated duration, within the inspector's **Working Schedule**
+- **Event creation** — a new inspection writes an event to the user's **primary** calendar, titled `Order No- {id}`. The description lists the clients, agents, services and fees.
 - **Event updates** — rescheduling an inspection updates the event in place
 - **Event removal** — cancelling an inspection removes the event
 
@@ -56,15 +50,12 @@ Once connected:
 
 - **Non-Google calendars** (Outlook, iCal, Apple Calendar) are not supported today
 - **Edits to the calendar event in Google** are not pulled back into 1nspecT (one-way: 1nspecT writes to Google, not the other way around)
-- **Shared calendars** appearing in a connected account are not read for availability; only the primary calendar on the connected account counts
 - **Private calendar events** show as busy for availability (the title and details stay private) but their time blocks the slot
 
 ## OAuth scopes 1nspecT requests
 
-- Read calendar free/busy (for availability)
-- Write calendar events (for creation / update / removal)
-
-1nspecT does not read event content from your calendar; only the busy-time windows are read.
+- `calendar.events` (create, update and remove inspection events)
+- `calendar.readonly` (read your calendars to check availability)
 
 ## Troubleshooting
 
@@ -76,9 +67,9 @@ The inspector has not connected their calendar yet, or the connection is to a di
 
 Confirm the OAuth is still valid. If the inspector changed Google passwords recently, they may need to reconnect.
 
-### "Scheduling buffer" slots are showing up
+### Slots are missing at certain times
 
-Each inspector can set a scheduling buffer (minutes before and after each slot) in their Users profile. If their calendar looks fully booked due to buffer, adjust the buffer value.
+Each inspector has a **Working Schedule** (days and hours) in their Users profile. Booking only offers slots inside it. There is no per-user buffer setting. If expected slots are missing, check the Working Schedule and any events on any of their calendars.
 
 ## Related
 

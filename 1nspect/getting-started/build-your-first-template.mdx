@@ -51,11 +51,11 @@ In the web admin top bar, click **Templates**. The page header reads **Universal
 - The version
 - A blue **Schema Linked** badge when the template is bound to a schema
 - Created-by and date
-- Action icons at the bottom of the card (edit, upload, duplicate, view, delete)
+- Action icons at the bottom of the card: Edit, Rename, Upload Schema, Clone, Preview and Delete (there is no Design icon; Preview currently opens a blank page)
 
 ## Starting a new template
 
-Top-right of the page, two buttons:
+Top-right of the page, two buttons (Professional and Team plans only; on Solo you see a note linking to the plans):
 
 - **Initialize from SoP** clones a platform library bundle (one of the standards 1nspecT already supports) into a new template on your account. Use this when you want a working starting point from an existing standard and plan to tweak it.
 - **Create Custom Template** starts a blank template that you build up from scratch. Use this when none of the included standards fits what you need.
@@ -66,25 +66,24 @@ Top-right of the page, two buttons:
 
 ## Customizing a template
 
-Click the edit icon on any template card to open it in the Template Editor. From there you can:
+Click the **Edit** icon on any template card to open its overview page. From there you can:
 
-- Rename the template
-- Edit the schema (sections, subsections, fields)
-- Change the rating scale (where the standard allows it, see note)
-- Adjust the printed layout (visual page design)
+- Open the **Schema** page to edit sections, subsections and fields (the field editor lives on the Schema page)
+- Use the **Visual Designer** tab to adjust the printed layout
+- Rename the template with the card's **Rename** icon
 - Edit the cover page separately in [Cover Designer](/1nspect/admin-operator/cover-designer)
 
 <Note>
-  Rating scale and some structural elements are locked for official standards (TREC, InterNACHI) to keep you compliant. To change those, use **Clone to Customize** from the [SoP Manager](/1nspect/admin-operator/overview) to make your own copy, then edit the clone. The platform-standard template stays untouched.
+  Ratings are edited on the Standard of Practice, not on the template. Primary ratings on TREC and InterNACHI are locked even on clones; only the reinspection ratings can be edited. See [SoP Manager](/1nspect/admin-operator/sop-manager) and [Choose your SoP](/1nspect/getting-started/choose-your-sop).
 </Note>
 
 ## Smart equipment fields
 
-Inside the template editor, you can add fields that compute values from captures: temperature rise (supply minus return), equipment age (this year minus manufacture year), amperage draws, and so on. Set an advisory range on any computed field and the mobile app will flag out-of-range readings in the field, before the inspector moves to the next room. Covered in detail in [Smart equipment fields](/1nspect/admin-operator/templates/overview).
+On the Schema page, you can add fields that compute values from captures: temperature rise (supply minus return), equipment age (this year minus manufacture year), amperage draws, and so on. Set an advisory range on any computed field and the mobile app will flag out-of-range readings in the field, before the inspector moves to the next room. Covered in detail in [Smart equipment fields](/1nspect/getting-started/smart-equipment-fields).
 
 ## Caption and narrative libraries
 
-A template needs **at least one caption library and one narrative library linked to it** before the inspection can sync to a phone. This is the single most common reason a first test run stalls. See [Attach caption and narrative libraries](/1nspect/admin-operator/intelligence-hub/overview).
+Starting an inspection on the phone needs a **narrative collection**; the caption library is optional (a missing one only means empty caption autocomplete). Libraries are set per inspection, with company defaults in Business Ops › Company Info › Inspection Defaults. See [Attach caption and narrative libraries](/1nspect/getting-started/attach-libraries).
 
 ## What to do next
 

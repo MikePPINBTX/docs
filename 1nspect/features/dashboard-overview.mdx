@@ -1,69 +1,90 @@
 ---
 id: "dashboard-overview"
 title: "Dashboard"
-description: "The Dashboard shows revenue, pipeline, AI hours saved and the business insights panel. Filter by 7, 30, 90 days or all time."
+description: "The Dashboard shows revenue, signed pipeline, performance metrics and the AI Insights panel. Filter the top row by Week, Month, Quarter or YTD."
 sidebarTitle: "Dashboard"
-keywords: ["dashboard", "kpi", "revenue", "pipeline", "ai hours saved", "upcoming inspections", "top agents"]
-persona: ["admin-operator"]
-surfaces: ["web"]
+keywords:
+  - "dashboard"
+  - "kpi"
+  - "revenue"
+  - "pipeline"
+  - "performance metrics"
+  - "upcoming inspections"
+  - "top agents"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
 category: "features"
 status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-The Dashboard is the home screen of the web admin. It opens on sign-in and shows how your business is doing right now: revenue in the current period, signed pipeline, upcoming inspections, top referring agents, AI hours saved, and the iBOSS Business Insights panel with commentary from your three AI co-advisors.
+The Dashboard is the home screen of the web admin. It opens on sign-in and shows how your business is doing right now: revenue in the current period, signed pipeline, performance metrics, upcoming inspections, top referring agents and the AI Insights panel.
 
 ## Where to find it
 
 In the top bar, click **Dashboard** (first top-nav item). The URL is `/`.
 
+## Banners and alerts
+
+- **Plan-usage banner.** Shows when your plan's inspection or usage allowance is close to its limit.
+- **"Emails didn't arrive" alert.** If one or more client emails bounced or failed to deliver, an alert appears at the top with a link to the affected inspection. See [Resend email](/1nspect/features/resend-email) for how delivery status works.
+
 ## Period filter
 
-At the top of the page, pick a time window:
+At the top of the page, pick a period:
 
-| Window | What it covers |
+| Period | What it covers |
 | --- | --- |
-| 7 | Last 7 days |
-| 30 | Last 30 days (default) |
-| 90 | Last 90 days |
-| all | All time |
+| Week | The current week |
+| Month | The current month |
+| Quarter | The current quarter |
+| YTD | Year to date |
 
-Every KPI, chart and panel on the page reads from the selected window.
+The period filter affects the **top row of tiles only**. The trend and mix charts do not follow it.
 
 ## KPI tiles
 
-Across the top of the page:
-
 | Tile | What it shows |
 | --- | --- |
-| Revenue | Total revenue in the period, with a delta vs. the prior period of the same length |
+| Revenue | Total revenue in the period, with a delta vs. the prior period |
 | Inspections completed | Count of completed inspections, with a prior-period delta |
 | Average ticket | Mean dollar value per inspection |
 | Collection rate | % of billed revenue actually collected |
-| Pipeline and active inspections | Signed pipeline dollar value and the count of active inspections |
-| AI hours saved | An estimate of inspector-hours saved by AI drafting in the period |
+| Signed pipeline | Signed pipeline dollar value, with its **own 7d / 30d / 90d / All** toggle that is independent of the period filter |
+
+<Note>
+  The AI hours saved tile and the NPS card were removed. There is no "IT spent / remaining" tile on the Dashboard; see Settings › Billing for AI credit balance.
+</Note>
+
+## Performance Metrics
+
+A row of cards below the tiles:
+
+- **Ancillary attach**: how often ancillary services are added to inspections
+- **Quote close**: how many quotes become orders
+- **Inspection time**: how long inspections take on site
 
 ## Charts
 
-Below the tiles:
+- **Revenue trend**: revenue over time
+- **Pipeline funnel**: new inspections created vs. booked, agreements sent vs. signed, inspections completed vs. published
+- **Service mix**: a doughnut of revenue by primary service
 
-- **Revenue trend** — a line chart of revenue across the selected window
-- **Pipeline funnel** — new inspections created vs. booked, agreements sent vs. signed, inspections completed vs. published
-- **Service mix** — a doughnut of revenue by primary service for the period
+These charts do not follow the period selector.
 
 ## Panels
-
-The bottom row of the page has three panels:
 
 | Panel | What it shows |
 | --- | --- |
 | Action Items | Links that open the Inspections list pre-filtered to things that need attention (unsigned agreements, unpaid orders, drafts waiting for review) |
-| Upcoming today | Inspections scheduled in the current day with inspector, time and client |
+| Upcoming | Inspections scheduled for today and tomorrow, with inspector, time and client |
 | Top Agents | Agents by referral volume for the period, with revenue |
 
-## iBOSS Business Insights
+## AI Insights
 
-An AI-written commentary section with three cards, one per advisor persona (co-CEO, co-COO, co-CFO). Refreshes three times a day. Covered in detail in [iBOSS Business Insights](/1nspect/features/iboss-insights).
+An AI-written commentary section with three cards, one per advisor persona. Covered in [AI Insights](/1nspect/features/iboss-insights).
 
 ## Where numbers come from
 
@@ -71,6 +92,6 @@ Every number on the Dashboard comes from the same data your Reports read from. T
 
 ## Related
 
-- [iBOSS Business Insights](/1nspect/features/iboss-insights)
+- [AI Insights](/1nspect/features/iboss-insights)
 - [Monthly Reconciliation](/1nspect/features/monthly-reconciliation)
 - [Inspector Productivity](/1nspect/features/inspector-productivity)

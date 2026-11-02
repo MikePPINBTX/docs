@@ -15,7 +15,7 @@ The Repair Request Builder turns a published inspection report into a contractor
 
 ## Where to find it
 
-On the agent view of the report (`/report/[slug]/agent`). A **Repair Request** button at the top of the viewer opens the builder. The button label shows a count once findings have been ticked: _"Repair Request (3)"_ if three findings are selected.
+On the agent view of the report (`/report/[slug]/agent`). A **Repair Request (N)** tray at the top of the viewer opens the builder, where N is the number of findings ticked.
 
 ## How the builder works
 
@@ -53,7 +53,11 @@ If no findings have been ticked when the agent opens the dialog, the empty state
 
 ## Who can build one
 
-The builder is on the agent view by default. For clients who want to build their own repair request, the client view can also carry the builder depending on your settings. The default is agent view only.
+The builder is on the agent view only. There is no setting to turn it on for the client view.
+
+## Generation cap
+
+The AI draft is capped at **4 generations per report**.
 
 ## Related
 

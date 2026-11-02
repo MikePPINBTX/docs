@@ -1,11 +1,19 @@
 ---
 id: "start-here-online-booking"
 title: "Online booking and the booking link"
-description: "Share your public booking page or embed it on your own website. Clients book themselves, pricing is calculated live from your rules, and the agreement sends automatically."
+description: "Share your public booking page or embed it on your own website. Clients book themselves, pricing is calculated live from your rules, and each booking arrives as a lead for your office to convert."
 sidebarTitle: "Online booking"
-keywords: ["public booking", "booking link", "embed", "iframe", "booking form", "inspection quote wizard"]
-persona: ["admin-operator"]
-surfaces: ["web"]
+keywords:
+  - "public booking"
+  - "booking link"
+  - "embed"
+  - "iframe"
+  - "booking form"
+  - "inspection quote wizard"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
 category: "getting-started"
 status: "stable"
 last_verified_against_code: "2026-11-02"
@@ -29,19 +37,11 @@ For subscribers who want booking right on their company website, 1nspecT provide
 
 ### Where to copy the embed snippet
 
-In the top bar, click **Settings**. On the Settings page's Company tab, find the **Embed Your Wizard** section. The embed snippet is:
+Open **Business Ops › Company Info** and find the **Public Booking Form** section. It provides an iframe of your booking page (`/book/{slug}`). Paste it into any HTML page on your site.
 
-```html
-<iframe
-  src="https://app.1nspect.app/quote?embed=true"
-  width="100%"
-  height="800"
-  frameborder="0"
-  title="Inspection Quote Wizard">
-</iframe>
-```
-
-Click the copy action to put it on your clipboard (an alert confirms _"Embed code copied to clipboard"_). Paste it into any HTML page on your site.
+<Warning>
+  The **Embed Your Wizard** snippet on Settings › Company points at `/quote?embed=true`. That path has no public route, so the iframe shows the login page. Use the Public Booking Form snippet in Business Ops › Company Info instead.
+</Warning>
 
 ### Sizing
 
@@ -55,8 +55,8 @@ The public booking page walks a client through:
 2. Property questions (bed and bath, year built, square footage)
 3. Service selection (primary services and ancillaries from your Pricing Manager)
 4. The live price (from your pricing rules)
-5. Client details and a date and time (checked against inspector calendars)
-6. Submission (which triggers your workflow: Booking Confirmed, Contract Sent, and so on)
+5. Client details and a date and time (checked against inspector Working Schedules and calendars)
+6. Submission, which creates a lead (pending review) and fires the Quote Submitted trigger. No order is created and no agreement is sent until your office converts the lead.
 
 The page uses your logo, your colors and your branding (set in [Branding and white-label](/1nspect/getting-started/branding)).
 

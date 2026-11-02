@@ -1,17 +1,26 @@
 ---
 id: "iboss-insights"
-title: "iBOSS Business Insights"
-description: "Three AI co-advisors (co-CEO, co-COO, co-CFO) read your Dashboard and your Reports three times a day and comment on what matters right now."
-sidebarTitle: "iBOSS Insights"
-keywords: ["iboss", "insights", "co-ceo", "co-coo", "co-cfo", "ai advisor", "business insights"]
-persona: ["admin-operator"]
-surfaces: ["web"]
+title: "AI Insights"
+description: "The AI Insights panel on your Dashboard: three advisor lenses comment on what matters right now, refreshed at 6 AM, noon and 6 PM."
+sidebarTitle: "AI Insights"
+keywords:
+  - "iboss"
+  - "insights"
+  - "co-ceo"
+  - "co-coo"
+  - "co-cfo"
+  - "ai advisor"
+  - "business insights"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
 category: "features"
 status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-**iBOSS Business Operations** is the AI advisory layer on top of your Dashboard. Three AI personas read your real numbers (your revenue, your pipeline, your inspector productivity, your service mix) three times a day and surface the handful of things that matter right now. The insights are included on every plan at no AI credit cost.
+The panel titled **AI Insights** is the AI advisory layer on your Dashboard. (The name "iBOSS" does not appear anywhere in the UI.) Three advisor lenses read your real numbers (revenue, pipeline, inspector productivity, service mix) and surface the handful of things that matter right now. It is free: no AI credit cost, on every plan.
 
 ## The three personas
 
@@ -31,7 +40,7 @@ On the Dashboard (**Dashboard** top-nav item), in the Insights Panel. The panel 
 
 ## How it refreshes
 
-Insights refresh **three times a day** on a server-side schedule. There is no manual refresh button: the panel always shows the most recent refresh for your tenant.
+Insights are computed in your browser when the Dashboard loads, and cached per time slot (6 AM, noon and 6 PM). There is no manual refresh button. If the AI call fails, a rule-based fallback shows instead. Dismissals are stored per browser, so a dismissed insight can reappear on another browser or device.
 
 ## What triggers an insight
 
@@ -55,4 +64,4 @@ It will surface what is actionable. If nothing meaningful has changed, the panel
 
 - [Dashboard](/1nspect/features/dashboard-overview)
 - [AI features](/1nspect/features/ai-features)
-- [AI Credits](/1nspect/features/it-tokens) (iBOSS insights are included; no credit cost)
+- [AI Credits](/1nspect/features/it-tokens) (AI Insights are free; no credit cost)

@@ -20,7 +20,7 @@ Every SoP has two rating scales under the hood:
 - **Primary ratings** (`sop.ratings`) — used on the original inspection
 - **Reinspection ratings** (`sop.reinspectionMode.ratings`) — used on reinspections of that inspection
 
-Open **SoP Manager** (top-nav) and click **View Ratings** on any SoP to see both scales. The viewer has a toggle to switch between primary and reinspection views.
+Open **SoP Manager** (top-nav) and click **View Ratings** on any SoP to see its scales. The viewer has no reinspection toggle.
 
 ## TREC reinspection ratings
 
@@ -41,17 +41,17 @@ These match the TREC-expected language on the reinspection report.
 
 ## Customizing reinspection ratings
 
-Unlike the primary rating scale (which is locked on platform SoPs), **reinspection ratings on a cloned SoP are editable**. The workflow:
+Primary ratings stay locked on TREC and InterNACHI clones, but **reinspection ratings on a cloned SoP are editable**. The workflow:
 
 <Steps>
 <Step title="Clone the SoP">
-SoP Manager › the platform SoP you want to customize › **Clone to Customize**. Name your clone.
+SoP Manager › the platform SoP you want to customize › **Clone to Customize** (Professional and Team plans). Name your clone.
 </Step>
 <Step title="Open the clone">
-In the Standards of Practice list, click your custom SoP to open it.
+In the Standards of Practice list, find your custom SoP.
 </Step>
 <Step title="Edit the reinspection ratings">
-Switch to the reinspection view in the Rating Scale Viewer. Add, rename, remove or re-color ratings. For example, add a `PARTIAL` rating with the label `Partially Complete` for repairs that are started but not finished.
+Click **Edit Ratings** on the clone. Add, rename, remove or re-color the reinspection ratings. For example, add a `PARTIAL` rating with the label `Partially Complete` for repairs that are started but not finished.
 </Step>
 <Step title="Save and repoint your template">
 Save the SoP. Open your template and set its SoP to your custom clone. New reinspections will use your custom reinspection ratings.
@@ -60,11 +60,11 @@ Save the SoP. Open your template and set its SoP to your custom clone. New reins
 
 ## Primary vs. reinspection rating scales are separate
 
-Editing the primary rating scale on a clone does not change the reinspection scale, and vice versa. They are independent; validate both before you ship the clone.
+The two scales are independent. On TREC and InterNACHI clones only the reinspection set can be edited, because the primary set is inherited live from the base.
 
-## Platform-SoP reinspection ratings are also locked
+## Platform-SoP reinspection ratings
 
-Just like primary ratings on platform SoPs, the reinspection ratings on platform SoPs are not editable. You must clone first.
+The reinspection ratings on platform SoPs themselves are not editable. You must clone first.
 
 ## Related
 

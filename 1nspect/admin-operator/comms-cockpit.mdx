@@ -39,7 +39,7 @@ Both covered in detail in the setup pages:
 
 Left panel: `Templates (N)` with a count. Click a template to open it in the editor. Click add to create a new one; the editor header reads **New Template** until saved.
 
-Editor supports: template name, subject, rich-text body with **Insert Hyperlink** and **Insert Tag** dropdowns, preview with sample data, and **Save Template**.
+Editor supports: template name, subject, rich-text body with **Insert Hyperlink** and **Insert Variable** dropdowns, and **Save Template**. There is no preview. Unknown tags are refused on save and dropped on send.
 
 ## Workflow sub-tab
 
@@ -47,11 +47,12 @@ Left panel: `Workflow Steps (N)` with a count. Click a step to edit; add to crea
 
 Each step has:
 
-- Trigger (one of ~19 triggers from Quote Submitted through Order Cancelled; see [Communication workflows](/1nspect/getting-started/communication-workflows) for the full list)
+- Trigger (about 27 triggers plus Manual and Custom; see [Communication workflows](/1nspect/getting-started/communication-workflows) for the full list)
 - Template (pick from Email Templates)
-- Recipients (primary client, co-client, buyer's agent, listing agent, inspector, office)
-- Delay (minutes, hours, days; anchor to trigger time or to inspection date)
-- Enabled toggle
+- Recipients (Primary Client, Secondary Client, Buyer's Agent, Listing Agent, Assigned Inspector, Subscriber (You)), plus **Also Send To** for extra addresses
+- **Send Offset** plus an **Offset Anchor** (how long after the trigger, or relative to the inspection date)
+- A service-type filter
+- Enabled toggle (starter steps are seeded disabled)
 
 Save with **Save Step**.
 

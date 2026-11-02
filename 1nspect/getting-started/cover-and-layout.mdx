@@ -41,13 +41,17 @@ Set the cover template name in the top bar input (placeholder: `Cover template n
 | Hero block | A large text block for the headline (property address, inspection date). |
 | Text block | Any text with dynamic field tokens (client name, property address, inspection date, inspector name). |
 | Static text | Fixed text that doesn't change per report. |
-| Group block | A grouped set of elements that move together. |
+| Photo Block | A photo placeholder that fills in at render time. |
 
 Dynamic text tokens pull from the order at render time, so your cover auto-populates for every report.
 
+### Bind the cover to templates
+
+In the designer, use the **Applies to templates** picker, and tick **Default cover** to make it the template's default. The PDF looks for a cover in this order: the cover set explicitly, a cover linked to the template, the template's default, then your organization default.
+
 ## Guided Layout
 
-For the pages inside the report (not the cover), open your template in **Templates › [template] › Guided Layout**. The Guided Layout Designer lets you pick:
+For the pages inside the report (not the cover), open your template with **Templates › Edit** and go to the **Visual Designer** tab, then click **Guided Layout (pick + tune)**. This is Professional and Team only. The Guided Layout Designer lets you pick:
 
 - **A Section Layout Blueprint** — the printed structure for each inspection section (how findings are grouped on the page, where photos go, how multi-unit systems render)
 - **A Summary Layout Blueprint** — the structure of the executive summary at the start of the report
@@ -59,7 +63,7 @@ Your SoP may lock the blueprint choice. TREC and other official standards specif
 
 ## When to use the Visual Page Designer
 
-For advanced custom reports (commercial, specialty inspections), the **Visual Page Designer** (**Templates › [template] › Visual Designer**) gives you zone-level control over every printed page: the preamble page, each section template, the summary page. Use this when Guided Layout doesn't give you enough control.
+For advanced custom reports (commercial, specialty inspections), the **Visual Page Designer** (**Templates › Edit › Visual Designer** tab › **Open Visual Designer**, Professional and Team only) gives you zone-level control over every printed page: the preamble page, each section template, the summary page. Use this when Guided Layout doesn't give you enough control.
 
 Most residential subscribers never need the Visual Page Designer. Guided Layout plus the Cover Designer is enough.
 

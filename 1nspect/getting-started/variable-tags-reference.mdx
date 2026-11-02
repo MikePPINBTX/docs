@@ -3,9 +3,19 @@ id: "start-here-variable-tags-reference"
 title: "Variable tags reference"
 description: "Every variable tag you can use in contract templates and communication templates. Tags are engine-specific: Contracts and Communications each resolve their own, with a shared core."
 sidebarTitle: "Variable tags"
-keywords: ["variable tags", "insert tag", "template tags", "merge fields", "ClientNames", "InspectionDate", "ReportLink"]
-persona: ["admin-operator"]
-surfaces: ["web"]
+keywords:
+  - "variable tags"
+  - "insert variable"
+  - "initials"
+  - "template tags"
+  - "merge fields"
+  - "ClientNames"
+  - "InspectionDate"
+  - "ReportLink"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
 category: "getting-started"
 status: "stable"
 last_verified_against_code: "2026-11-02"
@@ -14,7 +24,7 @@ last_verified_against_code: "2026-11-02"
 Two editors in 1nspecT use variable tags: **Contract templates** (Business Ops › Contracts) and **Communication templates** (Business Ops › Communications › Email Templates). Both share the same `$TagName` syntax and a core set of names, but each engine has its own resolver. **A tag from one engine does not work in the other.** This page is the full reference, organized by engine, with a column that calls out tags shared across both.
 
 <Info>
-**Send-time behavior differs.** Contract sends are blocked if a required tag would come out blank, and are blocked if the template contains any unrecognized `$Tag`. Communication sends are not blocked for unrecognized tags: they just print as typed, so proofread your templates.
+**Send-time behavior differs.** Contract sends are blocked if a required tag would come out blank, and are blocked if the template contains any unrecognized `$Tag`. Communication templates refuse to save with an unknown tag, and any unknown tag is dropped at send time. Nothing prints as typed.
 </Info>
 
 ## Contracts tags
@@ -65,14 +75,16 @@ These resolve to a value only on reinspection agreements. On any other agreement
 
 ### Signature fields (double-bracket syntax)
 
-Use these to drop a signature, date or initials block into the agreement. Single-bracket syntax is also accepted.
+Use these to drop a signature, date or initials block into the agreement. Single-bracket syntax is also accepted. In the Contracts **Insert Tag** picker these sit in the groups **Signature — Client** and **Signature — Co-Client**, each including Date and Initials. (The other groups are Order Fields, Reinspection and Inspector / Company.)
 
 | Tag | Purpose |
 | --- | --- |
 | `[[sig\|req\|signer1]]` | Client's signature. Becomes the signature image plus an audit line. |
 | `[[date\|req\|signer1]]` | Date the client signed. |
+| `[[initial\|req\|signer1]]` | Client's initials. |
 | `[[sig\|req\|signer2]]` | Co-client's signature. |
 | `[[date\|req\|signer2]]` | Date the co-client signed. |
+| `[[initial\|req\|signer2]]` | Co-client's initials. |
 
 <Note>
 Co-client (`signer2`) tags render as a "Pending Signature" box both before and after signing, because the signing step today only fills in `signer1`. Use co-client signature tags for agreements that need the second signer, with the understanding they stay pending.
@@ -80,7 +92,7 @@ Co-client (`signer2`) tags render as a "Pending Signature" box both before and a
 
 ## Communications tags
 
-Used in email templates built in **Business Ops › Communications › Email Templates**. Values are filled in by the email send pipeline.
+Used in email templates built in **Business Ops › Communications › Email Templates**, inserted with the **Insert Variable** button (contracts use **Insert Tag**). Values are filled in by the email send pipeline.
 
 ### People
 
@@ -147,7 +159,7 @@ Using a link tag as a button URL is safe. If the editor accidentally prepends `h
 
 ### Hidden from the picker (advanced)
 
-Recognized by the backend but not listed in the Insert Tag picker. Available if you type them in by hand.
+Recognized by the backend but not listed in the Insert Variable picker. Available if you type them in by hand.
 
 | Tag | Purpose |
 | --- | --- |

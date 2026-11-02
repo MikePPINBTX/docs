@@ -11,7 +11,7 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-The web report viewer is the mobile-first page your clients and agents use to read the published report. One permanent URL per report, two views (client and agent), payment-locking if your account requires it, and a PDF download button for the compliant document. Opens in any browser; no account or app needed.
+The web report viewer is the mobile-first page your clients and agents use to read the published report. One permanent URL per report, two views (client and agent), payment-locking (always on), and a PDF download button for the compliant document. Opens in any browser; no account or app needed.
 
 ## Two views, one URL slug
 
@@ -29,7 +29,7 @@ The slug is generated on publish and is permanent across republishes.
 - A photo lightbox (tap any photo to open it full-screen, swipe to the next)
 - Equipment specs (per subsection, pulled from the inspection's system info)
 - Reinspection results side-by-side with original photos (on reinspection reports)
-- Any attached supplemental documents
+- Supplemental documents are offered as downloads in the client portal, not in the viewer
 - Any attached inspection videos (via the Video Player)
 - A PDF download button for the official compliant PDF
 
@@ -48,7 +48,7 @@ The locked page shows the property address and a **Go to Client Portal to Pay** 
 Only two events unlock the report:
 
 - A successful **Stripe payment** (confirmed by webhook)
-- A manual **Mark as Paid** action in the web admin
+- A manual **Record Payment** action in the web admin
 
 See [Payment-locked reports](/1nspect/features/payment-locked-reports) for the full details.
 

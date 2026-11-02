@@ -1,7 +1,7 @@
 ---
 id: "admin-contracts-cockpit"
 title: "Contracts Cockpit"
-description: "Business Ops › Contracts. Build service agreements with dynamic tags and signature blocks. Test Send to confirm the rendered agreement before shipping."
+description: "Business Ops › Contracts. Build service agreements with dynamic tags and signature blocks. Note that Test Send really emails the client."
 sidebarTitle: "Contracts Cockpit"
 keywords:
   - "contracts cockpit"
@@ -32,23 +32,22 @@ Covered in detail in [Contract templates](/1nspect/getting-started/contracts) an
 Each agreement captures:
 
 - **Agreement name** — placeholder `Agreement name (e.g. Primary Service Agreement)`
-- **Send this agreement when** — the trigger
+- **Scope** — **All orders** or specific services (a choice, not a trigger)
+- **Active** toggle and **Require co-client to sign** option on each agreement
 - **Agreement Body** — rich-text with **Insert Tag** dropdown
 - **Save Agreement** at the bottom
-- **Test Send** — expands a panel with an Inspection ID input (placeholder `Inspection ID (e.g. 2026-0062-RS)`) and a **Send** action that sends every applicable agreement for that inspection in test mode
+- **Test Send** — expands a panel with an Inspection ID input (placeholder `Inspection ID (e.g. 2026-0062-RS)`) and a **Send** action.
+  <Warning>
+    Despite the name, this is **not a safe test**. It calls the live send, fires the `contract.sent` trigger and emails the real client on that inspection. Use a test order with your own email.
+  </Warning>
 
 ## Insert Tag groups
 
-- Contract Date
-- Client
-- Co-Client
-- Address
-- Service
-- Scheduling
-- Pricing
-- Signature - Client (`[[sig|req|signer1]]`)
-- Signature - Co-Client (`[[sig|req|signer2]]`)
-- Company (`$CompanyName`, `$CompanyLogo`)
+- Order Fields
+- Reinspection
+- Inspector / Company
+- Signature — Client (signature, Date and Initials)
+- Signature — Co-Client (signature, Date and Initials)
 
 See [Variable tags reference](/1nspect/getting-started/variable-tags-reference) for the full catalog.
 

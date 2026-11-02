@@ -43,21 +43,24 @@ Each collection card shows:
 | Narrative count | How many narratives in the collection |
 | Caption count | How many captions |
 | Deficiency count | Narratives tagged as deficiencies |
-| Active | Whether the collection is in use |
 
-Click a card to open [Collection Detail](/1nspect/admin-operator/intelligence-hub/narrative-collections) for the full set of captions, narratives and AIPI.
+Click a card to open [Collection Detail](/1nspect/admin-operator/intelligence-hub/narrative-collections) for the full set of captions and narratives.
+
+## AIPI buttons on the cards
+
+The AIPI actions live on the **narrative-library cards** on this page: **Add/Edit Additional Information** and **Add/Edit Reinspection Additional Information**, with a check mark once configured. They are not available on caption library cards. See [AIPI](/1nspect/getting-started/aipi).
 
 ## Associate with a template
 
-Each collection has an **Associate Template** picker. Pick the template you want this collection to feed; it becomes the source for that template's caption autocomplete (if it's a caption collection) or narrative drafting and Smart Search (if it's a narrative collection).
+Each collection has an **Associate Template** picker. The association is only a **fallback**: libraries are actually chosen **per inspection** on Inspection Details, with company defaults in Business Ops › Company Info › Inspection Defaults.
 
 <Tip>
-  One template can carry more than one collection of each type. A single TREC template can serve a 2026 new build and a 1920s craftsman home, each with its own deficiency language. You pick which collection applies when you set up the inspection on the order.
+  One template can carry more than one collection of each type. A single TREC template can serve a 2026 new build and a 1920s craftsman home, each with its own deficiency language. You pick which collection applies per inspection, on Inspection Details.
 </Tip>
 
 ## Collection types
 
-A collection is either a caption library, a narrative library, or both. The data type separation shows up in the Collection Detail filter:
+A collection is either a caption library (`caption_library`) or a narrative library (`narrative_library`). There is no "both". The data type separation shows up in the Collection Detail filter:
 
 - **Photo Captions** — the short captions that feed the mobile Capture screen autocomplete
 - **Deficiency Comments** — the full narratives that feed AI Generate and Smart Search
@@ -84,4 +87,3 @@ Add action in the Collections tab. Pick the type (caption or narrative) and give
 - [Collection Detail](/1nspect/admin-operator/intelligence-hub/narrative-collections) (per-collection view)
 - [Intelligence & Library Hub overview](/1nspect/admin-operator/intelligence-hub/overview)
 - [Attach caption and narrative libraries](/1nspect/getting-started/attach-libraries) (Start Here walk-through)
-- [AI Credits](/1nspect/features/it-tokens) (library-related costs)

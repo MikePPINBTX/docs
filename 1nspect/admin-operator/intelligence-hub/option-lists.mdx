@@ -1,7 +1,7 @@
 ---
 id: "admin-option-lists"
 title: "Option Lists"
-description: "Reusable pick lists that feed Select fields across every template. One list, many fields across many templates. Edits propagate to every bound field."
+description: "Reusable pick lists that feed Select fields across every template. One list, many fields across many templates. Edits reach new inspections after you confirm."
 sidebarTitle: "Option Lists"
 keywords:
   - "option lists"
@@ -18,11 +18,11 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Option Lists are reusable pick lists that feed template Select fields across every template on your account. One list, many fields across many templates. Edit the list and the change propagates to every template field bound to it.
+Option Lists are reusable pick lists that feed template Select fields across every template on your account. One list, many fields across many templates. Edit the list and, after you confirm, the change reaches the template fields bound to it.
 
 ## Where to find it
 
-**Narrative Management** top-nav › **Intelligence & Library Hub** › the **Option Lists** tab (fourth tab). Or at `/option-lists` directly.
+**Narrative Management** top-nav › **Intelligence & Library Hub** › the **Option Lists** tab (fourth tab). The standalone `/option-lists` page is a dead page over a decommissioned service; use the tab.
 
 ## The lists view
 
@@ -36,13 +36,13 @@ The page shows every option list on your account as a card:
 
 ## Add a new list
 
-Click **Create Option List** (or **Create Option List** in the empty state when no lists exist). The editor dialog opens with the title **Create Option List**. Capture:
+Click **New List**. Capture:
 
-- List name
-- The options themselves (one per line, each with an optional display label)
-- Default option (if applicable)
+- **Name**
+- **Description**
+- The ordered values
 
-Save to add.
+There are no display labels and no default option. Save to add.
 
 ## Edit a list
 
@@ -50,15 +50,16 @@ Click a list card to open the edit dialog (title **Edit Option List**). The same
 
 ## Propagation
 
-When you add, remove or rename an option in a list, the change propagates to:
+When you change a list, the admin must confirm **Update N fields** before it reaches the bound template fields. The change then reaches:
 
-- Every template field bound to the list (dropdown options update)
-- Every mobile Capture screen rendering those fields
-- The next published report (past reports show the historical values they were captured with)
+- New inspections
+- The next Push to Mobile
 
-## Deleting a list
+Inspections already started keep a **frozen copy** of the list and do not change. Past reports keep the values they were captured with.
 
-Delete a list only if no template field binds to it (otherwise those fields lose their options). The UI warns if you try to delete a list that's in use.
+## Archiving a list
+
+Lists are **archived**, not deleted. Archive a list you no longer need; fields already bound to it keep their options.
 
 ## Related
 

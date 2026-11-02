@@ -1,17 +1,24 @@
 ---
 id: "report-activity-log"
 title: "Activity Log"
-description: "Full chronological log of every business event in the period. Audit trail for disputes, support cases and compliance."
+description: "Log of workflow and email events for the period, the 200 most recent. Useful for disputes and support cases."
 sidebarTitle: "Activity Log"
-keywords: ["activity log", "audit trail", "events", "history", "disputes"]
-persona: ["admin-operator"]
-surfaces: ["web"]
+keywords:
+  - "activity log"
+  - "audit trail"
+  - "events"
+  - "history"
+  - "disputes"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
 category: "features"
 status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Activity Log is the chronological record of every business event on your account in the selected period. Who did what, when. The report your support reaches for when a client disputes something, the one your lawyer asks for in discovery, and the one you reach for yourself when you want to understand why an order went the way it did.
+Activity Log is the record of workflow and email events on your account in the selected period. It reads the workflow history only, so it shows automated workflow steps and emails, not every business event (it is not a full audit trail of user edits). It is capped at the **200 most recent** events. It is a company-wide report.
 
 ## Where to find it
 
@@ -21,18 +28,17 @@ Activity Log is the chronological record of every business event on your account
 
 | Filter | Options |
 | --- | --- |
-| Period | Date-range picker. |
+| Period | Period dropdown (last 12 months, quarters, YTD). |
 
 ## What the report shows
 
-Table with one row per event, in chronological order:
+Table with one row per event:
 
 - Timestamp
-- Event type (booking confirmed, agreement signed, inspection completed, report published, payment received, order edited, order cancelled, etc.)
-- Actor (which user triggered it, or "System" for automated events)
-- Order or inspection ID this event belongs to
-- Short description of what happened
-- Target object (the thing the event affected)
+- Order
+- Type
+- Event
+- Actor
 
 ## Export to CSV
 
@@ -42,7 +48,6 @@ Click the **CSV** button to download. Filename: `activity-log-[period-label].csv
 
 - **Dispute resolution** — "when did we send the agreement, and when did they sign?"
 - **Support cases** — walk back the history on a stuck order to find the step that didn't take
-- **Compliance** — the per-event actor and timestamp satisfies most audit requests
 - **Deep investigation** — paired with the Order History on an individual order, the Activity Log gives you the account-wide view
 
 ## Related

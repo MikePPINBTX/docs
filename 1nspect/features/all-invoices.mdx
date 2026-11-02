@@ -1,17 +1,23 @@
 ---
 id: "report-all-invoices"
 title: "All Invoices"
-description: "Flat list of every invoice generated in the period, with a download icon per row for the PDF and a CSV export of the full list for your bookkeeper."
+description: "One row per inspection invoice in the period, with a PDF link per row and a CSV export of the full list for your bookkeeper."
 sidebarTitle: "All Invoices"
-keywords: ["invoices", "invoice list", "pdf download", "csv"]
-persona: ["admin-operator"]
-surfaces: ["web"]
+keywords:
+  - "invoices"
+  - "invoice list"
+  - "pdf download"
+  - "csv"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
 category: "features"
 status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-All Invoices is the simplest report in the suite: a flat list of every invoice generated in the period, with a PDF download on every row and a one-click CSV export of the full list. Built for bulk accounting handoff.
+All Invoices is the simplest report in the suite: a flat list with one invoice per inspection in the period, with a PDF download on every row and a one-click CSV export of the full list. Built for bulk accounting handoff.
 
 ## Where to find it
 
@@ -21,38 +27,29 @@ All Invoices is the simplest report in the suite: a flat list of every invoice g
 
 | Filter | Options |
 | --- | --- |
-| Period | Date-range picker. |
+| Period | Period selector at the top of the report. |
 
 ## What the report shows
 
-Stat grid at the top with totals for the period: invoice count, total billed, total paid, total outstanding.
+Stat grid at the top with totals for the period: **Invoices**, **Paid**, **Unpaid** and **Total Amount**.
 
-Table below with one row per invoice:
+Table below with one row per inspection:
 
-- Invoice number
-- Issue date
-- Client name
-- Property address
-- Total amount
-- Paid amount
-- Balance due
-- Status (paid, partial, unpaid, voided)
-- Download icon (per row) — opens the PDF of that invoice in a new tab
+- Invoice #
+- Generated
+- Client
+- Property
+- Amount
+- Status (paid or unpaid; there is no partial state)
+- PDF
 
 ## Export to CSV
 
 Click the **CSV** button to export the full list. Column headers match the on-screen table.
 
-## When each invoice is generated
+## How invoices are generated
 
-Invoices are generated:
-
-- When an agreement is signed (initial invoice with the quoted amount)
-- When an order is edited with delta billing that changes the total (top-up invoice)
-- When a service is added to a signed order (incremental invoice)
-- Re-stamped PAID when payment lands
-
-See [Payments setup](/1nspect/admin-operator/payments-and-contracts) for payment configuration.
+There is one invoice per inspection, regenerated in place when the order changes. There are no top-up or incremental invoices. See [Invoices](/1nspect/features/invoices) and [Payments setup](/1nspect/admin-operator/payments-and-contracts) for payment configuration.
 
 ## Related
 

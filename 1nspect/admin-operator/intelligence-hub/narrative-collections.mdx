@@ -1,7 +1,7 @@
 ---
 id: "admin-intelligence-hub-collection-detail"
 title: "Collection Detail"
-description: "Open a narrative collection to see every caption and narrative inside, filter by type, add or edit entries, flag duplicates, and attach the AIPI for this collection."
+description: "Open a narrative collection to see every caption and narrative inside, filter by type, add or edit entries, and flag duplicates."
 sidebarTitle: "Collection Detail"
 keywords:
   - "collection detail"
@@ -20,7 +20,7 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Open any collection from the Narrative Library tab to see every caption and narrative it contains, filter by type, edit entries, add new ones, work through duplicates, and attach the AIPI (if your SoP allows).
+Open any collection from the Narrative Library tab to see every caption and narrative it contains, filter by type, edit entries, add new ones, and work through duplicates. AIPI is not on this page; it is managed from the narrative-library cards.
 
 ## Where to find it
 
@@ -31,16 +31,17 @@ The page header is the collection name.
 ## Top-right actions
 
 - **Add Narrative** — opens the editor to add a new narrative or caption
-- **AIPI** actions — add or edit the standard AIPI and the reinspection AIPI for this collection
 
 ## Filters
 
 The Filters panel on the left narrows the list:
 
-- **Type** — All, Photo Captions, Deficiency Comments
+- **Type** — All, Photo Captions, Deficiency Comments, Report Area Comments
 - **Section** — the inspection section the entry is tagged to
-- **Status** — Active, Draft, Archived
-- **Text search** — matches against the narrative or caption text
+- **Report Area** — the report area the entry is tagged to
+- **Search** — matches against the narrative or caption text
+
+There is no status filter.
 
 ## The entries list
 
@@ -51,17 +52,15 @@ The main panel shows each matching entry with:
 - The section and subsection it's tagged to
 - Edit and Delete actions per row
 
-Click **Add Narrative** at the top right to add a new entry. The editor captures the text, the type, the section, and optional metadata (deficiency flag, severity).
+Click **Add Narrative** at the top right to add a new entry. The editor captures the text, the type, the section and the report area. There is no severity field.
 
 ## Duplicate finder
 
-A **Duplicates** view groups entries that look similar enough to be duplicates (same caption with slightly different wording, same narrative text re-saved). Work through the duplicates view to consolidate: pick the canonical version and delete or merge the others.
-
-If there are no duplicates to clean up, the view shows: _"No duplicates found."_
+A **🔍 Show Duplicates (N)** toggle filters the list to entries that look like duplicates (same caption with slightly different wording, same narrative text re-saved). Work through them to consolidate: pick the canonical version and delete the others.
 
 ## AIPI (Additional Information Provided by Inspector)
 
-Each collection carries up to two AIPI blocks, one for standard reports and one for reinspection reports. The AIPI editor is a rich-text dialog with headings, bold, italics, lists and links.
+Each narrative-library collection carries up to two AIPI blocks, one for standard reports and one for reinspection reports. They are opened from the buttons on the collection's card in the Narrative Library (not from this page), and are not available for caption libraries. The AIPI editor is a rich-text dialog with headings, bold, italics, lists and links.
 
 | Variant | Prints on |
 | --- | --- |

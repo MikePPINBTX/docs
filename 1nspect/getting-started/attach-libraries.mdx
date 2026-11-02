@@ -1,24 +1,31 @@
 ---
 id: "start-here-attach-libraries"
 title: "Attach caption and narrative libraries"
-description: "A template needs at least one caption library and one narrative library associated with it before inspections can sync to the phone. This is where that happens."
+description: "Libraries are set per inspection, with company defaults in Business Ops. The template association is only a fallback. A narrative collection is needed to start an inspection on the phone; the caption library is optional."
 sidebarTitle: "Attach libraries"
-keywords: ["narrative library", "caption library", "associate template", "intelligence hub", "collection"]
-persona: ["admin-operator"]
-surfaces: ["web"]
+keywords:
+  - "narrative library"
+  - "caption library"
+  - "associate template"
+  - "intelligence hub"
+  - "collection"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
 category: "getting-started"
 status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Your template defines the structure of an inspection: sections, subsections, fields and ratings. Your **caption library** feeds the caption autocomplete on mobile, and your **narrative library** feeds AI drafting and Smart Search. A template needs at least one of each linked to it, or inspections will not sync to the phone.
+Your template defines the structure of an inspection: sections, subsections, fields and ratings. Your **caption library** feeds the caption autocomplete on mobile, and your **narrative library** feeds AI drafting and Smart Search. Libraries are chosen **per inspection** (on Inspection Details), with company defaults in **Business Ops › Company Info › Inspection Defaults**. The association with a template is only a fallback.
 
 <Info>
-**Required** to run your first inspection: a caption library and a narrative library associated with your template.
+**Required** to start an inspection on mobile: a template and a narrative collection. The caption library is optional.
 </Info>
 
 <Warning>
-This is the number-one reason a first test run stalls. If the inspector's caption dropdown comes up empty on mobile, the libraries are not associated. Confirm this before you run a test inspection.
+A missing caption library does not block the inspection from syncing; it just means the caption autocomplete is empty on mobile. A missing narrative collection stops the inspector from starting.
 </Warning>
 
 ## Where to find it
@@ -30,10 +37,10 @@ Five tabs run across the page:
 | Tab | What it does |
 | --- | --- |
 | **Narrative Library** | Your caption and narrative collections, with the Associate-Template picker |
-| **Supplemental Documents** | Disclosure PDFs that attach to reports by rule (year built, foundation, service) |
+| **Supplemental Documents** | Disclosure PDFs offered as client-portal downloads by rule (year built, service, property type) |
 | **AI Persona (Voice DNA)** | Your company's writing voice (owners and admins only) |
 | **Option Lists** | Reusable pick lists for template fields |
-| **Reference Snippets** | Short curated reference text inspectors can attach to findings |
+| **Reference Snippets** | Short citations or links inspectors can attach to findings |
 
 For this step, stay on the **Narrative Library** tab.
 
@@ -48,13 +55,13 @@ To add captions and narratives, open a collection and click into the Collection 
 
 ## Associate a collection with your template
 
-On a collection card, click the template-picker action. Pick the template you want the collection to feed. The collection becomes the source for that template's caption autocomplete (if it's a caption collection) or narrative drafting and Smart Search (if it's a narrative collection).
+On a collection card, click **Associate Template** and pick the template. This sets the fallback library for that template. There is also a **Sync Structure from Templates** button on the page. The libraries actually used by an inspection are the ones set on that inspection's Inspection Details, or the company defaults.
 
 <Tip>
-**One template can carry multiple collections of each type.** Same compliant ratings, different wording. A single TREC template can serve a 2026 new build and an 1881 historical home, each with its own deficiency language. You pick which collection applies when you set up the inspection on the order.
+**One template can carry multiple collections of each type.** Same compliant ratings, different wording. A single TREC template can serve a 2026 new build and an 1881 historical home, each with its own deficiency language. You pick which collection applies per inspection, on Inspection Details.
 </Tip>
 
-## Confirm the association before your test run
+## Confirm your libraries before your test run
 
 Before your first inspection:
 
@@ -66,7 +73,7 @@ Top nav Narrative Management, Narrative Library tab (first tab).
 At minimum, one caption collection and one narrative collection per template.
 </Step>
 <Step title="Verify the template picker shows your template name">
-If the picker shows no template, the association didn't save. Reopen the picker and set it.
+If the picker shows no template, the fallback association didn't save. Reopen the picker and click **Associate Template**.
 </Step>
 </Steps>
 

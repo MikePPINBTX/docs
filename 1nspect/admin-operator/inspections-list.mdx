@@ -31,10 +31,10 @@ A search box at the top: `Search by client name(s) or address…`. Matches again
 
 ## Status filter
 
-Dropdown of all statuses. Options include every master status your account uses, plus one synthetic filter:
+Dropdown of statuses, plus one synthetic filter:
 
 - **All** (default)
-- **Draft**, **Booked**, **Scheduled**, **In Progress**, **Completed**, **Published**, **Delivered**, **Cancelled** (actual statuses on orders)
+- **Scheduled**, **Assigned**, **In Progress**, **Completed**, **Cancelled** (actual statuses)
 - **Unsigned contract** — synthetic, client-side filter: orders where at least one phase still has an unsigned active agreement
 
 ## URL seeding
@@ -45,20 +45,18 @@ The status filter can be pre-set from the URL (`?status=unsigned`). Dashboard ti
 
 Each row shows:
 
-- Order number
-- Client name(s)
-- Property address
-- Scheduled date
-- Primary service
+- Client Name
+- Address
+- Scheduled Date
+- Inspector / Services
 - Status
-- Assigned inspector
-- Payment status
+- Actions
 
 Click any row to open [Inspection Details](/1nspect/admin-operator/inspection-details).
 
 ## Add a new order
 
-Top right of the page: an action to create a new order. Opens the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard).
+Top right of the page: the **Create Inspection** button opens the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard). An **Inspections / Quotes** toggle switches the list between orders and quote leads.
 
 ## Related
 

@@ -41,7 +41,7 @@ A single subsection can be rated both **I** and **D** — the inspector inspecte
 
 ## What's in the pre-built template
 
-The TREC 7-6 PPI template that ships with your account carries every section and subsection required by the official form:
+The TREC template that ships with your account (named with your company slug followed by `TREC 7-6`) carries every section and subsection required by the official form:
 
 - Structural Systems (Foundations, Grading, Roof Covering, etc.)
 - Electrical Systems
@@ -65,25 +65,25 @@ See [Pre-publish checks](/1nspect/workflows/pre-publish-checks) for the full gat
 
 ## Customizing TREC ratings
 
-The TREC rating scale is **locked** on the platform SoP (`primaryRatingsLocked: true`) to keep you compliant with the official standard. If you need customized ratings (for example, to add a company-specific rating code), you can:
+The TREC primary rating scale (I / NI / NP / D) is **locked**, including on your clones, to keep you compliant with the official standard. You cannot add rating codes on a TREC clone: the primary ratings are inherited live from the platform SoP and the backend rejects edits. What you can do on a clone (Professional and Team plans):
 
 1. Open **SoP Manager** (top-nav)
 2. Click **Clone to Customize** on the TREC card
 3. Name your clone (default: `Texas TREC REI 7-6 (Custom)`)
-4. Edit the ratings in your clone
+4. Click **Edit Ratings** to adjust the **reinspection** ratings only
 5. Point your template at the clone instead of the platform SoP
 
-The platform TREC SoP stays untouched. Your clone is yours to maintain.
+The clone also inherits narrative rules live from the base (SoP Manager shows this on the clone's card).
 
 ## Reinspection ratings on TREC
 
-The TREC reinspection scale is also set by the SoP. Platform TREC uses **Repairs Complete**, **Repairs Not Complete**, and **New Deficiency**. Your custom clone can edit these.
+The TREC reinspection scale is also set by the SoP. Platform TREC uses **Repairs Complete**, **Repairs Not Complete**, and **New Deficiency**. Your custom clone can edit these with **Edit Ratings**.
 
 See [Reinspection rating scales](/1nspect/features/reinspection-rating-scales).
 
 ## The pre-built TREC cover
 
-The TREC template ships with a report cover design that includes a required-form label and your company branding. Customize the cover in [Cover Designer](/1nspect/admin-operator/cover-designer).
+Covers are not seeded with the template. Build one in [Cover Designer](/1nspect/admin-operator/cover-designer) and bind it to the template.
 
 ## Related
 

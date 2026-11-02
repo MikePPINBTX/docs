@@ -1,7 +1,7 @@
 ---
 id: "admin-order-creation-wizard"
 title: "Order Creation Wizard"
-description: "Create a new order from the web admin. Walks through clients, property, services, scheduling, agreement review and send. Handles single-phase, multi-phase, and reinspection orders."
+description: "Create a new order from the web admin. One long form covering clients, property, services, scheduling and pricing, ending in Save Quote (Lead) or Confirm & Create Order."
 sidebarTitle: "Order Wizard"
 keywords:
   - "order creation wizard"
@@ -19,46 +19,36 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-The Order Creation Wizard is where admins create orders. Opens from the Inspections list's add action or at `/inspections/new`. Walks through client details, property, services, scheduling and the Review & Send step. Handles single-phase inspections, multi-phase new-construction orders, and quote-to-order conversions.
+The Order Creation Wizard is where admins create orders. Open it from the **Create Inspection** button on the Inspections list or at `/inspections/new`. Despite the name, it is a **single long form**, not a five-step flow. You fill it top to bottom, and it ends with one of two buttons. Handles single-phase inspections and multi-phase new-construction orders.
 
 ## Where to find it
 
-**Inspections** top-nav › the add order action. Or direct URL `/inspections/new`.
+**Inspections** top-nav › **Create Inspection**. Or direct URL `/inspections/new`.
 
-## The high-level steps
+## What's on the form
 
-<Steps>
-  <Step title="Clients">
-    Primary client (name, email, phone). Optional co-client. Optional buyer's agent and listing agent (pulled from Contacts or added inline).
-  </Step>
-  <Step title="Property">
-    Address with Google Places autocomplete. Year built, square footage, foundation type, cladding, roof covering (auto-filled by Property Baseline, editable). Risk questions depending on your SoP (crawlspace, pool, well, septic). The Property Baseline panel shows Site Conditions and Construction-era materials.
-  </Step>
-  <Step title="Services and detached structures">
-    Pick primary services (one for single-phase, multiple for a multi-phase new-construction bundle). Add ancillaries. Add detached structure rows for garage/workshop/etc. Live price updates as you build.
-  </Step>
-  <Step title="Scheduling">
-    Pick an inspector and a time slot from that inspector's Google Calendar. Mileage surcharge calculates automatically from the inspector's home address. A per-phase schedule summary shows above the submit action.
-  </Step>
-  <Step title={"Review & Send"}>
-    Final review of the whole order: clients, property, services, pricing, scheduling. For multi-phase bundles, assign ancillaries to specific phases here. Save as a quote (don't send yet), or create the order (sends the agreement per your Communications workflow).
-  </Step>
-</Steps>
+Working top to bottom:
+
+- **Clients.** Primary client (name, email, phone). Optional co-client. Optional buyer's agent and listing agent (search existing contacts or add inline).
+- **Property.** Address with Google Places autocomplete. Year built, square footage, foundation type and so on. The **Property Baseline** is a button you click to pull site conditions and construction-era materials; it is not automatic. Risk questions depend on your SoP.
+- **Services and detached structures.** Pick primary services (one for single-phase, multiple for a multi-phase new-construction bundle). Add ancillaries. Add detached structure rows. The live price updates as you build.
+- **Scheduling.** Pick an inspector and a time slot (from that inspector's Working Schedule and Google Calendar). Mileage surcharge calculates from the inspector's home address, falling back to the office address. A per-phase schedule summary shows above the submit buttons.
+- **Pricing and review.** For multi-phase bundles, assign ancillaries to specific phases.
+
+## The two ending buttons
+
+- **💾 Save Quote (Lead)** creates a lead the client can accept through a quote link. See [Quote page](/1nspect/features/quote-page).
+- **✅ Confirm & Create Order** creates the order.
+
+**Review & Send** is not a step on this form. It is the contract modal that opens after the order is created, where you review and send the agreements per your Communications workflow.
 
 ## Multi-phase orders
 
-Selecting more than one primary service turns the order into a multi-phase bundle. Each phase has its own date, inspector and inspection record. If the primary services share a **Bundle Agreement Group**, one agreement covers the whole bundle.
+Selecting more than one primary service turns the order into a multi-phase bundle. Each phase has its own date, inspector and inspection record. (The **Bundle Agreement Group** field on primary services is saved but not used today.)
 
-## Quote vs. order
+## Mark as Lost
 
-Two outcomes at Review & Send:
-
-- **Save as Quote** — creates a lead the client can accept via a texted or emailed quote link. See [Quote page](/1nspect/features/quote-page).
-- **Create Order** — commits the booking, fires the Booking Confirmed trigger, sends the agreement.
-
-## Mark Lost
-
-On a quote, use **Mark Lost** with a reason to record why the client didn't book. Shows in the Agent Referral Report's close-rate calculation.
+**Mark as Lost** is on the quote's **Overview** tab, not in the wizard. Use it with a reason to record why the client didn't book.
 
 ## Firebase connection required
 

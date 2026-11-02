@@ -1,14 +1,13 @@
 ---
 id: "admin-contacts"
 title: "Contacts"
-description: "Clients, buyer's agents and listing agents, with inspection history and referral tracking. Search by name, email or brokerage. Three toggle-filter tabs."
+description: "Clients, buyer's agents and listing agents with inspection counts. Search by name, email or brokerage, and filter by type."
 sidebarTitle: "Contacts"
 keywords:
   - "contacts"
   - "clients"
   - "buyer's agents"
   - "listing agents"
-  - "referral tracking"
 persona:
   - "admin-operator"
 surfaces:
@@ -18,20 +17,21 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Contacts is where every client and agent on your account lives. Clients and agents are created automatically when you create orders; the Contacts page is for searching, viewing history, and tracking the agents who refer business to you.
+Contacts is where every client and agent on your account lives. Clients and agents are created automatically when you create orders; the Contacts page is for searching and seeing how many inspections each is on.
 
 ## Where to find it
 
-**Contacts** top-nav item. Page header: `Contacts`. Subheader: _"Clients, buyer's agents, and listing agents, with inspection history and referral tracking."_
+**Contacts** top-nav item. Page header: `Contacts`. Subheader: _"Clients, buyer's agents, and listing agents, with inspection history and referral tracking."_ (Contacts itself shows no referral stats; see the Agent Referral Report.)
 
 ## Search
 
 Search box at the top: `Search by name, email, or brokerage…`. Matches on all three.
 
-## Three toggle filters
+## Toggle filters
 
 Toggle buttons at the top switch the list:
 
+- **All** — everyone
 - **Clients (N)** — only clients
 - **Buyer's Agents (N)** — only buyer's agents
 - **Listing Agents (N)** — only listing agents
@@ -43,14 +43,12 @@ Each shows a count. Click a toggle to filter the list.
 Each contact row carries:
 
 - Name
+- Type
 - Email
-- Phone (if captured)
-- Brokerage (for agents)
-- Inspection count (how many of your inspections they're on)
-- Last inspection date
-- Status / activity indicator
-
-Click a row to open the contact's detail with full inspection history and (for agents) referral metrics.
+- Phone
+- Brokerage
+- Inspections
+- Last Inspection
 
 ## Where contacts come from
 
@@ -60,17 +58,9 @@ Click a row to open the contact's detail with full inspection history and (for a
 
 Edits made on the contact (fix a typo in a name, update an email) push to every linked inspection where that contact is referenced.
 
-## Agent referral tracking
+## Referral stats
 
-For every agent, the Contacts page carries:
-
-- Count of referred inspections
-- Count of signed orders
-- Close rate (signed / referred)
-- Revenue from signed inspections
-- Last referral date
-
-The [Agent Referral Report](/1nspect/features/agent-referrals) rolls this up by time window.
+Contacts does not show referral statistics. For referrals, revenue and close rate per agent, use the [Agent Referral Report](/1nspect/features/agent-referrals).
 
 ## No manual add today
 

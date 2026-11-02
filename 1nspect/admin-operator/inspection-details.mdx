@@ -1,7 +1,7 @@
 ---
 id: "admin-inspection-details"
 title: "Inspection Details"
-description: "The per-order page: order summary, inspections in the order, history, order actions (Edit, Add Service, Cancel, Reschedule, Mark Paid), communications log and payment status."
+description: "The per-order page: order summary, inspections in the order, history, order actions (Edit, Add Service, Cancel, Reschedule, Record Payment), tabs, communications and payment status."
 sidebarTitle: "Inspection Details"
 keywords:
   - "inspection details"
@@ -9,7 +9,7 @@ keywords:
   - "edit order"
   - "add service"
   - "cancel order"
-  - "mark paid"
+  - "record payment"
   - "order history"
 persona:
   - "admin-operator"
@@ -30,8 +30,8 @@ Inspection Details is the per-order page. Open any order from the Inspections li
 
 - **Top header**: order number, client names, property address, status
 - **Action buttons** (below header): Edit Order, Add Service, Cancel Order, and others covered in [Managing orders](/1nspect/workflows/managing-orders)
-- **Left column**: Inspections in this Order (one row per phase for multi-phase orders)
-- **Right column**: Order Summary + Order History cards
+- **Tabs**: an order shows **Overview**, **Client & Realtor Info**, **Inspections** and **History**. A child inspection adds **Inspection Details**, **Reports** and **Communications**.
+- The Report Workspace sits on the child inspection's **Reports** tab.
 
 ## Order Summary card
 
@@ -39,7 +39,9 @@ Three stats:
 
 - **Total** — dollar order total
 - **Paid** — amount received so far (green)
-- **Balance due** — amount still owed (red if positive, green if 0)
+- **Balance Due** — amount still owed (red if positive, green if 0)
+
+(The labels read Total Fees, Paid and Balance Due.)
 
 ## Order History card
 
@@ -62,21 +64,23 @@ For multi-phase orders, each phase appears as its own row.
 
 | Action | What it does |
 | --- | --- |
-| **Edit Order** | Change clients, property, services, discounts, surcharges, detached structures. Triggers delta billing. See [Managing orders](/1nspect/workflows/managing-orders). |
+| **Edit Order** | Change clients, property, services, discounts, surcharges, detached structures. Recomputes billing and regenerates the invoice in place. See [Managing orders](/1nspect/workflows/managing-orders). |
 | **Add Service** | Add a primary or ancillary service to a signed order without voiding the agreement. |
 | **Resend Bundle** | Re-send the applicable agreements. Used after Add Service or when a client lost the original email. |
-| **Cancel Order** | Full multi-select cancel: whole order, one phase, or one ancillary. Covered in [Managing orders](/1nspect/workflows/managing-orders). |
-| **Mark as Paid** | Record a manual payment (Venmo, Zelle, Cash App, check). Opens the Mark Paid modal. |
+| **Cancel Order** | Cancel the whole order or one phase (**Cancel This Inspection**). Removing one ancillary uses the separate **Remove Ancillary** modal. Covered in [Managing orders](/1nspect/workflows/managing-orders). |
+| **Record Payment** | Record a manual payment: Amount paid, Date paid and Payment method (Cash, Check, Zelle, Venmo or Offline Credit Card). |
 | **Reschedule** | Move an inspection to a new date and time. |
 | **Create Reinspection** | On the Overview tab for completed inspections. See [Reinspections](/1nspect/workflows/reinspections). |
 
-## Communications log
+## Communications tab
 
-Below the main content: every email that's been sent or scheduled for this order. Resend any individual email from here if needed.
+On a child inspection, the **Communications** tab shows each email with its per-recipient delivery status. It has **Fire Workflow Trigger** and **Send/Resend Contract Bundle** actions. There is no per-email resend.
+
+If an email bounces, a **bounce banner** appears at the top of the page and you also get a bounce notice email. See [Resend email](/1nspect/features/resend-email).
 
 ## Haven toggle (per order)
 
-If Haven is enabled at the tenant level (**Business Ops › Integrations**), a per-order **Send to Haven on publish** toggle appears. Defaults to on; uncheck for orders you don't want sent. See [Haven integration](/1nspect/features/haven-integration).
+If Haven is enabled at the tenant level (**Business Ops › Integrations**), a per-order **Send to Haven on publish** toggle appears on the **Inspection Details** tab. Defaults to on; uncheck for orders you don't want sent. See [Haven integration](/1nspect/features/haven-integration).
 
 ## Related
 

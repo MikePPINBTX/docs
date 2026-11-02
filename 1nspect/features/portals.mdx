@@ -34,10 +34,10 @@ The portal has several sections for every stage of the inspection:
 
 - **Agreement status**: each agreement with a Signed or Signature Required chip
 - **Signing modal**: opens from a Sign action; the client reviews and signs in a draw-or-type signature pad
-- **Invoices**: per-inspection and per-package invoices with per-row PDF download
-- **Payment options**: Stripe card payment if online payments are enabled; manual payment handles (Venmo, Zelle, Cash App) if configured
-- **Published report**: a link to the report viewer when the report is published (and paid, if your account locks reports until paid)
-- **Supplemental documents**: any supplementals that attached to the published report
+- **Invoices**: one invoice per inspection, with **Download Invoice** (and **Download Receipt** once paid)
+- **Payment options**: Stripe card payment if online payments are enabled; manual payment handles (Venmo, Zelle, Cash App) shown only when online payments are off
+- **Published report**: a link to the report viewer when the report is published (and paid: reports are always locked until the order is paid)
+- **Supplemental documents**: any supplementals whose rules match, offered as downloads (they are not merged into the report PDF)
 
 ## Signing an agreement
 
@@ -60,7 +60,7 @@ When the client clicks Sign:
 
 ## Co-client signing
 
-If the order has a co-client, each client signs independently from their own portal link. The signed PDF carries both signatures as separate signature blocks.
+If the order has a co-client, **one signature is required** to complete the agreement. The signing step has a **Who is signing?** toggle to choose between the client and the co-client.
 
 ## Paying online
 
@@ -68,13 +68,13 @@ If online payments are enabled (Business Ops › Payments connected to Stripe), 
 
 ## Paying manually
 
-If you accept Venmo, Zelle or Cash App, your handles appear in the Payment section. The client sees:
+When online payments are off and you have configured handles, they appear in the Payment section as one line of text. The client sees:
 
 - Your Venmo handle (if configured)
 - Your Zelle contact, phone or email (if configured)
 - Your Cash App handle (if configured)
 
-The client pays through the respective app, then your admin marks the order paid in the web admin (**Inspection Details › Mark as Paid**).
+The client pays through the respective app, then your admin clicks **Record Payment** in the web admin (Inspection Details).
 
 ## Agreement status chips
 

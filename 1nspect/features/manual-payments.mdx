@@ -1,21 +1,29 @@
 ---
 id: "payments-manual"
 title: "Manual payments"
-description: "Clients pay through Venmo, Zelle or Cash App. Your handles show in their portal; you mark the order paid when the money arrives."
+description: "Clients pay through Venmo, Zelle or Cash App. Your handles show in their portal when online payments are off; you click Record Payment when the money arrives."
 sidebarTitle: "Manual payments"
-keywords: ["manual payments", "venmo", "zelle", "cash app", "mark as paid", "off-stripe"]
-persona: ["admin-operator"]
-surfaces: ["web"]
+keywords:
+  - "manual payments"
+  - "venmo"
+  - "zelle"
+  - "cash app"
+  - "record payment"
+  - "off-stripe"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
 category: "features"
 status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Some clients want to pay through Venmo, Zelle or Cash App instead of a card. 1nspecT supports that: configure your handles in **Business Ops › Payments**, the client sees them in their portal, and you mark the order paid in the web admin when the money arrives.
+Some clients want to pay through Venmo, Zelle or Cash App instead of a card. 1nspecT supports that: configure your handles in **Business Ops › Payments**, the client sees them in their portal, and you click **Record Payment** in the web admin when the money arrives.
 
 ## Configuring your handles
 
-In **Business Ops › Payments**, the **Manual Payment Options** section carries three fields. Fill in only the ones you accept; blank fields are hidden from the client portal.
+In **Business Ops › Payments**, the **Manual Payment Options** section carries three fields. Fill in only the ones you accept; blank fields are hidden from the client portal. Handles show in the portal as one line of text, and only when online payments are off.
 
 | Service | Field format |
 | --- | --- |
@@ -27,9 +35,9 @@ See [Payments setup](/1nspect/admin-operator/payments-and-contracts).
 
 ## What the client sees
 
-In their client portal, under the Payment section, each configured handle appears as a copy-to-clipboard field. The client taps to copy the handle, opens the matching app, and sends the payment themselves.
+When online payments are off, the client portal shows your configured handles as a single line of text in the Payment section. The client opens the matching app and sends the payment themselves.
 
-## Marking the order paid
+## Recording the payment
 
 Once the money arrives:
 
@@ -37,24 +45,24 @@ Once the money arrives:
 <Step title="Open the order">
 Inspections top-nav then the order.
 </Step>
-<Step title="Click Mark as Paid">
-The Mark Paid modal opens.
+<Step title="Click Record Payment">
+The payment modal opens.
 </Step>
 <Step title="Enter the details">
-Amount received, date, and an optional note for your records.
+Three fields: **Amount paid**, **Date paid** and **Payment method** (Cash, Check, Zelle, Venmo or Offline Credit Card). There is no note field, and Cash App is not in the method list.
 </Step>
 <Step title="Save">
-The order is marked paid. The Payment Received trigger fires, the report unlocks (if payment-locking is on), and the Monthly Reconciliation report picks up the payment.
+The order is marked paid. The report unlocks (reports are always payment-locked until paid), and the Monthly Reconciliation report picks up the payment.
 </Step>
 </Steps>
 
-## Partial payments
+## No partial payments
 
-If a client sends only part of the balance, Mark as Paid can record the partial amount. The order shows a balance due; the client portal still shows the handles so they can send the rest.
+Record Payment always sets the order to paid. There is no partial state, so wait until the full amount has arrived before you record it.
 
 ## Reconciling manual payments
 
-Manual payments appear in Monthly Reconciliation under the **Manual** method filter. The report shows gross amount with a Stripe fee of $0 (because no Stripe fee was deducted). Pair with your Venmo / Zelle / Cash App activity for your month-end books.
+Manual payments appear in Monthly Reconciliation under the **Manual only** filter. The report shows gross amount with a Stripe fee of \$0 (because no Stripe fee was deducted). Pair with your Venmo / Zelle / Cash App activity for your month-end books.
 
 ## Why not just Stripe?
 

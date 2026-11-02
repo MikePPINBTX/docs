@@ -1,17 +1,26 @@
 ---
 id: "admin-intelligence-hub-reference-snippets"
 title: "Reference Snippets"
-description: "Short curated reference text (code articles, manufacturer caveats, safety advisories) your inspectors can attach to findings on mobile. Lives alongside the finding in the report."
+description: "Short citations or links (a label and an optional https URL) your inspectors can attach to findings on mobile. The label prints alongside the finding in the report."
 sidebarTitle: "Reference Snippets"
-keywords: ["reference snippets", "code articles", "advisories", "caveats", "citations"]
-persona: ["admin-operator", "inspector"]
-surfaces: ["web", "mobile"]
+keywords:
+  - "reference snippets"
+  - "code articles"
+  - "advisories"
+  - "caveats"
+  - "citations"
+persona:
+  - "admin-operator"
+  - "inspector"
+surfaces:
+  - "web"
+  - "mobile"
 category: "admin-operator"
 status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Reference Snippets are short pieces of curated reference text your inspectors can attach to findings on the Capture screen. Perfect for recurring code citations, manufacturer caveats, safety advisories, or any wording you want inspectors to use consistently without typing it from scratch each time.
+Reference Snippets are short citations or links your inspectors can attach to findings on the Capture screen: recurring code citations, manufacturer references, safety advisories. A snippet is a short label, not a rich body of text.
 
 ## Where to find it
 
@@ -19,17 +28,18 @@ Reference Snippets are short pieces of curated reference text your inspectors ca
 
 ## What a snippet is
 
-A named piece of text, optionally scoped, that an inspector picks from the mobile Capture screen's snippets picker and attaches to a finding. The attached snippet prints alongside the narrative in the published report.
+A short label, with an optional link and a scope, that an inspector picks from the mobile Capture screen's snippets picker and attaches to a finding. The label prints alongside the narrative in the published report.
 
 ## Fields per snippet
 
 | Field | Notes |
 | --- | --- |
-| Name | What inspectors see in the snippet picker |
-| Body | The reference text itself (can be a paragraph, a bulleted list, or a block quote) |
-| Scope | Where this snippet is available: all templates, specific template(s), specific section(s) |
-| Source | Optional citation (where the text comes from) |
-| Active | Toggle without deleting |
+| Label | Up to 200 characters. Shown in the picker and printed in the report |
+| URL | Optional, https only |
+| Scope | Template + subsection pairs where the snippet is available. An empty scope means nowhere; there is no "all templates" option |
+| Material triggers | Optional triggers tied to materials |
+
+There is no Source field, no rich body and no Active toggle.
 
 ## Adding a snippet
 
@@ -37,32 +47,29 @@ A named piece of text, optionally scoped, that an inspector picks from the mobil
 <Step title="Click add">
 From the Reference Snippets tab.
 </Step>
-<Step title="Name it">
-Short and descriptive. Inspectors will see this name in the picker.
-</Step>
-<Step title="Write the body">
-The reference text. Keep it short enough to be usable on a finding but long enough to carry the message.
+<Step title="Write the label">
+Short and descriptive (200 characters at most). Inspectors see it in the picker and clients see it in the report. Add a URL if you want to link out.
 </Step>
 <Step title="Set the scope">
-All templates, or narrow to specific templates or sections. Inspectors only see snippets whose scope matches the finding they're on.
+Add template + subsection pairs. Inspectors only see snippets whose scope matches the finding they're on. An empty scope makes the snippet available nowhere.
 </Step>
 <Step title="Save">
-Active by default. The snippet is available in the mobile picker immediately.
+The snippet is available in the mobile picker after the next sync.
 </Step>
 </Steps>
 
 ## On the Capture screen
 
-For findings in-scope, the mobile Capture screen shows a snippets picker alongside the narrative tools. Inspectors tap a snippet to attach it. One finding can carry one snippet. Attached snippets print alongside the narrative on the published report, visually distinct so clients see they're reference material (not the inspector's own words).
+For findings in-scope, the mobile Capture screen shows a snippets picker alongside the narrative tools. Inspectors tap a snippet to attach it. One finding can carry several snippets. Attached snippet labels print alongside the narrative on the published report.
 
 ## When to use snippets vs. narratives vs. AIPI
 
 | Use a... | When... |
 | --- | --- |
 | **Narrative** | The content is a per-finding wording of a deficiency or observation |
-| **Reference snippet** | The content is a reusable code article, caveat, or advisory that attaches to specific findings |
+| **Reference snippet** | The content is a short citation or link that attaches to specific findings |
 | **AIPI** | The content applies to the whole report (installer qualifications, scope caveats, limitations) |
-| **Supplemental document** | The content is a full PDF to attach to the report package |
+| **Supplemental document** | The content is a full PDF offered as a download in the client portal |
 
 ## Removing a snippet
 

@@ -38,11 +38,14 @@ Each flag links to the finding so you can jump straight to it, fix the wording, 
 
 ## Completeness gate
 
-Publish is a hard gate. Before Publish will accept the report, 1nspecT checks every required SoP item is present:
+Publish is a hard gate. Before Publish will accept the report, the completeness gate checks:
 
-- Every subsection that requires a rating has one
-- Every required area comment is in
+- Subsection ratings (every subsection that requires a rating has one)
+- Required fields
+- The FPO check
 - Every finding has either a narrative, or an explicit "publish without narrative" sign-off
+
+Unresolved narrative flags from the review panel also **block** Publish until you acknowledge them.
 
 Any missing items are listed as **publish blockers**. Each blocker shows the SoP's required-item ID so you know exactly what the standard asks for and where it belongs in the report. Resolve all of them and Publish will go.
 
@@ -50,11 +53,11 @@ Any missing items are listed as **publish blockers**. Each blocker shows the SoP
 
 If a finding has no narrative when you try to Publish, the Publish action refuses with a clear message:
 
-> _"Cannot publish — N finding(s) have no narrative. Draft them (AI Draft & Polish), or choose 'Publish without narrative' for each one in the review panel."_
+> _"Cannot publish — N finding(s) have no narrative. Draft them (Draft pass and Polish), or choose 'Publish without narrative' for each one in the review panel."_
 
 Two ways to resolve:
 
-1. **Draft the narrative.** Run AI Draft & Polish (single-click, drafts every eligible finding and runs Polish Report) or draft the finding individually.
+1. **Draft the narrative.** Run the Draft pass and Polish (drafts every eligible finding, then Polish Report) or draft the finding individually.
 2. **Publish without narrative.** For a finding that doesn't need a narrative (an observation that's already documented in a related finding, say), open the review panel for that finding and sign off on Publish without narrative. The sign-off is recorded against the caller on the server, so there's an audit trail of who approved publishing without a narrative on which finding.
 
 ## Aged-systems check
@@ -65,7 +68,7 @@ Separately from narrative review, 1nspecT runs an aged-systems check that looks 
 
 Use **Preview PDF** to generate the PDF without locking the inspection. It warns you upfront if any publish blockers exist, but it still generates the PDF so you can walk the client through a draft, catch anything the review panel missed, or review layout. The real Publish action is blocked until the required items are resolved.
 
-(Not to be confused with **Publish PDF**, which does publish the report to the client and locks that version.)
+(Not to be confused with **Publish Report**, which does publish the report to the client and locks that version.)
 
 ## What Publish actually does
 
@@ -75,7 +78,7 @@ Once every required item is resolved, Publish:
 - Uploads the final PDF to secure storage
 - Generates the client's permanent report URL slug and the agent's view
 - Records the publish event in the Order History
-- Fires the matching workflow trigger (`report.published`, with a payment-pending variant if applicable)
+- Fires the matching workflow trigger (`report.published` when the order is paid, which sends the configured delivery emails, or the payment-pending variant when it is unpaid)
 
 See [Publishing and delivery](/1nspect/workflows/publishing-and-delivery) for what happens after Publish.
 

@@ -1,71 +1,63 @@
 ---
 id: "payments-invoices"
 title: "Invoices"
-description: "When invoices are generated, where they're stored, and how clients get them. PDFs stamped PAID when payment lands."
+description: "One invoice per inspection, regenerated in place as the order changes. Where to find it, what the PDF contains, and how clients download it."
 sidebarTitle: "Invoices"
-keywords: ["invoices", "invoice pdf", "invoice generation", "paid stamp"]
-persona: ["admin-operator"]
-surfaces: ["web"]
+keywords:
+  - "invoices"
+  - "invoice pdf"
+  - "invoice generation"
+  - "regenerate"
+  - "receipt"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
 category: "features"
 status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-1nspecT generates invoices automatically as the order moves through its lifecycle. The invoice is a PDF stored on the order, accessible from the client portal and from the [All Invoices](/1nspect/features/all-invoices) report. When payment lands, the PDF is re-stamped PAID.
-
-## When invoices are generated
-
-| Event | What happens |
-| --- | --- |
-| Agreement signed | Initial invoice created for the signed amount |
-| Order edited with delta billing (total changes) | A top-up invoice is generated for the delta |
-| Add Service on a signed order | An incremental invoice is generated for the added service |
-| Payment received (Stripe or Mark as Paid) | The matching invoice is re-stamped PAID with the payment date |
-| Refund issued | A credit note is generated |
+Each inspection has **one invoice**. It is not a series of top-up or incremental invoices: when the order changes, the same invoice is **regenerated in place** so it always shows the current total. The invoice is a PDF, available from the order, from the client portal and from the [All Invoices](/1nspect/features/all-invoices) report.
 
 ## Where invoices live
 
-- **On the order**: Inspection Details then the Invoices section. Every invoice generated for the order with per-row PDF download.
-- **In the client portal**: the client sees invoices in their portal under the Invoices section, with per-row PDF download.
-- **In the Reports tab**: the [All Invoices](/1nspect/features/all-invoices) report lists every invoice in a date range with per-row PDF and bulk CSV export.
+- **On the order**: Inspection Details, on the **Overview** tab's pricing card. The card has **View**, **Regenerate** and **Generate Invoice** actions.
+- **In the client portal**: the client gets **Download Invoice** and, once paid, **Download Receipt**.
+- **In reports**: the [All Invoices](/1nspect/features/all-invoices) report lists one row per inspection with a PDF link.
+
+## How the invoice changes as the order changes
+
+| Event | What happens |
+| --- | --- |
+| Order created or agreement signed | The invoice can be generated from the pricing card (**Generate Invoice**) |
+| Order edited, service added or removed, price changes | Billing is recomputed and the invoice is regenerated in place. Click **Regenerate** if you need to force a fresh PDF |
+| Price drops below what was already paid | The order is only flagged as needing a refund. Nothing is refunded automatically |
+| Payment recorded (Stripe or **Record Payment**) | The order is marked paid and the client can download a receipt |
+
+There are no credit notes and no automatic refunds from a price drop. Stripe refunds happen only from **Cancel Order** or **Remove Ancillary**. See [Refunds](/1nspect/features/refunds).
 
 ## PDF content
 
-Every invoice PDF includes:
+The invoice PDF includes:
 
 - Your company name, logo and address (from Company Info)
-- The client name (and co-client, if any) and property address
+- The client name and property address
 - The itemized services with per-line prices
-- Any discounts applied
-- Any surcharges applied
-- Taxes (per your Tax Rate in Business Ops then Pricing then Settings)
-- Grand total
-- Payment status (DUE or PAID with the date)
-- Payment instructions (your Stripe payment link, or your manual payment handles)
+- Any discounts and surcharges applied
+- The grand total
+- Payment status
 
-## PAID stamping
+The invoice PDF has **no tax line** and **no payment instructions**. It does not carry your Stripe link or your Venmo or Zelle handles; clients find those in the portal.
 
-When a payment is recorded against the invoice:
+## No partial states
 
-- The invoice PDF is regenerated with a PAID stamp
-- The payment date and method are added
-- The old DUE version is replaced; the URL stays the same so client-shared links continue to work
-
-## Package invoices
-
-For multi-phase orders (new construction with Pre-Pour, Pre-Drywall, Final), invoices can be generated per phase or as a single package invoice. The default follows your pricing setup and whether phases share a Bundle Agreement Group.
-
-## Credit notes
-
-Refunds generate credit notes rather than editing the original invoice. The original stays as the historical record; the credit note reduces the net amount owed.
-
-## Where sales tax comes from
-
-Your sales tax rate is set in **Business Ops then Pricing then Settings** under Financial Settings. Each service that is marked Taxable on the Ancillary Services tab contributes to the taxable total; non-taxable services (pass-through fees, for example) are excluded.
+**Record Payment** always marks the order paid in full. There is no partial-payment state, no running balance on the invoice, and no top-up invoice for the difference.
 
 ## Related
 
-- [All Invoices](/1nspect/features/all-invoices) (the report with CSV export)
+- [All Invoices](/1nspect/features/all-invoices) (the report)
+- [Manual payments](/1nspect/features/manual-payments)
 - [Payments setup](/1nspect/admin-operator/payments-and-contracts)
 - [Refunds](/1nspect/features/refunds)
 - [Rates, taxes and processing fees](/1nspect/getting-started/rates-taxes-fees)

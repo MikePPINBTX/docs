@@ -21,14 +21,14 @@ Monthly Reconciliation is the report your bookkeeper will open first every month
 
 | Filter | Options |
 | --- | --- |
-| Period | Date-range picker. Defaults to the current month. |
-| Method | **All** (every payment), **Stripe** (card payments through Stripe Connect only), **Manual** (Venmo, Zelle, Cash App, check, cash) |
+| Period | Period dropdown (last 12 months, quarters, YTD). |
+| Method | **All** (every payment), **Stripe** (card payments through Stripe Connect only), **Manual only** (payments recorded with Record Payment) |
 
 ## What the report shows
 
-At the top, a stat grid with the period totals: gross billing, Stripe fees deducted, net deposited.
+At the top, a stat grid with the period totals: **Gross billed**, **Stripe fees (estimated)**, **3rd-party cost**, **Gross profit**, **Net deposited** and **Outstanding A/R**.
 
-Below, a table with one row per order (or per payment, where an order has multiple partial payments), with:
+Below, a table with **one row per inspection**, with:
 
 - Order number
 - Client name
@@ -38,7 +38,7 @@ Below, a table with one row per order (or per payment, where an order has multip
 - Gross amount billed
 - Stripe fee (0 for manual payments)
 - Net amount deposited
-- Status (paid, partial, pending)
+- Status (received, pending or unpaid)
 
 ## Export to CSV
 

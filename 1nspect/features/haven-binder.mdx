@@ -15,10 +15,10 @@ Haven (formerly HomeBinder) is a third-party home-management service that gives 
 
 ## What your client experiences
 
-If the order has Haven enabled, when the report is published the client receives:
+If the order has Haven enabled, once the report is **published and paid** the client receives:
 
 - The normal 1nspecT delivery (email with the report link to the mobile-first web viewer and PDF)
-- **Plus** a Haven email with their new home binder set up, containing the published report
+- **Plus** a Haven email with their new home binder set up. Haven receives a **report link**, not a PDF.
 
 From the Haven binder, the client can also store receipts, warranty documents, maintenance reminders, and photos for the life of the home. Haven stays active even if they sell or move: Haven is their account, not yours.
 
@@ -29,13 +29,15 @@ From the Haven binder, the client can also store receipts, warranty documents, m
 
 ## When it fires
 
-Automatically on Publish, as part of the Report Published workflow trigger. No separate action from the subscriber or the client.
+Only when the report is **published and paid**. It skips reinspections and master inspections. There is no "Resend" button in the UI; resending is owner-only through the API.
 
 ## When it doesn't fire
 
 - The tenant-level switch is off
 - The per-order toggle has been unchecked
 - The order has no Haven-eligible client email
+- The report is published but not yet paid
+- The inspection is a reinspection or a master
 
 ## Related
 

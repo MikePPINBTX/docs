@@ -8,7 +8,6 @@ keywords:
   - "pdf import"
   - "template from pdf"
   - "schema extraction"
-  - "ocr"
 persona:
   - "admin-operator"
 surfaces:
@@ -22,7 +21,7 @@ If you already have an inspection form as a PDF, 1nspecT can extract a template 
 
 ## Where to find it
 
-In the top bar, click **Templates** › pick the template to attach a schema to › the schema editor opens. From the editor, use the schema upload action to open the import flow. The upload route is `/templates/builder/{templateId}/schema`.
+Schema upload is **Professional and Team only**. In the top bar, click **Templates**, then click the **Upload Schema** icon on the template's card. Alternatively, click **Edit** on the card and use **Upload Schema** or **View Full Schema** on the overview page. The route is `/templates/builder/[templateId]/schema`.
 
 ## The flow
 
@@ -31,7 +30,7 @@ In the top bar, click **Templates** › pick the template to attach a schema to 
     Drop in the PDF of your inspection form. 1nspecT accepts a form with any layout: TREC 7-6, InterNACHI, a state-specific form, or your own custom form.
   </Step>
   <Step title="AI extraction">
-    The AI reads the PDF and extracts a schema: sections, subsections and fields. OCR handles scanned PDFs; text extraction handles born-digital PDFs. Cost: **3 AI credits** for OCR extraction, **free** for structured-text extraction.
+    The AI reads the PDF and extracts a schema: sections, subsections and fields in a single call. Cost: **0 AI credits**.
   </Step>
   <Step title="Review the extraction">
     The schema appears on-screen as a draft. Every section, subsection and field the AI found is listed. Expand each section to see its fields and verify the data types.
@@ -55,12 +54,7 @@ Two options:
 
 ## Cost
 
-The schema extraction call is where the AI credits live:
-
-| Operation | Cost |
-| --- | --- |
-| OCR-based extraction (scanned PDF) | 3 AI credits |
-| Structured-text extraction (text-based PDF) | Free |
+PDF schema extraction is one call and costs **0 AI credits**.
 
 ## What this is not
 
@@ -72,4 +66,3 @@ The schema extraction call is where the AI credits live:
 
 - [Universal Template Builder](/1nspect/admin-operator/templates/template-builder)
 - [Template schema editor](/1nspect/admin-operator/templates/template-editor)
-- [AI Credits](/1nspect/features/it-tokens)

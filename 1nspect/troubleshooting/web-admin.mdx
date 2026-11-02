@@ -22,7 +22,7 @@ Fixes for the web admin issues most offices hit. Try the fix listed; if nothing 
 
 ## Firebase Connection Required error
 
-Shows on the Order Creation Wizard and sometimes on Report Workspace. The browser can't reach Firebase. Try:
+Shows on the Order Creation Wizard, the Narrative Library and Collection Detail. The browser can't reach Firebase. Try:
 
 - Hard refresh (Ctrl+Shift+R / Cmd+Shift+R)
 - Clear cookies for `app.1nspect.app` and sign in again
@@ -36,17 +36,23 @@ If it persists across browsers and networks, there may be a Firebase outage. Che
 Multiple causes:
 
 - **Workflow step disabled** — **Business Ops › Communications › Workflow**, open the step, flip Enabled on
-- **Reminder time anchored wrong** — reminders ("2 days before") must be anchored to the inspection date, not to the trigger time
-- **Template empty or has a typo** — open the matching template under Email Templates and preview with sample data
-- **Trigger doesn't fire for this order type** — some triggers (Report Published - awaiting payment) only fire when payment-locking is on
+- **Reminder time anchored wrong** — reminders ("2 days before") need a **Send Offset** measured from the inspection date via the Offset Anchor, not from the trigger time
+- **Template has an unknown tag** — unknown tags are refused on save and dropped on send; reinsert tags from the **Insert Variable** dropdown
+- **Wrong trigger** — Report Delivered fires only on a Stripe payment after publish or the manual Deliver button; use the Review Request trigger for review emails
+- **Email bounced** — see below
 
-Confirm the email fired by checking the order's Communications log and the Activity Log.
+Confirm the email fired by checking the Communications tab on the child inspection and the Activity Log (a company-wide report of workflow and email events, the 200 most recent).
+
+## Emails didn't arrive (bounce alert)
+
+If an email bounces or fails to deliver, 1nspecT shows a **bounce banner** at the top of Inspection Details, lists per-recipient delivery status on the **Communications** tab, sends you a bounce notice email, and shows an **"emails didn't arrive"** alert on the Dashboard. Fix the recipient's address on Client & Realtor Info, then use **Fire Workflow Trigger** on the Communications tab to send again. There is no per-email Resend.
 
 ## Publish won't let me publish
 
 The Publish action refuses with a message naming the blockers. Common ones:
 
-- **"Cannot publish - N finding(s) have no narrative"** — draft them (AI Draft & Polish) or Publish without narrative per finding
+- **Unresolved narrative flags** — these block Publish until you acknowledge them
+- **"Cannot publish - N finding(s) have no narrative"** — draft them (Draft pass and Polish)
 - Missing required ratings on a subsection
 - Missing required area comments
 - SoP-required items marked incomplete
@@ -63,8 +69,8 @@ See [Pre-publish checks](/1nspect/workflows/pre-publish-checks) for the full gat
 ## Haven report didn't send
 
 - Confirm Haven is enabled at the tenant level (**Business Ops › Integrations › Haven card** showing Active)
-- Confirm the per-order **Send to Haven on publish** toggle is on
-- Confirm all four Haven credentials are filled in (API Key, Partner Name, Binder Template ID, Partner Email)
+- Confirm the per-order **Send to Haven on publish** toggle is on. Haven sends only when the report is **published and paid**, and skips reinspections and masters
+- Confirm the Haven fields are filled in: **Haven API Key**, **Partner Name**, **Account Email**, **Default Binder Template ID** and **Confirmation CC Email**
 - Confirm the order has a client email
 
 See [Haven integration](/1nspect/features/haven-integration).

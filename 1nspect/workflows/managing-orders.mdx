@@ -1,11 +1,20 @@
 ---
 id: "daily-ops-managing-orders"
 title: "Managing orders after they are placed"
-description: "Edit a signed order, add a service, remove an ancillary with a refund, reschedule, cancel one phase, cancel the whole order, mark paid. Where each action lives and what it does."
+description: "Edit a signed order, add a service, remove an ancillary with a refund, reschedule, cancel one phase, cancel the whole order, record a payment. Where each action lives and what it does."
 sidebarTitle: "Managing orders"
-keywords: ["edit order", "add service", "cancel order", "reschedule", "mark paid", "refund", "delta billing"]
-persona: ["admin-operator"]
-surfaces: ["web"]
+keywords:
+  - "edit order"
+  - "add service"
+  - "cancel order"
+  - "reschedule"
+  - "record payment"
+  - "refund"
+  - "billing recompute"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
 category: "workflows"
 status: "stable"
 last_verified_against_code: "2026-11-02"
@@ -27,9 +36,9 @@ Use **Edit Order** when you need to change the property fields or the services o
 - Discounts and surcharges
 - Detached structures (add, edit, remove)
 
-### Delta billing
+### Billing recompute
 
-Edit Order triggers delta billing: 1nspecT re-prices the order against your current pricing rules and figures out the difference. If the new total is higher, a top-up invoice is generated. If it is lower, a refund is issued. You see the delta before you commit the save.
+Edit Order re-prices the order against your current pricing rules and **regenerates the order's single invoice in place**. There are no top-up invoices. If the new total is lower than what was paid, the order is only flagged as needing a refund; nothing is refunded automatically. Stripe refunds happen only from Cancel Order or Remove Ancillary.
 
 ## Add Service
 
@@ -41,21 +50,21 @@ Use **Add Service** when the client wants to add an inspection or an ancillary t
 
 ## Cancel Order
 
-Use **Cancel Order** on the order header for the full multi-select cancel flow. You can:
+Use **Cancel Order** on the order header for the cancel flow. You can cancel the whole order or one specific inspection (phase). On a multi-phase order, the per-phase button is **Cancel This Inspection**.
 
-- Cancel the whole order
-- Cancel one specific inspection (phase)
-- Cancel one ancillary service only
+Cancellation cascades: the inspection is removed from the inspector's calendar and any pending agreement is voided. A Stripe refund is issued automatically only when there was a Stripe payment.
 
-Cancellation cascades: the inspection is removed from the inspector's calendar, any pending agreement is voided, and (if the order was paid) a refund flow starts in Stripe.
+## Remove Ancillary
+
+To remove a single ancillary service, use the separate **Remove Ancillary** modal, not Cancel Order. It also refunds through Stripe when the order was paid by Stripe.
 
 ## Reschedule
 
 Moves one inspection to a new date and time. 1nspecT checks the inspector's Google Calendar availability for the new slot. The calendar event is updated automatically. If your workflow has an Inspection Rescheduled trigger, the matching email fires.
 
-## Mark as Paid
+## Record Payment
 
-Use **Mark as Paid** when a client pays by Venmo, Zelle, Cash App, a check, or any other channel outside Stripe. The modal captures the amount, the date, and a note for your records. The order is marked paid and (if your account locks reports until paid) the report link unlocks for the client.
+Use **Record Payment** when a client pays outside Stripe. The modal has three fields: **Amount paid**, **Date paid** and **Payment method** (Cash, Check, Zelle, Venmo or Offline Credit Card). There is no note field. The order is always marked paid in full (there is no partial state) and the report link unlocks for the client, since reports are locked until paid.
 
 ## Create Reinspection
 
@@ -65,7 +74,7 @@ The Overview tab has a **Create Reinspection** action that spawns a reinspection
 
 The right side of the Inspection Details page shows two cards:
 
-- **Order Summary** — total amount, amount paid, amount due
+- **Order Summary** — Total Fees, Paid and Balance Due
 - **Order History** — a chronological log of actions on this order (created, agreement sent, signed, paid, edited, cancelled)
 
 ## Inspections in this Order

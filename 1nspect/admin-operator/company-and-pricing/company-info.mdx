@@ -1,17 +1,18 @@
 ---
 id: "admin-company-info"
 title: "Company Info"
-description: "The first Business Ops tab. Company name, address, support email, logo (PWA icon), booking link, Google review and Yelp links, PWA theme color."
+description: "The first Business Ops tab. Company identity, brand colors, logo URL, inspection defaults, mobile publishing, booking page slug, review links and the public booking form."
 sidebarTitle: "Company Info"
 keywords:
   - "company info"
   - "business ops"
   - "logo"
-  - "pwa"
   - "support email"
   - "booking link"
   - "google review"
   - "yelp"
+  - "white label"
+  - "inspection defaults"
 persona:
   - "admin-operator"
 surfaces:
@@ -21,7 +22,7 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Company Info is the first tab of Business Ops. It carries the company-wide identity values the rest of 1nspecT reads: name, address, support email, logo, booking link, review links, and the PWA theme color.
+Company Info is the first tab of Business Ops. It carries the company-wide values the rest of 1nspecT reads: identity, brand colors, logo, inspection defaults, mobile settings, booking link and review links.
 
 ## Where to find it
 
@@ -31,23 +32,33 @@ Company Info is the first tab of Business Ops. It carries the company-wide ident
 
 | Field | Notes |
 |---|---|
-| Company Name | Required. Appears on reports, emails, agreements, portals, invoices. Placeholder: `Your Company Name`. |
-| Office Address | Street, City, State, ZIP. Used for mileage surcharge calculation. |
-| Support Email | Appears on client-facing notifications. Placeholder: `support@yourcompany.com`. |
-| Logo | PNG or SVG, recommended 200×50px. Also used as the PWA icon when installed on mobile devices. |
-| PWA Theme Color | Status bar color when PWA is installed on mobile devices. Placeholder: `#1e40af`. |
-| Google Review Link | Direct link to leave a Google review for your company. Feeds `$GoogleReviewLink`. |
+| Account ID | Your account identifier. Read-only reference. |
+| Company Name | Required. Appears on reports, emails, agreements, portals and invoices. |
+| Company Phone | Your company phone number. |
+| Office Address | Street, City, State, ZIP. Used only as the **fallback** for mileage surcharges: the inspector's home address is used first, and public bookings use the office address. |
+| Support Email | Appears on client-facing notifications. |
+| Brand Colors | **Primary**, **Secondary** and **Accent**. (There is no PWA theme color.) |
+| Logo URL | A URL field, not an upload. Paste a link to your hosted logo. To upload a logo file, use Settings › Company. |
+| Inspection Defaults | Company defaults for the narrative and caption libraries on new inspections. Libraries are then set per inspection on Inspection Details. |
+| White-Label | Checkbox that changes only the web admin's own top bar. It does not affect PDFs, emails, agreements or the portals. See [Branding](/1nspect/getting-started/branding). |
+| Dynamic Rating UI | Company setting for how ratings are presented. |
+| Allow Publishing Reports from Mobile | Company switch, **off by default**. When on, users can publish from the mobile Review screen unless opted out per user in Settings › Users. |
+| Save Inspection Photos to Inspectors' Camera Rolls | Saves captured photos to each inspector's phone camera roll. Off by default. |
+| Booking Page Slug | The slug for your public booking page (`app.1nspect.app/book/[slug]`). |
+| Google Review Link | Direct link to leave a Google review. Feeds `$GoogleReviewLink`. |
 | Yelp Review Link | Direct link to leave a Yelp review. Feeds `$YelpLink`. |
-| Booking Slug | The slug for your public booking page (`app.1nspect.app/book/[slug]`). |
-| Primary Booking Calendar | Google Calendar connection (fallback when per-inspector calendars aren't set). |
+
+<Note>
+  There is no company-wide Google Calendar setting. The old "Primary Booking Calendar" box was removed. Calendars are connected per inspector in Settings › Users. See [Google Calendar](/1nspect/features/calendar-integration).
+</Note>
+
+## Public Booking Form
+
+This section holds the working embed for your website: an iframe of `/book/{slug}`. See [Public booking form](/1nspect/features/public-booking).
 
 ## Save
 
-**Save Company Info** at the bottom.
-
-## PWA (installable mobile web app)
-
-1nspecT's web admin can be installed as a Progressive Web App on an inspector's or admin's mobile device. The logo you upload here is the PWA icon shown on the home screen; the PWA theme color is the status bar color. Install from your mobile browser's "Add to Home Screen" action.
+Click **Save Changes**.
 
 ## Related
 

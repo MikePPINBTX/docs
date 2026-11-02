@@ -11,7 +11,7 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Haven (formerly HomeBinder) is a third-party home-management service that gives homeowners a lifetime binder for their home. When your company has Haven set up and the per-order Send to Haven toggle is on, 1nspecT automatically sends the published report to the client's Haven binder when you publish. This page covers the admin side; for the client experience see [Haven binder](/1nspect/features/haven-binder).
+Haven (formerly HomeBinder) is a third-party home-management service that gives homeowners a lifetime binder for their home. When your company has Haven set up and the per-order Send to Haven toggle is on, 1nspecT automatically sends the published report to the client's Haven binder once the report is published and paid. This page covers the admin side; for the client experience see [Haven binder](/1nspect/features/haven-binder).
 
 ## Where to connect it
 
@@ -21,22 +21,23 @@ The Haven card is one of the integration cards on the Integrations tab. The card
 
 ## Required credentials
 
-Four fields must be filled in for Haven to be usable. If any is missing, 1nspecT disables the Send to Haven behavior automatically (the stored `enabled: true` cannot outlive its config):
+These fields must be filled in for Haven to be usable. If any is missing, 1nspecT disables the Send to Haven behavior automatically (the stored `enabled: true` cannot outlive its config):
 
 | Field | What it is |
 | --- | --- |
 | **Haven API Key** | The key Haven issued to your Haven account. Haven issues this once from your settings tab; it can't be regenerated. If you need it replaced, contact Haven support. Required. |
 | **Partner Name** | Your partner name as Haven knows you |
-| **Binder Template ID** | The ID of the Haven binder template to use for new homeowner binders |
-| **Partner Email** | The email Haven uses for admin notifications |
+| **Account Email** | The email for your Haven account |
+| **Default Binder Template ID** | The ID of the Haven binder template to use for new homeowner binders |
+| **Confirmation CC Email** | An address copied on Haven's confirmation emails |
 
-After filling in all four, flip **Enable Haven integration** on.
+After filling these in, flip **Enable Haven integration** on.
 
 ## Getting your Haven credentials
 
 1. Sign in to your Haven dashboard
 2. Open your settings tab
-3. Find the API Key, Partner Name, Binder Template ID and Partner Email in the API or Integrations section
+3. Find the API Key, Partner Name, Account Email and Binder Template ID in the API or Integrations section
 4. Paste into 1nspecT and save
 
 If Haven does not show these to you, contact Haven support.
@@ -49,21 +50,22 @@ If Haven is not configured or enabled at the tenant level, the per-order toggle 
 
 ## What happens on publish
 
-When the report is published and the per-order toggle is on:
+When the report is **published and paid** and the per-order toggle is on:
 
-1. 1nspecT's Publish action completes normally (lock the inspection, write the PDF, generate links)
-2. The publish workflow fires the Report Published trigger as usual
-3. Separately, Haven receives an API call with the published PDF and the client's name and email
-4. Haven creates (or updates) the client's home binder with the report attached and emails the client
+1. 1nspecT's Publish action completes normally
+2. Haven receives an API call with a **report link** (not a PDF) and the client's name and email
+3. Haven creates (or updates) the client's home binder and emails the client
 
-If the Haven call fails, 1nspecT logs the failure but does not block the publish. You can resend to Haven from the Inspection Details page.
+Haven is skipped for reinspections and masters. If the Haven call fails, 1nspecT logs the failure but does not block the publish. There is no Resend button in the UI; resending is owner-only through the API.
 
 ## When Haven doesn't fire
 
 - The tenant-level switch is off
 - The per-order toggle is off
 - The order has no client email (Haven needs an email to create or update the binder)
-- The Haven API returns a failure (log is captured; a Resend to Haven action retries)
+- The report is published but not yet paid
+- The inspection is a reinspection or a master
+- The Haven API returns a failure (the failure is logged)
 
 ## Related
 

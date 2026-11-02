@@ -11,11 +11,11 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Publishing locks the report and makes it available at a permanent URL. Delivery emails that URL to the client (and the agent) with a message you can personalize. On accounts that lock reports until paid, the client's link stays password-protected until payment lands.
+Publishing locks the report and makes it available at a permanent URL. Delivery emails that URL to the client (and the agent) with a message you can personalize. Every report stays locked until the order is paid; the client and agent links return a Payment Required page until payment lands.
 
 ## Where to publish
 
-Open the Report Workspace: **Inspections** top nav › the order › the inspection › Report Workspace. The Publish action is at the top of the page.
+Open the Report Workspace: **Inspections** top nav › the order › the inspection › Report Workspace. The **Publish Report** button is at the top of the page (**Republish vN** once a version exists).
 
 ## Prerequisites
 
@@ -52,7 +52,9 @@ The matching workflow trigger fires:
 
 ## Deliver the report
 
-Publish does not email the client on its own. Open **Deliver** to send the report (or do nothing if your workflow sends the Delivered email automatically on the trigger).
+When the order is already **paid**, Publish fires `report.published`, which sends the delivery emails you have configured in your workflow. When the order is unpaid, Publish fires `report.published.payment_pending` instead. The report **Delivered** trigger fires only on a Stripe payment after publish or when you use **Deliver** manually.
+
+Use **Deliver** to send the report by hand.
 
 The Deliver dialog captures:
 
@@ -66,13 +68,13 @@ Send when the preview looks right.
 
 ## Payment-locked reports
 
-Every published report is locked until the inspection is marked paid. Both the client's link and the agent's link return a Payment Required page until payment is recorded (via Stripe webhook or manual Mark as Paid). There is no setting to disable this.
+Every published report is locked until the inspection is marked paid. Both the client's link and the agent's link return a Payment Required page until payment is recorded (via Stripe webhook or manual **Record Payment**). There is no setting to disable this.
 
 See [Payment-locked reports](/1nspect/features/payment-locked-reports).
 
 ## Haven
 
-If your account has Haven set up, publishing a report also sends it to the client's Haven home binder. Covered under integrations.
+If your account has Haven set up, a report that is **published and paid** is also sent to the client's Haven home binder as a link. Covered under integrations.
 
 ## Republishing
 
@@ -102,4 +104,4 @@ The PDF is the compliant deliverable; the web viewer is the easier-to-read versi
 - [Pre-publish checks](/1nspect/workflows/pre-publish-checks)
 - [The order lifecycle](/1nspect/workflows/booking-to-published-report)
 - [Variable tags reference](/1nspect/getting-started/variable-tags-reference) ($CustomMessage, $ReportLink, $AgentReportLink)
-- [Communication workflows](/1nspect/getting-started/communication-workflows) (Report Delivered trigger)
+- [Communication workflows](/1nspect/getting-started/communication-workflows) (Report Delivered and Review Request triggers)

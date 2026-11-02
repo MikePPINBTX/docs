@@ -40,14 +40,14 @@ For each inspection in the list, the agent sees:
 
 - Client name and property address
 - Date of inspection
-- Status (Scheduled, Completed, Published)
-- Agent-facing report link (opens the agent view of the report)
-- Repair request action (opens the Repair Request Builder, if the report is published)
+- Status (Scheduled, Assigned, In Progress, Completed or Cancelled), plus a **Report Ready** or **Report Pending** chip
+- A link to the agent view of the report (`/report/{slug}/agent`)
+
+There is no repair-request action on the cards. Agents reach the Repair Request Builder from the agent report view.
 
 ## What agents do not see
 
 - Pricing — the agent sees the inspection, not the fee
-- Full repair request content — only their own repair-request builder
 - Inspector direct contact info — contact goes through your office
 - Internal notes on the order
 

@@ -11,7 +11,7 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Outstanding A/R is the report you open when you want to see who still owes you money, how long they've owed it, and whether you need to send a follow-up. Orders that were billed but not fully paid, bucketed by how long the balance has been open: 0 to 30 days, 31 to 60, 61 to 90, and 90+.
+Outstanding A/R is the report you open when you want to see who still owes you money, how long they've owed it, and whether you need to send a follow-up. Orders that were billed but not paid, bucketed by how long the balance has been open: 0 to 30 days, 31 to 60, 61 to 90, and 90+.
 
 ## Where to find it
 
@@ -19,9 +19,7 @@ Outstanding A/R is the report you open when you want to see who still owes you m
 
 ## Filters
 
-| Filter | Options |
-| --- | --- |
-| Period | Date-range picker (defaults to all unpaid). |
+This report has **no filter**. It is a live snapshot of everything currently unpaid.
 
 ## What the report shows
 
@@ -32,12 +30,11 @@ Table with one row per unpaid order:
 - Order number
 - Client name
 - Property address
-- Invoice date
+- Completed (the date the inspection was completed)
 - Days outstanding (and the bucket it falls into)
 - Amount billed
 - Amount paid
 - Balance due
-- Latest action (last email sent, last mark-paid attempt)
 
 ## Export to CSV
 
@@ -45,11 +42,10 @@ Click the **CSV** button to download. The CSV filename is `outstanding-ar.csv`.
 
 ## Taking action
 
-From each row you can jump to the order to:
+Rows are not clickable. Note the order number, then open the order from **Inspections** to:
 
-- Resend the invoice email
-- Mark as Paid for an off-Stripe payment that landed
-- Open the order and apply a discount or write off (via Edit Order)
+- Click **Record Payment** for an off-Stripe payment that landed
+- Apply a discount or write off (via Edit Order)
 
 ## Related
 

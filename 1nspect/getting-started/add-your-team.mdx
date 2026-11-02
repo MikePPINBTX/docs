@@ -19,11 +19,11 @@ Your team of inspectors and admins is managed on the Settings page under the Use
 
 ## Where to find it
 
-In the top bar, click **Settings**, then click the **Users** tab (one of two tabs: Company and Users). The page header reads **User Management**.
+In the top bar, click **Settings**, then click the **Users** tab (one of three tabs: Company, Users and Billing). The page header reads **User Management**.
 
 ## Add a team member
 
-Click **Add Team Member**. The dialog is titled **Add Team Member** (it switches to **Edit Team Member** when you edit an existing user). Fill in:
+Click **Add Team Member**. The dialog is titled **Add Team Member** (it switches to **Edit Team Member** when you edit an existing user). The submit button reads **Create Team Member** for a new user and **Update Team Member** when editing. Fill in:
 
 ### Account
 
@@ -33,20 +33,20 @@ Click **Add Team Member**. The dialog is titled **Add Team Member** (it switches
 | Email | Required. The address the user signs in with. Immutable after creation. |
 | Password | New users receive an invite email with a password-setup link; they set their own password on first sign-in rather than being handed a temporary one. |
 | License Number | Optional. Inspector license number. Placeholder: `26408`. |
-| Role | Choose from the role dropdown. |
+| Role | Inspector or Admin. The owner role cannot be assigned. |
 
 ### Toggles
 
 - **Inspector**: turn on for anyone who conducts inspections or should appear on your booking form. This is the toggle most often forgotten.
-- A second toggle controls other access levels (verify in the dialog).
+- The second toggle is **mobile publishing**: a per-user opt-out that matters only when the company switch **Allow Publishing Reports from Mobile** (Business Ops › Company Info, off by default) is on.
 
 ### Google Calendar
 
-Under **Google Calendar**, connect the user's Google account. Once connected, booking availability pulls from this calendar and new inspections are added to it automatically.
+The Google Calendar section appears only when you are **editing** an existing user, so create the user first and then edit. Click connect and you are redirected to Google in the same tab. Once connected, booking availability reads every calendar the user owns or can write to, and new inspections are added to their primary calendar automatically.
 
 ### Working Schedule
 
-Set working hours per day of the week, with a **Timezone** dropdown (US timezones: Eastern, Central, Mountain, Pacific, Alaska, Hawaii). Booking honors these hours.
+Set working hours per day of the week, with a **Timezone** dropdown (US timezones: Eastern, Central, Mountain, Pacific, Alaska, Hawaii). Booking honors this Working Schedule.
 
 ### TREC Sponsor Information (Required for Texas)
 
@@ -59,7 +59,7 @@ Set working hours per day of the week, with a **Timezone** dropdown (US timezone
 
 | Field | Notes |
 | --- | --- |
-| Home Address | The address mileage surcharges are calculated from. Placeholder: `123 Main St, Austin, TX 78701`. |
+| Home Address | The address mileage surcharges are calculated from first (the office address is the fallback). Placeholder: `123 Main St, Austin, TX 78701`. |
 
 ### Signature
 
@@ -90,4 +90,3 @@ The Users tab shows disabled users in a separate section below active ones. Disa
 
 - [Company profile](/1nspect/getting-started/company-profile)
 - [Branding](/1nspect/getting-started/branding)
-- [AI Credits](/1nspect/features/it-tokens)

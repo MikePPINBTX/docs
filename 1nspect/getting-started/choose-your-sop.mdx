@@ -3,9 +3,17 @@ id: "start-here-choose-your-sop"
 title: "Choose your Standard of Practice"
 description: "The Standards of Practice page is where you confirm the rating scale your templates use, or clone a platform standard to customize for your company."
 sidebarTitle: "Choose your SoP"
-keywords: ["sop", "standards of practice", "trec", "internachi", "rating scale", "clone to customize"]
-persona: ["admin-operator"]
-surfaces: ["web"]
+keywords:
+  - "sop"
+  - "standards of practice"
+  - "trec"
+  - "internachi"
+  - "rating scale"
+  - "clone to customize"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
 category: "getting-started"
 status: "stable"
 last_verified_against_code: "2026-11-02"
@@ -14,7 +22,7 @@ last_verified_against_code: "2026-11-02"
 Your Standard of Practice (SoP) is the rulebook your templates follow. It defines the rating scale (for example TREC's I / NI / NP / D), the layout family your reports are built on, and the AI narrative language your inspections use. Pick the right SoP once and every template, every narrative draft, and every published report lines up with it.
 
 <Info>
-You chose your primary SoP during signup. The matching template and libraries were seeded on your account. You can view every SoP that ships with the platform, and (on paid plans) clone one to customize its rating scale.
+  You chose your primary SoP during signup. The matching template and libraries were seeded on your account. You can view every SoP that ships with the platform, and (on Professional and Team plans) clone one to customize it.
 </Info>
 
 ## Where to find it
@@ -29,25 +37,26 @@ On any SoP card, click **View Ratings** to open the Rating Scale Viewer. This sh
 
 ## Clone to customize
 
-Platform SoPs (TREC, InterNACHI) are locked for editing to keep you compliant with the official standard. If you need to adjust ratings for how your company works, clone the SoP into your own copy and edit the clone.
+Primary ratings on TREC and InterNACHI are locked, including on clones, to keep you compliant with the official standard. A clone lets you edit the reinspection ratings (with **Edit Ratings**) and inherits narrative rules live from the base. Phase SoPs are not locked.
 
 <Steps>
-<Step title="Click Clone to Customize">
-On the SoP card, click **Clone to Customize**.
-</Step>
-<Step title="Name your clone">
-A dialog opens titled with the original SoP's name. The default clone name appends `(Custom)` to the original name. Change it to something meaningful, like `Acme TREC 7-6`.
-</Step>
-<Step title="Clone">
-Click **Clone**. The custom SoP appears on the Standards of Practice list, editable.
-</Step>
-<Step title="Point your template at the clone">
-Open the template that should use the custom SoP (**Templates** top-nav item), and set its SoP to the clone. Future inspections against that template will follow your customized ratings.
-</Step>
+  <Step title="Click Clone to Customize">
+    On the SoP card, click **Clone to Customize**.
+  </Step>
+  <Step title="Name your clone">
+    A dialog opens titled with the original SoP's name. The default clone name appends `(Custom)` to the original name. Change it to something meaningful, like `Acme TREC 7-6`.
+  </Step>
+  <Step title="Clone">
+    Click **Clone**. The custom SoP appears on the Standards of Practice list. Use **Edit Ratings** to change what is editable.
+  </Step>
 </Steps>
 
+<Warning>
+  There is no screen to re-point an existing template to a different SoP. The only SoP picker is in **Initialize from SoP** on the Templates page, so to use your clone, initialize a new template from it.
+</Warning>
+
 <Note>
-Custom SoP cloning is a paid-plan feature. If your plan does not include customization, the Standards of Practice page shows a note saying you can view and use every standard provided, but not customize. Open [Billing](/1nspect/features/it-tokens) to see your plan.
+  Custom SoP cloning is a Professional and Team feature (Solo 0, Professional 1, Team 3 custom SoPs). If your plan does not include customization, the Standards of Practice page shows a note saying you can view and use every standard provided, but not customize. Open Settings › Billing to see your plan.
 </Note>
 
 ## Delete a clone
