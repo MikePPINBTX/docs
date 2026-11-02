@@ -255,5 +255,62 @@
   },
   "contextual": {
     "options": ["copy", "view", "claude"]
-  }
+  },
+  "redirects": [
+    {
+      "source": "/1nspect/getting-started/account-and-branding",
+      "destination": "/1nspect/getting-started/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/getting-started/create-your-first-order",
+      "destination": "/1nspect/getting-started/test-run-checklist",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/getting-started/mobile-inspection-walkthrough",
+      "destination": "/1nspect/inspector/capture-screen",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/getting-started/generate-your-first-report",
+      "destination": "/1nspect/workflows/booking-to-published-report",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/workflows/template-to-finished-report",
+      "destination": "/1nspect/getting-started/build-your-first-template",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/workflows/aging-equipment-flagging",
+      "destination": "/1nspect/workflows/pre-publish-checks",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/workflows/assigning-and-handoff",
+      "destination": "/1nspect/workflows/booking-to-published-report",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/features/multi-tenant-and-team",
+      "destination": "/1nspect/admin-operator/users",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/features/communications",
+      "destination": "/1nspect/getting-started/communication-workflows",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/features/contracts",
+      "destination": "/1nspect/getting-started/contracts",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/admin-operator/templates/visual-page-designer",
+      "destination": "/1nspect/admin-operator/templates/template-designer",
+      "permanent": true
+    }
+  ]
 }
