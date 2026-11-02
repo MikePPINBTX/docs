@@ -180,7 +180,8 @@
               "1nspect/features/google-maps-places",
               "1nspect/features/data-sources",
               "1nspect/features/resend-email",
-              "1nspect/features/voicedna"
+              "1nspect/features/voicedna",
+              "1nspect/features/property-baseline"
             ]
           },
           {
