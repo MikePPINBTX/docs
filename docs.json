@@ -28,7 +28,7 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "1nSpecT Platform",
+        "tab": "1nspecT Platform",
         "groups": [
           {
             "group": "Start Here",
@@ -218,7 +218,7 @@
             ]
           },
           {
-            "group": "Troubleshooting (new)",
+            "group": "Troubleshooting",
             "pages": [
               "1nspect/troubleshooting/common-issues",
               "1nspect/troubleshooting/mobile",
@@ -229,7 +229,7 @@
             ]
           },
           {
-            "group": "Reference (new)",
+            "group": "Reference",
             "pages": [
               "1nspect/glossary",
               "1nspect/reference/release-notes"
@@ -271,7 +271,7 @@
         },
         {
           "anchor": "Contact Support",
-          "href": "mailto:support@1nspect.app",
+          "href": "mailto:support@mymavtech.com",
           "icon": "envelope"
         }
       ]
