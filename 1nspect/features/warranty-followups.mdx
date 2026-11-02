@@ -1,0 +1,76 @@
+---
+id: "warranty-followups"
+title: "11-month warranty follow-ups"
+description: "Automatically email clients a few months before their builder's one-year warranty expires, offering an 11-month warranty inspection. The marketing automation that keeps new-construction clients coming back."
+sidebarTitle: "Warranty follow-ups"
+keywords: ["11-month warranty", "warranty inspection", "warranty reminder", "follow-up email", "new construction", "builder warranty"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+For new-construction clients, the one-year builder's warranty is where repeat business lives. An 11-month warranty inspection catches defects before the warranty expires so the builder has to fix them. Clients value it. The firm that reminds them to book it is usually the firm that gets the job. This page is the playbook for setting up the automated warranty reminder.
+
+## The pattern
+
+Automate a follow-up email at specific intervals after the final new-construction inspection, offering the client an 11-month warranty inspection:
+
+| Timing | What it says |
+| --- | --- |
+| 3 months after inspection | "Three months in. Everything settling in?" (soft touch, build rapport) |
+| 8 months after inspection | "Your builder's warranty expires in a few months. Book your 11-month warranty inspection now." (the ask) |
+| 10 months after inspection | "Your warranty expires in a month. Last chance for 11-month warranty inspection." (last call) |
+
+Most firms run two of these three (3 and 8, or 8 and 10). Pick whatever fits your voice; do not do all three or clients will tune out.
+
+## Setting up a warranty follow-up workflow step
+
+For each timing you want:
+
+<Steps>
+<Step title="Create the email template">
+Business Ops › Communications › Email Templates. Add a new template with a warm subject and body. Reference the specific property using `$InspectionAddress`, offer the next step with your `$BookingLink`.
+</Step>
+<Step title="Add the workflow step">
+Business Ops › Communications › Workflow. Add a step with:
+
+- **Trigger**: Inspection Completed (the parent new-construction final inspection)
+- **Template**: your warranty-reminder template
+- **Recipient**: Primary client (and co-client if you want)
+- **Delay**: a positive number of days or months (e.g. 90 days for 3 months, 240 days for 8 months)
+- **Enabled**: on
+</Step>
+<Step title="Scope to new construction (recommended)">
+If your workflow engine supports it, scope the step to orders where the primary service is new-construction (not resale). Otherwise, every inspection triggers the warranty email, which is noise for resale clients.
+</Step>
+</Steps>
+
+## When the client books
+
+The 11-month warranty inspection is a separate order. Clients can:
+
+- Click the booking link in the email → book themselves via the public booking form
+- Call or email your office → you create the order in the Order Creation Wizard
+
+For the inspection itself, add 11-month warranty as a primary service in **Business Ops › Pricing › Primary Services**. Set its Inspection Type to **11-month warranty** so the AI's narrative framing adjusts (less about new-build quality concerns, more about settling and expiration-driven items).
+
+## Pricing the warranty inspection
+
+Most firms price the 11-month warranty inspection at a discount from a full inspection (it's often shorter in scope). Set the price on the primary service in Pricing Manager:
+
+- Flat Fee pricing is common for warranty inspections
+- Or SqFt-Based with a lower per-tier price than the standard resale inspection
+
+## Multi-phase order with warranty built in
+
+For firms that want to lock in the warranty inspection at the time of the original new-construction order, add the 11-month warranty as a phase of the multi-phase order (Pre-Pour → Pre-Drywall → Final → 11-month warranty). The client pays upfront, the warranty inspection is scheduled a year out, and the follow-up email can be a soft confirmation rather than a sales ask.
+
+## Related
+
+- [Communication templates](/1nspect/getting-started/communication-templates)
+- [Communication workflows](/1nspect/getting-started/communication-workflows)
+- [Primary services](/1nspect/getting-started/primary-services)
+- [Phase inspections](/1nspect/features/phase-inspections)
+- [Review-request best practices](/1nspect/features/review-requests-best-practices)
