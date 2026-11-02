@@ -1,70 +1,84 @@
 ---
 id: "start-here-review-requests"
 title: "Review requests"
-description: "Automatically ask clients for a review after the report is delivered. Set up your Google, Yelp or custom review links and build the review-request email."
+description: "Automatically ask clients for a review after you publish. Use the dedicated Review Request trigger with a 7-day offset; it fires on every publish, pay-first or not."
 sidebarTitle: "Review requests"
-keywords: ["review request", "google review", "yelp", "review link", "testimonial", "workflow"]
-persona: ["admin-operator"]
-surfaces: ["web"]
+keywords:
+  - "review request"
+  - "google review"
+  - "yelp"
+  - "review link"
+  - "trigger"
+  - "workflow"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
 category: "getting-started"
 status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-An email that asks the client for a review after the report is delivered is one of the highest-ROI touchpoints on the whole workflow. 1nspecT ships with the plumbing for it: set your review link once, use the review-link tag in your email template, and configure the workflow step to fire after delivery.
+Review requests are the high-ROI touchpoint most firms underuse. 1nspecT has the plumbing: set your Google or Yelp link, write the email, and wire up the dedicated Review Request trigger with a delay. One or two emails later, you have a measurable lift in reviews.
 
 ## Add your review links
 
-In the top bar, click **Business Ops**, then open **Company Info** (first tab). Set:
+In the top bar, click **Business Ops** › the **Company Info** tab. Set:
 
-- **Google review link** — the direct link to leave a Google review for your company
-- **Yelp review link** — the direct link for Yelp (if you want it)
+- **Google Review Link** — the direct link to leave a Google review for your company
+- **Yelp Review Link** — the direct link for Yelp (if you use it)
 
-Save Company Info.
-
-These links are available as dynamic tags in your email templates.
+Save Changes. These links are available as dynamic tags (`$GoogleReviewLink` and `$YelpLink`) in your email templates.
 
 ## Build the review-request template
 
-Open **Business Ops › Communications › Email Templates**. Add a new template (or edit the existing starter):
+Open **Business Ops › Communications › Email Templates**. Add a template:
 
-- A friendly subject line (for example, _"Thanks for choosing [Company name]"_)
-- A short body thanking the client for the inspection, asking for a review
-- Use **Insert Tag** to drop the review link into the body (the link renders as a clickable button or link in the email)
-- Preview to confirm your link renders correctly
+- A warm subject line (`Thanks for choosing [Company name]`)
+- A short body thanking the client and asking for a review
+- Use **Insert Variable** to drop the review link into the body
+- Preview on the branch and confirm the link renders as a working link
 
-Save the template.
+Save Template.
 
-## Add the workflow step
+## Wire up the workflow step
 
-Open **Business Ops › Communications › Workflow**. Add a step:
+Open **Business Ops › Communications › Workflow**. Add a step with:
 
-- **Trigger**: Report Delivered (after payment unlock)
+- **Trigger**: **Review Request**
 - **Template**: your review-request template
-- **Recipient**: Primary client (and co-client if you want)
-- **Delay**: a day or two after delivery (not immediately — give the client time to actually read the report)
+- **Recipients**: Primary Client (and Secondary Client if you want)
+- **Send Offset**: `+7d` (seven days after the Review Request trigger fires)
 - **Enabled**: on
 
 Save the step.
 
-<Tip>
-Delivery is a better trigger than publishing. If the report is published but still locked behind payment, the client has not actually read it yet, so a review request lands at the wrong moment.
-</Tip>
+<Warning>
+  Do not use the **Report Delivered** trigger for review requests. `report.delivered` fires only when a Stripe payment lands after publish, or when you tap the manual Deliver button. In the normal pay-first flow it never fires, so a review-request step bound to it would silently never send. Use the dedicated **Review Request** trigger: it fires on every publish, with your offset applied.
+</Warning>
+
+## When Review Request fires
+
+The dedicated **Review Request** trigger fires on every publish (paid or unpaid, delivered or not). It respects the Send Offset you set on the step, so your 7-day delay gives the client time to read the report before you ask.
 
 ## Test it
 
-Send a test order through the whole flow (booking → agreement → payment → publish → deliver). Confirm the review-request email arrives at the right moment with the right review link rendered as a working link.
+Run one test order end to end (booking → agreement → payment → publish). Wait for your offset to elapse (or temporarily set the offset to 0 for the test). Confirm the review-request email arrives, the review link opens the right platform, and the greeting fills in from the dynamic tags.
 
 ## When clients click the link
 
-The review link opens the review page on Google or Yelp directly. Clients leave the review on the platform where it lives. 1nspecT does not host or store the review itself.
+The review link opens the review page on Google or Yelp directly. The client leaves the review on the platform where it lives. 1nspecT does not host or store the review.
 
-## What to do next
+## What not to do
 
-- Stage 5: a full test run end-to-end before your first real client.
+- Do not use `report.delivered` as the trigger (see Warning above).
+- Do not offer anything in exchange for a review (coupon, discount) — violates Google and Yelp TOS plus FTC guidelines.
+- Do not review-gate ("if you had a great experience, click; otherwise email us") — also violates FTC guidelines.
 
 ## Related
 
+- [Review-request best practices](/1nspect/features/review-requests-best-practices)
 - [Communication templates](/1nspect/getting-started/communication-templates)
 - [Communication workflows](/1nspect/getting-started/communication-workflows)
 - [Company profile](/1nspect/getting-started/company-profile)
+- [Variable tags reference](/1nspect/getting-started/variable-tags-reference)

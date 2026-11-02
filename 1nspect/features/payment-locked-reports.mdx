@@ -1,61 +1,52 @@
 ---
 id: "payments-locked-reports"
 title: "Payment-locked reports"
-description: "Keep the client's report link locked until the invoice is paid. The agent link can be unlocked independently, or stay locked too, depending on your workflow."
+description: "Every published report is locked until the invoice is paid. Both the client and the agent links return a Payment Required page. There is no setting to disable this."
 sidebarTitle: "Payment-locked reports"
-keywords: ["payment-locked", "lock report", "payment required", "paid report"]
-persona: ["admin-operator"]
-surfaces: ["web"]
+keywords:
+  - "payment-locked"
+  - "payment required"
+  - "paid report"
+  - "unlock"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
 category: "features"
 status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Payment-locked reports mean the client's report link stays locked behind the payment page until the invoice is paid. The report is published, the client knows it's ready, but they cannot read it until the payment lands. On payment, the link unlocks automatically.
+Payment-locked reports are built into 1nspecT. Every published report where the inspection isn't marked paid returns a Payment Required page on **both** the client's link and the agent's link. There is no setting to enable or disable this; it's always on.
 
 ## What the client sees when locked
 
-When the client clicks the report link before paying, they land on the **Payment Required** page. The page shows the amount due and a Pay action that opens Stripe Checkout (if Stripe Connect is set up) or shows the manual payment handles. On successful payment, the client is redirected to the report viewer automatically.
+When the client clicks the report link before paying, they land on the **Payment Required** page. The page shows the property address and a **Go to Client Portal to Pay** button. It does not display the amount owed; the client sees the amount on the client portal, which is where payment is collected.
 
 ## What the agent sees when locked
 
-The agent view at `/report/[slug]/agent` carries its own locked state: **Report Locked Pending Payment**. The agent can either wait for the client to pay or forward the payment page to the client.
-
-## Enabling payment-locked reports
-
-The setting is at the company level, not per order. In the web admin, open **Business Ops › Company Info** (or Business Ops › Payments depending on how your account is configured) and find the payment-locking toggle. Enable it to lock every new report until paid.
-
-## Per-order override
-
-There is no per-order override today. If your account has payment-locking on, every report is locked until paid. If a specific client needs the report ahead of payment, mark the order paid manually (or process the payment first).
+The agent view at `/report/[slug]/agent` carries its own locked state. The agent sees the same block until the inspection is paid.
 
 ## What unlocks the report
 
-Any of these events unlocks the client report link:
+Only two events unlock the report, in both links at once:
 
-- A successful Stripe card payment (webhook from Stripe)
-- A manual **Mark as Paid** action in the web admin
-- An admin changing the order's payment status directly
+- A successful **Stripe payment**, confirmed by the Stripe webhook
+- A manual **Mark as Paid** action in the web admin that flips the inspection's `isPaid` to `true`
 
-Unlock happens within seconds of the payment event. The Report Delivered workflow trigger fires at the same time.
+Unlock happens within seconds of the payment event. Any workflow step bound to the `report.delivered` trigger fires at the same moment (so a delivery email can land right when the client regains access).
 
-## When to use it, when not
+## Which inspections are locked
 
-Use it when:
+Every inspection where `isPaid !== true`. There is no per-order override, no per-template setting, and no owner-only bypass. If the inspection is marked unpaid, the report is locked.
 
-- Your workflow is pay-at-delivery (standard for many firms)
-- Clients tend to pay only after they see the report
-- You want to collect before the client has what they need
+## For manually-paid orders
 
-Skip it when:
+If the client paid you by Venmo, Zelle, Cash App or an offline card entry, use **Mark as Paid** on Inspection Details to flip the inspection to paid. The report unlocks immediately.
 
-- You collect at agreement sign-time (so payment is already in before publishing)
-- Your workflow is bill-later (invoice sent, paid by check, don't want to inconvenience clients)
-- You have a specific client relationship that pays on terms
-
-## Legal and accessibility
-
-Payment-locking does not change your legal obligation to deliver the report. The published report is created and stored at the same time regardless of lock state; locking only controls the client's web access.
+<Warning>
+  Mark as Paid always sets the inspection to fully paid (`isPaid: true`). There is no partial-payment state in 1nspecT, so even recording a partial payment unlocks the report.
+</Warning>
 
 ## Related
 
