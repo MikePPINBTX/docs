@@ -15,15 +15,13 @@ For new-construction clients, the one-year builder's warranty is where repeat bu
 
 ## The pattern
 
-Automate a follow-up email at specific intervals after the final new-construction inspection, offering the client an 11-month warranty inspection:
+Automate one or more follow-up emails after the final new-construction inspection, offering the client an 11-month warranty inspection before the builder's warranty expires. Timing, cadence and wording are entirely up to you: pick what fits your voice and your market. Common approaches:
 
-| Timing | What it says |
-| --- | --- |
-| 3 months after inspection | "Three months in. Everything settling in?" (soft touch, build rapport) |
-| 8 months after inspection | "Your builder's warranty expires in a few months. Book your 11-month warranty inspection now." (the ask) |
-| 10 months after inspection | "Your warranty expires in a month. Last chance for 11-month warranty inspection." (last call) |
+- A single, well-timed reminder a few months before the warranty expires
+- A gentle check-in earlier (building rapport) followed by a clearer ask closer to the warranty expiry
+- A soft confirmation if the warranty inspection was already baked into the original new-construction order as a scheduled phase
 
-Most firms run two of these three (3 and 8, or 8 and 10). Pick whatever fits your voice; do not do all three or clients will tune out.
+Pick whatever cadence fits; nothing in 1nspecT is hard-coded.
 
 ## Setting up a warranty follow-up workflow step
 
@@ -39,7 +37,7 @@ Business Ops › Communications › Workflow. Add a step with:
 - **Trigger**: Inspection Completed (the parent new-construction final inspection)
 - **Template**: your warranty-reminder template
 - **Recipient**: Primary client (and co-client if you want)
-- **Delay**: a positive number of days or months (e.g. 90 days for 3 months, 240 days for 8 months)
+- **Delay**: however many days or months after the parent inspection you want the email to send
 - **Enabled**: on
 </Step>
 <Step title="Scope to new construction (recommended)">
