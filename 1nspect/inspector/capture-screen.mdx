@@ -50,19 +50,33 @@ For each finding (deficiency, observation, or system detail):
   </Step>
 </Steps>
 
-## The field tools
+## Media capture (top of screen)
 
-Across the top of the capture area:
+Above the section selector, the media area shows one of two states:
 
-| Tool | What it does |
-| --- | --- |
-| **Scan Label / Reading** | Reads a data plate, instrument, or a typed `field label: value` caption. Always confirms before applying. |
-| **Add to Existing Finding** | Opens a two-mode panel: 📷 Extra photo or 📍 Another location. Replaces the older Location Tag button. |
-| **AI Generate** | Writes the finding's narrative from your caption and field notes. Costs 2 AI credits. |
-| **Vision Scan** (toggle) | Modifier on AI Generate. When armed, the AI reads the photo and uses it; also runs the Co-Inspector pass for additional findings. Button label flips from `Vision Scan` to `Vision Armed` when on. Costs 8 AI credits per AI Generate call. |
-| **Add to Summary / In Summary** | Flags the finding into the report summary. Label flips from `Add to Summary` to `In Summary` when on. |
+- **Empty**: a camera icon with _"No media captured. Choose an option below to add media"_, and three options below it:
+  - **📷 Camera** — opens the native camera to take a photo
+  - **🎥 Video** — records a clip up to 60 seconds
+  - **📁 Files** — pick from your camera roll or files
+- **With media**: the captured photos and videos tile here. Tap any thumbnail to open it full-screen (and for photos, to run [Photo markup](/1nspect/inspector/photo-markup)).
 
-Just above the narrative field is a sixth control:
+## Fields counter
+
+For sections with system-info fields (equipment specs, locations, counts, computed values), a **📋 Fields · N of M** chip appears above the Caption. The chip shows how many required fields you've filled, with an orange badge showing how many remain. Tap to expand the fields and fill them in. Smart fields (computed, like temperature rise or equipment age) update live as you enter the inputs they depend on.
+
+## AI Tools (bottom of the capture area)
+
+Under the Caption, Narrative and Condition Rating, an **AI Tools** section carries the five main action buttons in this order (top to bottom):
+
+| Order | Tool | What it does |
+| --- | --- | --- |
+| 1 | **Vision Scan** (toggle) | Modifier on AI Generate. When armed, the AI reads the photo and uses it; also runs the Co-Inspector pass for additional findings. Button label flips from `Vision Scan` to `Vision Armed` when on. Costs 8 AI credits per AI Generate call. |
+| 2 | **AI Generate** | Writes the finding's narrative from your caption and field notes. Costs 2 AI credits (text-only) or 8 (with Vision Scan armed). |
+| 3 | **Scan Label / Reading** | Reads a data plate, instrument, or a typed `field label: value` caption. Always confirms before applying. 3 credits (photo) or 1 (text). |
+| 4 | **🔗 Add to Existing Finding** | Opens a two-mode panel: 📷 Extra photo or 📍 Another location. Replaces the older Location Tag button. |
+| 5 | **⚠️ Add to Summary / In Summary** | Flags the finding into the report summary. Label flips from `Add to Summary` to `In Summary` when on. |
+
+Above the Narrative field is a separate control:
 
 - **🔍 Smart Search** (toggle) — Opens a search bar for your narrative library. Label flips to `✕ Close Search` when open. 1 AI credit per search.
 
