@@ -1,0 +1,68 @@
+---
+id: "start-here-rates-taxes-fees"
+title: "Rates, taxes and processing fees"
+description: "Set your tax rate, payment processing rate and flat fee, and the inspection-duration formula on the Settings tab of Pricing Manager."
+sidebarTitle: "Rates & taxes"
+keywords: ["tax", "processing fee", "duration formula", "settings", "financial"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+The Settings tab of Pricing Manager carries the account-wide numbers every other price reads from: your sales tax rate, your payment-processing rate and flat fee, and the duration formula 1nspecT uses to block the right amount of time on each inspector's calendar.
+
+## Where to find it
+
+**Business Ops › Pricing**, then the **Settings** tab (sixth tab, labeled `settings` under the hood).
+
+## Financial Settings (Texas)
+
+The `Financial Settings` card has three fields:
+
+| Field | Notes |
+| --- | --- |
+| Tax Rate (%) | The sales tax rate applied to taxable services. Example: `8.25` for Texas. |
+| Processing Rate (%) | The percentage portion of your card-processing fee. Example: `2.9` for standard Stripe. |
+| Processing Flat Fee ($) | The per-transaction flat fee. Example: `0.30` for standard Stripe. |
+
+Together, Processing Rate and Flat Fee drive the **Pass-Through gross-up**, (fee + flat) ÷ (1 − rate), on ancillary services that have Pass-Through turned on. They also feed the estimated Stripe fees in the Monthly Reconciliation report. Note that the invoice PDF carries no tax line.
+
+## Duration Settings
+
+1nspecT uses a linear formula to work out how long each inspection takes on-site, which drives booking-slot length and calendar blocking. The formula:
+
+```text
+duration = base_duration + (sqft − base_sqft) × slope / 1000
+```
+
+Result is rounded up to the nearest 30 minutes, with a 60-minute absolute floor.
+
+| Field | What it is | Example |
+| --- | --- | --- |
+| Base Duration (min) | How long the inspection takes at the base sqft | `150` (two and a half hours) |
+| Base Sq Ft (anchor) | The sqft at which the Base Duration applies | `1500` |
+| Slope (min per 1000 sqft) | Extra minutes added per 1,000 sqft above the base | `60` |
+| Absolute Floor (min) | The minimum any booking slot can be | `60` |
+
+These numbers apply to every primary service by default. Each service in the registry can override any of them under its own Duration section.
+
+## Schedule Metadata
+
+`Version` and `Effective Date` label the pricing snapshot you are editing. Bump these when you make a material pricing change; past orders retain the schedule they were booked under.
+
+## Save
+
+**Save Fees & Surcharges** at the top right or the bottom of the page commits Settings changes along with changes on the Ancillary, Packages, Discounts and Surcharges tabs.
+
+## What to do next
+
+- Review your pricing end to end: run a test order through the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) to confirm the numbers add up.
+- [Detached structures](/1nspect/getting-started/detached-structures) if you charge for them.
+
+## Related
+
+- [Pricing Manager overview](/1nspect/getting-started/pricing-manager-overview)
+- [Primary services](/1nspect/getting-started/primary-services)
+- [Packages, discounts and surcharges](/1nspect/getting-started/packages-discounts-surcharges)

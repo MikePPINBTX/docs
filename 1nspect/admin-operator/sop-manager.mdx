@@ -1,0 +1,74 @@
+---
+id: "admin-sop-manager"
+title: "SoP Manager"
+description: "Browse Standards of Practice shipped with the platform, view their rating scales, and clone one to customize ratings for your account."
+sidebarTitle: "SoP Manager"
+keywords:
+  - "sop manager"
+  - "standards of practice"
+  - "rating scale"
+  - "clone to customize"
+  - "view ratings"
+  - "edit ratings"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "admin-operator"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+SoP Manager is the admin page for viewing and managing Standards of Practice. Browse the four platform SoPs 1nspecT ships, see their rating scales via **View Ratings**, and (on paid plans) clone any of them to customize ratings for your own templates.
+
+## Where to find it
+
+**SoP Manager** top-nav item (fourth from the left). URL: `/sop-manager`. Page header: `Standards of Practice`.
+
+## The SoP list
+
+Platform SoPs + any custom clones you've created appear as cards. Each card shows:
+
+- SoP name (`Texas TREC REI 7-6`, `InterNACHI`, `Phase 1 Pre-Pour Foundation`, `Phase 2 Pre-Drywall`)
+- SoP identifier (`SoP: trec_7_6`, `SoP: internachi_2024`, `SoP: phase_1_pre_pour`, `SoP: phase_2_pre_drywall`)
+- Version
+- Primary ratings lock indicator (primary ratings are locked on TREC and InterNACHI; Phase SoPs are not locked)
+- On clones, the line `Narrative rules inherited live from [base SoP name]`: the clone follows its base SoP's narrative rules automatically as they change
+
+## Per-card actions
+
+| Action | What it does |
+| --- | --- |
+| **View Ratings** | Opens the Rating Scale Viewer with the SoP's ratings (read-only). |
+| **Edit Ratings** | Opens the ratings for editing on a clone. Primary ratings stay locked on TREC and InterNACHI clones (inherited live, and the backend rejects edits); only the reinspection set is editable. Phase SoPs are not locked. |
+| **Clone to Customize** | Opens a dialog titled `Clone "[Original Name]"`. Default clone name appends `(Custom)` to the original. Click **Clone** to create your custom SoP. Professional and Team plans only. |
+| **Delete** | Deletes a custom (tenant) SoP. Platform SoPs cannot be deleted. |
+
+## Plan gating
+
+Custom SoPs per plan: **Solo 0, Professional 1, Team 3**. There is no free tier. If your plan doesn't include SoP customization, the page shows a note at the top: _"You can view and use every standard we provide."_ View Ratings and template binding still work; Clone to Customize is disabled.
+
+## Platform vs. tenant SoPs
+
+- **Platform SoPs** — the four shipped standards. Reinspection ratings are editable only in a clone.
+- **Tenant SoPs** — your clones. Narrative rules are inherited live from the base. On TREC and InterNACHI clones the primary ratings stay locked; the reinspection ratings are editable.
+
+## After cloning
+
+To use a custom SoP:
+
+1. Open the clone from the Standards of Practice list
+2. Click **Edit Ratings** and change the editable rating set (the reinspection ratings on TREC and InterNACHI clones)
+3. Save
+4. Open your template in the Universal Template Builder
+5. Set the template's SoP to the custom clone
+6. Future inspections against that template follow the custom ratings
+
+## Related
+
+- [Standards of Practice overview](/1nspect/features/standards-overview)
+- [TREC](/1nspect/features/trec-sop-compliance)
+- [InterNACHI](/1nspect/features/internachi)
+- [Phase inspections](/1nspect/features/phase-inspections)
+- [Reinspection rating scales](/1nspect/features/reinspection-rating-scales)
+- [Choose your Standard of Practice](/1nspect/getting-started/choose-your-sop)

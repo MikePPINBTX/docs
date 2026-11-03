@@ -1,0 +1,91 @@
+---
+id: "phase-inspections-sop"
+title: "Phase 1 Pre-Pour and Phase 2 Pre-Drywall"
+description: "The two new-construction phase inspection SoPs 1nspecT ships. Pre-Pour inspects the foundation before the slab is poured. Pre-Drywall inspects framing and rough-in before drywall goes up."
+sidebarTitle: "Phase inspections"
+keywords: ["phase inspection", "pre-pour", "pre-drywall", "new construction", "phase 1", "phase 2"]
+persona: ["admin-operator", "inspector"]
+surfaces: ["web", "mobile"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+1nspecT ships two phase-inspection SoPs for new-construction work: **Phase 1 Pre-Pour** (foundation before the slab is poured) and **Phase 2 Pre-Drywall** (framing and rough-in before drywall goes up). Each has its own template, its own rating scale and its own AI narrative framing. Together they cover the two phases most new-build inspectors are hired for.
+
+## Phase 1 Pre-Pour
+
+### The SoP ID
+
+Pre-Pour in the code is `phase_1_pre_pour`. The seeded template is named `{slug} Phase 1 Pre-Pour`, where the prefix is your company slug.
+
+### What it covers
+
+Foundation elements that will be concealed by the slab:
+
+- Formwork (dimensions, alignment, bracing)
+- Reinforcing steel (grade, placement, spacing, cover)
+- Post-tension cables (if applicable)
+- Plumbing rough-in (water, drain, waste, vent)
+- Electrical rough-in (conduit, grounding)
+- Vapor barrier, insulation
+- Pre-pour conditions (weather, temperature, moisture)
+
+### Pricing basis
+
+Pre-Pour services are priced on the **foundation footprint**, not the home's living area. Set the pricing basis on the primary service in Pricing Manager (**Business Ops › Pricing › Primary Services** → the Pre-Pour service → Pricing / duration basis = `Foundation footprint`). See [Primary services](/1nspect/getting-started/primary-services).
+
+### AI narrative framing
+
+The AI uses pre-construction scope language: references to drawings and plans, soils reports, and the project superintendent. Causation language stays hedged because the slab is in-progress, not finished.
+
+## Phase 2 Pre-Drywall
+
+### The SoP ID
+
+Pre-Drywall in the code is `phase_2_pre_drywall`. The seeded template is named `{slug} Phase 2 Pre-Drywall`, where the prefix is your company slug.
+
+### What it covers
+
+Framing and systems that will be concealed by drywall:
+
+- Framing (floor, wall, roof, headers)
+- Fasteners (shear-wall nailing, hangers, hold-downs)
+- Sheathing (type, nailing pattern, flashing)
+- Rough-in plumbing (venting, slopes, connections)
+- Rough-in electrical (box fill, circuit routing, grounding)
+- Rough-in HVAC (duct routing, sealing, insulation)
+- Insulation (where applicable at this stage)
+- Window and door installations
+
+### Pricing basis
+
+Pre-Drywall on a multi-unit building is priced on the **building total** (all units added together). Pricing Manager handles this: set the pricing basis to `Building total (all units)` on the Pre-Drywall service.
+
+### AI narrative framing
+
+The AI uses in-progress language: things that are correctly in place, things that need correction before drywall, reservations about systems that cannot be fully evaluated at this stage.
+
+## Rating scales
+
+Both phase SoPs use rating scales appropriate to in-progress construction (not the TREC resale I / NI / NP / D scale). Open each SoP in **SoP Manager** and click **View Ratings** to see the exact scales shipped. Phase SoPs are not locked.
+
+## Reinspection
+
+Phase inspections can carry reinspections like any other inspection. The reinspection rating scale for a Pre-Pour or Pre-Drywall reinspection is set on the phase SoP itself. See [Reinspection rating scales](/1nspect/features/reinspection-rating-scales).
+
+## 11-month warranty inspection
+
+The 11-month warranty inspection (performed before the builder's one-year warranty expires) is not a dedicated phase SoP in 1nspecT today. Set it up as a primary service in Pricing Manager that uses either your TREC or InterNACHI template with the Inspection Type set to **11-month warranty**. The AI adjusts narrative framing automatically.
+
+## Multi-phase orders
+
+One order can carry Pre-Pour, Pre-Drywall, Final and 11-month warranty as separate phases. (The **Bundle Agreement Group** field on primary services is saved but never read, so it does not bundle agreements today.) See [Primary services](/1nspect/getting-started/primary-services) and [The order lifecycle](/1nspect/workflows/booking-to-published-report).
+
+## Related
+
+- [Standards of Practice overview](/1nspect/features/standards-overview)
+- [TREC](/1nspect/features/trec-sop-compliance)
+- [InterNACHI](/1nspect/features/internachi)
+- [Reinspection rating scales](/1nspect/features/reinspection-rating-scales)
+- [Primary services](/1nspect/getting-started/primary-services)

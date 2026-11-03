@@ -1,168 +1,152 @@
 ---
-id: features-it-tokens
-title: IT Tokens — The AI Currency
-persona: [admin-operator, inspector]
-surfaces: [web, mobile]
-category: features
-related: [features-ai-features, admin-operator-company-and-pricing-company-settings, inspector-settings-and-tokens]
-status: stable
-last_verified_against_code: 2026-05-08
+id: "features-ai-credits"
+title: "AI Credits"
+description: "The currency 1nspecT uses to meter AI work. See what each capability costs, which capabilities are free, your plan's allowance, and how to top up."
+sidebarTitle: "AI Credits"
+keywords:
+  - "AI Credits"
+  - "tokens"
+  - "AI"
+  - "pricing"
+  - "allowance"
+  - "billing"
+persona:
+  - "admin-operator"
+  - "inspector"
+surfaces:
+  - "web"
+  - "mobile"
+category: "features"
+related:
+  - "features-ai-features"
+  - "admin-operator-company-and-pricing-company-settings"
+  - "inspector-settings-and-tokens"
+status: "stable"
+last_verified_against_code: "2026-11-02"
 ---
 
-# IT Tokens — The AI Currency
+AI Credits are the currency 1nspecT uses to meter paid AI work. Each plan includes a monthly allowance; buy more any time. A handful of mobile capabilities are completely free. This page is the authoritative cost reference.
 
-**IT (Inspection Tokens)** are the metered currency for every AI operation on 1nspecT. Every AI call — narrative generation, vision analysis, schema extraction, polish, SPO synthesis — deducts IT from your tenant's balance. When the balance hits zero, AI calls are blocked until you top up; non-AI operations keep working.
+<Note>
+  AI Credits were previously called 1nspecTokens or IT. The product is standardizing on "AI credits" everywhere. The Billing page uses the new name; a few UI corners still show the older "IT" label during the transition.
+</Note>
 
-This article is the canonical reference: what costs what, where the balance lives, how to top up, and how to economize.
+## Where you see your balance
 
----
+**Web admin:** Sign in as an owner or admin and open **Settings › Billing** (route `/settings/billing`). Under the Usage card, the AI credits section shows your remaining allowance for the period plus any purchased credits (which never expire).
 
-## Why a metered currency?
+**Mobile:** Inspectors see credit information only when a call is blocked for insufficient credits. The alert links to the web Billing page.
 
-AI operations call cloud LLMs (Google Gemini, Vertex AI) that cost real money per request. The IT token system means:
+The balance is shared across your whole company.
 
-- **You pay only for what you use** — no flat AI subscription baked into the platform price
-- **You can plan AI spend** — a typical inspection uses 30–80 IT depending on Vision usage
-- **High-cost operations are gated** — Vision (8 IT) and Voice DNA (50 IT) pre-flight-check the balance
-- **Free operations stay free** — FREE Library chips, repair-request generation, and several utilities cost 0 IT
+## What each AI capability costs
 
-The bucket is **tenant-wide**, not per-user. All inspectors share the balance.
+### Mobile capabilities (field)
 
----
+| Capability | What it does | Cost |
+| --- | --- | --- |
+| AI Generate | Writes a finding's narrative from your caption and field notes | 6 credits |
+| Vision Scan (modifier on AI Generate) | Writes the narrative from the photo and runs the Co-Inspector pass | 10 credits |
+| Scan Label / Reading (photo) | Reads data from a plate, instrument or screenshot photo | 4 credits |
+| Scan Label / Reading (typed `label: value`) | Parses the caption on the phone | **Free** |
+| Smart Search | Offline keyword search of your cached library | **Free** |
+| Save to Narrative Library | Save a narrative back to your library for reuse | **Free** |
+| Finish & Draft Report (batch) | Drafts every blank narrative in the report on the server | 50 credits per report |
+| Property Baseline | Property age, size, site conditions pulled from the address | **Free** |
 
-## Where the balance lives
+### Web capabilities (office)
 
-The IT balance is visible only on the **web admin** — there is intentionally no balance display on the mobile app. To check:
+| Capability | What it does | Cost |
+| --- | --- | --- |
+| AI Draft (whole report, in Report Workspace) | Drafts every eligible blank narrative in one pass | 50 credits per report |
+| AI Draft (single finding) | Drafts one narrative in the Report Workspace | Included in the batch pass; counted toward the 50 |
+| Polish Narrative | Rewrites one narrative for tone and clarity | 2 credits |
+| Polish Report | Whole-report polish pass | 10 credits per report |
+| Spell check | Fixes spelling and dictation stutters across the report | 5 credits per report |
+| System Performance Opinion | Section-level AI opinion | 10 credits |
+| Vision Analysis | Narrative from a photo in the Report Workspace | 10 credits |
+| Label and nameplate reading | Fills equipment fields from a plate photo or screenshot | 4 credits |
+| Save to Library (web, Clean & Save) | De-identifies the narrative before saving | 1 credit |
+| Semantic library search (web) | Semantic search across your narrative library | 1 credit |
+| Schema extraction from a PDF form | Reads a PDF form into a template schema | **Free** |
+| VoiceDNA extraction | Learns your writing voice from sample reports | 50 credits per extraction |
+| Business Insights (iBOSS / AI Insights panel) | Dashboard commentary | **Free** |
+| Repair Request narratives | Rewrites deficiencies in contractor-ready voice | **Free** |
 
-1. Sign in to the web admin as Owner
-2. Navigate to **Settings → Subscription & Tokens**
-3. The current balance and recent usage history appear
+<Tip>
+  Costs above are current rates. If anything changes, your Billing page is authoritative.
+</Tip>
 
-Mobile inspectors see token data only via the **Insufficient IT Tokens** error when a call is blocked.
+## Your plan's monthly allowance
 
----
+Each plan includes a monthly allowance of credits. Plan credits reset at the start of each period; purchased credits never expire.
 
-## Complete operation cost reference
-
-The authoritative table.
-
-### Inspector-facing operations (mobile)
-
-| Operation | Codename | Cost | Where |
-|-----------|----------|------|-------|
-| AI Generate (text-only) | `generate-narrative` | **2 IT** | Capture Screen → ✦ AI Generate (Vision OFF) |
-| Vision Analysis | `vision-analyze` | **8 IT** | Capture Screen → ✦ AI Generate (Vision ON) |
-| Library Search 🪄 | `semantic-search` | **1 IT** | Capture Screen → 🪄 button |
-| FREE Library chips | _(local)_ | **0 IT** | Capture Screen — automatic on caption typing |
-| Save to Narrative Library | `provision-library-entry` | **1 IT** | Capture Screen → Save to Library |
-| System Info Tag (photo) | `extract-metadata-photo` | **3 IT** | Capture Screen → ℹ️ Sys Info (with label) |
-| System Info Tag (text) | `extract-metadata-text` | **1 IT** | Capture Screen → ℹ️ Sys Info (text-only) |
-
-### Admin-facing operations (web)
-
-| Operation | Codename | Cost | Where |
-|-----------|----------|------|-------|
-| AI Draft (per finding) | `generate-narrative` | **2 IT** | Report Workspace → AI Draft tab |
-| Polish Narrative | `polish-narrative` | **2 IT** | Inspection Reviewer → narrative editor → Polish |
-| Polish Report | `polish-report` | **10 IT** | Inspection Reviewer → Polish Report action |
-| System Performance Opinion | `generate-spo` | **10 IT** | Ratings Screen / Reviewer → SPO card |
-| Bundle Findings | `bundle-findings` | **2 IT** | Reviewer — automatic at finding consolidation |
-| Voice DNA — extract persona | `extract-persona` | **50 IT** | Onboarding — one-time per inspector |
-| Schema extraction (OCR) | `extract-structured-ocr` | **3 IT** | Templates → PDF upload → AI extract |
-
-### Free operations (0 IT)
-
-| Operation | Codename |
-|-----------|----------|
-| Repair Request generation | `repair-request` |
-| Property Baseline | `property-baseline` |
-| PDF schema extraction (no OCR) | `extract-pdf-schema` |
-| Structured text extraction | `extract-structured-text` |
-
----
+| Plan | Monthly allowance |
+| --- | --- |
+| Solo | 1,500 credits |
+| Professional | 3,000 credits |
+| Team | 3,000 credits per seat, pooled across the team |
 
 ## Typical inspection cost
 
-| Activity | Per-instance | Typical count | Total IT |
-|---|---|---|---|
-| Photos + ratings (no AI) | 0 | 30–80 findings | 0 |
-| FREE Library chip selections | 0 | 15–30 selections | 0 |
-| AI Generate (text-only) | 2 | 5–15 findings | 10–30 |
-| Vision Analysis | 8 | 0–5 findings (selective) | 0–40 |
-| Save to Library | 1 | 2–5 saves | 2–5 |
-| Sys Info on equipment | 3 | 2–4 labels | 6–12 |
-| Operator: AI Draft | 2 | 2–8 findings | 4–16 |
-| Operator: SPO per system | 10 | 5 systems | 50 |
-| **Total typical** | | | **80–155 IT** |
+A standard inspection with moderate AI use draws roughly **95 credits**. Light-AI inspections (mostly library reuse, Smart Search which is free, text-only AI Generate on a few findings) run under 50. Heavy-AI inspections (Vision Scan on nearly every finding, every system opinion) run higher.
 
-A heavy-AI inspection (Vision everywhere) can run 200–300 IT. A light-AI inspection (mostly FREE chips) can run under 50 IT.
+## Buying more credits
 
----
+If you run through your allowance, top up without changing plans.
 
-## How balance updates work
+<Steps>
+  <Step title="Open the Billing page">
+    Settings › Billing (owners and admins only).
+  </Step>
+  <Step title="Find the AI credits card">
+    Under Usage, the AI credits section shows the remaining plan allowance for the period and any purchased credits (which never expire).
+  </Step>
+  <Step title="Buy a credit pack">
+    The top-up button is labeled **Buy 1,000 AI credits · \$19**.
+  </Step>
+  <Step title="Pay through Stripe">
+    Credits appear in your balance within seconds.
+  </Step>
+</Steps>
 
-- **Pre-flight check (Vision):** before sending the photo to the model, the backend verifies balance ≥ 8 IT
-- **Deduct on success:** most operations deduct **after** a successful AI call. Failed calls don't deduct.
-- **Atomic:** the deduction is part of the same Firestore transaction as the result
-- **Fire-and-forget for fast operations:** some 1-IT operations deduct asynchronously to avoid latency
+On the Solo plan, the same Usage card also offers **Buy 10 inspections · \$49 (valid 120 days)** when you approach the monthly inspection cap. Professional and Team plans do not need inspection packs.
 
----
+## How deduction works
 
-## Topping up
+- **Pre-flight check:** before a paid call runs, the backend verifies your balance is greater than zero.
+- **Charged on success:** paid capabilities deduct after a successful call. Failed calls do not deduct.
+- **Mobile free operations:** Smart Search, typed `label: value` reads and Save to Narrative Library do not deduct any credits.
 
-1. Owner signs into web admin
-2. **Settings → Subscription & Tokens**
-3. **Purchase Top-Up** — choose a pack size
-4. **Stripe checkout** — pay with the platform's payment processor
-5. **Balance updates within seconds**
+## When your balance is low
 
-Pack sizes typically range from small (~500 IT) to bulk (~25,000 IT). Larger packs have a lower per-IT cost.
+Running low does not stop your inspection or your reports. AI is an accelerator, not a dependency.
 
----
+| What you try | What happens |
+| --- | --- |
+| Vision Scan or AI Generate | Blocked with the "Not enough AI credits" alert; the alert links to the web Billing page |
+| Scan Label / Reading (photo) | Blocked; type the values into the fields directly, which is free |
+| Smart Search | Not affected (free) |
+| Typing a `label: value` reading | Not affected (free) |
+| Publishing the report | Not affected; publishing never calls the AI |
+| Taking photos, rating areas, editing | Not affected |
 
-## Subscription vs top-ups
+## Making credits last
 
-| Mode | How it works | When |
-|---|---|---|
-| **Subscription bundle** | Your monthly subscription includes a baseline IT allotment | High-volume tenants (50+ inspections/month) |
-| **Top-up packs** | Bought ad-hoc | Low-volume or seasonal tenants |
+- **Build your narrative library.** Mobile Smart Search is free, so a strong library covers most repeat findings at zero cost.
+- **Type `label: value` captions** instead of photographing the plate when you can read the value yourself. Typed reads are free; photo reads are 4 credits.
+- **Save Vision Scan for findings where the photo tells the story.** For routine deficiencies, text-only AI Generate at 6 credits is enough.
+- **Use Finish & Draft on the drive back.** One 50-credit batch call is often cheaper than running AI Generate on dozens of findings in the field.
+- **Polish the whole report once, not twice.**
 
-Most tenants run both. Unused subscription IT typically doesn't roll over — review your plan terms.
+## Where to see usage
 
----
+- **Billing page** (Settings › Billing): your current plan, inspection usage this period, remaining AI credits, and seats.
+- **Reports** (top-nav Reports item): the Inspector Productivity report shows per-inspector numbers (count, revenue, on-site time, publish lag).
 
-## Economy tips
+## Related
 
-- **Build the narrative library.** Every saved narrative becomes a future FREE chip. After 3–6 months of library investment, FREE chips cover 60–80% of common findings.
-- **Use Vision selectively.** Save it for findings where the photo really tells the story.
-- **Polish only once.** Each Polish Narrative call costs 2 IT — don't run repeatedly.
-- **SPO generation late.** Wait until all findings are in before generating SPOs.
-- **Sys Info only when age matters.** For obviously-new equipment, skip the AI call.
-
----
-
-## When balance is exhausted
-
-| Operation tried | What happens |
-|---|---|
-| Vision Analysis | Blocked with the *"Insufficient IT Tokens"* alert |
-| AI Generate | Falls back to a **template CAR narrative** (free) |
-| Library Search | Error toast; FREE chips continue working |
-| Sys Info | Error toast; informational fields can be filled manually |
-
-The **inspection itself never blocks** on IT. AI is pure accelerator; the platform fully functions without it.
-
----
-
-## Audit trail
-
-Every IT deduction is logged on `aiUsage` for the inspection. Review per-inspection AI spend in [Inspection Details → History](/1nspect/admin-operator/inspection-details). Cross-inspection AI spend lives in [Reports → Inspector Productivity](/1nspect/admin-operator/reports-and-publishing).
-
----
-
-## Related articles
-
-- [AI Features Guide](/1nspect/features/ai-features) — operations in detail
-- [Mobile Settings & Tokens](/1nspect/inspector/settings-and-tokens) — mobile view
-- [Company Settings](/1nspect/admin-operator/company-and-pricing/company-settings) — Subscription & Tokens lives here
-- [AI During Capture](/1nspect/inspector/ai-during-capture) — per-operation mechanics
+- [AI features](/1nspect/features/ai-features)
+- [Config and AI Credits](/1nspect/inspector/settings-and-tokens) (the mobile view)
+- [AI During Capture](/1nspect/inspector/ai-during-capture)
+- [Billing and credits troubleshooting](/1nspect/troubleshooting/billing-and-credits)

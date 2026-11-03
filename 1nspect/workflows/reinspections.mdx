@@ -1,0 +1,85 @@
+---
+id: "daily-ops-reinspections"
+title: "Reinspections"
+description: "Create a reinspection from a completed inspection: pick a scope, refine the exact findings to re-check, price and schedule as its own phase on the same order."
+sidebarTitle: "Reinspections"
+keywords: ["reinspection", "repair checklist", "re-inspection", "follow-up", "carried over", "scope"]
+persona: ["admin-operator", "inspector"]
+surfaces: ["web", "mobile"]
+category: "workflows"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+A reinspection confirms whether called-out repairs have been completed. In 1nspecT a reinspection is a new phase added to the parent order, linked to the original inspection, that inherits the parent's template and system info and seeds a repair checklist from the findings. It is priced and scheduled on its own. The parent's signed contract is not voided.
+
+## Where to create one
+
+Open the parent inspection: **Inspections** top nav › the completed order › the Overview tab. Click **Create Reinspection**.
+
+The dialog is titled **Create Reinspection — [inspection number]** and opens with an inline note explaining what will happen.
+
+## Scope presets
+
+The **Start from** field pre-seeds the checklist with one of three sets. Pick the one that matches what you agreed to re-check:
+
+| Preset | What it seeds |
+| --- | --- |
+| Report summary — flagged items | Every finding on the parent inspection that was flagged into the report summary |
+| Requested repairs — from repair request | Every finding the client (or buyer's agent) selected in the latest repair request |
+| Entire report — all findings | Every reportable finding on the parent inspection |
+
+The number in parentheses tells you how many items each preset includes.
+
+## Refine the checklist
+
+Under **Findings to reinspect**, every documented finding on the parent inspection is listed with its rating chip (D for deficiency), its caption, and the section and area it came from. The scope preset you picked pre-checks a starting set. Check or uncheck items individually to get to exactly what you want re-checked.
+
+Two quick actions above the list:
+
+- **Select all** — checks every finding
+- **Clear** — unchecks everything
+
+A chip at the bottom shows the live selection count. The dialog will not let you create a reinspection with zero items selected.
+
+## Pricing and payer
+
+The reinspection fee starts from your service pricing (the Reinspection pricing model on the primary service in Pricing Manager). The fee is **editable** in the dialog before you create the reinspection. A **Payer** option lets you choose who is billed: **Client**, **Realtor** or **Complimentary**.
+
+See [Primary services](/1nspect/getting-started/primary-services) for setup.
+
+## Scheduling
+
+Schedule the reinspection like any other inspection: date, time, inspector. Google Calendar availability applies.
+
+## Agreement
+
+The original signed agreement is not voided. The **Require a signed reinspection agreement** checkbox defaults **on**; leave it checked to send a separate reinspection agreement to the client, or uncheck it to skip.
+
+## Mobile capture
+
+On the mobile app, a reinspection shows up as its own Assigned Inspection with the parent inspection's template and system info already loaded. The capture flow is tuned to the task:
+
+- The repair checklist shows one card per repair item, with the original photo and narrative visible (also available offline).
+- Each item has its own rating: **Repairs Complete**, **Not Complete**, or **New Deficiency**, with an after photo.
+- You can also add new findings in full capture mode, if something new comes up.
+- A completeness check confirms every item has been rated before you finish.
+
+## AIPI for reinspections
+
+If the narrative collection the parent inspection used has a reinspection-specific AIPI set up, the reinspection report prints that AIPI in place of the standard one. Use the reinspection AIPI for scope limitations specific to the reinspection (one-visit scope, no new findings scope, follow-up fee structure). See [AIPI](/1nspect/getting-started/aipi).
+
+## Report
+
+The reinspection report shows before-and-after photos side by side for each repair item, the rating transition (D → Complete, D → Not Complete, D → New Deficiency), and any new findings captured during the reinspection.
+
+## Saved drafts
+
+Drafts save only when you click **Save draft**; closing the dialog without it does not save anything. The next time you open the dialog on the same inspection, you'll see a restore notice listing how many items are in the saved draft. Changing the Start-from preset replaces the saved draft with the new preset's starting set.
+
+## Related
+
+- [The order lifecycle](/1nspect/workflows/booking-to-published-report)
+- [Primary services](/1nspect/getting-started/primary-services) (reinspection pricing options)
+- [AIPI](/1nspect/getting-started/aipi)
+- [Managing orders](/1nspect/workflows/managing-orders)

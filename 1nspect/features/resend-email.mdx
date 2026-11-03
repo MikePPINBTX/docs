@@ -1,0 +1,79 @@
+---
+id: "integrations-resend-email"
+title: "Resend email"
+description: "Every automated and transactional email 1nspecT sends on your behalf goes through Resend, with your branding. Always on, nothing to set up. Delivery status is tracked per recipient."
+sidebarTitle: "Resend email"
+keywords:
+  - "resend"
+  - "email"
+  - "transactional email"
+  - "deliverability"
+  - "spam"
+  - "from address"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Every automated email 1nspecT sends (booking confirmation, agreement sent, payment receipt, report delivered, review request, warranty follow-up) goes through Resend, a transactional email service. Emails come from a 1nspecT-managed sender address but carry your company's branding (logo, name, colors). Workflow emails have **no reply-to**, so replies do not land in your inbox. Always on, nothing for subscribers to configure.
+
+## What goes through Resend
+
+- Workflow emails (every trigger in **Business Ops › Communications › Workflow**)
+- Agreement emails (sent via Business Ops › Contracts)
+- Agent magic-link emails (Realtor Portal sign-in links)
+- Client portal link emails
+- Report delivery emails
+- Review request emails
+- Warranty follow-up emails
+
+## What doesn't go through Resend
+
+- SMS messages (not supported today)
+- Push notifications (not supported today)
+- Haven emails to clients (Haven sends those directly from Haven)
+
+## Who the emails are from
+
+- **From**: a 1nspecT-managed sender address that passes SPF, DKIM and DMARC verification. The display name shows your company name (from Company Info) so clients see the email as coming from you.
+- **Reply-to**: workflow emails have no reply-to, so a client replying does not reach your inbox automatically. Put a phone number or contact email in the template body.
+- **Content**: your branding (logo, colors, company name) with any template you configured in Email Templates.
+
+## Deliverability
+
+1nspecT works with Resend to maintain strong sender reputation, so your emails reach client inboxes rather than spam. In practice, almost every subscriber sees ~95%+ inbox placement, with the usual exceptions:
+
+- Some corporate email systems quarantine any transactional email from an unfamiliar sender
+- Gmail Promotions tab catches some branded transactional emails (clients can mark as Important to pull into the inbox)
+- A client who marked a past 1nspecT email as spam will have future emails from your account go to spam too, until they correct it
+
+## Custom-from domains (not yet)
+
+Sending from your own domain (`info@yourcompany.com`) rather than the 1nspecT-managed sender is not available today. If this is critical for your firm, let your onboarding specialist know; it is on the roadmap.
+
+## Delivery tracking
+
+1nspecT records a delivery status for **each recipient** of each email. When an email bounces or fails to deliver:
+
+- The **Communications** tab on the child inspection shows the per-recipient delivery status.
+- A **bounce banner** appears at the top of Inspection Details.
+- A **bounce notice email** is sent to you.
+- The Dashboard shows an **"emails didn't arrive"** alert linking to the affected inspection.
+
+## When an email didn't arrive
+
+- Check the Communications tab on the inspection for the recipient's delivery status; a bounce usually means a mistyped address, so correct it on Client & Realtor Info
+- Check spam and promotions folders
+- Check the Activity Log to confirm the workflow step ran (it shows workflow and email events, the 200 most recent; if it never shows, the trigger didn't fire — see [First-run gotchas](/1nspect/getting-started/first-run-gotchas))
+- To send again, use **Fire Workflow Trigger** or **Send/Resend Contract Bundle** on the Communications tab. There is no per-email Resend button.
+
+## Related
+
+- [Communication templates](/1nspect/getting-started/communication-templates)
+- [Communication workflows](/1nspect/getting-started/communication-workflows)
+- [Variable tags reference](/1nspect/getting-started/variable-tags-reference)
+- [Activity Log](/1nspect/features/activity-log)

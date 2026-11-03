@@ -1,227 +1,79 @@
 ---
-id: troubleshooting-sync-and-offline
-title: Sync & Offline Issues
-persona: [inspector, admin-operator]
-surfaces: [mobile, web]
-category: troubleshooting
-related: [troubleshooting-common-issues, troubleshooting-mobile, inspector-offline-and-sync]
-status: stable
-last_verified_against_code: 2026-05-08
+id: "troubleshooting-sync-offline"
+title: "Sync and offline issues"
+description: "What should work offline, what should queue and finish on reconnect, what needs a live connection, and how to recover from a stuck sync."
+sidebarTitle: "Sync & offline"
+keywords:
+  - "sync"
+  - "offline"
+  - "stuck sync"
+  - "queue"
+  - "upload fail"
+  - "cellular"
+persona:
+  - "inspector"
+surfaces:
+  - "mobile"
+category: "troubleshooting"
+status: "stable"
+last_verified_against_code: "2026-11-02"
 ---
 
-# Sync & Offline Issues
+What's offline-capable, what queues until you reconnect, and the recovery paths for a sync that's stuck.
 
-Anything related to data not syncing between mobile and web admin. For the conceptual overview of how sync works, see [Offline & Sync](/1nspect/inspector/offline-and-sync).
+## Expected offline behavior
 
----
+For the authoritative behavior reference, see [Offline and sync](/1nspect/inspector/offline-and-sync). The short version:
 
-## Photos / video not syncing
+| What | Behavior |
+| --- | --- |
+| Photos, video, captions, ratings, field notes, caption-library autocomplete | Fully offline |
+| Scan Label / Reading with typed `label: value` | Fully offline (parses on-device) |
+| Scan Label / Reading photo-based | Queues, finishes on reconnect |
+| Media uploads | Queue in the background, upload on connection |
+| Smart Search (free keyword search of the cached library) | Works offline |
+| AI Generate, Vision Scan, Finish & Draft, Publish | Need a live connection |
 
-### "Upload pending" badge stuck on a photo
+## Reconnecting after being offline
 
-**Causes & fixes:**
+As soon as the app has a connection, the sync engine starts pushing queued data. You can keep capturing while earlier data uploads.
 
-- **No internet connection.** Photos queue locally; check signal. Reconnect to Wi-Fi or move to a stronger cellular area.
-- **Cellular Sync is off** (default) — toggle ON in mobile [Settings & Tokens](/1nspect/inspector/settings-and-tokens) if you want to upload over cellular
-- **App was backgrounded for too long** — iOS suspends background tasks aggressively. Bring the app to the foreground; stay on the screen for 30–60 seconds
-- **Video too large** — videos exceeding the platform size limit fail silently. Re-capture shorter; or import via 📁 instead of recording
+Default is Wi-Fi only. For cellular uploads, flip **Upload Media over Cellular** in **Config › Sync Preferences**.
 
----
+## Upload-fail banner
 
-### Upload queue won't drain even on Wi-Fi
+If an upload fails, a banner shows at the top of Review: _"N Media file(s) failed to upload, tap to manage (retry / export / delete)"_. Tap into it to open the Failed Uploads screen:
 
-**Causes & fixes:**
+- **Retry** — queue for another upload attempt
+- **Export** — save a copy to the camera roll (so the photo isn't lost)
+- **Retry All** — retry every failed item
+- **Delete** — removes the photo from the upload queue only
 
-- **Auth session expired** — re-authenticate. Sign out from [Settings (Config)](/1nspect/inspector/settings-and-tokens), sign back in
-- **Photo files corrupted** — rare; the platform auto-removes "permanently failed" photos on app startup (V18.9.1.2)
-- **GCS unreachable** — wait a few minutes; retry kicks in with exponential backoff
+Nothing is silently lost. Keep capturing. Don't fall back to your phone's camera roll.
 
-To force a retry without waiting, on the mobile [Review Screen](/1nspect/inspector/review-screen) tap **Upload to Cloud**.
+## Captured but not synced for a long time
 
----
+- Open the Review screen and tap **Sync to Cloud**. This forces a sync without drafting or publishing.
+- If Sync to Cloud errors, check connectivity and retry.
+- If a specific photo keeps failing in Failed Uploads, Export it to the camera roll and re-add it from scratch.
 
-## Inspection data not syncing
+## I lost signal in the field; what happens to my work?
 
-### Findings captured on mobile aren't appearing on web admin
+Nothing you've captured. Photos, captions, ratings, field notes and typed values are stored on the device. When you reconnect, the sync engine pushes everything up. The only AI operations that need the network at tap time (AI Generate, Vision Scan) are not available; use typed captures and Finish & Draft on reconnect.
 
-**Causes & fixes:**
+## Scan Label / Reading photo queued and never finished
 
-1. **EcoSync heartbeat not yet fired** — Solo-Eco mode syncs every 15 minutes. Wait, or trigger sync via **Upload to Cloud** on the [Review Screen](/1nspect/inspector/review-screen)
-2. **Inspection not yet finalized** — partial sync happens during in-progress, but full sync usually requires the inspection to be marked complete
-3. **Wrong inspector name** — `assignedInspectorName` must match exactly. Case-sensitive in older orders.
-4. **Network dropped mid-sync** — pull-to-refresh on [Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections)
+- A queued scan waits in the **AI processing queue**, not in Failed Uploads. Reconnect and give it a moment; the results apply automatically.
+- Review has no pull-to-refresh, so reopen the screen to check
+- If the scan hangs after reconnect, Export the photo and try Scan Label / Reading on it fresh
 
-### Mobile shows "completed" but web shows "in_progress"
+## Reinspection checklist shows no items
 
-**Cause:** The Finalize call hasn't fully written to Firestore yet.
+Reinspection items come from the work list chosen on the web when the reinspection was created. If the list is empty, check the checklist selection on the web order. Pull down to refresh on **Assigned Inspections**.
 
-**Fix:**
+## Related
 
-1. Wait 30 seconds
-2. Pull-to-refresh on both surfaces
-3. If persistent, the inspector should re-tap **Finalize** on mobile
-
----
-
-## Inspector changes not showing on mobile
-
-### Order assignment changed on web but mobile doesn't see it
-
-**Cause:** Real-time Firestore listener is active but the new assignment hasn't propagated.
-
-**Fix:**
-
-1. Pull-to-refresh on the [Assigned Inspections](/1nspect/inspector/home-and-assigned-inspections) list
-2. Verify the operator's web admin save actually committed (check [Inspection Details](/1nspect/admin-operator/inspection-details) shows the new inspector)
-3. Verify your inspector identity exactly matches the assigned inspector name on the order
-
----
-
-### Template changes not visible to inspector
-
-**Cause:** Mobile downloaded the template snapshot when the inspector first opened the assigned inspection. Edits to the template after that point don't propagate to that already-opened inspection.
-
-**Fix:**
-
-- For new inspections, the latest template is downloaded — works as expected
-- For already-opened inspections, the snapshot is intentionally locked in. To force a refresh, the inspector deletes the local inspection (Archived) and re-opens from Assigned (which re-downloads).
-
----
-
-## Conflict resolution
-
-### Same inspection edited on web AND mobile
-
-**Mechanism:** Last write wins, by `updatedAt` timestamp.
-
-**Fix when wrong version persists:**
-
-1. Check `updatedAt` on both ends — the most-recent timestamp should be the winner
-2. If the wrong version is winning, the local mobile clock may be skewed. Sync the device's clock.
-3. The BITE 2.1.9 ratings-merge logic preserves local inspector ratings when cloud has empty — so local inspector work typically wins for in-progress inspections
-
-### Ratings disappearing after edit
-
-**Cause:** A known issue (now fixed via BITE 2.1.9) was that JavaScript's `[]` is truthy, so cloud ratings of `[]` would override local ratings. Fixed.
-
-**Fix:** Upgrade to a recent mobile app version (2.1+). Verify in [Settings (Config)](/1nspect/inspector/settings-and-tokens) → About → Version.
-
----
-
-## EcoSync mode confusion
-
-### Solo-Eco vs Team-Live behavior
-
-The mobile app picks the sync mode automatically:
-
-| Mode | When | Battery cost |
-|---|---|---|
-| **Solo-Eco** | Single inspector | 15-min heartbeat — best battery |
-| **Team-Live** | Multi-inspector via Team QR | Real-time — ~30% more battery |
-| **Low-Power** | Offline | Queues changes locally |
-
-If you experience excessive battery drain on a single-inspector job:
-
-- Verify Team Inspection toggle is OFF in the order
-- Check that no other inspector is currently joined via QR
-
----
-
-## Firebase / Firestore issues
-
-### "Firebase Connection Required"
-
-**Causes & fixes:**
-
-- **Network blocked** — Firebase ports blocked by corporate network; try cellular hotspot
-- **Auth token expired** — sign out and back in
-- **Tenant misconfiguration** — contact support if the issue persists after re-auth
-
-### Real-time listeners stop firing
-
-**Symptom:** New orders don't appear, status changes don't propagate.
-
-**Causes & fixes:**
-
-- **Browser tab in background too long** — Firefox / Safari may suspend listeners. Bring tab to foreground.
-- **Tenant token rotated** — extremely rare. Sign out and back in.
-- **Firestore latency** — wait a few minutes
-
----
-
-## Local data issues
-
-### Local inspection data shows but cloud doesn't
-
-**Cause:** Inspector worked offline; sync hasn't completed.
-
-**Fix:**
-
-1. Confirm signal is available
-2. Tap **Upload to Cloud** on [Review Screen](/1nspect/inspector/review-screen)
-3. Wait for the upload to complete (the badge clears)
-
-### Local storage full
-
-**Cause:** Many inspections with photos accumulated on the device.
-
-**Fix:**
-
-- Delete unneeded inspections from [Archived Inspections](/1nspect/inspector/archived-inspections). Local-only data is removed; cloud copy is untouched
-- For full reset: uninstall and reinstall the app (after confirming everything is synced)
-
----
-
-## Network-related issues
-
-### Slow uploads even on strong Wi-Fi
-
-**Causes & fixes:**
-
-- **ISP latency** — try a different network to isolate
-- **Multiple devices uploading simultaneously** on the same Wi-Fi
-- **GCS regional latency** — your tenant's bucket region may not be optimal. Contact support.
-
-### Carrier blocking Firebase
-
-**Symptom:** Sign-in works on Wi-Fi but not on cellular.
-
-**Cause:** Some carriers (or corporate APN profiles) block Firebase ports.
-
-**Fix:**
-
-- Try a different cellular carrier
-- Disable any VPN or DNS-filtering app
-- Contact your carrier — Firebase uses standard HTTPS so blocking is unusual
-
----
-
-## Recovery
-
-### "I think I lost data"
-
-**Step 1: Confirm where the data should be.**
-
-- Local-only data lives on the device that captured it. Other devices won't have it.
-- Cloud-synced data lives in Firestore and is accessible from any device with the right login.
-
-**Step 2: Check sync state.**
-
-- On mobile, check the [Review Screen](/1nspect/inspector/review-screen) for "Upload pending" badges. Wait for them to clear.
-- On web, check the inspection's History tab to see what events have fired.
-
-**Step 3: If data is genuinely missing.**
-
-- Cloud backup runs daily — contact support to restore from a point-in-time backup
-- Provide the inspection ID, the approximate date of the missing data, and what data is missing
-
-The platform's data-integrity commitments are documented in [Offline & Sync → Data integrity](/1nspect/inspector/offline-and-sync).
-
----
-
-## Related articles
-
-- [Offline & Sync](/1nspect/inspector/offline-and-sync) — full conceptual reference
-- [Common Issues & Troubleshooting](/1nspect/troubleshooting/common-issues) — shared issues
-- [Mobile Troubleshooting](/1nspect/troubleshooting/mobile) — mobile-specific
-- [Web Admin Troubleshooting](/1nspect/troubleshooting/web-admin) — web-specific
+- [Offline and sync](/1nspect/inspector/offline-and-sync)
+- [Capture screen](/1nspect/inspector/capture-screen)
+- [Review screen](/1nspect/inspector/review-screen)
+- [AI during capture](/1nspect/inspector/ai-during-capture)

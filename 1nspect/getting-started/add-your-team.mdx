@@ -1,0 +1,92 @@
+---
+id: "start-here-add-your-team"
+title: "Add your team"
+description: "Add inspectors and admins at Settings › Users. Set roles, working hours, Google Calendar, TREC sponsor information and mileage origin."
+sidebarTitle: "Add your team"
+keywords: ["users", "team", "inspectors", "admins", "roles", "seats", "calendar", "TREC"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-10-30"
+---
+
+Your team of inspectors and admins is managed on the Settings page under the Users tab. The Add Team Member dialog captures what each user needs to work in the field: license number, role, working hours, calendar connection, TREC sponsor information and mileage origin.
+
+<Info>
+**Required** to run your first inspection: at least one user with the **Inspector** toggle turned on. If an inspector isn't showing up on your booking form or on the mobile phone, this toggle is almost always why.
+</Info>
+
+## Where to find it
+
+In the top bar, click **Settings**, then click the **Users** tab (one of three tabs: Company, Users and Billing). The page header reads **User Management**.
+
+## Add a team member
+
+Click **Add Team Member**. The dialog is titled **Add Team Member** (it switches to **Edit Team Member** when you edit an existing user). The submit button reads **Create Team Member** for a new user and **Update Team Member** when editing. Fill in:
+
+### Account
+
+| Field | Notes |
+| --- | --- |
+| Display Name | Required. The name shown in the UI and on reports. |
+| Email | Required. The address the user signs in with. Immutable after creation. |
+| Password | New users receive an invite email with a password-setup link; they set their own password on first sign-in rather than being handed a temporary one. |
+| License Number | Optional. Inspector license number. Placeholder: `26408`. |
+| Role | Inspector or Admin. The owner role cannot be assigned. |
+
+### Toggles
+
+- **Inspector**: turn on for anyone who conducts inspections or should appear on your booking form. This is the toggle most often forgotten.
+- The second toggle is **mobile publishing**: a per-user opt-out that matters only when the company switch **Allow Publishing Reports from Mobile** (Business Ops › Company Info, off by default) is on.
+
+### Google Calendar
+
+The Google Calendar section appears only when you are **editing** an existing user, so create the user first and then edit. Click connect and you are redirected to Google in the same tab. Once connected, booking availability reads every calendar the user owns or can write to, and new inspections are added to their primary calendar automatically.
+
+### Working Schedule
+
+Set working hours per day of the week, with a **Timezone** dropdown (US timezones: Eastern, Central, Mountain, Pacific, Alaska, Hawaii). Booking honors this Working Schedule.
+
+### TREC Sponsor Information (Required for Texas)
+
+| Field | Notes |
+| --- | --- |
+| Sponsor Name | The sponsoring company or individual. Placeholder: `Sponsoring Company or Individual`. |
+| Sponsor License Number | The sponsor's TREC license number. Placeholder: `Sponsor's TREC License #`. |
+
+### Mileage Calculation
+
+| Field | Notes |
+| --- | --- |
+| Home Address | The address mileage surcharges are calculated from first (the office address is the fallback). Placeholder: `123 Main St, Austin, TX 78701`. |
+
+### Signature
+
+| Field | Notes |
+| --- | --- |
+| Signature Image URL | A URL to the inspector's signature image. Shows on reports where a signature line is called for. Placeholder: `https://storage.googleapis.com/signatures/signature.png`. |
+
+## Seats and your plan
+
+Each plan includes a set number of seats:
+
+- **Solo**: 1 seat
+- **Professional**: 1 seat included, add more at a per-seat price
+- **Team**: 3 seats included, add more at a per-seat price
+
+Check your current seat count and buy additional seats on the Billing page (Settings › Billing). To remove a seat, first disable a user in Settings › Users, then remove the seat on Billing.
+
+## Disabled users
+
+The Users tab shows disabled users in a separate section below active ones. Disabling a user frees up a seat but keeps their history on past orders and reports intact.
+
+## What to do next
+
+- Services and pricing (Stage 2)
+- [Public booking form](/1nspect/features/public-booking): inspectors with the Inspector toggle on appear here
+
+## Related
+
+- [Company profile](/1nspect/getting-started/company-profile)
+- [Branding](/1nspect/getting-started/branding)

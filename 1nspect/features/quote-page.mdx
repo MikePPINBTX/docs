@@ -1,0 +1,57 @@
+---
+id: "client-experience-quote-page"
+title: "Quote page"
+description: "When your client receives a quote link, they land on a branded page that shows the itemized services, the total, and an Accept action. Accepting marks the lead accepted; your office then converts it to an order."
+sidebarTitle: "Quote page"
+keywords:
+  - "quote page"
+  - "quote link"
+  - "accept quote"
+  - "client-facing quote"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+When you text a quote from the field (via **Field Quote** on mobile) or send one from the web, the client receives a link to a branded quote page. The page shows the services, the itemized price, and an Accept action. One tap marks the quote accepted; your office then converts the lead to an order.
+
+## Where the client lands
+
+The URL is `/quote/[leadId]` or `/quote/[tenantId]/[leadId]`. The page carries your company branding: logo, colors, name.
+
+## What the client sees
+
+- Your logo and company name at the top
+- The property address
+- The itemized services with per-line prices and totals
+- The grand total
+- An **Accept Quote** action
+
+Accept may ask the client for their name, email and a preferred time.
+
+If the quote has already been accepted, the page reads **Quote Already Accepted**.
+
+If the quote URL is invalid, the page shows a Quote Not Found panel. It has no link.
+
+## What happens on Accept
+
+Accept does not create an order or send an agreement:
+
+1. The lead is marked `quote_accepted`
+2. The **Quote Accepted** and **Booking Confirmed** triggers fire (if your workflow has steps on them)
+3. Your office still converts the lead to an order, and the agreement goes out from there
+4. The quote link now shows the accepted state
+
+## When a quote expires
+
+Quotes don't expire automatically today. If you need a quote to age out, delete the lead from the Inspections list. The quote link then returns the Quote Not Found panel.
+
+## Related
+
+- [Field Quote](/1nspect/inspector/field-quote) (how to send one from mobile)
+- [Client portal](/1nspect/features/portals) (where the client goes after accepting)
+- [Online booking](/1nspect/getting-started/online-booking)

@@ -1,0 +1,90 @@
+---
+id: "admin-intelligence-hub-supplemental-documents"
+title: "Supplemental Documents"
+description: "PDFs offered as downloads in the client portal by rule: a slab-foundation disclosure for every slab home, a WDI advisory on every WDI service. They are not merged into the report PDF or the delivery email."
+sidebarTitle: "Supplemental Documents"
+keywords:
+  - "supplemental documents"
+  - "disclosures"
+  - "auto attach"
+  - "rule-based"
+  - "foundation disclosure"
+  - "wdi advisory"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "admin-operator"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Supplemental Documents are PDFs that appear as **downloads in the client portal** based on properties of the inspection. Set the rule once; every matching inspection offers the document.
+
+<Note>
+  Supplemental documents appear **only** as downloads in the client portal. Merging them into the report PDF is switched off, and the delivery email does not carry them.
+</Note>
+
+## Where to find it
+
+**Narrative Management** top-nav › **Intelligence & Library Hub** › the **Supplemental Documents** tab (second tab).
+
+## What a supplemental document is
+
+A stored PDF plus a rule that decides when to offer it. The client sees matching documents as downloads in their portal.
+
+## Fields per document
+
+| Field | Notes |
+| --- | --- |
+| Name | What subscribers see on this page |
+| File | The PDF to attach |
+| Rules | The conditions that decide when to offer it. Rules are **OR-combined**: any matching rule is enough |
+
+There is no Active field. There is also an **Always include in every client portal** option.
+
+## Rule types
+
+Documents attach based on one of these rule types:
+
+- **Year built** — `< N` or `> N` (not a range)
+- **Property type** — free-text matching
+- **Service on order** — free-text matching against the services on the order (WDI, radon, pool, sewer scope)
+- **Always include in every client portal**
+
+## Adding a document
+
+<Steps>
+<Step title="Click add">
+From the Supplemental Documents tab.
+</Step>
+<Step title="Upload the PDF">
+Drop in the file. 1nspecT stores it in your tenant's document storage.
+</Step>
+<Step title="Set the rule">
+Pick the rule type and configure its parameters (year range, service list, foundation type).
+</Step>
+<Step title="Save">
+The document is offered in the client portal for the next qualifying inspection.
+</Step>
+</Steps>
+
+## Deleting
+
+Click the delete icon on a document card. Confirmation: _"Delete this supplemental document? This cannot be undone."_ Only future offerings stop.
+
+## When supplementals appear
+
+For each supplemental document whose rules match the inspection, the PDF shows as a download in the client portal. It is not bundled into the report PDF and not attached to the delivery email.
+
+## What this is not
+
+- Not for narrative content. Narratives live in the narrative library.
+- Not for the AIPI. AIPI is per-collection and prints inside the report, not as a separate attachment.
+- Not for one-off attachments on a single inspection.
+
+## Related
+
+- [Intelligence & Library Hub overview](/1nspect/admin-operator/intelligence-hub/overview)
+- [AIPI](/1nspect/getting-started/aipi)
+- [Narrative Library](/1nspect/admin-operator/intelligence-hub/narrative-library)

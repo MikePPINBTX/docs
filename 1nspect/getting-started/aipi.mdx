@@ -1,0 +1,76 @@
+---
+id: "start-here-aipi"
+title: "Additional Information Provided by Inspector (AIPI)"
+description: "Some SoPs allow inspectors to add context to the published report. AIPI is where that content lives, with a separate variant for reinspections."
+sidebarTitle: "AIPI"
+keywords: ["aipi", "additional information", "inspector", "reinspection", "limitations", "disclosure"]
+persona: ["admin-operator", "inspector"]
+surfaces: ["web"]
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Some Standards of Practice allow (or require) inspectors to add their own information to the published report: installer qualifications, scope caveats, specific limitations, product-specific notes. 1nspecT stores this content as **Additional Information Provided by Inspector (AIPI)**, attached to the narrative collection a report uses. Inspectors who run reinspections can add a **separate reinspection-specific AIPI** that prints on reinspection reports in place of the standard one.
+
+<Note>
+AIPI is optional. Whether it is available (and how much it can say) depends on the SoP your template uses. Check your SoP's rules before adding one.
+</Note>
+
+## Where to find it
+
+In the top bar, click **Narrative Management**, then open the **Narrative Library** tab. Find the narrative collection's **card** and use its buttons: **Add/Edit Additional Information** and **Add/Edit Reinspection Additional Information**. A check mark shows once configured. These buttons are on the narrative-library cards, not on the Collection Detail page, and they are not available for caption libraries.
+
+## Two variants per collection
+
+A collection can carry two AIPIs:
+
+| Variant | When it prints |
+| --- | --- |
+| **Standard AIPI** | On every published report that uses this collection. Dialog title: _"Additional Information Provided by Inspector"_. |
+| **Reinspection AIPI** | On reinspection reports only, in place of the standard AIPI. Dialog title: _"Reinspection — Additional Information Provided by Inspector"_. |
+
+If a collection has no reinspection AIPI, reinspection reports use the standard AIPI (same wording as the original inspection). If the collection has both, 1nspecT uses the right one for the report type automatically.
+
+## Editing an AIPI
+
+The AIPI editor is a rich-text dialog with the standard formatting tools:
+
+- Headings (H1, H2)
+- Bold, italic, underline, strikethrough
+- Ordered and unordered lists
+- Links
+- Horizontal rules
+
+Write the content you want to print on the report. Save when done. The editor validates that the content isn't empty before saving.
+
+### Reinspection framing
+
+In the reinspection AIPI, write for a repair-verification context: scope limitations specific to the reinspection, caveats about what was and was not reinspected, how the report should be read in light of the original inspection.
+
+## When to use AIPI
+
+Typical uses:
+
+- **Installer qualifications** that the SoP asks the inspector to disclose for specific equipment types
+- **Scope caveats** when the inspection covered less than the standard (concealed areas, inaccessible systems, weather-constrained observations)
+- **Reinspection limitations** that are different from an original inspection (one-visit scope, no new findings scope, follow-up fee structure)
+- **Product-specific notes** that recur across many of your inspections (a known manufacturer defect, a disclosure your attorney has drafted)
+
+## When not to use AIPI
+
+AIPI is not the right place for:
+
+- **Finding narratives.** Those live in the narrative library and are drafted per finding.
+- **Standard disclaimers that print on every report.** Those are built into the report layout.
+- **Legal agreements.** Those are your service agreement, built in **Business Ops › Contracts**.
+
+## What to do next
+
+- Stage 4 is next: contracts, communications, booking, calendar, and review requests.
+
+## Related
+
+- [Attach caption and narrative libraries](/1nspect/getting-started/attach-libraries)
+- [Choose your Standard of Practice](/1nspect/getting-started/choose-your-sop)
+- [Build your inspection template](/1nspect/getting-started/build-your-first-template)

@@ -1,0 +1,78 @@
+---
+id: "start-here-cover-and-layout"
+title: "Cover page and report layout"
+description: "Design a branded cover for every report in Cover Designer. Fine-tune the printed layout with Guided Layout, within the rules your SoP allows."
+sidebarTitle: "Cover and layout"
+keywords: ["cover designer", "cover page", "guided layout", "template designer", "report layout", "branding"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Two different tools control how your reports look. The **Cover Designer** builds the branded cover page that opens every PDF. **Guided Layout** picks the overall layout blueprint for section pages and the summary page (within the rules your SoP allows).
+
+## Cover Designer
+
+In the top bar, click **Cover Designer** (seventh top-nav item). The page header reads **Cover Templates** and shows every cover template on your account.
+
+### Create a cover template
+
+- Top right of the Cover Templates list, click **New Cover Template**
+- Empty-state users see a **Create First Template** button in the center of the page
+- Either option opens the Cover Designer editor
+
+### In the Cover Designer editor
+
+The canvas is the full cover page. Three panels around it:
+
+- **Left**: the component library (frames, text blocks, hero blocks, static text, images)
+- **Center**: the canvas, laid out at report dimensions
+- **Right**: the Layer Panel (drag to reorder) and Properties Panel for the selected layer
+
+Set the cover template name in the top bar input (placeholder: `Cover template name`), build the design, then click **Save**.
+
+### What you can add
+
+| Layer type | What it is |
+| --- | --- |
+| Frame image | A full-canvas background image (your branded cover art). No geometry controls — always spans the canvas. |
+| Hero block | A large text block for the headline (property address, inspection date). |
+| Text block | Any text with dynamic field tokens (client name, property address, inspection date, inspector name). |
+| Static text | Fixed text that doesn't change per report. |
+| Photo Block | A photo placeholder that fills in at render time. |
+
+Dynamic text tokens pull from the order at render time, so your cover auto-populates for every report.
+
+### Bind the cover to templates
+
+In the designer, use the **Applies to templates** picker, and tick **Default cover** to make it the template's default. The PDF looks for a cover in this order: the cover set explicitly, a cover linked to the template, the template's default, then your organization default.
+
+## Guided Layout
+
+For the pages inside the report (not the cover), open your template with **Templates › Edit** and go to the **Visual Designer** tab, then click **Guided Layout (pick + tune)**. This is Professional and Team only. The Guided Layout Designer lets you pick:
+
+- **A Section Layout Blueprint** — the printed structure for each inspection section (how findings are grouped on the page, where photos go, how multi-unit systems render)
+- **A Summary Layout Blueprint** — the structure of the executive summary at the start of the report
+- **Style knobs** — fonts, colors, spacing (within what the blueprint allows)
+
+<Note>
+Your SoP may lock the blueprint choice. TREC and other official standards specify what section pages must look like, so the layout picker may be forced to a single blueprint for templates bound to those SoPs. If this applies to your template, the picker will show the single allowed blueprint with a lock icon.
+</Note>
+
+## When to use the Visual Page Designer
+
+For advanced custom reports (commercial, specialty inspections), the **Visual Page Designer** (**Templates › Edit › Visual Designer** tab › **Open Visual Designer**, Professional and Team only) gives you zone-level control over every printed page: the preamble page, each section template, the summary page. Use this when Guided Layout doesn't give you enough control.
+
+Most residential subscribers never need the Visual Page Designer. Guided Layout plus the Cover Designer is enough.
+
+## What to do next
+
+- [Attach caption and narrative libraries](/1nspect/getting-started/attach-libraries)
+- [Additional Information Provided by Inspector](/1nspect/getting-started/aipi)
+
+## Related
+
+- [Branding and white-label](/1nspect/getting-started/branding)
+- [Build your inspection template](/1nspect/getting-started/build-your-first-template)

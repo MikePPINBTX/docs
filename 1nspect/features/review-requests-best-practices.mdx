@@ -1,0 +1,84 @@
+---
+id: "review-requests-best-practices"
+title: "Review-request best practices"
+description: "When to ask, what to say, where to send clients, and what to avoid. The settings are easy; the playbook that gets you 5-star reviews is the content."
+sidebarTitle: "Review best practices"
+keywords: ["review requests", "review playbook", "google reviews", "yelp", "timing", "follow-up"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Setting up a review-request workflow is a 10-minute task. Getting consistent 5-star reviews from it is a playbook. This page covers the playbook: when to ask, what to say, where to send clients, and what to avoid. For the setup walk-through, see [Review requests](/1nspect/getting-started/review-requests).
+
+## When to ask
+
+Timing matters more than wording:
+
+| Timing | Expected response rate |
+| --- | --- |
+| Immediately after Publish (report still locked) | Low (client hasn't read the report yet) |
+| Immediately after the client pays and the report unlocks | Medium |
+| 1 to 2 days after Publish | Highest |
+| 1 week after Publish | Diminishing returns |
+| 1 month after Publish | Rare |
+
+**Set your workflow step to fire on the dedicated Review Request trigger with a Send Offset such as `+1d` or `+2d`.** The Review Request trigger fires on every publish, so the offset gives the client time to read the report, share it with their agent and build a repair request while the experience is still fresh.
+
+<Warning>
+  Do not use **Report Delivered** for review requests. That trigger fires only when a Stripe payment unlocks a published report, or when someone clicks the manual Deliver button. In the normal pay-first flow it never fires, so the review request would never go out.
+</Warning>
+
+Avoid **Report Published** as the trigger too: it fires immediately, with no offset control tied to the review, and an unpaid client cannot read the report yet.
+
+## What to say in the email
+
+Short, warm, specific. The template that works best:
+
+- **Thank them** by name for choosing you
+- **Reference the property** (specific, not generic) by address or by a one-line note (`"your new place on Oak Street"`)
+- **Make the ask clear and small**: "If you have 60 seconds, your Google review really helps our small business"
+- **One link** (not three). Pick Google or Yelp, not both; the one you pick is the one most clients will use.
+- **Keep the voice personal.** Workflow emails go out from your company name. There is no configurable reply-to on workflow emails, so don't promise that replies land in your inbox; give a phone number or a contact email in the body if you want to hear back.
+
+Avoid:
+
+- "Please leave us a 5-star review" (coercive, violates Google's and Yelp's TOS)
+- Multiple requests in one email (dilutes the ask)
+- Generic property reference (`"your inspection"`)
+- Review-gating language ("If you had a great experience, leave a review; if not, email us") which violates FTC rules and most review platform TOS
+
+## Pick Google or Yelp (not both)
+
+**Pick the one platform where you want to build your presence.** Clients will almost always click only one link; splitting the attention halves your conversion.
+
+- **Google** — the right choice for 95%+ of firms. Local-search dominance, higher conversion, better defense against negative reviews.
+- **Yelp** — the right choice if your market has a strong Yelp culture (urban coastal, hospitality-adjacent) or you already have a strong Yelp presence to maintain.
+
+Set the chosen link in **Business Ops › Company Info** so the review-link tag renders in your email templates.
+
+## When a client leaves a negative review
+
+- **Respond publicly, calmly, within 24 hours.** No excuses, no counter-attacks. Thank them, acknowledge, offer to make it right offline.
+- **Reach out privately** if you can. Many 2 or 3-star reviews get upgraded when the client feels heard.
+- **Learn from it.** Was the problem process (we missed something), expectation (they thought we did something we didn't), or personal (bad day)? Adjust accordingly.
+
+## When a client leaves no review
+
+- No follow-up requests. One ask is enough; nagging is counterproductive.
+- Don't take it personally. 20 to 30% response rate on review requests is excellent; 10 to 15% is typical.
+
+## Compliance notes
+
+- **Do not offer anything in exchange for a review** (discount on next inspection, gift card, etc.). This violates FTC guidelines and Google's TOS and can get your Google Business Profile suspended.
+- **Do not review-gate.** Sending the review link only to clients you expect will leave 5-stars ("If you had a great experience, click here; otherwise email us") violates the FTC's testimonial guidelines.
+- **Do not use fake reviews.** The usual temptation. The usual bad outcome.
+
+## Related
+
+- [Review requests](/1nspect/getting-started/review-requests) (setup walk-through)
+- [Communication templates](/1nspect/getting-started/communication-templates)
+- [Communication workflows](/1nspect/getting-started/communication-workflows)
+- [Variable tags reference](/1nspect/getting-started/variable-tags-reference) (`$GoogleReviewLink`, `$YelpLink`)

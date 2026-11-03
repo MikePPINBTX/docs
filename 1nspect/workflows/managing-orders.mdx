@@ -1,0 +1,97 @@
+---
+id: "daily-ops-managing-orders"
+title: "Managing orders after they are placed"
+description: "Edit a signed order, add a service, remove an ancillary with a refund, reschedule, cancel one phase, cancel the whole order, record a payment. Where each action lives and what it does."
+sidebarTitle: "Managing orders"
+keywords:
+  - "edit order"
+  - "add service"
+  - "cancel order"
+  - "reschedule"
+  - "record payment"
+  - "refund"
+  - "billing recompute"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "workflows"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Orders rarely stay unchanged after they are placed. Clients add services, properties come in bigger than expected, dates slip. 1nspecT has a dedicated action for each of the common mid-stream edits, and each one keeps the agreement, the billing math and the inspector's calendar in sync automatically.
+
+## Where to find the actions
+
+Open the order: **Inspections** top nav, click into the order. You land on the Inspection Details page. The action buttons live along the top of the page, under the order number and property address.
+
+## Edit Order
+
+Use **Edit Order** when you need to change the property fields or the services on the order. This covers:
+
+- Clients and co-clients
+- Property address, square footage, year built, foundation type
+- Primary and ancillary services on the order
+- Discounts and surcharges
+- Detached structures (add, edit, remove)
+
+### Billing recompute
+
+Edit Order re-prices the order against your current pricing rules and **regenerates the order's single invoice in place**. There are no top-up invoices. If the new total is lower than what was paid, the order is only flagged as needing a refund; nothing is refunded automatically. Stripe refunds happen only from Cancel Order or Remove Ancillary.
+
+## Add Service
+
+Use **Add Service** when the client wants to add an inspection or an ancillary to an already-signed order, without voiding the original agreement. The action adds the service to the order and triggers the right agreement bundle (via **Resend Bundle** below) for anything that needs its own agreement signed.
+
+### Resend Bundle
+
+**Resend Bundle** re-sends the applicable agreements for the order, picking the right agreement (or bundle) for the current state of the order. Use it after an Add Service, or when you need to resend the original agreement because the client lost the email.
+
+## Cancel Order
+
+Use **Cancel Order** on the order header for the cancel flow. You can cancel the whole order or one specific inspection (phase). On a multi-phase order, the per-phase button is **Cancel This Inspection**.
+
+Cancellation cascades: the inspection is removed from the inspector's calendar and any pending agreement is voided. A Stripe refund is issued automatically only when there was a Stripe payment.
+
+## Remove Ancillary
+
+To remove a single ancillary service, use the separate **Remove Ancillary** modal, not Cancel Order. It also refunds through Stripe when the order was paid by Stripe.
+
+## Reschedule
+
+Moves one inspection to a new date and time. 1nspecT checks the inspector's Google Calendar availability for the new slot. The calendar event is updated automatically. If your workflow has an Inspection Rescheduled trigger, the matching email fires.
+
+## Record Payment
+
+Use **Record Payment** when a client pays outside Stripe. The modal has three fields: **Amount paid**, **Date paid** and **Payment method** (Cash, Check, Zelle, Venmo or Offline Credit Card). There is no note field. The order is always marked paid in full (there is no partial state) and the report link unlocks for the client, since reports are locked until paid.
+
+## Create Reinspection
+
+The Overview tab has a **Create Reinspection** action that spawns a reinspection as a new phase on the same order. Covered in detail in [Reinspections](/1nspect/workflows/reinspections).
+
+## Order Summary and History
+
+The right side of the Inspection Details page shows two cards:
+
+- **Order Summary** — Total Fees, Paid and Balance Due
+- **Order History** — a chronological log of actions on this order (created, agreement sent, signed, paid, edited, cancelled)
+
+## Inspections in this Order
+
+The left side lists every inspection in the order (one for a single-phase order, several for new construction). Click into any inspection to open its own detail page and its Report Workspace.
+
+## What you cannot change
+
+Some fields are locked after certain milestones to protect the agreement and the published report:
+
+- Signed contract wording — once an agreement is signed, the signed PDF is frozen. New agreements go out as separate documents.
+- Published report content — once published, the report is a locked PDF plus web viewer. Changes require a Republish (which generates a new version).
+- Order history — append-only. You cannot delete history entries.
+
+## Related
+
+- [The order lifecycle](/1nspect/workflows/booking-to-published-report)
+- [Reinspections](/1nspect/workflows/reinspections)
+- [Publishing and delivery](/1nspect/workflows/publishing-and-delivery)
+- [Primary services](/1nspect/getting-started/primary-services) (for Bundle Agreement Group)

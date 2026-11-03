@@ -1,95 +1,89 @@
 ---
-id: admin-operator-intelligence-hub-narrative-library
-title: Narrative Library
-persona: [admin-operator]
-surfaces: [web]
-category: admin-operator
-related: [admin-operator-intelligence-hub-overview, admin-operator-intelligence-hub-narrative-collections]
-status: stable
-last_verified_against_code: 2026-05-08
+id: "admin-intelligence-hub-narrative-library"
+title: "Narrative Library"
+description: "Your caption and narrative collections, organized and associated with templates. Two sub-tabs: Collections (manage) and Import (bring in an existing library)."
+sidebarTitle: "Narrative Library"
+keywords:
+  - "narrative library"
+  - "collections"
+  - "caption collection"
+  - "narrative collection"
+  - "associate template"
+  - "xml import"
+  - "homeinspectorpro"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "admin-operator"
+status: "stable"
+last_verified_against_code: "2026-11-02"
 ---
 
-# Narrative Library
+The Narrative Library is the first tab of the Intelligence & Library Hub. It holds every caption and narrative collection on your account, lets you associate a collection with a template, and imports existing libraries from XML.
 
-The Narrative Library (route `/narrative-library`) is the **master list of narrative collections** for your tenant. Each collection groups a set of narratives — photo captions, deficiency comments, report-area comments — typically scoped to a template or inspection type.
+## Where to find it
 
-This article documents the list view and the create-collection flow. For editing within a specific collection, see [Narrative Collections](/1nspect/admin-operator/intelligence-hub/narrative-collections).
+**Narrative Management** top-nav › **Intelligence & Library Hub** › the **Narrative Library** tab (first tab).
 
----
+## Two sub-tabs
 
-## When you use it
+Inside the Narrative Library tab:
 
-- **First-week setup** — create one collection per template (TREC Residential / Commercial / New Construction / etc.)
-- **Quarterly review** — archive stale collections; clone a working collection to start a variant
-- **Onboarding a new template** — every template assignment in the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) lets you pick a narrative collection; that picker pulls from the list here
+- **Collections** — the list of your collections, with the Associate-Template picker and per-collection actions
+- **Import** — bring in an existing library from XML
 
-After initial setup the list grows slowly — most tenants end up with 3–8 collections total.
-
----
-
-## Screen layout
-
-[SCREENSHOT: narrative-library-list.png — desktop, the Narrative Library page showing the heading, a collection grid, and a + Create Collection action.]
-
-| Element | Purpose |
-|---|---|
-| **Heading** — *"Narrative Library"* | Page title |
-| **Section header** — *"Narrative Collections"* | Below the page heading |
-| **Collection cards** | Each card represents one collection |
-| **+ Create New Collection** action | Opens the create dialog |
-| **Empty state** | *"No collections — Get started by creating a new narrative collection."* |
+## Collections list
 
 Each collection card shows:
 
-- Collection name
-- Count of narratives in the collection
-- Associated template(s) — if any
-- Last modified date
-- Per-card actions: **Open / Rename / Duplicate / Delete**
+| Field | What it is |
+| --- | --- |
+| Name | What subscribers see |
+| Narrative count | How many narratives in the collection |
+| Caption count | How many captions |
+| Deficiency count | Narratives tagged as deficiencies |
 
----
+Click a card to open [Collection Detail](/1nspect/admin-operator/intelligence-hub/narrative-collections) for the full set of captions and narratives.
 
-## Creating a collection
+## AIPI buttons on the cards
 
-Click **+ Create New Collection** to open the dialog:
+The AIPI actions live on the **narrative-library cards** on this page: **Add/Edit Additional Information** and **Add/Edit Reinspection Additional Information**, with a check mark once configured. They are not available on caption library cards. See [AIPI](/1nspect/getting-started/aipi).
 
-| Field | Required | Notes |
-|---|---|---|
-| **Collection name** | ✅ | Plain text — e.g. "TREC Residential 2026" or "Commercial Property Standard" |
-| Description | — | Optional internal notes |
-| Associated templates | — | Multi-select from your templates. Limits which orders this collection can be picked for. |
+## Associate with a template
 
-After creation, you land in [Narrative Collection Detail](/1nspect/admin-operator/intelligence-hub/narrative-collections) for the new collection — typically empty until you add narratives.
+Each collection has an **Associate Template** picker. The association is only a **fallback**: libraries are actually chosen **per inspection** on Inspection Details, with company defaults in Business Ops › Company Info › Inspection Defaults.
 
-> **Why associate templates?** When inspectors or operators choose a narrative collection for an order, the picker filters to collections that match the order's template. Associating helps keep the picker focused.
+<Tip>
+  One template can carry more than one collection of each type. A single TREC template can serve a 2026 new build and a 1920s craftsman home, each with its own deficiency language. You pick which collection applies per inspection, on Inspection Details.
+</Tip>
 
----
+## Collection types
 
-## Loading state
+A collection is either a caption library (`caption_library`) or a narrative library (`narrative_library`). There is no "both". The data type separation shows up in the Collection Detail filter:
 
-While collections fetch from Firestore, the page shows:
+- **Photo Captions** — the short captions that feed the mobile Capture screen autocomplete
+- **Deficiency Comments** — the full narratives that feed AI Generate and Smart Search
 
-> **Loading narrative collections...**
+## Import
 
-If the load fails (typically a Firebase connection issue):
+The second sub-tab imports an existing library from XML. Supported formats:
 
-> **Firebase Connection Required**
+- **HomeInspectorPro XML** export
+- Generic XML conforming to 1nspecT's import schema
 
-Refresh; if persistent, check your network or contact support.
+Drop the file, the import wizard reads it, maps sections against your templates, and brings the content into a new collection you can then associate with the right template.
 
----
+<Note>
+  CSV and Excel import are not supported today. Only XML works.
+</Note>
 
-## What this page does NOT do
+## Add a collection
 
-- **It does not edit narratives.** That's [Narrative Collection Detail](/1nspect/admin-operator/intelligence-hub/narrative-collections).
-- **It does not assign collections to orders.** That happens in the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) → Narrative Collection picker.
-- **It does not show usage analytics.** No per-narrative click-count surface yet.
+Add action in the Collections tab. Pick the type (caption or narrative) and give it a name. Open the new collection to add entries one at a time, or import from XML.
 
----
+## Related
 
-## Related articles
-
-- [Intelligence Hub Overview](/1nspect/admin-operator/intelligence-hub/overview)
-- [Narrative Collection Detail](/1nspect/admin-operator/intelligence-hub/narrative-collections) — opens when you click a collection card
-- [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) — where collections are picked for an order
-- [Mobile AI During Capture](/1nspect/inspector/ai-during-capture) — where library narratives surface as FREE chips and 🪄 Library results
+- [Collection Detail](/1nspect/admin-operator/intelligence-hub/narrative-collections) (per-collection view)
+- [Intelligence & Library Hub overview](/1nspect/admin-operator/intelligence-hub/overview)
+- [Attach caption and narrative libraries](/1nspect/getting-started/attach-libraries) (Start Here walk-through)

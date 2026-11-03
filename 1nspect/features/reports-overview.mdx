@@ -1,0 +1,49 @@
+---
+id: "reports-overview"
+title: "Business reports"
+description: "The Reports top-nav item carries nine business reports with CSV export. Monthly Reconciliation, Stripe Payouts, All Invoices, Outstanding A/R, Service Mix, Agent Referral, Inspector Productivity, Activity Log, Tax Summary."
+sidebarTitle: "Reports overview"
+keywords: ["reports", "business reports", "csv", "export", "reconciliation", "invoices", "ar"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+The Reports top-nav item is where your bookkeeper, your CPA and your office manager live. Nine reports with CSV export: the money, the pipeline, the team, the workflow and email log, and your annual tax summary. Each report has its own filter and columns; every one exports to CSV so your bookkeeper can carry it into whatever accounting software they use.
+
+## Where to find it
+
+In the top bar, click **Reports** (eighth top-nav item). The page header reads **Reports**.
+
+The nine report cards sit in a grid at the top of the page. Click a card and the selected report renders below the grid.
+
+## The nine reports
+
+| Icon | Report | What question it answers |
+| --- | --- | --- |
+| 💵 | [Monthly Reconciliation](/1nspect/features/monthly-reconciliation) | Did our billed revenue match the money that landed in the bank, with Stripe fees per order? |
+| 🏦 | [Stripe Payouts](/1nspect/features/stripe-payouts) | What orders made up each Stripe deposit, with fees per customer? |
+| 🧾 | [All Invoices](/1nspect/features/all-invoices) | One invoice per inspection in a flat list, with per-row PDF download and bulk CSV export |
+| ⏳ | [Outstanding A/R](/1nspect/features/outstanding-ar) | Who still owes us money, bucketed by aging |
+| 🥧 | [Service Mix](/1nspect/features/service-mix) | What's our revenue and inspection count by service type? |
+| 🤝 | [Agent Referral Report](/1nspect/features/agent-referrals) | Which agents are referring, with revenue and close rate per agent |
+| ⏱️ | [Inspector Productivity](/1nspect/features/inspector-productivity) | For each inspector: count, revenue, average on-site time, publish lag |
+| 📜 | [Activity Log](/1nspect/features/activity-log) | Workflow and email events for the period (the 200 most recent) |
+| 🧾 | [Tax Summary](/1nspect/features/tax-summary) | Annual revenue grouped by tax category for year-end accounting |
+
+## Common patterns across reports
+
+Most reports have the same shape:
+
+- A header with the report title and description
+- A filter row that varies by report: Monthly Reconciliation, Service Mix and Activity Log use a period dropdown (last 12 months, quarters, YTD); Stripe Payouts uses date inputs; Tax Summary uses a year dropdown; Outstanding A/R has no filter
+- A stat grid at the top with the key totals for the period
+- A table with the per-row detail
+- A **CSV** export button for the full data as currently filtered
+
+## Related
+
+- [Dashboard](/1nspect/features/dashboard-overview)
+- [AI Insights](/1nspect/features/iboss-insights)

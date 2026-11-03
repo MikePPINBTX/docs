@@ -1,0 +1,57 @@
+---
+id: "integrations-data-sources"
+title: "Data sources"
+description: "The authoritative public datasets 1nspecT reads for Property Baseline: USDA NRCS SSURGO (soil), FEMA NFHL (flood), EPA Radon Zones, IRC R301.2(6) (termite), DOE/PNNL Climate Zones."
+sidebarTitle: "Data sources"
+keywords: ["data sources", "usda", "nrcs", "ssurgo", "fema", "nfhl", "epa", "radon", "irc", "termite", "doe", "pnnl", "climate zone"]
+persona: ["admin-operator", "inspector"]
+surfaces: ["web", "mobile"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Property Baseline (the panel on the Order Creation Wizard and the mobile inspection setup) pulls from authoritative public datasets. Each row on the panel cites its source. The data is read-only, always on, free, and credited where it appears. No subscriber configuration.
+
+## The five sources
+
+| Dataset | Source | What it tells you |
+| --- | --- | --- |
+| **Soil map unit, dominant component, shrink-swell potential** | USDA NRCS SSURGO | The soil type at the property's coordinates. Shrink-swell drives foundation movement risk. |
+| **FEMA flood zone** | FEMA NFHL (National Flood Hazard Layer) | The property's flood zone (X, A, AE, V, etc.) |
+| **EPA radon zone** | EPA Radon Zones | The county-level radon potential (Zone 1 highest, Zone 3 lowest) |
+| **Termite pressure** | IRC R301.2(6) | The termite infestation probability map from the International Residential Code |
+| **Climate zone + recommended attic insulation** | DOE/PNNL Climate Zones | The DOE climate zone (1A through 8), with the IECC's recommended attic insulation value for new construction in that zone |
+
+## Where you see the data
+
+- **Order Creation Wizard** — Property Baseline panel on the property step
+- **Inspection Details** (web) — Property Baseline panel on the **History** tab
+- **Mobile inspection setup** — Property Baseline panel on the first screen when you tap into an assigned inspection
+- **The AI narrative drafting** — the AI reads the baseline (especially shrink-swell, climate zone, flood zone) to calibrate its narratives
+
+## The data is not shown to the client
+
+Property Baseline is for the inspector and the office. It is not printed on the client's published report. The AI uses it internally to frame narratives but does not cite it verbatim.
+
+## How the data is retrieved
+
+Only **soil and flood** are live lookups. The others are built into 1nspecT:
+
+- **NRCS SSURGO** (soil) and **FEMA NFHL** (flood) are looked up live; county-level soil data can lag behind new development
+- **Radon zone** and **climate zone** are built-in tables
+- **Termite pressure** is a state-level approximation based on the IRC R301.2(6) map, not a parcel-level lookup
+
+## Construction-era materials
+
+Separately from Site Conditions, the Property Baseline panel also shows **Construction-era materials**: materials typical for this build year and region (water supply piping, drain/waste/vent, cladding, roof covering, etc.) with a prevalence percentage and a severity score. This is a 1nspecT-maintained matrix, not a public dataset, derived from inspection-industry service-life guidance and historical construction practice.
+
+## Rate limits
+
+Lookups are cached for **90 days**, keyed by latitude and longitude. The cache is **shared across tenants**, not private to your company, so a property already looked up by anyone is served from the cache.
+
+## Related
+
+- [Property Baseline](/1nspect/features/property-baseline) (the UI view)
+- [AI features](/1nspect/features/ai-features) (how the AI uses the baseline)
+- [Starting an inspection](/1nspect/inspector/starting-an-inspection) (where inspectors see it on mobile)

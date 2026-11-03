@@ -1,0 +1,56 @@
+---
+id: "payments-locked-reports"
+title: "Payment-locked reports"
+description: "Every published report is locked until the invoice is paid. Both the client and the agent links return a Payment Required page. There is no setting to disable this."
+sidebarTitle: "Payment-locked reports"
+keywords:
+  - "payment-locked"
+  - "payment required"
+  - "paid report"
+  - "unlock"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Payment-locked reports are built into 1nspecT. Every published report where the inspection isn't marked paid returns a Payment Required page on **both** the client's link and the agent's link. There is no setting to enable or disable this; it's always on.
+
+## What the client sees when locked
+
+When the client clicks the report link before paying, they land on the **Payment Required** page. The page shows the property address and a **Go to Client Portal to Pay** button. It does not display the amount owed; the client sees the amount on the client portal, which is where payment is collected.
+
+## What the agent sees when locked
+
+The agent view at `/report/[slug]/agent` carries its own locked state. The agent sees the same block until the inspection is paid.
+
+## What unlocks the report
+
+Only two events unlock the report, in both links at once:
+
+- A successful **Stripe payment**, confirmed by the Stripe webhook
+- A manual **Mark as Paid** action in the web admin that flips the inspection's `isPaid` to `true`
+
+Unlock happens within seconds of the payment event. Any workflow step bound to the `report.delivered` trigger fires at the same moment (so a delivery email can land right when the client regains access).
+
+## Which inspections are locked
+
+Every inspection where `isPaid !== true`. There is no per-order override, no per-template setting, and no owner-only bypass. If the inspection is marked unpaid, the report is locked.
+
+## For manually-paid orders
+
+If the client paid you by Venmo, Zelle, Cash App or an offline card entry, use **Mark as Paid** on Inspection Details to flip the inspection to paid. The report unlocks immediately.
+
+<Warning>
+  Mark as Paid always sets the inspection to fully paid (`isPaid: true`). There is no partial-payment state in 1nspecT, so even recording a partial payment unlocks the report.
+</Warning>
+
+## Related
+
+- [Payments setup](/1nspect/admin-operator/payments-and-contracts)
+- [Web report viewer](/1nspect/features/report-viewer)
+- [Publishing and delivery](/1nspect/workflows/publishing-and-delivery)
+- [Manual payments](/1nspect/features/manual-payments)

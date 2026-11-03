@@ -1,0 +1,54 @@
+---
+id: "internachi-sop"
+title: "InterNACHI Standard of Practice"
+description: "International Association of Certified Home Inspectors residential standard. The rating scale, the pre-built InterNACHI template, and how 1nspecT keeps your reports compliant."
+sidebarTitle: "InterNACHI"
+keywords: ["internachi", "nachi", "international association certified home inspectors", "residential"]
+persona: ["admin-operator", "inspector"]
+surfaces: ["web", "mobile"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+InterNACHI (the International Association of Certified Home Inspectors) is the national home-inspector association that most non-Texas US inspectors certify through. 1nspecT ships an InterNACHI residential template for subscribers who inspect to the InterNACHI Standards of Practice. The AI, the publishing checks and the printed layout follow InterNACHI by default.
+
+## The SoP ID
+
+InterNACHI in the code is `internachi_2024`. Its name on the Standards of Practice page is **InterNACHI** (the shipped version is dated 2024).
+
+## How InterNACHI differs from TREC
+
+The mental model is similar but the mechanics are different:
+
+- **Rating scale** — InterNACHI uses a different rating taxonomy than TREC. Open **SoP Manager** › the InterNACHI card › **View Ratings** to see the exact scale shipped on your account.
+- **Section structure** — InterNACHI's sections cover the same systems as TREC but with different section names and some different subsection groupings.
+- **Narrative conventions** — InterNACHI narratives have their own tone and hedging conventions. The AI adjusts wording automatically when the template is bound to the InterNACHI SoP.
+- **Reinspection ratings** — InterNACHI reinspection uses its own rating scale. See [Reinspection rating scales](/1nspect/features/reinspection-rating-scales).
+
+## What's in the pre-built template
+
+The InterNACHI template ships with the sections InterNACHI's standard requires: roofing, exteriors, structural, electrical, plumbing, HVAC, interiors, insulation, and so on. Each section's subsections are tuned to the InterNACHI subsection list, not TREC's.
+
+## InterNACHI member ID at signup
+
+The signup form always shows an **InterNACHI member ID** field. It is required only when you sign up with the InterNACHI promo code; otherwise it is optional. There is no dynamic tag for the member ID, so it cannot be inserted into reports or emails. See [Signup](/1nspect/getting-started/welcome).
+
+## Customizing InterNACHI ratings
+
+The InterNACHI primary rating scale is locked, same as TREC, and stays locked on your clones (it is inherited live). **Clone to Customize** in SoP Manager (Professional and Team plans) gives you a copy whose reinspection ratings you can edit with **Edit Ratings**.
+
+## When to use InterNACHI vs. a state-specific SoP
+
+- **Inspecting in Texas** → use TREC (the state requires it)
+- **Inspecting in a state with its own required form** (Florida 4-Point, Louisiana, etc.) → check with your onboarding specialist about state-specific template support; the InterNACHI template is a common base to clone from
+- **Inspecting outside the US or in a state without a required form** → InterNACHI is the standard choice
+
+## Related
+
+- [Standards of Practice overview](/1nspect/features/standards-overview)
+- [TREC](/1nspect/features/trec-sop-compliance)
+- [Phase inspections](/1nspect/features/phase-inspections)
+- [Reinspection rating scales](/1nspect/features/reinspection-rating-scales)
+- [Choose your Standard of Practice](/1nspect/getting-started/choose-your-sop)
+- [Welcome](/1nspect/getting-started/welcome) (signup flow)

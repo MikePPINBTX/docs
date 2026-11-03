@@ -1,0 +1,77 @@
+---
+id: "property-baseline-reference"
+title: "Property Baseline reference"
+description: "The full field inventory of the Property Baseline panel: Site Conditions (soil, flood, radon, termite, climate) and Construction-era materials. Where the data comes from and how to re-pull it."
+sidebarTitle: "Property Baseline"
+keywords: ["property baseline", "site conditions", "construction-era materials", "climate zone", "shrink-swell", "pull baseline"]
+persona: ["admin-operator", "inspector"]
+surfaces: ["web", "mobile"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Property Baseline is 1nspecT's pre-inspection snapshot of a property. It pulls public dataset information from the address and presents it in two subsections: **Site Conditions** (physical hazards and climate) and **Construction-era materials** (what materials are typical for the home's build year and region). The baseline is intelligence for the inspector and the office, not content for the client report. The AI reads it when drafting narratives, especially for shrink-swell, climate zone and flood zone contexts.
+
+## Where you see it
+
+- **Mobile inspection setup** (first screen when the inspector taps into a job)
+- **Order Creation Wizard** (property step) — section header reads **Property Baseline**
+- **Inspection Details** (web, Overview and History tabs) — header: **AI Property Baseline Report**
+- **Pull Property Baseline button** on Inspection Details to re-pull if the property was edited
+
+## Site Conditions subsection
+
+Every row cites its source inline:
+
+| Field | Source | Example value |
+| --- | --- | --- |
+| Soil map unit | USDA NRCS SSURGO | `Rumple-Comfort, rubbly association, 1 to 8 percent slopes` |
+| Dominant component | USDA NRCS SSURGO | `Rumple (60%)` |
+| Shrink-swell potential | USDA NRCS SSURGO | `Low (LEP 2.8)` |
+| FEMA flood zone | FEMA NFHL | `X` (minimal flood hazard) |
+| EPA radon zone | EPA Radon Zones | `Zone 3 - lowest potential` |
+| Termite pressure | IRC R301.2(6) | `Very heavy` |
+| Climate zone + recommended attic insulation | DOE/PNNL Climate Zones | `Zone 2A - Recommended attic insulation R-38 (2024 IECC)` |
+
+The panel header reads **Site Conditions** with sources listed inline: `USDA NRCS SSURGO · FEMA NFHL · EPA Radon Zones · IRC R301.2(6) · DOE/PNNL Climate Zones`.
+
+### What each tells the inspector
+
+- **Shrink-swell potential** — the biggest driver of foundation movement risk. High shrink-swell soils (LEP > 6) call for close attention to grading, drainage and visible movement indicators.
+- **FEMA flood zone** — Zone A, AE, VE and similar require extra attention to grading, drainage, and anything the inspector should flag or disclaim.
+- **EPA radon zone** — Zone 1 counties justify recommending a radon test; Zone 3 counties typically don't.
+- **Termite pressure** — Moderate-to-Heavy or Very Heavy zones justify thorough examination for signs of past or current infestation and installation of termite shields.
+- **Climate zone + attic insulation** — The recommended attic insulation (R-38 in Zone 2A for new construction per the 2024 IECC) is the baseline for grading what you observe. The AI narrative uses this to word insulation findings.
+
+## Construction-era materials subsection
+
+Separate section labeled **Construction-era materials**. Each row is a material typical for the property's build year and region, with its prevalence and severity.
+
+| Field | What it is |
+| --- | --- |
+| Material category | Water supply piping, Drain Waste & Vent, Cladding, Roof covering, etc. |
+| Material type | PEX, ABS or PVC, Hardi-plank, Asphalt shingle, etc. |
+| Status badge | Current practice, Past service life, Obsolete or Safety concern |
+| Prevalence | % of builds this era used this material |
+| Severity | 1 to 10 scale (1 = no concern, 10 = known high-risk material) |
+| Narrative + source attribution | A short reason-to-look-for note with a service-life source |
+
+The panel header reads **Construction-era materials** with the subheader _"Typical for this build year and region — candidates to look for, not observations at this property."_
+
+The materials matrix is 1nspecT-maintained (not a public dataset) and based on inspection-industry service-life guidance and historical construction practice.
+
+## Pull Property Baseline
+
+In the Order Creation Wizard the baseline is a **button** you click, not an automatic step. If a property is edited later (year built changed, foundation type corrected), click **🤖 Pull Property Baseline** on Inspection Details to re-pull with the updated inputs.
+
+## Visibility
+
+Property Baseline is visible only to subscribers (owner, admin, inspector). It is not shown to the client and does not print on the published report. The AI reads it internally to frame narratives but does not cite it verbatim.
+
+## Related
+
+- [Data sources](/1nspect/features/data-sources) (deeper on each public dataset)
+- [AI features](/1nspect/features/ai-features)
+- [Starting an inspection](/1nspect/inspector/starting-an-inspection) (where inspectors see it on mobile)
+- [Order creation wizard](/1nspect/admin-operator/order-creation-wizard)

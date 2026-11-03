@@ -1,0 +1,96 @@
+---
+id: "reference-release-notes"
+title: "Release notes"
+description: "What's new in 1nspecT, by release period. The what-changed-and-why log for subscribers who want to track the product."
+sidebarTitle: "Release notes"
+keywords: ["release notes", "what's new", "changelog", "updates", "release"]
+persona: ["admin-operator", "inspector"]
+surfaces: ["web", "mobile"]
+category: "reference"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+What's new in 1nspecT. Updated as features ship. For workflow and email events, see the [Activity Log](/1nspect/features/activity-log) report.
+
+<Note>
+Starting with the November 2026 catch-up below, release notes are published to this page as features ship. If a dot in the UI isn't where you remembered it, this page is where you'll find out why.
+</Note>
+
+---
+
+## November 2026 — Help center overhaul and audit catch-up
+
+This release is primarily a documentation release that catches the help center up to the product state as of November 2026. Highlights from the past six months of product work covered in the refreshed docs:
+
+### AI and automation
+
+- **AI Insights** — Dashboard AI commentary from three advisor personas, refreshed at 6 AM, noon and 6 PM. See [AI Insights](/1nspect/features/iboss-insights).
+- **Finish & Draft Report** — one-tap batch narrative drafting from the mobile Review screen. 50 AI credits per report. Standard workflow for most inspectors.
+- **VoiceDNA** — the AI learns your company's writing voice from up to 8 sample reports. Future AI Generate calls match your voice. 50 AI credits per extraction.
+- **Property Baseline** — pre-inspection snapshot of soil, flood, radon, termite and climate zone, plus construction-era materials. Sources: USDA NRCS SSURGO, FEMA NFHL, EPA Radon Zones, IRC R301.2(6), DOE/PNNL Climate Zones. See [Property Baseline reference](/1nspect/features/property-baseline).
+- **Co-Inspector pass** — Vision Scan now runs a second-opinion pass that flags up to three additional findings per photo.
+- **Specialist writing rules** — the Narrative Review Panel now flags SoP violations trade-by-trade (HVAC, electrical, plumbing, site and grading, gas, fire safety).
+
+### Mobile
+
+- **v2.4.0** — the current mobile version.
+- **Add to Existing Finding** replaces the former Location Tag button. Two modes: 📷 Extra photo and 📍 Another location.
+- **Multi-photo per finding** is now a proper first-class flow (no more typed-shortcut workaround).
+- **Multi-instance subsections** — one subsection holds several instances of the same equipment (two HVAC units, three water heaters).
+- **Reference snippets** — attach curated reference text to findings on the Capture screen.
+- **Camera roll save** — company setting that saves every captured photo to the inspector's phone photo library.
+- **Review screen** — the old Finalize Inspection button is gone; Finish & Draft Report is the standard path.
+- **Inspection-aware autocorrect** — common voice-to-text typos (`freeze` → `frieze`, stutter cleanup) handled on top of your phone keyboard's dictation.
+
+### Pricing and orders
+
+- **Detached structures** — garages, workshops, guest houses as sq-ft-priced ancillaries. One row per structure on the order.
+- **Billing recompute** — order edits regenerate the order's single invoice in place. A price drop only flags the order as needing a refund; Stripe refunds happen only from Cancel Order or Remove Ancillary.
+- **Multi-unit surcharge** — supported on home-sqft primary services.
+- **Order edit on signed orders** — Add Service without voiding the agreement; Resend Bundle handles the paperwork.
+
+### Reports
+
+- **All 9 financial and operational reports** are now available with CSV export: Monthly Reconciliation, Stripe Payouts, All Invoices, Outstanding A/R, Service Mix, Agent Referrals, Inspector Productivity, Activity Log, Tax Summary.
+- **Dashboard tiles trimmed (#537)** — the AI hours saved tile and the NPS card were removed. The Dashboard now shows five KPI tiles: Revenue, Inspections completed, Average ticket, Collection rate, and Signed pipeline (with its own 7d / 30d / 90d / All toggle independent of the period filter). A Performance Metrics row (Ancillary attach, Quote close, Inspection time) sits below the tiles. Three charts (revenue trend, pipeline funnel, service mix) and the Action Items / Upcoming / Top Agents panels remain.
+
+### Email delivery and bounces (#536)
+
+- Per-recipient **delivery status** now appears on the Communications tab of each order (sent, delivered, bounced, failed).
+- A **bounce banner** surfaces on Inspection Details when a client email bounced.
+- A **bounce notice email** goes to the subscriber when a client email bounces, so you know to call the client.
+- A **Dashboard alert** at the top of the home screen aggregates "emails didn't arrive" cases so you don't have to open each order to find them.
+
+### SoP
+
+- **SoP Manager** — browse platform SoPs, view ratings, clone to customize. See [SoP Manager](/1nspect/admin-operator/sop-manager).
+- **Four platform SoPs** — TREC 7-6, InterNACHI, Phase 1 Pre-Pour, Phase 2 Pre-Drywall. Signup chooses your residential standard and seeds the matching template.
+- **Reinspection rating scales** — each SoP ships its own; editable on a cloned SoP.
+
+### Billing
+
+- **Self-serve Billing page** at `/settings/billing` — plan change, credit packs, inspection packs (Solo only), seats.
+- **Plans** — Solo / Professional / Team (names updated from Starter / Pro / Team).
+- **AI Credits** is the rolling-out label for 1nspecTokens / IT. Billing already uses the new label; a few UI corners still show the old one during the transition.
+
+### Integrations
+
+- **Haven integration** (formerly HomeBinder) — tenant-level and per-order toggles for sending published reports to the client's Haven binder.
+- **Climate zones** added to Property Baseline (DOE/PNNL), with recommended attic insulation for new construction per the 2024 IECC.
+
+### Documentation
+
+- **Help center refresh** — the help site at `help.1nspect.app` has been rewritten end-to-end to match the November 2026 product state. 150+ pages across Start Here, Daily Operations, Dashboard & Reports, Mobile, Templates & Libraries, Standards, Client Experience, Payments, Integrations, Admin Reference, and Troubleshooting.
+
+---
+
+## Earlier releases
+
+Release notes before November 2026 are not published here. For workflow and email history, use the [Activity Log](/1nspect/features/activity-log) report.
+
+## Related
+
+- [Glossary](/1nspect/glossary)
+- [Activity Log](/1nspect/features/activity-log)
+- [AI Credits](/1nspect/features/it-tokens)

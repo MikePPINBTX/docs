@@ -1,0 +1,58 @@
+---
+id: "report-all-invoices"
+title: "All Invoices"
+description: "One row per inspection invoice in the period, with a PDF link per row and a CSV export of the full list for your bookkeeper."
+sidebarTitle: "All Invoices"
+keywords:
+  - "invoices"
+  - "invoice list"
+  - "pdf download"
+  - "csv"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+All Invoices is the simplest report in the suite: a flat list with one invoice per inspection in the period, with a PDF download on every row and a one-click CSV export of the full list. Built for bulk accounting handoff.
+
+## Where to find it
+
+**Reports** top-nav › the **All Invoices** card.
+
+## Filters
+
+| Filter | Options |
+| --- | --- |
+| Period | Period selector at the top of the report. |
+
+## What the report shows
+
+Stat grid at the top with totals for the period: **Invoices**, **Paid**, **Unpaid** and **Total Amount**.
+
+Table below with one row per inspection:
+
+- Invoice #
+- Generated
+- Client
+- Property
+- Amount
+- Status (paid or unpaid; there is no partial state)
+- PDF
+
+## Export to CSV
+
+Click the **CSV** button to export the full list. Column headers match the on-screen table.
+
+## How invoices are generated
+
+There is one invoice per inspection, regenerated in place when the order changes. There are no top-up or incremental invoices. See [Invoices](/1nspect/features/invoices) and [Payments setup](/1nspect/admin-operator/payments-and-contracts) for payment configuration.
+
+## Related
+
+- [Monthly Reconciliation](/1nspect/features/monthly-reconciliation)
+- [Outstanding A/R](/1nspect/features/outstanding-ar)
+- [Stripe Payouts](/1nspect/features/stripe-payouts)

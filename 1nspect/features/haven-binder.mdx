@@ -1,0 +1,46 @@
+---
+id: "client-experience-haven-binder"
+title: "Haven binder"
+description: "When Haven is enabled on an order, the published report is delivered to the client's Haven home binder automatically. Nothing extra for the client to do."
+sidebarTitle: "Haven binder"
+keywords: ["haven", "homebinder", "home binder", "home-management", "client experience"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Haven (formerly HomeBinder) is a third-party home-management service that gives homeowners a lifetime binder for their home: maintenance reminders, documents, photos, and inspection reports. When your company has Haven set up and enabled on an order, the published inspection report lands in the client's Haven binder automatically alongside the normal delivery.
+
+## What your client experiences
+
+If the order has Haven enabled, once the report is **published and paid** the client receives:
+
+- The normal 1nspecT delivery (email with the report link to the mobile-first web viewer and PDF)
+- **Plus** a Haven email with their new home binder set up. Haven receives a **report link**, not a PDF.
+
+From the Haven binder, the client can also store receipts, warranty documents, maintenance reminders, and photos for the life of the home. Haven stays active even if they sell or move: Haven is their account, not yours.
+
+## Where it's turned on
+
+- **Tenant level**: enabled in **Business Ops › Integrations**. Covered in [Haven integration](/1nspect/features/haven-integration).
+- **Per order**: a per-order **Send to Haven on publish** toggle appears on the Inspection Details page when Haven is enabled at the tenant level. Defaults to on; uncheck to skip for a specific order.
+
+## When it fires
+
+Only when the report is **published and paid**. It skips reinspections and master inspections. There is no "Resend" button in the UI; resending is owner-only through the API.
+
+## When it doesn't fire
+
+- The tenant-level switch is off
+- The per-order toggle has been unchecked
+- The order has no Haven-eligible client email
+- The report is published but not yet paid
+- The inspection is a reinspection or a master
+
+## Related
+
+- [Haven integration](/1nspect/features/haven-integration) (how to connect)
+- [Web report viewer](/1nspect/features/report-viewer)
+- [Publishing and delivery](/1nspect/workflows/publishing-and-delivery)

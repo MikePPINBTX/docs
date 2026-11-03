@@ -1,0 +1,101 @@
+---
+id: "start-here-contracts"
+title: "Contract templates"
+description: "Create your service agreement in Contracts Cockpit. Insert dynamic tags for client details and signatures, and choose which orders it applies to. Test Send is a real send."
+sidebarTitle: "Contracts"
+keywords:
+  - "contracts"
+  - "agreement"
+  - "e-signature"
+  - "insert tag"
+  - "test send"
+  - "require co-client"
+  - "signature block"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Contracts Cockpit is where you build the service agreements your clients sign. 1nspecT has built-in e-signature, so clients sign in a browser and the signed PDF is stamped and stored on the order. You can have one agreement for every order or several agreements for different service types.
+
+<Info>
+**Required** to run your first inspection: at least one agreement set to apply to All orders. The agreement must be signed before the inspection can start on the phone.
+</Info>
+
+## Where to find it
+
+In the top bar, click **Business Ops**, then click the **Contracts** tab (fourth of seven tabs). The section inside is labeled **Agreements**.
+
+## Add an agreement
+
+Click the add action to open the Agreement editor. Fill in:
+
+| Field | Notes |
+| --- | --- |
+| Agreement name | What subscribers see. Placeholder: `Agreement name (e.g. Primary Service Agreement)`. |
+| Scope | **All orders** or specific services. This is a choice, not a trigger. |
+| Active | Toggle to enable or disable the agreement. |
+| Require co-client to sign | When on, the co-client must sign as well. |
+| Agreement Body | The rich-text body of the agreement. Use **Insert Tag** to insert dynamic fields. |
+
+### Insert Tag
+
+Click **Insert Tag** to open the tag picker. Tags are grouped:
+
+- **Order Fields** — client, address, scheduling, pricing and service tags
+- **Reinspection** — reinspection scope tags
+- **Inspector / Company** — inspector name and license, company name and logo
+- **Signature — Client** — signature, Date and Initials blocks for the primary client
+- **Signature — Co-Client** — signature, Date and Initials blocks for the co-signer
+
+Tags render at send time, so each client sees their own name, address, fee and signature block. For the full catalog with every tag's purpose, see [Variable tags reference](/1nspect/getting-started/variable-tags-reference).
+
+### Save
+
+Click **Save Agreement** at the bottom of the editor.
+
+## Test Send is a real send
+
+<Warning>
+  **Test Send** (next to Save) is not a safe preview. It calls the live send, fires the `contract.sent` trigger and emails the real client on that inspection. Use a test order that carries your own email address.
+</Warning>
+
+<Steps>
+<Step title="Open Test Send">
+At the bottom of the Agreement editor, click **Test Send**. A panel opens.
+</Step>
+<Step title="Paste an Inspection ID">
+Enter the ID of an existing inspection. Placeholder: `Inspection ID (e.g. 2026-0062-RS)`.
+</Step>
+<Step title="Send">
+Click **Send**. 1nspecT sends every applicable agreement for that inspection for real, to the client on that inspection.
+</Step>
+</Steps>
+
+## Multiple agreements
+
+For companies that run multiple service types, you can have more than one agreement:
+
+- A primary service agreement that applies to **All orders**
+- A reinspection agreement that applies only to **Reinspections**
+- An ancillary agreement for a specific ancillary (if that ancillary has **Own Agreement** turned on in [Ancillary services](/1nspect/getting-started/ancillary-services))
+
+1nspecT sends every applicable agreement as a bundle when the triggering event fires.
+
+## Deleting an agreement
+
+Click the delete action on an agreement card. The confirmation reads: _"Delete this agreement? This cannot be undone."_
+
+## What to do next
+
+- [Communication templates](/1nspect/getting-started/communication-templates)
+- [Communication workflows](/1nspect/getting-started/communication-workflows)
+
+## Related
+
+- [Ancillary services](/1nspect/getting-started/ancillary-services)
+- [Build your inspection template](/1nspect/getting-started/build-your-first-template)

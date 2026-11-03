@@ -1,0 +1,63 @@
+---
+id: "payments-invoices"
+title: "Invoices"
+description: "One invoice per inspection, regenerated in place as the order changes. Where to find it, what the PDF contains, and how clients download it."
+sidebarTitle: "Invoices"
+keywords:
+  - "invoices"
+  - "invoice pdf"
+  - "invoice generation"
+  - "regenerate"
+  - "receipt"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Each inspection has **one invoice**. It is not a series of top-up or incremental invoices: when the order changes, the same invoice is **regenerated in place** so it always shows the current total. The invoice is a PDF, available from the order, from the client portal and from the [All Invoices](/1nspect/features/all-invoices) report.
+
+## Where invoices live
+
+- **On the order**: Inspection Details, on the **Overview** tab's pricing card. The card has **View**, **Regenerate** and **Generate Invoice** actions.
+- **In the client portal**: the client gets **Download Invoice** and, once paid, **Download Receipt**.
+- **In reports**: the [All Invoices](/1nspect/features/all-invoices) report lists one row per inspection with a PDF link.
+
+## How the invoice changes as the order changes
+
+| Event | What happens |
+| --- | --- |
+| Order created or agreement signed | The invoice can be generated from the pricing card (**Generate Invoice**) |
+| Order edited, service added or removed, price changes | Billing is recomputed and the invoice is regenerated in place. Click **Regenerate** if you need to force a fresh PDF |
+| Price drops below what was already paid | The order is only flagged as needing a refund. Nothing is refunded automatically |
+| Payment recorded (Stripe or **Record Payment**) | The order is marked paid and the client can download a receipt |
+
+There are no credit notes and no automatic refunds from a price drop. Stripe refunds happen only from **Cancel Order** or **Remove Ancillary**. See [Refunds](/1nspect/features/refunds).
+
+## PDF content
+
+The invoice PDF includes:
+
+- Your company name, logo and address (from Company Info)
+- The client name and property address
+- The itemized services with per-line prices
+- Any discounts and surcharges applied
+- The grand total
+- Payment status
+
+The invoice PDF has **no tax line** and **no payment instructions**. It does not carry your Stripe link or your Venmo or Zelle handles; clients find those in the portal.
+
+## No partial states
+
+**Record Payment** always marks the order paid in full. There is no partial-payment state, no running balance on the invoice, and no top-up invoice for the difference.
+
+## Related
+
+- [All Invoices](/1nspect/features/all-invoices) (the report)
+- [Manual payments](/1nspect/features/manual-payments)
+- [Payments setup](/1nspect/admin-operator/payments-and-contracts)
+- [Refunds](/1nspect/features/refunds)
+- [Rates, taxes and processing fees](/1nspect/getting-started/rates-taxes-fees)

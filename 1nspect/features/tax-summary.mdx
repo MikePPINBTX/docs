@@ -1,0 +1,83 @@
+---
+id: "report-tax-summary"
+title: "Tax Summary"
+description: "An annual revenue summary grouped by service category. Shows gross revenue, inspections, service mix and monthly breakdown for the year you pick."
+sidebarTitle: "Tax Summary"
+keywords:
+  - "tax summary"
+  - "annual revenue"
+  - "service categories"
+  - "year-end"
+  - "cpa"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Tax Summary is the year-end revenue report. Pick a year and you get your gross revenue, inspection count, service mix and a month-by-month breakdown. Export to CSV and hand to your CPA.
+
+<Note>
+  Despite the name, this report does **not** compute sales tax. It shows revenue; your CPA handles the tax calculation from your deposit records.
+</Note>
+
+## Where to find it
+
+**Reports** top-nav › the **Tax Summary** card.
+
+## Filter
+
+| Filter | Options |
+| --- | --- |
+| Year | Dropdown with the current year and the two prior years. |
+
+## What the report shows
+
+### Headline stats
+
+- **Gross revenue** — total billed revenue for the year
+- **Total inspections** — count of completed inspections
+- **Service categories** — count of distinct service types sold
+- **Avg per inspection** — revenue divided by inspection count
+
+### Monthly table
+
+One row per month:
+
+- Month
+- Inspections (count)
+- Revenue (dollars)
+
+### By-category table
+
+Revenue broken down by service type:
+
+- Service name
+- Inspection count
+- Revenue
+- Share of total
+
+## Export to CSV
+
+Click the **CSV** button to download the report (monthly table + by-category table) in one file.
+
+## What this is not
+
+- Not a sales tax report. 1nspecT does not compute collected or owed sales tax here.
+- Not a profit-and-loss statement.
+- Not a 1099 summary.
+- Not a refund-aware report. The numbers reflect current inspection state (so cancelled or refunded orders drop out of the totals), but there are no refund entries called out.
+
+## For your CPA
+
+Hand the CSV to your bookkeeper or CPA. They'll pair it with your actual Stripe deposits, bank statements, and expense records to produce your year-end books. The Tax Summary tells them what you billed; it does not tell them what you owe.
+
+## Related
+
+- [Monthly Reconciliation](/1nspect/features/monthly-reconciliation) (billed vs. deposited)
+- [All Invoices](/1nspect/features/all-invoices)
+- [Service Mix](/1nspect/features/service-mix) (deeper on service-by-service)
+- [Rates, taxes and processing fees](/1nspect/getting-started/rates-taxes-fees) (where you set your sales tax rate)

@@ -28,112 +28,208 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "1nSpecT Platform",
+        "tab": "1nspecT Platform",
         "groups": [
           {
-            "group": "Getting Started",
+            "group": "Start Here",
             "pages": [
-              "1nspect/getting-started/account-and-branding",
-              "1nspect/getting-started/build-your-first-template",
-              "1nspect/getting-started/create-your-first-order",
-              "1nspect/getting-started/mobile-inspection-walkthrough",
-              "1nspect/getting-started/generate-your-first-report"
-            ]
-          },
-          {
-            "group": "Web Admin",
-            "pages": [
-              "1nspect/admin-operator/overview",
+              "1nspect/getting-started/welcome",
+              "1nspect/getting-started/how-1nspect-works",
               {
-                "group": "Foundation",
+                "group": "Stage 1 — Business identity",
                 "pages": [
-                  "1nspect/admin-operator/inspections-list",
-                  "1nspect/admin-operator/order-creation-wizard",
-                  "1nspect/admin-operator/inspection-details",
-                  "1nspect/admin-operator/inspection-reviewer"
+                  "1nspect/getting-started/company-profile",
+                  "1nspect/getting-started/branding",
+                  "1nspect/getting-started/add-your-team"
                 ]
               },
               {
-                "group": "Operations",
+                "group": "Stage 2 — Services and pricing",
                 "pages": [
-                  "1nspect/admin-operator/comms-cockpit",
-                  "1nspect/admin-operator/contracts-cockpit",
-                  "1nspect/admin-operator/payments-and-contracts",
-                  "1nspect/admin-operator/reports-and-publishing",
-                  "1nspect/admin-operator/cover-designer",
-                  "1nspect/admin-operator/contacts"
+                  "1nspect/getting-started/pricing-manager-overview",
+                  "1nspect/getting-started/primary-services",
+                  "1nspect/getting-started/ancillary-services",
+                  "1nspect/getting-started/packages-discounts-surcharges",
+                  "1nspect/getting-started/rates-taxes-fees",
+                  "1nspect/getting-started/detached-structures"
                 ]
               },
               {
-                "group": "Templates",
+                "group": "Stage 3 — Reports",
                 "pages": [
-                  "1nspect/admin-operator/templates/overview",
-                  "1nspect/admin-operator/templates/template-builder",
-                  "1nspect/admin-operator/templates/template-editor",
-                  "1nspect/admin-operator/templates/template-designer",
-                  "1nspect/admin-operator/templates/schema-upload-and-review",
-                  "1nspect/admin-operator/templates/visual-page-designer",
-                  "1nspect/admin-operator/templates/pdf-mapper"
+                  "1nspect/getting-started/choose-your-sop",
+                  "1nspect/getting-started/build-your-first-template",
+                  "1nspect/getting-started/smart-equipment-fields",
+                  "1nspect/getting-started/cover-and-layout",
+                  "1nspect/getting-started/attach-libraries",
+                  "1nspect/getting-started/aipi"
                 ]
               },
               {
-                "group": "Intelligence Hub",
+                "group": "Stage 4 — Client paperwork and comms",
                 "pages": [
-                  "1nspect/admin-operator/intelligence-hub/overview",
-                  "1nspect/admin-operator/intelligence-hub/narrative-library",
-                  "1nspect/admin-operator/intelligence-hub/narrative-collections",
-                  "1nspect/admin-operator/intelligence-hub/smart-comments",
-                  "1nspect/admin-operator/intelligence-hub/option-lists",
-                  "1nspect/admin-operator/intelligence-hub/keyword-management"
+                  "1nspect/getting-started/contracts",
+                  "1nspect/getting-started/communication-templates",
+                  "1nspect/getting-started/communication-workflows",
+                  "1nspect/getting-started/online-booking",
+                  "1nspect/getting-started/google-calendar",
+                  "1nspect/getting-started/review-requests",
+                  "1nspect/getting-started/variable-tags-reference"
                 ]
               },
               {
-                "group": "Company & Pricing",
+                "group": "Stage 5 — Go live",
                 "pages": [
-                  "1nspect/admin-operator/company-and-pricing/company-info",
-                  "1nspect/admin-operator/company-and-pricing/company-settings",
-                  "1nspect/admin-operator/company-and-pricing/pricing-manager",
-                  "1nspect/admin-operator/company-and-pricing/pricing-settings"
+                  "1nspect/getting-started/test-run-checklist",
+                  "1nspect/getting-started/first-run-gotchas"
                 ]
               }
             ]
           },
           {
-            "group": "Workflows",
+            "group": "Daily Operations",
             "pages": [
               "1nspect/workflows/booking-to-published-report",
-              "1nspect/workflows/template-to-finished-report",
-              "1nspect/workflows/assigning-and-handoff",
-              "1nspect/workflows/aging-equipment-flagging"
+              "1nspect/workflows/managing-orders",
+              "1nspect/workflows/reinspections",
+              "1nspect/workflows/pre-publish-checks",
+              "1nspect/workflows/publishing-and-delivery"
             ]
           },
           {
-            "group": "Features",
+            "group": "Dashboard and Reports",
+            "pages": [
+              "1nspect/features/dashboard-overview",
+              "1nspect/features/iboss-insights",
+              "1nspect/features/reports-overview",
+              "1nspect/features/monthly-reconciliation",
+              "1nspect/features/stripe-payouts",
+              "1nspect/features/all-invoices",
+              "1nspect/features/outstanding-ar",
+              "1nspect/features/service-mix",
+              "1nspect/features/agent-referrals",
+              "1nspect/features/inspector-productivity",
+              "1nspect/features/activity-log",
+              "1nspect/features/tax-summary"
+            ]
+          },
+          {
+            "group": "AI and Credits",
             "pages": [
               "1nspect/features/ai-features",
               "1nspect/features/it-tokens",
+              "1nspect/features/voicedna",
+              "1nspect/features/property-baseline"
+            ]
+          },
+          {
+            "group": "Standards",
+            "pages": [
+              "1nspect/features/standards-overview",
               "1nspect/features/trec-sop-compliance",
-              "1nspect/features/communications",
-              "1nspect/features/contracts",
-              "1nspect/features/portals",
+              "1nspect/features/internachi",
+              "1nspect/features/phase-inspections",
+              "1nspect/features/reinspection-rating-scales"
+            ]
+          },
+          {
+            "group": "Client and Agent Experience",
+            "pages": [
               "1nspect/features/public-booking",
+              "1nspect/features/quote-page",
+              "1nspect/features/portals",
+              "1nspect/features/realtor-portal",
+              "1nspect/features/report-viewer",
+              "1nspect/features/repair-request-builder",
+              "1nspect/features/haven-binder"
+            ]
+          },
+          {
+            "group": "Payments",
+            "pages": [
+              "1nspect/admin-operator/payments-and-contracts",
+              "1nspect/features/manual-payments",
+              "1nspect/features/payment-locked-reports",
+              "1nspect/features/invoices",
+              "1nspect/features/refunds"
+            ]
+          },
+          {
+            "group": "Communications",
+            "pages": [
+              "1nspect/admin-operator/comms-cockpit",
+              "1nspect/features/review-requests-best-practices",
+              "1nspect/features/warranty-followups"
+            ]
+          },
+          {
+            "group": "Templates",
+            "pages": [
+              "1nspect/admin-operator/templates/overview",
+              "1nspect/admin-operator/templates/template-builder",
+              "1nspect/admin-operator/templates/template-editor",
+              "1nspect/admin-operator/templates/template-designer",
+              "1nspect/admin-operator/templates/schema-upload-and-review"
+            ]
+          },
+          {
+            "group": "Intelligence Hub",
+            "pages": [
+              "1nspect/admin-operator/intelligence-hub/overview",
+              "1nspect/admin-operator/intelligence-hub/narrative-library",
+              "1nspect/admin-operator/intelligence-hub/narrative-collections",
+              "1nspect/admin-operator/intelligence-hub/option-lists",
+              "1nspect/admin-operator/intelligence-hub/supplemental-documents",
+              "1nspect/admin-operator/intelligence-hub/reference-snippets"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "1nspect/features/integrations-overview",
               "1nspect/features/calendar-integration",
-              "1nspect/features/multi-tenant-and-team"
+              "1nspect/features/haven-integration",
+              "1nspect/features/google-maps-places",
+              "1nspect/features/data-sources",
+              "1nspect/features/resend-email"
+            ]
+          },
+          {
+            "group": "Admin Reference",
+            "pages": [
+              "1nspect/admin-operator/overview",
+              "1nspect/admin-operator/inspections-list",
+              "1nspect/admin-operator/order-creation-wizard",
+              "1nspect/admin-operator/inspection-details",
+              "1nspect/admin-operator/inspection-reviewer",
+              "1nspect/admin-operator/contracts-cockpit",
+              "1nspect/admin-operator/cover-designer",
+              "1nspect/admin-operator/contacts",
+              "1nspect/admin-operator/sop-manager",
+              "1nspect/admin-operator/users",
+              "1nspect/admin-operator/company-and-pricing/company-info",
+              "1nspect/admin-operator/company-and-pricing/company-settings",
+              "1nspect/admin-operator/company-and-pricing/pricing-manager",
+              "1nspect/admin-operator/company-and-pricing/pricing-settings",
+              "1nspect/admin-operator/reports-and-publishing"
             ]
           },
           {
             "group": "Troubleshooting",
             "pages": [
               "1nspect/troubleshooting/common-issues",
-              "1nspect/troubleshooting/web-admin",
               "1nspect/troubleshooting/mobile",
-              "1nspect/troubleshooting/sync-and-offline"
+              "1nspect/troubleshooting/web-admin",
+              "1nspect/troubleshooting/sync-and-offline",
+              "1nspect/troubleshooting/inspection-didnt-sync",
+              "1nspect/troubleshooting/billing-and-credits"
             ]
           },
           {
             "group": "Reference",
             "pages": [
-              "1nspect/glossary"
+              "1nspect/glossary",
+              "1nspect/reference/release-notes"
             ]
           }
         ]
@@ -172,7 +268,7 @@
         },
         {
           "anchor": "Contact Support",
-          "href": "mailto:support@1nspect.app",
+          "href": "mailto:support@mymavtech.com",
           "icon": "envelope"
         }
       ]
@@ -185,5 +281,77 @@
   },
   "contextual": {
     "options": ["copy", "view", "claude"]
-  }
+  },
+  "redirects": [
+    {
+      "source": "/1nspect/getting-started/account-and-branding",
+      "destination": "/1nspect/getting-started/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/getting-started/create-your-first-order",
+      "destination": "/1nspect/getting-started/test-run-checklist",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/getting-started/mobile-inspection-walkthrough",
+      "destination": "/1nspect/inspector/capture-screen",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/getting-started/generate-your-first-report",
+      "destination": "/1nspect/workflows/booking-to-published-report",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/workflows/template-to-finished-report",
+      "destination": "/1nspect/getting-started/build-your-first-template",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/workflows/aging-equipment-flagging",
+      "destination": "/1nspect/workflows/pre-publish-checks",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/workflows/assigning-and-handoff",
+      "destination": "/1nspect/workflows/booking-to-published-report",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/features/multi-tenant-and-team",
+      "destination": "/1nspect/admin-operator/users",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/features/communications",
+      "destination": "/1nspect/getting-started/communication-workflows",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/features/contracts",
+      "destination": "/1nspect/getting-started/contracts",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/admin-operator/templates/visual-page-designer",
+      "destination": "/1nspect/admin-operator/templates/template-designer",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/admin-operator/templates/pdf-mapper",
+      "destination": "/1nspect/admin-operator/templates/template-builder",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/admin-operator/intelligence-hub/keyword-management",
+      "destination": "/1nspect/admin-operator/intelligence-hub/smart-comments",
+      "permanent": true
+    },
+    {
+      "source": "/1nspect/admin-operator/intelligence-hub/smart-comments",
+      "destination": "/1nspect/admin-operator/intelligence-hub/overview",
+      "permanent": true
+    }
+  ]
 }

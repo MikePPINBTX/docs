@@ -1,0 +1,181 @@
+---
+id: "start-here-primary-services"
+title: "Primary services"
+description: "Define your main inspection products on the Primary Services tab. Set the pricing model, build tiers in the units you want, and pick per-service defaults for template, libraries and inspection type."
+sidebarTitle: "Primary services"
+keywords:
+  - "primary services"
+  - "service registry"
+  - "sqft tiers"
+  - "single tier"
+  - "reinspection"
+  - "large building"
+  - "pricing tiers"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Primary services are the main inspections you sell. Residential Resale, each New Construction phase, Re-Inspection: they all live on the Primary Services tab of Pricing Manager. Each service has its own identity, its own pricing model, its own duration formula, and per-service defaults for the template and libraries that inspections created from it will use.
+
+## Where to find it
+
+**Business Ops › Pricing** (or `/pricing`), then the **Primary Services** tab (the first tab).
+
+The left panel, titled **Service Types**, lists every service on your account with its code and pricing model (`P1 · SqFt-Based`, `RS · SqFt-Based`, `RI · Reinspection · Internal`). Click a service to open its edit panel on the right. Click **\+ Add** at the top of the list to add a new service.
+
+## Service identity and billing configuration
+
+The top block of the edit panel sets the service's identity:
+
+| Field | Notes |
+| --- | --- |
+| Service Label | What subscribers and clients see. Example: `Residential Resale`. |
+| ID Suffix | A short code appended to order numbers. Example: `RS` yields `Booking ID: 2026-0001-RS`. |
+| Sort Order | Where this service sorts on the booking form (1 = first). |
+| Pricing Model | **SqFt-Based**, **Reinspection**, or **Custom** (disabled for now). There is no Flat Fee model: for a flat price, use a single tier. |
+| Inspection Type | Stamped onto the inspection at order creation. Drives AI narrative framing. A Pre-Pour or Pre-Drywall service left unset is written up as a resale inspection, so set this one. |
+
+## Defaults for new inspections
+
+Each primary service can carry three defaults that are stamped onto every inspection created from it:
+
+| Default | What it does |
+| --- | --- |
+| Template | The template an inspection of this service will use. |
+| Narrative Collection | The narrative collection the AI drafts from. |
+| Caption Library | The caption library the mobile autocomplete reads from. |
+
+A default is **filled in when an order (or an added service on an existing order) creates an inspection of this service and the field is still empty**. Defaults never overwrite values already set on an existing inspection. Leave a default blank to inherit the company default from **Business Ops › Company Info**.
+
+<Tip>
+  Set these per-service rather than relying only on the company default. Running TREC resale and InterNACHI pre-pour on the same company? Each service points to its own template and matching libraries, and new inspections pick the right one automatically.
+</Tip>
+
+## Pricing / duration basis
+
+Picks what the sqft number means for this service and what the tiers and duration formula read from:
+
+| Basis option | When to use it |
+| --- | --- |
+| Home square footage (default) | Standard resale inspections — one unit's conditioned square footage |
+| Foundation footprint | Pre-pour and other slab-based services. Priced on the slab, including the garage and any porches in the pour |
+| Building total (all units) | Pre-Drywall on a multi-unit building — the whole building's living area |
+
+<Note>
+  The multi-unit fee (if your account charges one) applies only to services on home square footage. A footprint or building-total service already prices the extra units by area, so the multi-unit fee is suppressed.
+</Note>
+
+## Service flags
+
+Four checkboxes and two advanced fields:
+
+| Field | Notes |
+| --- | --- |
+| Internal Only | Hide this service from the client quote form. Useful for crew-only extras. |
+| Can Be Standalone | Allow an order of this service without a primary inspection. |
+| Own Agreement | This service needs its own agreement sent separately from the primary. |
+| Bundle Agreement Group | A text identifier. It is saved but **never read**, so it has no effect on agreements today. |
+| Revenue Model | In-House, Managed (3rd Party), or Referral. |
+
+## Pricing Tiers
+
+For SqFt-Based services, the Pricing Tiers section is where you define exactly how price scales with square footage. **Each tier is user-defined**: you set the sqft window (Min and Max) and the base fee for that window, and you decide whether to charge per sqft above the window.
+
+### Fields per tier
+
+| Field | Notes |
+| --- | --- |
+| Min Sq Ft | The lower bound of this tier. |
+| Max Sq Ft | The upper bound. Set to the flat ceiling for that tier. Leave blank **only** on the top tier (the one with no upper bound). |
+| Base Fee (\$) | The flat price for homes inside this tier. |
+| Charge per sq ft above Max Sq Ft (checkbox) | Turn on to add a per-sqft charge above the Max. |
+| Increment (sq ft) | The unit size you charge in. Example: `100` for "per 100 sqft". |
+| \$ per Increment | The dollar amount per unit. Example: `11` for `$11 per 100 sqft`. |
+
+### How it bills
+
+Flat Base Fee up to Max Sq Ft, then adds `$ per Increment` for each started block above it (rounds up).
+
+**Worked example** (from the actual UI):
+
+> `Max 1,200 · Base $365 · Increment 100 · $11 per increment → 3,000 sqft = $365 + (18 × $11) = $563`
+
+You can mix styles across tiers. You might have:
+
+- A low-end tier priced flat up to 1,200 sqft, then \$11 per 100 sqft above
+- A mid-tier flat up to 3,500 sqft with no overage
+- A top tier (no Max Sq Ft) that reads purely from an increment rate
+
+Entirely up to you — add tiers with **Add Tier**, remove with the delete icon. Click **Save Tiers** at the bottom of the tiers section to commit this one service's tier changes. The top-right **Save Registry** button saves the entire primary-services list.
+
+### Flat pricing
+
+There is no Flat Fee pricing model. To bill one price regardless of square footage, keep a single tier with a high enough Max Sq Ft (or no Max) and no per-sqft overage.
+
+### Reinspection pricing
+
+Pick **Reinspection** as the Pricing Model and the pricing section switches to reinspection options:
+
+- **Flat Fee** — one price for every reinspection of this service
+- **% of Original Fee** — a percentage of what the original inspection cost
+- **Custom (set at booking)** — leave the price open for the admin to set per order
+
+An **Include Mileage** toggle controls whether the mileage surcharge carries through.
+
+## Duration Formula (per-service override)
+
+Each service can override the global duration formula from Settings:
+
+```text
+duration = base + (sqft − base_sqft) × slope / 1000
+```
+
+Rules: 60-minute absolute floor; result rounded up to the nearest 30 minutes.
+
+Leave any field blank to inherit the schedule-level default (Business Ops › Pricing › Settings).
+
+| Field | Notes |
+| --- | --- |
+| Base Duration (min) | Duration at the Base Sq Ft anchor. |
+| Base Sq Ft (anchor) | The sqft where Base Duration applies. |
+| Slope (min / 1000 sqft) | Minutes added per 1,000 extra sqft above the anchor. |
+
+The edit panel shows a live **Preview** of what the formula produces for several sqft points. For example: `1,000sqft → 2h 30m · 2,000sqft → 3h · 3,000sqft → 4h · 4,000sqft → 4h 30m · 5,000sqft → 5h 30m · 6,000sqft → 6h`.
+
+## Large Building Pricing (over threshold)
+
+For large homes, Pricing Tiers can be overridden by a straight per-sqft rate.
+
+| Field | Notes |
+| --- | --- |
+| Enable Large Building Pricing | Toggle on to apply the override above the threshold. |
+| Threshold (sq ft) | Above this sqft, the service uses the Per Sq Ft Fee instead of the tiers. |
+| Per Sq Ft Fee (\$) | The rate applied to the total square footage (`total sqft × rate`). |
+
+**Example** (from the actual UI): threshold 3,900 sqft at \$0.17/sqft means a 4,900 sqft home is priced at \$0.17 × 4,900 = \$833.00.
+
+Use this when the tiered pricing doesn't scale fairly into very large homes.
+
+## Save
+
+- **Save Tiers** (inside the Pricing Tiers section) commits the tiers for this one service.
+- **Save Registry** (top right of the tab, repeated at the bottom) commits the entire Primary Services list.
+
+Both are safe to click repeatedly: no destructive side effects.
+
+## What to do next
+
+- [Ancillary services](/1nspect/getting-started/ancillary-services) — your add-ons
+- [Packages, discounts and surcharges](/1nspect/getting-started/packages-discounts-surcharges)
+- [Rates, taxes and fees](/1nspect/getting-started/rates-taxes-fees)
+
+## Related
+
+- [Pricing Manager overview](/1nspect/getting-started/pricing-manager-overview)
+- [Detached structures](/1nspect/getting-started/detached-structures)
+- [Attach caption and narrative libraries](/1nspect/getting-started/attach-libraries)

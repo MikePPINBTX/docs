@@ -1,0 +1,86 @@
+---
+id: "start-here-communication-templates"
+title: "Communication templates"
+description: "Write the emails 1nspecT sends to your clients and agents on your behalf. Insert dynamic tags for client details, order fields and report links."
+sidebarTitle: "Email templates"
+keywords:
+  - "email"
+  - "templates"
+  - "automated email"
+  - "insert hyperlink"
+  - "insert variable"
+  - "booking confirmation"
+  - "review request"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Every automated email 1nspecT sends to your clients and agents (booking confirmation, agreement sent, payment received, report delivered, review request, warranty follow-up) uses an email template you edit here. Templates set the message. The [workflow](/1nspect/getting-started/communication-workflows) sets when each one is sent and to whom.
+
+<Info>
+**Required** to run your first inspection: enough templates to cover the triggers your workflow uses. 1nspecT ships with a starter set you can edit.
+</Info>
+
+## Where to find it
+
+In the top bar, click **Business Ops**, then click the **Communications** tab (fifth of seven tabs). Communications Cockpit has two sub-tabs across the top:
+
+- **Email Templates** — this page
+- **Workflow** — covered in [Communication workflows](/1nspect/getting-started/communication-workflows)
+
+Stay on **Email Templates**.
+
+## The template list
+
+The left panel shows **Templates (N)** with a count of your current templates. Click a template to open it in the editor on the right. Click add to start a new template; the right panel header reads **New Template**.
+
+## Edit a template
+
+The template editor has:
+
+- A **template name**
+- A **subject line**
+- A rich-text **body**
+- An **Insert Hyperlink** dialog for adding links to the body (report link, portal link, booking link)
+- An **Insert Variable** dropdown for dynamic fields (client first name, inspection date, property address, inspector name)
+
+There is no preview in the editor. To check a template, send a test order through the workflow.
+
+### Dynamic tags
+
+Tags are inserted inline in your subject or body. Common tags:
+
+- Client first and last name
+- Co-client name
+- Property address
+- Inspection date and time
+- Inspector name
+- Report link (web viewer)
+- Agent report link
+- Review link (Google, Yelp)
+- Company name, logo and support email
+
+Tags render at send time so each client gets their own personalized email. Unknown tags are refused when you save the template, and any that slip through are dropped at send time (they never print as typed). For the full catalog with every tag's purpose and which ones are shared with contracts, see [Variable tags reference](/1nspect/getting-started/variable-tags-reference).
+
+### Save
+
+Click **Save Template** at the bottom of the editor.
+
+## Check your tags
+
+Because there is no preview, pick every tag from the **Insert Variable** dropdown instead of typing it. If the save is refused, the message points at an unknown tag; fix or remove it.
+
+## What to do next
+
+- [Communication workflows](/1nspect/getting-started/communication-workflows): set when each template is sent and to whom.
+
+## Related
+
+- [Contract templates](/1nspect/getting-started/contracts)
+- [Review requests](/1nspect/getting-started/review-requests)
+- [Variable tags reference](/1nspect/getting-started/variable-tags-reference)

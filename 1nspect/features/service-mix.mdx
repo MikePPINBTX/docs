@@ -1,0 +1,52 @@
+---
+id: "report-service-mix"
+title: "Service Mix"
+description: "Revenue and count by service type (primary and ancillary) for the period. The report that drives pricing decisions."
+sidebarTitle: "Service Mix"
+keywords: ["service mix", "service revenue", "primary services", "ancillary", "pricing decisions"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Service Mix answers the pricing question: which of our services make us the most money, which make the most inspections happen, and which should we rethink? Revenue and count broken out by primary service and by ancillary, for whatever period you set.
+
+## Where to find it
+
+**Reports** top-nav › the **Service Mix** card.
+
+## Filters
+
+| Filter | Options |
+| --- | --- |
+| Period | Period dropdown (last 12 months, quarters, YTD). |
+
+## What the report shows
+
+Stat grid with four totals: **Total revenue**, **Inspections**, **Primary count** and **Ancillary count**. There is no attach-rate stat.
+
+Table with one row per service (both primary and ancillary):
+
+- Service
+- Kind (primary or ancillary)
+- Count
+- Revenue
+- Share
+
+## Export to CSV
+
+Click the **CSV** button to download. The filename is `service-mix-[period-label].csv`.
+
+## How to read it
+
+- A high-count, low-revenue service with a mismatched price per instance is a pricing lever — raise, bundle, or deprecate.
+- A low-attach ancillary your competitors sell on every order is a sales lever — add it to packages, auto-apply surcharges, or push it on the booking form.
+- A primary service with declining share may be a seasonality effect or a signal of competitive pressure.
+
+## Related
+
+- [Primary services](/1nspect/getting-started/primary-services)
+- [Ancillary services](/1nspect/getting-started/ancillary-services)
+- [Agent Referral Report](/1nspect/features/agent-referrals)

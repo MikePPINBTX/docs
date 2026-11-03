@@ -1,0 +1,122 @@
+---
+id: "start-here-communication-workflows"
+title: "Communication workflows"
+description: "Set when each email template is sent and to whom. 1nspecT fires emails on triggers like booking confirmed, agreement signed, payment received and report delivered."
+sidebarTitle: "Workflow"
+keywords:
+  - "workflow"
+  - "triggers"
+  - "recipients"
+  - "automated email"
+  - "workflow step"
+  - "send offset"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+A workflow step says: when **this event** happens on an order, send **this template** to **these recipients** after **this Send Offset**. 1nspecT has a long list of trigger events, from the first quote submission all the way through to the review request after the report is published. There are about 27 triggers, plus Manual and Custom.
+
+## Where to find it
+
+In the top bar, click **Business Ops**, then click the **Communications** tab, then the **Workflow** sub-tab (second of two sub-tabs: Email Templates and Workflow).
+
+## The workflow list
+
+The left panel shows **Workflow Steps (N)** with a count. Click a step to edit it. Click add to create a new one.
+
+## Create a workflow step
+
+Each step has:
+
+| Field | Notes |
+| --- | --- |
+| Trigger | The event that fires this step. See the full trigger list below. |
+| Template | The email template to send. Pick from your Email Templates. |
+| Recipients | Who to send to: Primary Client, Secondary Client, Buyer's Agent, Listing Agent, Assigned Inspector, Subscriber (You), plus "Also Send To" for extra addresses. |
+| Send Offset | How long after the trigger the email sends (for example `+7d`), measured from the Offset Anchor. |
+| Offset Anchor | What the offset counts from, for example the trigger time or the inspection date. |
+| Service Types | Optional service-type filter so the step applies only to certain services. |
+| Enabled | Toggle on to make the step active. Starter steps are seeded **disabled**; switch on the ones you want. |
+
+Save with **Save Step** at the bottom of the editor.
+
+## Available triggers
+
+| Trigger | Fires when |
+| --- | --- |
+| Quote Submitted | A quote is created on the public booking form or on mobile |
+| Quote Sent | A quote is sent to a client |
+| Quote Accepted | A client accepts a quote |
+| Booking Confirmed | A booking is created and the inspection is on the calendar |
+| Contract Sent | The service agreement is sent to the client |
+| Contract Signed | The client signs the agreement |
+| Inspection Scheduled | The inspection date is set or confirmed |
+| Inspection Rescheduled | The inspection date is moved |
+| Inspection Reminder | A set number of days or hours before the inspection |
+| Inspection Completed | An admin sets the inspection status to Completed in the web status picker (it does not fire on its own from mobile) |
+| Inspection Cancelled | The inspection is cancelled |
+| Payment Received — before report exists | A payment comes in before the report is published |
+| Report Published — already paid | The report is published and the order is already paid |
+| Report Published — awaiting payment | The report is published but payment is not yet received |
+| Report Delivered — after payment unlock | A Stripe payment unlocks a published report, or someone clicks the manual Deliver button. In the normal pay-first flow this does not fire; do not use it for review requests |
+| Ancillary Report Uploaded | A third-party ancillary report is attached to the order |
+| Review Request | Fires on every publish; use a Send Offset such as `+7d`. This is the right trigger for review requests |
+| Service Added | A service is added to an order |
+| Service Removed | A service is removed from an order |
+| Refund Issued | A Stripe refund is issued from Cancel Order or Remove Ancillary |
+| Reinspection Requested | A reinspection order is created |
+| New Build Warranty Reminder | Fires on first publish, scoped by the step's Service Types |
+| Order Closed | The order is marked closed (it can only be picked by hand; nothing sets it automatically) |
+| Order Cancelled | The order is cancelled |
+| Manual (Ad Hoc) | Fired by hand from the Communications tab on Inspection Details |
+| Custom Trigger | A custom trigger name you define |
+
+<Tip>
+For inspection reminders, set the Offset Anchor to the inspection date, not to the trigger time. A "2 days before" reminder lands correctly only if the offset is measured from the inspection date.
+</Tip>
+
+## Recipients
+
+Each step can go to one or more of:
+
+- Primary Client
+- Secondary Client
+- Buyer's Agent (the agent who booked the inspection)
+- Listing Agent (where applicable, usually on Report Published and Ancillary Report Uploaded)
+- Assigned Inspector (your team)
+- Subscriber (You)
+- Also Send To (additional addresses)
+
+Workflow emails have no reply-to, so replies do not land in your inbox.
+
+Some triggers automatically restrict recipient options to the ones that make sense (for example, a listing agent cannot receive a Booking Confirmed email on an order they are not on).
+
+## Enable and test
+
+<Steps>
+<Step title="Enable each step">
+Make sure each workflow step you want running has its toggle switched On.
+</Step>
+<Step title="Run a test order">
+Create a test order and walk it from booking through published report. Confirm each email fires at the right time and goes to the right recipient.
+</Step>
+<Step title="Fix anything that didn't fire">
+For each missing email, check the step is enabled and the template is selected.
+</Step>
+</Steps>
+
+## What to do next
+
+- [Online booking and the booking link](/1nspect/getting-started/online-booking)
+- [Google Calendar connection](/1nspect/getting-started/google-calendar)
+- [Review requests](/1nspect/getting-started/review-requests)
+
+## Related
+
+- [Communication templates](/1nspect/getting-started/communication-templates)
+- [Contract templates](/1nspect/getting-started/contracts)

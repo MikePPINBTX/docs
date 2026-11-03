@@ -1,0 +1,67 @@
+---
+id: "iboss-insights"
+title: "AI Insights"
+description: "The AI Insights panel on your Dashboard: three advisor lenses comment on what matters right now, refreshed at 6 AM, noon and 6 PM."
+sidebarTitle: "AI Insights"
+keywords:
+  - "iboss"
+  - "insights"
+  - "co-ceo"
+  - "co-coo"
+  - "co-cfo"
+  - "ai advisor"
+  - "business insights"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+The panel titled **AI Insights** is the AI advisory layer on your Dashboard. (The name "iBOSS" does not appear anywhere in the UI.) Three advisor lenses read your real numbers (revenue, pipeline, inspector productivity, service mix) and surface the handful of things that matter right now. It is free: no AI credit cost, on every plan.
+
+## The three personas
+
+Each insight is tagged with the persona that produced it, so you can quickly tell what kind of advice it is:
+
+| Persona | Lens |
+| --- | --- |
+| **co-CEO** | Strategy, growth, long-term trends, business composition |
+| **co-COO** | Operations: throughput, quality, team utilization, workflow friction |
+| **co-CFO** | Finance: revenue, margin, aging receivables, cash position, pricing |
+
+Each persona has its own accent color and chip in the Insights panel so you can scan the panel quickly for the perspective you need.
+
+## Where it lives
+
+On the Dashboard (**Dashboard** top-nav item), in the Insights Panel. The panel sits between the KPI tiles and the charts.
+
+## How it refreshes
+
+Insights are computed in your browser when the Dashboard loads, and cached per time slot (6 AM, noon and 6 PM). There is no manual refresh button. If the AI call fails, a rule-based fallback shows instead. Dismissals are stored per browser, so a dismissed insight can reappear on another browser or device.
+
+## What triggers an insight
+
+The AI looks for signals in your real business data:
+
+- Deltas vs. the prior period (revenue up or down, close rate drifting)
+- Patterns across inspectors (one lagging in publish time, one carrying more load than peers)
+- Composition shifts (ancillary attach rate changing, service mix tilting)
+- Health flags (A/R aging past 60 days, pipeline shrinking)
+- Opportunity signals (a top agent has gone quiet; a cluster of inspections in one neighborhood suggests a referral push)
+
+It will surface what is actionable. If nothing meaningful has changed, the panel says so rather than inventing noise.
+
+## What it does not do
+
+- Insights are commentary, not a dashboard replacement. They point you at a number; the Dashboard tiles and Reports hold the number itself.
+- The AI reads your business data only. It does not read your email, your Slack, or anything outside 1nspecT.
+- Insights are per-tenant. They never compare you to other 1nspecT subscribers, and they never surface your data to other tenants.
+
+## Related
+
+- [Dashboard](/1nspect/features/dashboard-overview)
+- [AI features](/1nspect/features/ai-features)
+- [AI Credits](/1nspect/features/it-tokens) (AI Insights are free; no credit cost)

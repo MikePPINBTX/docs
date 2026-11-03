@@ -1,0 +1,65 @@
+---
+id: "client-experience-realtor-portal"
+title: "Realtor portal"
+description: "Agents sign in with a magic link and see every inspection you've done for them. One place for their book of business with you."
+sidebarTitle: "Realtor portal"
+keywords: ["realtor portal", "agent portal", "magic link", "email sign-in", "inspections history"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+The Realtor Portal is a branded, agent-facing web page where real-estate agents who refer business to you can see every inspection you've done for them. Agents sign in with an email magic link; no account creation. One place for an agent to see their book of business with your company.
+
+## Where the agent lands
+
+The URL is `/portal/[tenantSlug]`. Your tenant slug is derived from your company name. Share the URL once with your agents, or include it in email signatures and agent-partner materials. The page shows your company name and branding at the top.
+
+## The magic-link sign-in flow
+
+<Steps>
+<Step title="Agent enters their email">
+The sign-in panel reads: _"Enter the email address your inspector has on file. We'll send you a secure sign-in link."_
+</Step>
+<Step title="We send the link">
+1nspecT sends a Firebase-powered magic link to the email. The link is valid for 90 days.
+</Step>
+<Step title="Agent clicks the link">
+The link opens the portal with the agent authenticated. On subsequent visits inside the 90 days, the agent stays signed in.
+</Step>
+<Step title="The agent sees their inspections">
+The page header reads **Your Inspections** and lists every inspection where the agent is listed as the buyer's agent on your orders.
+</Step>
+</Steps>
+
+## Per-inspection detail
+
+For each inspection in the list, the agent sees:
+
+- Client name and property address
+- Date of inspection
+- Status (Scheduled, Assigned, In Progress, Completed or Cancelled), plus a **Report Ready** or **Report Pending** chip
+- A link to the agent view of the report (`/report/{slug}/agent`)
+
+There is no repair-request action on the cards. Agents reach the Repair Request Builder from the agent report view.
+
+## What agents do not see
+
+- Pricing — the agent sees the inspection, not the fee
+- Inspector direct contact info — contact goes through your office
+- Internal notes on the order
+
+## When the magic link doesn't arrive
+
+- Check spam / junk
+- The email the agent entered must match the one on at least one order
+- The link is one-time; a second request invalidates the first
+
+## Related
+
+- [Web report viewer](/1nspect/features/report-viewer)
+- [Repair request builder](/1nspect/features/repair-request-builder)
+- [Agent Referral Report](/1nspect/features/agent-referrals)
+- [Client portal](/1nspect/features/portals)

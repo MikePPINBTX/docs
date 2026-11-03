@@ -1,0 +1,79 @@
+---
+id: "troubleshooting-inspection-didnt-sync"
+title: "My inspection didn't sync to the phone"
+description: "The top first-run issue. The job is set up on the web but the inspector can't find it in Assigned Inspections on mobile. Check the three hide reasons first."
+sidebarTitle: "Inspection didn't sync"
+keywords:
+  - "inspection didn't sync"
+  - "not on phone"
+  - "missing inspection"
+  - "first-run"
+  - "template"
+  - "narrative collection"
+  - "caption library"
+persona:
+  - "admin-operator"
+  - "inspector"
+surfaces:
+  - "web"
+  - "mobile"
+category: "troubleshooting"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+An inspection was created on the web but the inspector cannot find it in Assigned Inspections on mobile. This is the single most common first-run problem and almost always comes down to one of the causes below. Walk this page top to bottom.
+
+## 1. The real reasons a job doesn't appear on the phone
+
+Three conditions hide a job from the Assigned Inspections list on mobile. Check them in order:
+
+- **No agreement has been sent** to the client (unless the inspection is marked externally contracted). Send the agreement and the job appears on the next pull-to-refresh.
+- **The inspection is more than 30 days in the future.** The Assigned Inspections list only shows jobs within a 30-day window. A booking two months out stays hidden until it enters the window.
+- **The inspector's display name doesn't exactly match the assigned name on the inspection.** The match is case- and whitespace-sensitive. If the inspector's user profile has "Jane Smith" but the inspection says "Jane  Smith" (two spaces) or "jane smith", the job is hidden.
+
+Fix any of these and the job appears on the next pull-to-refresh in Assigned Inspections.
+
+A missing **template** does not hide the job; it shows a "Setup Required" card on the inspection. Confirm the inspection has a template and a narrative collection assigned; the caption library is optional (missing it means an empty autocomplete, not a block).
+
+## 2. No narrative collection is set
+
+A narrative collection is needed to **start** the inspection (it does not hide the job). Libraries are set per inspection on Inspection Details, with company defaults in Business Ops › Company Info › Inspection Defaults. The template association in the Narrative Library is only a fallback. A missing caption library is not a block; the caption autocomplete is just empty.
+
+## 3. The inspector isn't marked as an Inspector
+
+The **Inspector** toggle affects the booking roster (who can be booked), **not** what appears on mobile. If the inspector is missing from the booking form or scheduling, check the toggle:
+
+- Open **Settings** › **Users** tab
+- Edit the inspector
+- Confirm the **Inspector** toggle is on
+
+## 4. The agreement is unsigned (blocks starting, not syncing)
+
+If the inspection is on the phone but Start is disabled, the agreement hasn't been signed yet. The sync works; the start-guard is separate.
+
+- The client needs to open their portal link and sign the agreement
+- Once signed, the inspector can tap Start on the phone
+
+## Mobile-side verification
+
+On the phone:
+
+- Pull down to refresh on **Assigned Inspections**
+- Confirm the inspector is signed in as the right user (Config does not show the account, so check the sign-in email)
+- Confirm the inspection is scheduled within the next 30 days (older or far-future jobs don't appear in Assigned Inspections)
+
+## Still not working
+
+Email `support@mymavtech.com` with:
+
+- The order number
+- The expected inspector's email
+- Confirmation of the assigned inspector's exact display name, the template and the narrative collection
+
+## Related
+
+- [Common issues](/1nspect/troubleshooting/common-issues)
+- [First-run gotchas](/1nspect/getting-started/first-run-gotchas)
+- [Attach caption and narrative libraries](/1nspect/getting-started/attach-libraries)
+- [Add your team](/1nspect/getting-started/add-your-team)

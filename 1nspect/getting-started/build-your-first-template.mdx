@@ -1,125 +1,99 @@
 ---
-id: gs-02-build-your-first-template
-title: Build Your First Inspection Template
-persona: [admin-operator]
-surfaces: [web]
-category: getting-started
-order: 2
-related: [gs-03-create-your-first-order, admin-operator-templates-template-builder, admin-operator-templates-template-designer]
-status: stable
-last_verified_against_code: 2026-05-08
+id: "start-here-build-template"
+title: "Build your inspection template"
+description: "Your subscription ships with ready-to-use templates. Add your own or customize the ones you have on the Universal Template Builder page."
+sidebarTitle: "Your template"
+keywords:
+  - "templates"
+  - "universal template builder"
+  - "TREC"
+  - "InterNACHI"
+  - "pre-pour"
+  - "pre-drywall"
+  - "schema"
+  - "sop"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
 ---
 
-# Build Your First Inspection Template
+A template is the blueprint for an inspection: the sections and subsections that run across the top of the mobile Capture screen, the fields the inspector fills in, the rating scale that follows the standard, and the layout the finished report prints with. 1nspecT seeds your account with the templates most subscribers need on day one, so you can run your first inspection without authoring anything.
 
-Templates define the structure of an inspection — the sections, subsections, and data fields that your inspectors work through on-site. 1nspecT ships with a pre-built **TREC Texas Residential** template. You can use it as-is, customize it, or build a completely custom template from scratch.
+<Info>
+  **Required** to run your first inspection: at least one template available on your account. The seeded templates below satisfy this.
+</Info>
 
----
+## What ships with your account
 
-## Navigating to Templates
+When you sign up and pick your inspection standard, 1nspecT seeds your account with the matching residential template plus two phase-inspection templates:
 
-1. In the web admin, click **Templates** in the left sidebar.
-2. You will see a list of all templates associated with your account.
-3. Click **+ New Template** or tap an existing template to edit it.
+| Template | When it's seeded | Based on |
+| --- | --- | --- |
+| **TREC 7-6** residential | You chose TREC at signup | TREC 7-6 (Texas Real Estate Commission) |
+| **InterNACHI** residential | You chose InterNACHI (or anything other than TREC) at signup | InterNACHI Residential standard |
+| **Phase 1 Pre-Pour Foundation Inspection** | Always seeded | Phase 1 Pre-Pour standard |
+| **Phase 2 Pre-Drywall Inspection** | Always seeded | Phase 2 Pre-Drywall standard |
 
----
+You can use these as-is, clone them to customize, or build a completely custom template of your own.
 
-## Template Structure
+## Where to find your templates
 
-Every template is organized as a two-level hierarchy:
+In the web admin top bar, click **Templates**. The page header reads **Universal Template Builder**. Each of your templates appears as a card. On every card you'll see:
 
-```
-Template
- └── Section  (e.g. "I. Structural Systems")
-      └── Subsection  (e.g. "I.A. Foundations")
-           └── Fields  (informational data capture fields)
-```
+- The template name
+- A green **Active** badge when the template is currently usable on orders
+- A standard badge (for example, TREC, InterNACHI, Phase 1 Pre-Pour) and the matching `SoP:` identifier
+- A short description
+- The version
+- A blue **Schema Linked** badge when the template is bound to a schema
+- Created-by and date
+- Action icons at the bottom of the card: Edit, Rename, Upload Schema, Clone, Preview and Delete (there is no Design icon; Preview currently opens a blank page)
 
-### Sections
-Sections correspond to the major divisions of your inspection report (e.g. Structural Systems, Electrical, Plumbing). Each section gets its own PDF chapter with a color-coded header.
+## Starting a new template
 
-### Subsections
-Subsections are the individual inspection areas within a section. Each subsection generates a rating row in the PDF (Inspected / Not Inspected / Not Present / Deficient) and can contain any number of data capture fields.
+Top-right of the page, two buttons (Professional and Team plans only; on Solo you see a note linking to the plans):
 
-### Fields
-Fields capture structured data per subsection. Field types available:
+- **Initialize from SoP** clones a platform library bundle (one of the standards 1nspecT already supports) into a new template on your account. Use this when you want a working starting point from an existing standard and plan to tweak it.
+- **Create Custom Template** starts a blank template that you build up from scratch. Use this when none of the included standards fits what you need.
 
-| Type | Use |
-|------|-----|
-| `informational` | Text, number, or select inputs shown in the tech-spec grid of the PDF |
-| `rating` | Drives the I / NI / NP / D rating boxes (handled automatically by the mobile app) |
-| `comment` | Free-text area for inspector narrative notes |
-| `photo_container` | Anchor point for photo attachments |
-| `signature` | Signature capture (used in client-facing agreements, not inspection fields) |
+<Tip>
+  For most subscribers, the right first move is to work with the templates that shipped with the account rather than making new ones. Open an existing template with the edit icon, confirm the sections match how you inspect, and only create a new template if you have a specific need (a specialty inspection type, a non-standard rating scale, or a workflow that cannot be expressed by customizing an existing template).
+</Tip>
 
----
+## Customizing a template
 
-## Using the Schema Builder
+Click the **Edit** icon on any template card to open its overview page. From there you can:
 
-The Schema Builder is the visual editor for building your template structure.
+- Open the **Schema** page to edit sections, subsections and fields (the field editor lives on the Schema page)
+- Use the **Visual Designer** tab to adjust the printed layout
+- Rename the template with the card's **Rename** icon
+- Edit the cover page separately in [Cover Designer](/1nspect/admin-operator/cover-designer)
 
-### Adding a Section
-1. Click **+ Add Section** at the bottom of the section list.
-2. Enter a section name (e.g. "Electrical Systems") and an optional short name for PDF headers.
-3. Click **Save Section**.
+<Note>
+  Ratings are edited on the Standard of Practice, not on the template. Primary ratings on TREC and InterNACHI are locked even on clones; only the reinspection ratings can be edited. See [SoP Manager](/1nspect/admin-operator/sop-manager) and [Choose your SoP](/1nspect/getting-started/choose-your-sop).
+</Note>
 
-### Adding a Subsection
-1. Expand a section by clicking its row.
-2. Click **+ Add Subsection**.
-3. Enter a subsection name. Short names (under 20 characters) are displayed on the mobile inspector app's navigation bar.
-4. Click **Save**.
+## Smart equipment fields
 
-### Adding Fields to a Subsection
-1. Expand a subsection.
-2. Click **+ Add Field**.
-3. Choose a field type, enter a label, and set whether the field is required.
-4. **Informational fields** will appear in the tech-spec grid in the PDF report for that subsection.
+On the Schema page, you can add fields that compute values from captures: temperature rise (supply minus return), equipment age (this year minus manufacture year), amperage draws, and so on. Set an advisory range on any computed field and the mobile app will flag out-of-range readings in the field, before the inspector moves to the next room. Covered in detail in [Smart equipment fields](/1nspect/getting-started/smart-equipment-fields).
 
-### Reordering
-Drag sections, subsections, and fields to reorder them. The PDF renders in the exact array order of the template schema.
+## Caption and narrative libraries
 
----
+Starting an inspection on the phone needs a **narrative collection**; the caption library is optional (a missing one only means empty caption autocomplete). Libraries are set per inspection, with company defaults in Business Ops › Company Info › Inspection Defaults. See [Attach caption and narrative libraries](/1nspect/getting-started/attach-libraries).
 
-## The TREC Texas Residential Template
+## What to do next
 
-If you are performing residential inspections in Texas, the pre-built TREC template is ready to use. It includes:
+- Smart equipment fields (deep dive)
+- [Cover Designer](/1nspect/admin-operator/cover-designer): make the report cover feel like your brand
+- Attach caption and narrative libraries
+- Add Additional Information Provided by Inspector (AIPI) to the right collection
 
-- All required TREC sections (Structural Systems through Optional Systems)
-- TREC-compliant I / NI / NP / D rating schema
-- Pre-configured subsections matching TREC Standards of Practice
-- Informational fields for system age, capacity, fuel type, etc.
+## Related
 
-> **Tip:** You can clone the TREC template and customize it rather than editing the master, so you always have a clean copy to revert to.
-
----
-
-## Canvas Design Settings
-
-After building your template structure, use the **Canvas** tab to control how the PDF report renders for that template.
-
-Key canvas settings:
-
-| Setting | Description |
-|---------|-------------|
-| **Margins** | Page margins in pixels (96 px = 1 inch) for preamble, section, and summary pages |
-| **Primary / Secondary / Accent colors** | Override global branding for this specific template |
-| **Rating column layout** | Width of the I/NI/NP/D column in section pages |
-| **Finding card style** | Border, background, and typography for deficiency cards |
-| **Photo grid** | Caption position (above/below), grid columns |
-
-Changes to Canvas settings affect all **future** PDF generations for that template.
-
----
-
-## Publishing a Template
-
-When your template is ready:
-1. Click the **Publish** toggle on the template detail page.
-2. Published templates become available to inspectors on the mobile app when creating a new inspection.
-3. Unpublished (draft) templates are only visible to admins.
-
----
-
-## Next Step
-
-With your template built, you are ready to [Create Your First Order](/1nspect/getting-started/create-your-first-order).
+- [How 1nspecT works](/1nspect/getting-started/how-1nspect-works)
+- [Add your team](/1nspect/getting-started/add-your-team)
+- [AI Credits](/1nspect/features/it-tokens)

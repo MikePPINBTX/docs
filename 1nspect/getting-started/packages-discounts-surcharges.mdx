@@ -1,0 +1,105 @@
+---
+id: "start-here-packages-discounts-surcharges"
+title: "Packages, discounts and surcharges"
+description: "Three tabs that modify order prices: packages bundle services with per-line discounts; discounts apply to anything; surcharges can auto-apply or be mandatory."
+sidebarTitle: "Packages & discounts"
+keywords: ["packages", "discounts", "surcharges", "auto-apply", "mileage", "age surcharge", "crawlspace"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Once your primary and ancillary services are set, Pricing Manager has three more tabs for modifying prices on an order: Packages bundle services together with a per-line discount; Discounts are reusable off-the-shelf price cuts; Surcharges are fees added for mileage, age of home, number of units, or any other trigger.
+
+All three tabs share the single **Save Fees & Surcharges** button at the top right (and repeated at the bottom of the page).
+
+## Packages
+
+**Where:** Pricing Manager › **Packages** tab (third tab).
+
+A package bundles a set of primary services (and optionally ancillaries) that are sold together, usually with a built-in discount per line. Common uses:
+
+- A **new-construction** package (Pre-Pour + Pre-Drywall + Final) sold at a bundle price
+- A **buyer-plus-year-one** package (full inspection + 11-month warranty) with a repeat-client discount
+- A **comprehensive** package (full inspection + radon + sewer scope) priced below buying the ancillaries separately
+
+### Fields per package
+
+| Field | Notes |
+| --- | --- |
+| Name | Shown on the quote and the booking form. |
+| Description | A short line about what's included. |
+| Service lines | A row per included service. For each, pick a service and a per-line discount type: **Fixed $** or **%**. |
+
+Add lines one at a time; the package price is the sum of the line prices after per-line discount.
+
+## Discounts
+
+**Where:** Pricing Manager › **Discounts** tab (fourth tab).
+
+Reusable discounts you can apply to orders. Fields:
+
+| Field | Notes |
+| --- | --- |
+| Name | What subscribers and clients see on the quote line. New rows default to `New Discount`. |
+| Type | Percentage or Fixed. |
+| Value | The % (for percentage) or the dollar amount (for fixed). |
+| Applies to | Checkboxes that limit which services the discount applies to. |
+
+Typical examples: military, repeat client, referral, agent-partner.
+
+Admins and owners can also add a one-off manual adjustment to any order at order time, independent of this list.
+
+## Surcharges
+
+**Where:** Pricing Manager › **Surcharges** tab (fifth tab).
+
+Surcharges add to the order total. They can be flat, percentage, per-unit (mileage, number of units), or age-based.
+
+### Fields per surcharge
+
+| Field | Notes |
+| --- | --- |
+| Name | What subscribers and clients see. New rows default to `New Surcharge`. |
+| Type | **% of Base** (percentage), **Per Unit** (mileage or counted units), or **Fixed** (dollar amount), or **Age** (age of home). |
+| Value | % or \$ for the Fixed type. |
+| Counts | Where the per-unit count comes from (used for Per-Unit type). |
+| Free Threshold | Units free before the surcharge starts (used for mileage: free within N miles). |
+| Rate / Unit ($) | Dollar amount per unit (per mile, per unit). |
+| Max Charge ($) | Cap on the total surcharge. |
+| Unit Label | What the units are called on the quote (`miles`, `units`). |
+| Round Trip ×2 | For mileage: multiply billable units by 2 for round-trip. |
+| Min Yrs / Max Yrs | For age-based surcharges: the window the surcharge applies in. |
+| Amount (\$) | For age-based surcharges, the amount is set **per age bracket**. For the Fixed type, use **Value**. |
+| Active | Must be on for the surcharge to charge. |
+| Added Duration (min) | Extra minutes added to the inspection window when this surcharge applies (crawlspace, older home). |
+| Auto-Apply | Turn on to apply this surcharge automatically based on the trigger field. Must be set to charge without a manual add. |
+| Mandatory | Turn on to prevent the surcharge from being removed by an admin on the order. |
+| Trigger Field | The order attribute that activates the surcharge (year built, square footage, mileage, foundation type). |
+
+<Warning>
+**A surcharge only charges if its Active toggle is on.** If you set up a surcharge but forget to activate it, 1nspecT silently will not apply it. Watch for the yellow reminder in the UI.
+</Warning>
+
+### Auto-Apply vs. Mandatory
+
+- **Auto-Apply** triggers the surcharge automatically based on the Trigger Field. Example: a mileage surcharge auto-applies when the order's distance exceeds the Free Threshold.
+- **Mandatory** means the surcharge **always applies**.
+- There is no surcharge picker at order time. If a surcharge is not Auto-Apply or Mandatory, an admin can only use a manual adjustment on the order.
+
+## Save
+
+**Save Fees & Surcharges** commits every change on this tab along with changes you made on the Ancillary Services, Packages, Discounts and Settings tabs.
+
+## What to do next
+
+- [Rates, taxes and fees](/1nspect/getting-started/rates-taxes-fees)
+- [Detached structures](/1nspect/getting-started/detached-structures)
+
+## Related
+
+- [Pricing Manager overview](/1nspect/getting-started/pricing-manager-overview)
+- [Primary services](/1nspect/getting-started/primary-services)
+- [Ancillary services](/1nspect/getting-started/ancillary-services)

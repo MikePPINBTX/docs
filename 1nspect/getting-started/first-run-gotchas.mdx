@@ -1,0 +1,106 @@
+---
+id: "start-here-first-run-gotchas"
+title: "First-run gotchas"
+description: "The handful of setup issues that stall almost every new subscriber's first test inspection, in one place, with the fix."
+sidebarTitle: "Gotchas"
+keywords: ["gotchas", "troubleshooting", "first inspection", "setup issues", "stalled"]
+persona: ["admin-operator", "inspector"]
+surfaces: ["web", "mobile"]
+category: "getting-started"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Almost every new subscriber hits one of these on their first test run. None of them are complicated to fix, but they are easy to miss. Scan this page before you start your dry run so you recognize the symptom when you see it.
+
+## The inspection doesn't sync to the phone
+
+**Symptom:** You created the test order on the web but the inspector cannot find it in Assigned Inspections on mobile.
+
+**The fix:** The phone hides a job for one of three reasons:
+
+- **No agreement has been sent yet.** Send the agreement from Inspection Details (unless the job is marked externally contracted).
+- **The inspection is more than 30 days out.** It appears once it is within 30 days.
+- **The display name doesn't match.** The inspector's display name must exactly match the name assigned on the order or template default. Fix the spelling or assign the exact name.
+
+Separately, a job with no template shows a **Setup Required** card instead of being hidden. Starting an inspection needs a template and a narrative collection; the caption library is optional. After fixing, pull to refresh on **Assigned Inspections**.
+
+## The caption dropdown is empty on mobile
+
+**Symptom:** The inspector gets to the Capture screen but the caption autocomplete has no suggestions.
+
+**The fix:** No caption library is set for the inspection. Libraries are set per inspection on Inspection Details, with company defaults in Business Ops › Company Info › Inspection Defaults; the template association is only a fallback. The caption library is optional, so this never blocks a sync. See [Attach caption and narrative libraries](/1nspect/getting-started/attach-libraries).
+
+## A surcharge isn't charging
+
+**Symptom:** You set up a mileage or age-of-home surcharge but the quote and the order don't include it.
+
+**The fix:** The surcharge's **Active** toggle is off. Open **Business Ops › Pricing › Surcharges**, confirm Active is on for the surcharge, and click **Save Fees & Surcharges**.
+
+## An inspector doesn't appear on the booking form
+
+**Symptom:** You added an inspector but they are not listed on the public booking page or when scheduling internally.
+
+**The fix:** The **Inspector** toggle on their user profile is off. Open **Settings › Users**, edit the inspector, and turn on **Inspector**.
+
+## An automated email isn't firing
+
+**Symptom:** You expected a booking confirmation, agreement sent, payment receipt or review request, and it never arrived.
+
+**The fix 1:** The workflow step is not enabled. Starter steps are seeded **disabled**. Open **Business Ops › Communications › Workflow**, open the step, and turn on **Enabled**.
+
+**The fix 2:** For reminders ("2 days before the inspection"), the **Send Offset** must be measured from the inspection date, not the trigger time. Open the workflow step and change the **Offset Anchor** if needed.
+
+**The fix 3:** The template is empty or has a typo in a required field. Open the matching template under **Email Templates** and check the subject and body for unknown tags. Unknown tags are refused on save and dropped on send. There is no preview with sample data.
+
+## The agreement renders a tag literally
+
+**Symptom:** The signed PDF shows `$ClientNames` or `[[sig|req|signer1]]` as plain text instead of filling in.
+
+**The fix:** The agreement text contains a typo'd tag the backend doesn't recognize. For contracts, 1nspecT normally blocks a send on an unrecognized `$Tag`, so this almost always means a signature block tag (double-bracket syntax) that got slightly off. Open the agreement in **Business Ops › Contracts**, delete the broken tag, and reinsert it from the **Insert Tag** picker (contracts keep this label; email templates use **Insert Variable**). See [Variable tags reference](/1nspect/getting-started/variable-tags-reference) for valid tag names.
+
+## I can't start the inspection on the phone
+
+**Symptom:** The inspector taps Start Inspection and gets blocked.
+
+**The fix:** Starting an inspection needs a signed agreement, so check the agreement first: if it has been sent but is unsigned, open the client portal link, sign it, and retry. If it was never sent, the job is hidden from Assigned Inspections entirely (see the first item above). Also confirm the inspection is within 30 days and the inspector's display name exactly matches the assigned name.
+
+## Clients see a day I had blocked on my calendar
+
+**Symptom:** The booking page offers slots on a day the inspector blocked for a personal appointment.
+
+**The fix:** Google Calendar is not connected for that inspector. Open **Settings › Users**, edit the inspector, and connect Google Calendar. See [Google Calendar connection](/1nspect/getting-started/google-calendar).
+
+## The review-request email never arrived (or arrived too early)
+
+**Symptom:** The review-request email never went out, or arrived while the report was still locked behind payment.
+
+**The fix:** Your workflow step is on the wrong trigger. Use the dedicated **Review Request** trigger, which fires on every publish, with a Send Offset such as `+7d`. Do not use **Report Delivered**: it fires only when a Stripe payment unlocks a published report or someone clicks the manual Deliver button, so in the normal pay-first flow it never fires. Open **Business Ops › Communications › Workflow**, change the trigger, and save.
+
+## I can't find the Billing page
+
+**Symptom:** You looked under Business Ops for Billing and did not find it.
+
+**The fix:** Billing lives under **Settings**, not Business Ops. Go directly to `/settings/billing`, or open **Settings** and look for the Billing section.
+
+## The AI stopped working on the phone
+
+**Symptom:** AI Generate shows a "Not enough AI credits" alert.
+
+**The fix:** Your company's AI credit balance is at zero. The alert links to the Billing page. Open **Settings › Billing** and buy a credit pack. The inspector can keep capturing photos, ratings and field notes without the AI; publish and Smart Search (a free offline keyword search) also still work without credits. See [AI Credits](/1nspect/features/it-tokens).
+
+## Photos aren't saving to the inspector's camera roll
+
+**Symptom:** You expected inspection photos to appear in the inspector's phone photo library and they are not there.
+
+**The fix:** The company setting is off by default. Open **Business Ops › Company Info**, find **Save Inspection Photos to Inspectors' Camera Rolls**, and turn it on.
+
+## Still stuck
+
+If you worked through the dry run and something still isn't right, email `support@mymavtech.com` with the test order number and a description of what you saw. Your onboarding specialist can also walk through any step with you live.
+
+## Related
+
+- [Test run checklist](/1nspect/getting-started/test-run-checklist)
+- [AI Credits](/1nspect/features/it-tokens)
+- [Variable tags reference](/1nspect/getting-started/variable-tags-reference)

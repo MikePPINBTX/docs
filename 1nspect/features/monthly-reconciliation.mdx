@@ -1,0 +1,55 @@
+---
+id: "report-monthly-reconciliation"
+title: "Monthly Reconciliation"
+description: "Match billed revenue to actual bank deposits, with Stripe fees broken out per order. Filter by method (all, Stripe, manual) and export to CSV."
+sidebarTitle: "Monthly Reconciliation"
+keywords: ["monthly reconciliation", "reconciliation", "stripe fees", "net deposit", "csv export"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+Monthly Reconciliation is the report your bookkeeper will open first every month. It matches each order you billed against the money that actually landed in the bank, so you can confirm nothing fell through the cracks. Stripe processing fees are broken out per order, so your gross billing and your net deposit always tie.
+
+## Where to find it
+
+**Reports** top-nav › the **Monthly Reconciliation** card (the first card).
+
+## Filters
+
+| Filter | Options |
+| --- | --- |
+| Period | Period dropdown (last 12 months, quarters, YTD). |
+| Method | **All** (every payment), **Stripe** (card payments through Stripe Connect only), **Manual only** (payments recorded with Record Payment) |
+
+## What the report shows
+
+At the top, a stat grid with the period totals: **Gross billed**, **Stripe fees (estimated)**, **3rd-party cost**, **Gross profit**, **Net deposited** and **Outstanding A/R**.
+
+Below, a table with **one row per inspection**, with:
+
+- Order number
+- Client name
+- Property address
+- Payment date
+- Method (Stripe or manual)
+- Gross amount billed
+- Stripe fee (0 for manual payments)
+- Net amount deposited
+- Status (received, pending or unpaid)
+
+## Export to CSV
+
+Click the **CSV** button to download the full table (as currently filtered) for your bookkeeper. Column headers match the on-screen table.
+
+## What this report is not
+
+Monthly Reconciliation is bookkeeper-facing: it matches money billed to money landed. It is not a profit-and-loss statement, not a tax summary, and not a per-inspector productivity report. Those live in [Tax Summary](/1nspect/features/tax-summary) and [Inspector Productivity](/1nspect/features/inspector-productivity).
+
+## Related
+
+- [Stripe Payouts](/1nspect/features/stripe-payouts) — the complementary deposit-centric view
+- [All Invoices](/1nspect/features/all-invoices)
+- [Outstanding A/R](/1nspect/features/outstanding-ar)

@@ -1,0 +1,66 @@
+---
+id: "client-experience-repair-request-builder"
+title: "Repair Request Builder"
+description: "The buyer's agent (or client) ticks the deficiencies they want addressed, the AI drafts a contractor-ready repair request, and the agent edits and downloads it as a PDF. Included on every plan."
+sidebarTitle: "Repair Request Builder"
+keywords: ["repair request", "repair list", "repair request builder", "ai draft", "contractor-ready"]
+persona: ["admin-operator"]
+surfaces: ["web"]
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-02"
+---
+
+The Repair Request Builder turns a published inspection report into a contractor-ready repair request. The buyer or buyer's agent (whoever opens the agent view of the report) ticks the deficiencies they want addressed. The AI drafts the request in plain, actionable language. The agent edits anything that needs tweaking and downloads a PDF. No separate AI credit cost — included on every plan.
+
+## Where to find it
+
+On the agent view of the report (`/report/[slug]/agent`). A **Repair Request (N)** tray at the top of the viewer opens the builder, where N is the number of findings ticked.
+
+## How the builder works
+
+<Steps>
+<Step title="Tick findings">
+As the agent reads the report, each finding has an **Add to Repair Request** toggle. Ticking adds the finding to the builder's working set.
+</Step>
+<Step title="Open the builder">
+Click the **Repair Request** button at the top of the viewer. The dialog opens with the ticked findings grouped by section and subsection.
+</Step>
+<Step title="Generate the draft">
+Click **Generate Repair Request**. The AI reads the selected findings and drafts the request in a plain, actionable, contractor-ready voice. Each block corresponds to one finding and names the trade specialist appropriate for the work.
+</Step>
+<Step title="Edit">
+Every block is editable. The agent can rewrite, add context, strike items, or add a cover note.
+</Step>
+<Step title="Download the PDF">
+Click **Download Repair Request PDF**. The PDF is formatted for sending to a seller's agent, the seller, or a contractor to use for pricing.
+</Step>
+</Steps>
+
+## Agent reminders in the builder
+
+If no findings have been ticked when the agent opens the dialog, the empty state reads: _"Tick **Add to Repair Request** on any finding to build your list."_
+
+## What's not in the request
+
+- Pricing / cost estimates — the request is a scope document, not a bid
+- Photos — the finding's photos stay in the report; the request links back to the report for reference
+- Inspector contact details — the request is between the client/agent and the seller or contractor
+
+## Cost
+
+**Free.** The AI generation for the repair request is bundled on every plan. No AI credits are deducted. This is `repair-request` in the token service (`token.service.ts`) and sits in the Free Operations list.
+
+## Who can build one
+
+The builder is on the agent view only. There is no setting to turn it on for the client view.
+
+## Generation cap
+
+The AI draft is capped at **4 generations per report**.
+
+## Related
+
+- [Web report viewer](/1nspect/features/report-viewer)
+- [Realtor portal](/1nspect/features/realtor-portal)
+- [AI features](/1nspect/features/ai-features)
