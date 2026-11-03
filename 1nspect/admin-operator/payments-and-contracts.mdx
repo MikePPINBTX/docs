@@ -88,7 +88,7 @@ When a manual payment comes in:
 3. The modal asks for **Amount paid**, **Date paid** and **Payment method** (Cash, Check, Zelle, Venmo or Offline Credit Card)
 4. Click **Record Payment** — the order is marked paid
 
-The Payment Received trigger fires, the report link unlocks, and the Monthly Reconciliation report picks up the payment. No report email goes out: click **Deliver** to email the report to the client.
+The report link unlocks and the Monthly Reconciliation report picks up the payment. If the report is already published, the Report Delivered trigger fires and the client and agent are emailed the report, just as with a Stripe payment; otherwise the Payment Received trigger fires. There is no need to click **Deliver** afterwards.
 
 See [Manual payments](/1nspect/features/manual-payments) for the client-side experience and [Managing orders](/1nspect/workflows/managing-orders) for the Mark as Paid flow.
 

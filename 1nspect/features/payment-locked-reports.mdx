@@ -36,8 +36,8 @@ Only two events unlock the report, in both links at once:
 
 Unlock happens within seconds of the payment event. What gets emailed depends on how the payment came in:
 
-- **Stripe payment on a report that is already published:** the `report.delivered` trigger fires (instead of `payment.received`), so a delivery email goes out as the client regains access.
-- **Mark as Paid:** only the `payment.received` trigger fires. No report email goes out. The office must click **Deliver** to email the report to the client.
+- **Report already published** (Stripe payment or **Mark as Paid**): the `report.delivered` trigger fires instead of `payment.received`, so the report email goes out as the client regains access.
+- **No report yet:** the `payment.received` trigger fires.
 
 ## Which inspections are locked
 
@@ -45,7 +45,7 @@ Every inspection where `isPaid !== true`. There is no per-order override, no per
 
 ## For manually-paid orders
 
-If the client paid you by Venmo, Zelle, Cash App or an offline card entry, use **Mark as Paid** on Inspection Details to flip the inspection to paid. The report unlocks immediately, but the client is not emailed the report; click **Deliver** to send it.
+If the client paid you by Venmo, Zelle, Cash App or an offline card entry, use **Mark as Paid** on Inspection Details to flip the inspection to paid. The report unlocks immediately and, if it is already published, is emailed to the client and agent.
 
 <Warning>
   Mark as Paid always sets the inspection to fully paid (`isPaid: true`). There is no partial-payment state in 1nspecT, so even recording a partial payment unlocks the report.
