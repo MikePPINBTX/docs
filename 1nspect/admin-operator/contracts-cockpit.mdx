@@ -1,7 +1,7 @@
 ---
 id: "admin-contracts-cockpit"
 title: "Contracts Cockpit"
-description: "Business Ops › Contracts. Build service agreements with dynamic tags and signature blocks. Note that Test Send really emails the client."
+description: "Business Ops › Contracts. Build service agreements with dynamic tags and signature blocks."
 sidebarTitle: "Contracts Cockpit"
 keywords:
   - "contracts cockpit"
@@ -23,7 +23,7 @@ Contracts Cockpit is the Business Ops tab where you build the service agreements
 
 ## Where to find it
 
-**Business Ops** top-nav › the **Contracts** tab (fourth of seven tabs). Section inside is labeled **Agreements**.
+**Business Ops** top-nav › the **Contracts** tab (sixth of nine tabs). Section inside is labeled **Agreements**.
 
 ## Agreement editor
 
@@ -36,10 +36,7 @@ Each agreement captures:
 - **Active** toggle and **Require co-client to sign** option on each agreement
 - **Agreement Body** — rich-text with **Insert Tag** dropdown
 - **Save Agreement** at the bottom
-- **Test Send** — expands a panel with an Inspection ID input (placeholder `Inspection ID (e.g. 2026-0062-RS)`) and a **Send** action.
-  <Warning>
-    Despite the name, this is **not a safe test**. It calls the live send, fires the `contract.sent` trigger and emails the real client on that inspection. Use a test order with your own email.
-  </Warning>
+- **Test Send** — expands a panel with an Inspection ID input (placeholder `Inspection ID (e.g. 2026-0062-RS)`) and a **Send** action. It renders every agreement that applies to that inspection and emails the PDFs **only to you** (the logged-in user). It writes nothing to the inspection and never contacts the client.
 
 ## Insert Tag groups
 

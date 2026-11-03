@@ -41,7 +41,7 @@ Separately, a job with no template shows a **Setup Required** card instead of be
 
 **Symptom:** You added an inspector but they are not listed on the public booking page or when scheduling internally.
 
-**The fix:** The **Inspector** toggle on their user profile is off. Open **Settings › Users**, edit the inspector, and turn on **Inspector**.
+**The fix:** The **Inspector** toggle on their user profile is off. Open **Business Ops › Users**, edit the inspector, and turn on **Inspector**.
 
 ## An automated email isn't firing
 
@@ -69,7 +69,7 @@ Separately, a job with no template shows a **Setup Required** card instead of be
 
 **Symptom:** The booking page offers slots on a day the inspector blocked for a personal appointment.
 
-**The fix:** Google Calendar is not connected for that inspector. Open **Settings › Users**, edit the inspector, and connect Google Calendar. See [Google Calendar connection](/1nspect/getting-started/google-calendar).
+**The fix:** Google Calendar is not connected for that inspector. Open **Business Ops › Users**, edit the inspector, and connect Google Calendar. See [Google Calendar connection](/1nspect/getting-started/google-calendar).
 
 ## The review-request email never arrived (or arrived too early)
 
@@ -79,15 +79,15 @@ Separately, a job with no template shows a **Setup Required** card instead of be
 
 ## I can't find the Billing page
 
-**Symptom:** You looked under Business Ops for Billing and did not find it.
+**Symptom:** You looked under Business Ops for Billing (or Users) and did not find it.
 
-**The fix:** Billing lives under **Settings**, not Business Ops. Go directly to `/settings/billing`, or open **Settings** and look for the Billing section.
+**The fix:** The **Billing** and **Users** tabs in Business Ops are visible only to owners and admins. Sign in as an owner or admin, or ask one to make the change. There is no separate Settings page any more; old `/settings` links open Business Ops › Company Info, and `/settings/billing` still opens Billing.
 
 ## The AI stopped working on the phone
 
-**Symptom:** AI Generate shows a "Not enough AI credits" alert.
+**Symptom:** Vision Analysis shows a "Not enough AI credits" alert, or AI Generate shows an **AI Unavailable** notice and fills in a template narrative instead of a drafted one.
 
-**The fix:** Your company's AI credit balance is at zero. The alert links to the Billing page. Open **Settings › Billing** and buy a credit pack. The inspector can keep capturing photos, ratings and field notes without the AI; publish and Smart Search (a free offline keyword search) also still work without credits. See [AI Credits](/1nspect/features/it-tokens).
+**The fix:** Your company doesn't have enough AI credits for that feature. The message reads "Not enough AI credits for [feature]: it uses N and you have M. Buy more at app.1nspect.app/settings/billing — purchased credits never expire." (Vision uses 10, Performance Opinion 10, Finish & Draft 50.) On the phone, the Vision alert has an **Open Billing** button. Open **Business Ops › Billing** and buy a credit pack. The inspector can keep capturing photos, ratings and field notes without the AI; publish and Smart Search (a free offline keyword search) also still work without credits. See [AI Credits](/1nspect/features/it-tokens).
 
 ## Photos aren't saving to the inspector's camera roll
 

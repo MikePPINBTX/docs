@@ -33,9 +33,9 @@ AI Credits are the currency 1nspecT uses to meter paid AI work. Each plan includ
 
 ## Where you see your balance
 
-**Web admin:** Sign in as an owner or admin and open **Settings › Billing** (route `/settings/billing`). Under the Usage card, the AI credits section shows your remaining allowance for the period plus any purchased credits (which never expire).
+**Web admin:** Sign in as an owner or admin and open **Business Ops › Billing** (route `/settings/billing`). Under the Usage card, the AI credits section shows your remaining allowance for the period plus any purchased credits (which never expire).
 
-**Mobile:** Inspectors see credit information only when a call is blocked for insufficient credits. The alert links to the web Billing page.
+**Mobile:** Inspectors see credit information only when a call is blocked for insufficient credits. A blocked Vision Scan shows the "Not enough AI credits" message with an **Open Billing** button.
 
 The balance is shared across your whole company.
 
@@ -58,16 +58,15 @@ The balance is shared across your whole company.
 
 | Capability | What it does | Cost |
 | --- | --- | --- |
-| AI Draft (whole report, in Report Workspace) | Drafts every eligible blank narrative in one pass | 50 credits per report |
-| AI Draft (single finding) | Drafts one narrative in the Report Workspace | Included in the batch pass; counted toward the 50 |
+| AI Draft & Polish (whole report, in Report Workspace) | Drafts every eligible blank narrative, then polishes the report | 50 credits for the drafting pass, plus Polish Report (10) and 10 for each required System Performance Opinion it generates |
+| AI Draft (single finding) | Drafts one narrative in the Report Workspace | 6 credits |
 | Polish Narrative | Rewrites one narrative for tone and clarity | 2 credits |
 | Polish Report | Whole-report polish pass | 10 credits per report |
+| Bundle Findings | Consolidates selected findings into one narrative | 2 credits |
 | Spell check | Fixes spelling and dictation stutters across the report | 5 credits per report |
 | System Performance Opinion | Section-level AI opinion | 10 credits |
 | Vision Analysis | Narrative from a photo in the Report Workspace | 10 credits |
 | Label and nameplate reading | Fills equipment fields from a plate photo or screenshot | 4 credits |
-| Save to Library (web, Clean & Save) | De-identifies the narrative before saving | 1 credit |
-| Semantic library search (web) | Semantic search across your narrative library | 1 credit |
 | Schema extraction from a PDF form | Reads a PDF form into a template schema | **Free** |
 | VoiceDNA extraction | Learns your writing voice from sample reports | 50 credits per extraction |
 | Business Insights (iBOSS / AI Insights panel) | Dashboard commentary | **Free** |
@@ -97,7 +96,7 @@ If you run through your allowance, top up without changing plans.
 
 <Steps>
   <Step title="Open the Billing page">
-    Settings › Billing (owners and admins only).
+    Business Ops › Billing (owners and admins only).
   </Step>
   <Step title="Find the AI credits card">
     Under Usage, the AI credits section shows the remaining plan allowance for the period and any purchased credits (which never expire).
@@ -110,12 +109,12 @@ If you run through your allowance, top up without changing plans.
   </Step>
 </Steps>
 
-On the Solo plan, the same Usage card also offers **Buy 10 inspections · \$49 (valid 120 days)** when you approach the monthly inspection cap. Professional and Team plans do not need inspection packs.
+On the Solo plan, the same Usage card also offers **Buy 10 inspections · \$49 (valid 120 days)**. It is always shown on Solo accounts, not only near the monthly inspection cap. Professional and Team plans do not need inspection packs.
 
 ## How deduction works
 
-- **Pre-flight check:** before a paid call runs, the backend verifies your balance is greater than zero.
-- **Charged on success:** paid capabilities deduct after a successful call. Failed calls do not deduct.
+- **Pre-flight check:** before a paid call runs, the backend checks your balance. Most calls only need a balance above zero; Vision Analysis and System Performance Opinion need at least 10 credits, and Finish & Draft needs at least 50.
+- **Charged on success:** most paid capabilities deduct after a successful call, and failed calls do not deduct. The exception is web **AI Draft & Polish**: its 50-credit drafting pass is charged up front when the run starts. That charge opens a drafting session for the inspection that lasts 2 hours; running AI Draft & Polish again on the same inspection within that window does not charge the 50 again.
 - **Mobile free operations:** Smart Search, typed `label: value` reads and Save to Narrative Library do not deduct any credits.
 
 ## When your balance is low
@@ -124,7 +123,8 @@ Running low does not stop your inspection or your reports. AI is an accelerator,
 
 | What you try | What happens |
 | --- | --- |
-| Vision Scan or AI Generate | Blocked with the "Not enough AI credits" alert; the alert links to the web Billing page |
+| Vision Scan | Blocked with "Not enough AI credits for Vision Analysis: it uses 10 and you have M" and an **Open Billing** button. Purchased credits never expire. |
+| AI Generate | Shows an "AI Unavailable" notice and pre-fills a template narrative you can edit |
 | Scan Label / Reading (photo) | Blocked; type the values into the fields directly, which is free |
 | Smart Search | Not affected (free) |
 | Typing a `label: value` reading | Not affected (free) |
@@ -141,7 +141,7 @@ Running low does not stop your inspection or your reports. AI is an accelerator,
 
 ## Where to see usage
 
-- **Billing page** (Settings › Billing): your current plan, inspection usage this period, remaining AI credits, and seats.
+- **Billing page** (Business Ops › Billing): your current plan, inspection usage this period, remaining AI credits, and seats.
 - **Reports** (top-nav Reports item): the Inspector Productivity report shows per-inspector numbers (count, revenue, on-site time, publish lag).
 
 ## Related

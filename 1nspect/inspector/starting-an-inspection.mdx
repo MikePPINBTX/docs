@@ -28,7 +28,7 @@ The setup screen is one scroll with four main sections, in this order:
 1. **Client Information** — primary client name, email, phone (pre-filled from the order; edit if the office captured anything wrong)
 2. **Additional Client (Optional)** — the co-client row; show it when there is a co-signer or spouse
 3. **Property Address** — the inspected property's address, with Google Places autocomplete if you need to edit
-4. **Property Baseline (for AI Findings)** — Site Conditions (soil, shrink-swell, flood, radon and termite only; no climate zone or insulation on mobile) and Construction-era materials. Intelligence for you, not shown to the client. The baseline fields always show; the **🤖 Review Full AI Baseline** button appears only when a baseline exists.
+4. **Property Baseline (for AI Findings)** — Year Built, Square Feet (required), Foundation Type, On-Site Systems, Exterior Cladding and Roof Covering. These fields always show. When an AI baseline exists, a **🤖 Review Full AI Baseline** button opens the **🤖 AI Property Baseline** view with Site Conditions and Construction-era materials. Intelligence for you, not shown to the client.
 
 The setup screen also has its own **Template**, **Narrative Collection** and **Caption Library** pickers, and **Start Weather** and **End Weather** fields. Then tap **Start Inspection**.
 
@@ -55,26 +55,28 @@ Four fields are typically completed on arrival:
 | Parties present | Who is at the inspection (client, agent, seller, contractor) |
 | Client concerns | Anything the client flagged at scheduling or on arrival |
 | Weather | Current conditions (temperature, precipitation, wind) |
-| Cover photo | A photo of the front of the house for the report cover (optional at this stage; can be set from Review later) |
+| Cover photo | A photo of the front of the house for the report cover (optional; set it here on the setup screen, since Review has no cover-photo option) |
 
 These fields print on the report and feed context to the AI narrative drafting.
 
 ## Property Baseline
 
-An AI-assembled snapshot of the inspected property appears on the setup screen. Two subsections:
+An AI-assembled snapshot of the inspected property. It does not appear on the setup screen itself: tap **🤖 Review Full AI Baseline** (shown when a baseline exists) to open the **🤖 AI Property Baseline** view. Two subsections:
 
 - **Site Conditions** — soil map unit, dominant component, shrink-swell potential, FEMA flood zone, EPA radon zone and termite pressure (the web adds climate zone and attic insulation)
 - **Construction-era materials** — construction materials typical for this build year and region (water supply piping, drain/waste/vent, cladding, roof covering), each with prevalence and severity
 
 This is intelligence for you, not a finding. It is not shown to the client. Use it to know what to look for before you walk the home.
 
-## Property attributes (sometimes added here)
+## Property attributes
 
-For some inspection types, additional property attributes come in on setup:
+The Property Baseline section on the setup screen always carries these property attributes:
 
-- Foundation type (slab, pier and beam, basement)
-- Cladding (brick, wood, fiber cement, stucco)
-- Roof covering (asphalt shingle, metal, tile, flat)
+- Year Built and Square Feet
+- Foundation Type (slab, pier and beam, basement)
+- On-Site Systems
+- Exterior Cladding (brick, wood, fiber cement, stucco)
+- Roof Covering (asphalt shingle, metal, tile, flat)
 
 These feed the AI's narrative framing and the aged-systems check.
 

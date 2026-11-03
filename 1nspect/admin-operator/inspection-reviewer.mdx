@@ -83,8 +83,8 @@ Click Publish. What happens:
   <Step title="Generate links">
     Client's permanent report link and agent's view are generated.
   </Step>
-  <Step title="Record the publish">
-    Order History gets a Publish event with the time, version number and caller.
+  <Step title="Record the version">
+    A report version is saved with the time and version number.
   </Step>
   <Step title="Fire the workflow trigger">
     Report Published (already paid) or Report Published (awaiting payment), depending on order state.
@@ -93,11 +93,11 @@ Click Publish. What happens:
 
 ## Deliver
 
-Separate action from Publish. Opens the Deliver dialog with role (Client / Agent), email, name, custom message, and a preview of every delivery email that will fire. See [Publishing and delivery](/1nspect/workflows/publishing-and-delivery).
+Separate action from Publish. Opens the Deliver dialog with role (Client / Buyer's Agent; Agent is disabled when the order has no agent email), email, name, custom message, and a preview of every delivery email that will fire. See [Publishing and delivery](/1nspect/workflows/publishing-and-delivery).
 
 ## Republish
 
-If you need to change a published report, Republish creates a new version. The permanent URL stays the same. The Order History records both versions.
+If you need to change a published report, Republish creates a new version. The permanent URL stays the same, and each publish saves its own version record.
 
 ## Related
 

@@ -30,7 +30,7 @@ Each inspector connects their own Google account. This is the setup covered in [
 
 <Steps>
 <Step title="Open the Users tab">
-Top nav **Settings** then the **Users** tab.
+Top nav **Business Ops**, then the **Users** tab.
 </Step>
 <Step title="Edit the inspector">
 Click edit on the inspector's row. The Google Calendar section appears only when editing an existing user, so create the user first, then edit.
@@ -39,7 +39,7 @@ Click edit on the inspector's row. The Google Calendar section appears only when
 Under **Google Calendar**, click Connect. You are redirected to Google in the same browser tab. Approve 1nspecT's access.
 </Step>
 <Step title="Confirm">
-After approval, Google sends you back to 1nspecT and the page shows the connected account. The inspector's bookings will now check availability on this calendar.
+After approval, Google sends you back to 1nspecT, which returns you to **Business Ops › Users**. The inspector's Google Calendar section now shows a **Connected** badge. The inspector's bookings will now check availability on this calendar.
 </Step>
 </Steps>
 
@@ -54,7 +54,7 @@ Calendar sync is per inspector. There is no shared company-wide booking calendar
 When Calendar is connected:
 
 - **Availability** — bookings on the public form read every calendar the inspector owns or can write to, and only show open slots inside their Working Schedule
-- **Event creation** — when a new inspection is created (public booking, order wizard, or Field Quote), 1nspecT writes an event to the inspector's primary calendar titled `Order No- {id}`, with the clients, agents, services and fees in the description
+- **Event creation** — when an order is created (order wizard or Field Quote, or when a public-booking lead is converted to an order; a public booking on its own creates only a lead, so no event is written until it becomes an order), 1nspecT writes an event to the inspector's primary calendar titled `Order No- {id}`, with the clients, agents, services and fees in the description
 - **Event updates** — rescheduling an inspection updates the event; cancelling removes it
 
 ## What does not sync

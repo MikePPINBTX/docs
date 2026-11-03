@@ -20,7 +20,7 @@ last_verified_against_code: "2026-11-02"
 | Public booking form | Address autocompletes as the client types |
 | Order Creation Wizard | Address autocomplete and auto-fill of property details |
 | Mobile Field Quote | Address autocomplete and Property Baseline lookup |
-| Mileage surcharge calculation | Distance from the inspector's home address (set in Settings › Users) to the property, falling back to the office address; public bookings use the office address |
+| Mileage surcharge calculation | Distance from the inspector's home address (set in Business Ops › Users) to the property, falling back to the office address; public bookings use the office address |
 | Property Baseline | Lat/lng used to look up site conditions (soil, flood, radon, termite, climate) |
 
 ## What this means for you
@@ -31,7 +31,7 @@ Address fields across the product behave like Google's standard address input. S
 
 For orders where a mileage surcharge applies:
 
-1. 1nspecT geocodes the inspector's home address (set in Settings › Users under Mileage Calculation), or the office address from Company Info if no home address is set. Public bookings always use the office address
+1. 1nspecT geocodes the inspector's home address (set in Business Ops › Users under Mileage Calculation), or the office address from Company Info if no home address is set. Public bookings always use the office address
 2. 1nspecT geocodes the property address on the order
 3. The Google Maps distance (driving distance, round trip if your surcharge is set to Round Trip ×2) is calculated
 4. The mileage surcharge is applied to the order per your Surcharges tab configuration

@@ -27,7 +27,7 @@ The `Financial Settings` card has three fields:
 | Processing Rate (%) | The percentage portion of your card-processing fee. Example: `2.9` for standard Stripe. |
 | Processing Flat Fee ($) | The per-transaction flat fee. Example: `0.30` for standard Stripe. |
 
-Together, Processing Rate and Flat Fee drive the **Pass-Through gross-up**, (fee + flat) ÷ (1 − rate), on ancillary services that have Pass-Through turned on. They also feed the estimated Stripe fees in the Monthly Reconciliation report. Note that the invoice PDF carries no tax line.
+Together, Processing Rate and Flat Fee drive the **Pass-Through gross-up**, (fee + flat) ÷ (1 − rate), on ancillary services that have Pass-Through turned on. The Monthly Reconciliation report does not use them: it uses the actual Stripe fee when it has one, and otherwise estimates 2.9% + $0.30. Note that the invoice PDF carries no tax line.
 
 ## Duration Settings
 

@@ -18,15 +18,15 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Fixes for the common billing and AI Credits situations. The Billing page lives at **Settings › Billing** (owners and admins only).
+Fixes for the common billing and AI Credits situations. The Billing page lives at **Business Ops › Billing** (owners and admins only).
 
 ## AI Generate / Vision Scan says "Not enough AI credits"
 
-Your company's AI credit balance has run out for the current period. The inspector sees the alert on mobile; the alert links to the web Billing page for someone with admin rights.
+Your company doesn't have enough AI credits left for that feature. The message reads: _"Not enough AI credits for [feature]: it uses N and you have M. Buy more at app.1nspect.app/settings/billing — purchased credits never expire."_ (Vision Scan and Performance Opinion use 10, Finish & Draft uses 50.) On mobile, Vision Scan shows this alert with an **Open Billing** button; AI Generate instead shows its own "AI Unavailable" notice and pre-fills a template narrative you can edit. The Billing page itself is for owners and admins.
 
 Fix:
 
-1. Open **Settings › Billing**
+1. Open **Business Ops › Billing**
 2. Under the Usage card, find the **AI credits** section
 3. Click **Buy 1,000 AI credits** (shows the current price inline)
 4. Pay through Stripe
@@ -42,7 +42,7 @@ Purchased credits never expire; plan credits reset each period.
 
 ## Where is my credit balance on the Dashboard?
 
-There is no AI credit tile on the Dashboard (the AI hours saved tile was removed). The Billing page (Settings › Billing, Usage card) is the only place that shows your balance.
+There is no AI credit tile on the Dashboard (the AI hours saved tile was removed). The Billing page (Business Ops › Billing, Usage card) is the only place that shows your balance.
 
 ## I changed plans and it didn't take
 
@@ -54,18 +54,18 @@ There is no AI credit tile on the Dashboard (the AI hours saved tile was removed
 
 Adding a seat and inviting a user are two separate actions:
 
-1. Add a seat on **Settings › Billing** (increases the plan's seat allowance)
-2. Add a team member on **Settings › Users** (creates the user)
+1. Add a seat on **Business Ops › Billing** (increases the plan's seat allowance)
+2. Add a team member on **Business Ops › Users** (creates the user)
 
 If you did step 1 but not step 2, the user doesn't exist yet. Head to Users and add them.
 
 ## I need to downgrade
 
-Open **Settings › Billing**. Click **Switch to [Plan]** on the plan you want. Confirm. The change, upgrade or downgrade, takes effect **immediately** and is prorated.
+Open **Business Ops › Billing**. Click **Switch to [Plan]** on the plan you want. Confirm. The change, upgrade or downgrade, takes effect **immediately** and is prorated.
 
 ## I need to cancel
 
-There is no cancel button on the Billing page. Open **Settings › Billing** and use **Manage card & invoices**, which opens the Stripe portal, and cancel there. Published reports remain accessible via their permanent URLs.
+There is no cancel button on the Billing page. Open **Business Ops › Billing** and use **Manage card & invoices**, which opens the Stripe portal, and cancel there. Published reports remain accessible via their permanent URLs.
 
 ## Non-billing admins can't open Billing
 

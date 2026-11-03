@@ -1,7 +1,7 @@
 ---
 id: "mobile-home-and-assigned-inspections"
 title: "Home and assigned inspections"
-description: "Home is a four-button menu. Assigned Inspections lists your jobs for the next 30 days with readiness badges, start guards and the team-inspection join flow."
+description: "Home is a three-button menu. Assigned Inspections lists your jobs for the next 30 days with readiness badges, start guards and the team-inspection join flow."
 sidebarTitle: "Home"
 keywords:
   - "home"
@@ -20,19 +20,19 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Home is the first thing you see after signing in. It is a menu of four buttons: **Assigned Inspections**, **Emergency Inspection**, **View Completed Inspections** and **Field Quote**. The job list, readiness badges, the Team QR and Join live on the **Assigned Inspections** screen.
+Home is the first thing you see after signing in. It is a menu of three buttons: **Assigned Inspections**, **View Completed Inspections** and **Field Quote**. The job list, readiness badges, the Team QR and the team-join scanner live on the **Assigned Inspections** screen.
 
 ## The inspection list
 
 On **Assigned Inspections**, each card shows:
 
-- Client name (and co-client if there is one)
+- The inspection number (#id) and a status badge: only **ASSIGNED** and **IN PROGRESS** appear
 - Property address
-- Scheduled date and time
-- Primary service and ancillaries
-- Inspector (you, or your name plus a teammate's for team inspections)
-- Status badge: only **ASSIGNED** and **IN PROGRESS** appear
 - Offline readiness badge
+- **Client**
+- **Scheduled** date and time
+- **Template**
+- **Notes** (when there are any)
 
 There is no guaranteed sort order. Pull down to refresh. Downloads happen automatically.
 
@@ -44,6 +44,9 @@ Each job tells you whether its template and libraries have been downloaded to th
 | --- | --- |
 | **Ready offline** | Template + caption library + narrative library are all cached. You can inspect this job without a connection. |
 | **Needs download** | At least one of the three is not cached. Open the job once on cellular or Wi-Fi before heading to a dead-signal area. |
+| **Downloading…** | The missing pieces are downloading now. |
+| **Setup incomplete — not assigned** | The office has not assigned a template or library yet. Downloading won't fix it; ask the office. |
+| **Offline status unknown** | The app could not determine the job's offline status. |
 
 Downloads of the missing pieces happen automatically.
 
@@ -51,7 +54,7 @@ Downloads of the missing pieces happen automatically.
 
 Jobs are hidden from the Assigned Inspections list when any of these are true:
 
-1. **No agreement has been sent** (unless the inspection is marked externally contracted)
+1. **No agreement has been sent** (unless the inspection is marked externally contracted, or is a reinspection, which shows even without an agreement)
 2. **The job is more than 30 days in the future** — jobs appear only within a 30-day window
 3. **The inspector's display name doesn't exactly match the assigned name** on the inspection
 
@@ -64,20 +67,20 @@ Once a job is visible, Start requires:
 - A **template** and a **narrative collection** on the inspection (caption library is optional; if missing, the mobile autocomplete is empty but the inspection still runs)
 - A **signed agreement**
 
-If the template is missing, the card shows a "Setup Required" message rather than hiding the job.
+If the template or the narrative collection is missing, the card shows a "Setup Required" message rather than hiding the job.
 
 See [Starting an inspection](/1nspect/inspector/starting-an-inspection) for the setup screen details.
 
 ## Resume Active Inspection
 
-If you have an inspection already in progress, a **🚀 RESUME ACTIVE INSPECTION** button appears at the top of the Config tab (and often at the top of Home). Tap to jump straight back into the Capture screen for that job.
+If you have an inspection already in progress, a **🚀 RESUME ACTIVE INSPECTION** button appears on the Config tab and on the Quote tab. It is not on Home. Tap to jump straight back into the Capture screen for that job.
 
 ## Team inspections
 
 For jobs with more than one inspector:
 
-- **The lead** opens the inspection and taps the team action to show a QR code
-- **Each teammate** opens the app on their own phone, taps Join Team, and scans the lead's QR code
+- **The lead** taps **Team QR** on the job's card in Assigned Inspections to show a QR code (the button appears only when team inspection is allowed for that job)
+- **Each teammate** opens Assigned Inspections on their own phone, taps **⧉ Scan to Join a Team Inspection**, and scans the lead's QR code
 - Every finding records the inspector who captured it
 - Ratings are stored per area, not per inspector, so two inspectors rating the same area overwrite each other. Split the areas between you.
 
@@ -85,7 +88,7 @@ The lead is marked as the inspector of record on the published report.
 
 ## Re-push
 
-If an office admin re-pushes an assignment to your phone (for example, after fixing a template or re-assigning), the app re-acquires the inspection on the next sync. The job stays on your Home with its captured data intact. See the Office note in [First-run gotchas](/1nspect/getting-started/first-run-gotchas) if the re-push doesn't appear.
+If an office admin re-pushes an assignment to your phone (for example, after fixing a template or re-assigning), the app re-acquires the inspection on the next sync. The job stays on your Assigned Inspections list with its captured data intact. See the Office note in [First-run gotchas](/1nspect/getting-started/first-run-gotchas) if the re-push doesn't appear.
 
 ## Related
 

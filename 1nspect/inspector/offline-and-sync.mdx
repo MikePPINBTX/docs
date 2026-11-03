@@ -50,8 +50,7 @@ last_verified_against_code: "2026-11-02"
 | --- | --- |
 | AI Generate | Shows an offline alert: _"AI Generate Unavailable Offline. You're offline. Save this finding now (Save + New) and use Finish & Draft once you're reconnected — it will batch-draft all pending narratives at once."_ |
 | Vision Scan | Requires a live connection when you tap AI Generate with Vision armed |
-| Smart Search | Works offline: it is a free keyword search of the cached library |
-| Finish & Draft Report | Server-side batch; needs a live connection to start |
+| Finish & Draft Report | Server-side batch; start it with a live connection. The app does not check first: offline, it still shows "Report Drafting Started" but the drafting never runs, and no error is shown. |
 | Publish Report (from the phone) | Server-side; needs a live connection |
 | Field Quote booking | Needs a live connection to confirm the slot |
 
@@ -76,7 +75,7 @@ Multiple inspectors on the same team inspection, each capturing offline, come ba
 The standard workflow for most inspectors:
 
 1. In the field, lean on captures and ratings. AI Generate when it saves time; skip it when it doesn't.
-2. On the drive back, open Review and tap **Finish & Draft Report**. The AI drafts every blank narrative on the server (50 AI credits per report) while you drive.
+2. On the drive back, once you have signal, open Review and tap **Finish & Draft Report**. The AI drafts every blank narrative on the server (50 AI credits per report) while you drive.
 3. At the office, polish and publish from the Report Workspace on the web.
 
 ## Related

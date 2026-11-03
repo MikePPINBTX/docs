@@ -72,7 +72,7 @@ Picks what the sqft number means for this service and what the tiers and duratio
 
 ## Service flags
 
-Four checkboxes and two advanced fields:
+Three checkboxes and two advanced fields:
 
 | Field | Notes |
 | --- | --- |
@@ -103,7 +103,7 @@ Flat Base Fee up to Max Sq Ft, then adds `$ per Increment` for each started bloc
 
 **Worked example** (from the actual UI):
 
-> `Max 1,200 · Base $365 · Increment 100 · $11 per increment → 3,000 sqft = $365 + (18 × $11) = $563`
+> `Max 1,200 · Base $359 · Increment 100 · $10 per increment → 3,000 sqft = $359 + (18 × $10) = $539`
 
 You can mix styles across tiers. You might have:
 
@@ -125,7 +125,7 @@ Pick **Reinspection** as the Pricing Model and the pricing section switches to r
 - **% of Original Fee** — a percentage of what the original inspection cost
 - **Custom (set at booking)** — leave the price open for the admin to set per order
 
-An **Include Mileage** toggle controls whether the mileage surcharge carries through.
+An **Add mileage fee** checkbox controls whether the mileage surcharge carries through.
 
 ## Duration Formula (per-service override)
 
@@ -164,7 +164,7 @@ Use this when the tiered pricing doesn't scale fairly into very large homes.
 ## Save
 
 - **Save Tiers** (inside the Pricing Tiers section) commits the tiers for this one service.
-- **Save Registry** (top right of the tab, repeated at the bottom) commits the entire Primary Services list.
+- **Save Registry** (top right of the tab, repeated in the Service Types sidebar) commits the entire Primary Services list.
 
 Both are safe to click repeatedly: no destructive side effects.
 

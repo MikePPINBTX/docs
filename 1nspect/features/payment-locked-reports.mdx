@@ -1,7 +1,7 @@
 ---
 id: "payments-locked-reports"
 title: "Payment-locked reports"
-description: "Every published report is locked until the invoice is paid. Both the client and the agent links return a Payment Required page. There is no setting to disable this."
+description: "Every published report is locked on both the client link and the agent link until the invoice is paid, and there is no setting to disable this."
 sidebarTitle: "Payment-locked reports"
 keywords:
   - "payment-locked"
@@ -17,7 +17,7 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Payment-locked reports are built into 1nspecT. Every published report where the inspection isn't marked paid returns a Payment Required page on **both** the client's link and the agent's link. There is no setting to enable or disable this; it's always on.
+Payment-locked reports are built into 1nspecT. Every published report where the inspection isn't marked paid is locked on **both** the client's link and the agent's link. There is no setting to enable or disable this; it's always on.
 
 ## What the client sees when locked
 
@@ -25,7 +25,7 @@ When the client clicks the report link before paying, they land on the **Payment
 
 ## What the agent sees when locked
 
-The agent view at `/report/[slug]/agent` carries its own locked state. The agent sees the same block until the inspection is paid.
+The agent view at `/report/[slug]/agent` shows a different page: **Report Locked Pending Payment**, with the property address and a message that the report will be available as soon as payment is received and to check back shortly. There is no pay button; agents are not sent to the client portal.
 
 ## What unlocks the report
 
@@ -34,7 +34,10 @@ Only two events unlock the report, in both links at once:
 - A successful **Stripe payment**, confirmed by the Stripe webhook
 - A manual **Mark as Paid** action in the web admin that flips the inspection's `isPaid` to `true`
 
-Unlock happens within seconds of the payment event. Any workflow step bound to the `report.delivered` trigger fires at the same moment (so a delivery email can land right when the client regains access).
+Unlock happens within seconds of the payment event. What gets emailed depends on how the payment came in:
+
+- **Stripe payment on a report that is already published:** the `report.delivered` trigger fires (instead of `payment.received`), so a delivery email goes out as the client regains access.
+- **Mark as Paid:** only the `payment.received` trigger fires. No report email goes out. The office must click **Deliver** to email the report to the client.
 
 ## Which inspections are locked
 
@@ -42,7 +45,7 @@ Every inspection where `isPaid !== true`. There is no per-order override, no per
 
 ## For manually-paid orders
 
-If the client paid you by Venmo, Zelle, Cash App or an offline card entry, use **Mark as Paid** on Inspection Details to flip the inspection to paid. The report unlocks immediately.
+If the client paid you by Venmo, Zelle, Cash App or an offline card entry, use **Mark as Paid** on Inspection Details to flip the inspection to paid. The report unlocks immediately, but the client is not emailed the report; click **Deliver** to send it.
 
 <Warning>
   Mark as Paid always sets the inspection to fully paid (`isPaid: true`). There is no partial-payment state in 1nspecT, so even recording a partial payment unlocks the report.

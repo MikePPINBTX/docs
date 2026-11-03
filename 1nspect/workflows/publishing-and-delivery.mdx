@@ -23,7 +23,7 @@ Before Publish will accept the report:
 
 - Every required SoP item is resolved (see [Pre-publish checks](/1nspect/workflows/pre-publish-checks))
 - Every finding either has a narrative or has been signed off as Publish without narrative
-- Required ratings and area comments are complete
+- Required subsection ratings and required fields are complete
 
 If anything is missing, Publish shows a clear message naming the blockers. Resolve and retry.
 
@@ -39,8 +39,8 @@ No more edits without a Republish. The inspection is immutable from this point.
 <Step title="Generate links">
 The client's report link (permanent URL) and the agent's report link are generated. Each is served through short-lived signed URLs behind the permanent slug.
 </Step>
-<Step title="Record the publish">
-The Order History gets a Publish event with the time, the version number, and the caller.
+<Step title="Save the version">
+1nspecT saves a version record for this publish, with the version number and publish time.
 </Step>
 <Step title="Fire the workflow trigger">
 The matching workflow trigger fires:
@@ -54,11 +54,11 @@ The matching workflow trigger fires:
 
 When the order is already **paid**, Publish fires `report.published`, which sends the delivery emails you have configured in your workflow. When the order is unpaid, Publish fires `report.published.payment_pending` instead. The report **Delivered** trigger fires only on a Stripe payment after publish or when you use **Deliver** manually.
 
-Use **Deliver** to send the report by hand.
+Use **Deliver** to send the report by hand once the order is paid. On an **unpaid** order the dialog is titled **Send Payment Reminder**: sending from it delivers the "awaiting payment" reminder, not the report. The report goes out automatically once payment is received, or you can mark the order paid first and then deliver it.
 
 The Deliver dialog captures:
 
-- **Role**: Client or Agent (switches which subscriber-configured delivery template is used)
+- **Role**: Client or Buyer's Agent (switches which subscriber-configured delivery template is used). The agent option is disabled when the inspection has no agent email.
 - **Email**: the recipient's address
 - **Name**: who to greet
 - **Custom message**: an optional personal note from you; it drops into the delivery email through the `$CustomMessage` tag if your template includes it
@@ -68,7 +68,7 @@ Send when the preview looks right.
 
 ## Payment-locked reports
 
-Every published report is locked until the inspection is marked paid. Both the client's link and the agent's link return a Payment Required page until payment is recorded (via Stripe webhook or manual **Record Payment**). There is no setting to disable this.
+Every published report is locked until the inspection is marked paid. Both the client's link and the agent's link return a Payment Required page until payment is recorded (via Stripe webhook or manual **Mark as Paid**). There is no setting to disable this.
 
 See [Payment-locked reports](/1nspect/features/payment-locked-reports).
 
@@ -78,7 +78,7 @@ If your account has Haven set up, a report that is **published and paid** is als
 
 ## Republishing
 
-If you need to change the published report, Republish creates a new version. The permanent URL stays the same (so clients keep the link they already have), but a new version marker is attached. The Order History records both versions.
+If you need to change the published report, Republish creates a new version. The permanent URL stays the same (so clients keep the link they already have), but a new version marker is attached, and each version is saved as its own version record.
 
 Use Republish sparingly: once a client has read a report and acted on it, changing the content can create confusion.
 
