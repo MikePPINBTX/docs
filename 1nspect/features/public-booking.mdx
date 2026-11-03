@@ -41,7 +41,7 @@ Your public booking URL is set from your Company Info slug: **Business Ops › C
     Name, email, phone. A co-client row is optional.
   </Step>
   <Step title="Date and time">
-    Available slots from each inspector's Working Schedule and Google Calendar for the estimated duration. Taken slots are greyed out. Booking warns on a clash.
+    Available slots for the inspector the client picks, from that inspector's Working Schedule and Google Calendar for the estimated duration. Taken slots are greyed out. Booking warns on a clash.
   </Step>
   <Step title="Submit">
     Submission creates a **lead** with status `pending_review` and fires the **Quote Submitted** trigger (per your Communications workflow). No order is created and no agreement is sent. Your office converts the lead to an order, and the agreement goes out from there.
@@ -52,15 +52,11 @@ Your public booking URL is set from your Company Info slug: **Business Ops › C
 
 - **reCAPTCHA** on the submit action to block spam bots
 - **Rate limits** per IP so a single source can't flood the form
-- **Address validation** against Google Places so junk addresses can't make it through
+- **Hidden spam trap** (a honeypot field that bots fill in and people don't)
 
 ## Embedding on your website
 
 Open **Business Ops › Company Info** and find the **Public Booking Form** section. It gives you an iframe of your booking page at `/book/{slug}`. Paste it into any HTML page on your site and adjust `height` to fit your layout.
-
-<Warning>
-  Do not use the **Embed Your Wizard** snippet on the Settings › Company tab. It points at `/quote?embed=true`, which has no public route, so the iframe lands on the login page.
-</Warning>
 
 The embedded form inherits your branding the same as the standalone page.
 
@@ -70,7 +66,7 @@ An ancillary marked **Internal Only** in Pricing Manager stays hidden from the b
 
 ## Agent-booked inspections
 
-The booking form captures the booking agent if the client enters agent details. For agents who book regularly, the Realtor Portal is a better path: agents sign in with a magic link, see every inspection you've done for them, and can book from there. See [Realtor portal](/1nspect/features/realtor-portal).
+The public booking form has no agent fields; it does not capture the client's agent. Your office adds the agent (Realtor Information) when it converts the lead to an order. Agents who send you regular business can use the Realtor Portal to sign in with a magic link and see the inspections you've done for their clients, but they can't book from it. See [Realtor portal](/1nspect/features/realtor-portal).
 
 ## Related
 

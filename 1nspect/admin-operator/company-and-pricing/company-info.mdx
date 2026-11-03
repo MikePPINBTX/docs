@@ -1,7 +1,7 @@
 ---
 id: "admin-company-info"
 title: "Company Info"
-description: "The first Business Ops tab. Company identity, brand colors, logo URL, inspection defaults, mobile publishing, booking page slug, review links and the public booking form."
+description: "The first Business Ops tab: company identity, logo upload, brand colors and preset themes, white-label, inspection defaults, mobile settings, booking page slug, review links and the public booking form."
 sidebarTitle: "Company Info"
 keywords:
   - "company info"
@@ -12,6 +12,10 @@ keywords:
   - "google review"
   - "yelp"
   - "white label"
+  - "branding"
+  - "brand colors"
+  - "preset themes"
+  - "embed"
   - "inspection defaults"
 persona:
   - "admin-operator"
@@ -22,46 +26,50 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Company Info is the first tab of Business Ops. It carries the company-wide values the rest of 1nspecT reads: identity, brand colors, logo, inspection defaults, mobile settings, booking link and review links.
+Company Info is the first tab of Business Ops. It carries the company-wide values the rest of 1nspecT reads: identity, logo, brand colors, white-label, inspection defaults, mobile settings, booking link and review links. It replaces the old Settings › Company tab.
 
 ## Where to find it
 
-**Business Ops** top-nav › **Company Info** tab (first of seven tabs).
+**Business Ops** top-nav › **Company Info** tab (first of nine tabs). The palette icon in the header (tooltip **Company & Branding**) opens it directly, and old `/settings` links land here too.
 
 ## Fields
 
+In the order they appear on the page:
+
 | Field | Notes |
 |---|---|
-| Account ID | Your account identifier. Read-only reference. |
 | Company Name | Required. Appears on reports, emails, agreements, portals and invoices. |
-| Company Phone | Your company phone number. |
+| Account ID | Your account identifier, assigned at account creation. Read-only. |
+| Booking Page Slug | The slug for your public booking page (`app.1nspect.app/book/[slug]`). Lowercase letters, numbers and hyphens only. |
 | Office Address | Street, City, State, ZIP. Used only as the **fallback** for mileage surcharges: the inspector's home address is used first, and public bookings use the office address. |
 | Support Email | Appears on client-facing notifications. |
-| Brand Colors | **Primary**, **Secondary** and **Accent**. (There is no PWA theme color.) |
-| Logo URL | A URL field, not an upload. Paste a link to your hosted logo. To upload a logo file, use Settings › Company. |
-| Inspection Defaults | Company defaults for the narrative and caption libraries on new inspections. Libraries are then set per inspection on Inspection Details. |
-| White-Label | Checkbox that changes only the web admin's own top bar. It does not affect PDFs, emails, agreements or the portals. See [Branding](/1nspect/getting-started/branding). |
-| Dynamic Rating UI | Company setting for how ratings are presented. |
-| Allow Publishing Reports from Mobile | Company switch, **off by default**. When on, users can publish from the mobile Review screen unless opted out per user in Settings › Users. |
-| Save Inspection Photos to Inspectors' Camera Rolls | Saves captured photos to each inspector's phone camera roll. Off by default. |
-| Booking Page Slug | The slug for your public booking page (`app.1nspect.app/book/[slug]`). |
+| Company Phone | Your company phone number. Shown on invoices with the office address and support email. |
+| Inspection Defaults | Company defaults for the template, narrative library and caption library on new inspections. Used only where the service sets no default of its own, and only for fields that are still empty. Existing inspections are never changed. |
+| Company Logo | Click **Upload logo** (or **Replace logo** once one is set) and pick a PNG or JPEG. The logo is saved as soon as it uploads; you do not need to click Save Changes. Used in the app header, on reports, on invoices and as the installed app icon. |
 | Google Review Link | Direct link to leave a Google review. Feeds `$GoogleReviewLink`. |
 | Yelp Review Link | Direct link to leave a Yelp review. Feeds `$YelpLink`. |
+| Brand Colors | **Primary**, **Secondary** and **Accent**. Below them, four preset themes (**1nspecT (Default)**, **Professional Blue**, **Forest Green**, **Corporate Gray**): clicking one fills in all three colors. Click Save Changes to apply. |
+| Installed App Status-Bar Color | The status-bar color when the web app is installed on a phone or tablet. |
+| Enable White-Label Mode | The one white-label switch. It changes only the web admin's own top bar. It does not affect PDFs, emails, agreements or the portals. See [Branding](/1nspect/getting-started/branding). |
+| Use Dynamic Rating UI (Universal SoP) | Company setting for how ratings are presented. Leave off if all your templates are TREC. |
+| Allow Publishing Reports from Mobile | Company switch, **off by default**. When on, users can publish from the mobile Review screen unless opted out per user in Business Ops › Users. |
+| Save Inspection Photos to Inspectors' Camera Rolls | Saves captured photos to each inspector's phone camera roll. Off by default. |
 
 <Note>
-  There is no company-wide Google Calendar setting. The old "Primary Booking Calendar" box was removed. Calendars are connected per inspector in Settings › Users. See [Google Calendar](/1nspect/features/calendar-integration).
+  There is no company-wide Google Calendar setting. The old "Primary Booking Calendar" box was removed. Calendars are connected per inspector in Business Ops › Users. See [Google Calendar](/1nspect/features/calendar-integration).
 </Note>
 
 ## Public Booking Form
 
-This section holds the working embed for your website: an iframe of `/book/{slug}`. See [Public booking form](/1nspect/features/public-booking).
+This section holds your booking link and the embed for your website: a **Direct Link** to `/book/{slug}` and an **Embed Code (iframe)** you can copy into your site. Set a Booking Page Slug and save first; the link and embed appear once a slug is saved. See [Public booking form](/1nspect/features/public-booking).
 
 ## Save
 
-Click **Save Changes**.
+Click **Save Changes**. Name, colors and white-label apply as soon as the save finishes; there is no need to reload. (The logo is the exception: it saves on upload.)
 
 ## Related
 
+- [Business Operations](/1nspect/admin-operator/company-and-pricing/company-settings)
 - [Company profile](/1nspect/getting-started/company-profile) (Start Here walk-through)
 - [Branding and white-label](/1nspect/getting-started/branding)
 - [Online booking](/1nspect/getting-started/online-booking)

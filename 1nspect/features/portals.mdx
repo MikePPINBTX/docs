@@ -26,7 +26,7 @@ The client portal is the branded web page your client uses from first touch to f
 
 ## Where the client lands
 
-The URL is `/client-portal/[portalSlug]`. The portal slug is derived from the client's email plus your tenant, so each client has a stable, personal URL. 1nspecT emails the link in the booking confirmation and in every subsequent transactional email.
+The URL is `/client-portal/[portalSlug]`. The portal slug is derived from the client's email plus your tenant, so each client has a stable, personal URL. The portal link is created when the agreement is sent. An email carries the link only if its template includes the portal-link variable, so add it to every Communications template where you want the client to have it.
 
 ## Sections on the page
 
@@ -34,7 +34,7 @@ The portal has several sections for every stage of the inspection:
 
 - **Agreement status**: each agreement with a Signed or Signature Required chip
 - **Signing modal**: opens from a Sign action; the client reviews and signs in a draw-or-type signature pad
-- **Invoices**: one invoice per inspection, with **Download Invoice** (and **Download Receipt** once paid)
+- **Invoices**: one invoice per inspection, with a **Download Invoice** button whose label changes to **Download Receipt** once paid
 - **Payment options**: Stripe card payment if online payments are enabled; manual payment handles (Venmo, Zelle, Cash App) shown only when online payments are off
 - **Published report**: a link to the report viewer when the report is published (and paid: reports are always locked until the order is paid)
 - **Supplemental documents**: any supplementals whose rules match, offered as downloads (they are not merged into the report PDF)
@@ -54,7 +54,7 @@ When the client clicks Sign:
     Two modes: Draw (sign with finger or stylus on a canvas) or Type (type their name in a signature font). Default is Draw.
   </Step>
   <Step title="Sign">
-    The signature image is stamped onto the agreement PDF. The signed PDF is stored on the order; the agreement status chip flips to Signed; the Contract Signed workflow trigger fires.
+    The signature image is stamped onto the agreement PDF. The signed PDF is stored on the order; the agreement status chip flips to Signed. The Contract Signed workflow trigger fires once **every** agreement on the order is signed, not after each one.
   </Step>
 </Steps>
 
@@ -64,7 +64,7 @@ If the order has a co-client, **one signature is required** to complete the agre
 
 ## Paying online
 
-If online payments are enabled (Business Ops › Payments connected to Stripe), the Pay action opens Stripe Checkout. On completion, the Payment Received trigger fires and the order is marked paid.
+If online payments are enabled (Business Ops › Payments connected to Stripe), the Pay action opens Stripe Checkout. On completion, the order is marked paid. If the report is not published yet, the Payment Received trigger fires. If the report is already published, the Report Delivered trigger fires instead, so the client gets the report email.
 
 ## Paying manually
 
@@ -74,7 +74,7 @@ When online payments are off and you have configured handles, they appear in the
 - Your Zelle contact, phone or email (if configured)
 - Your Cash App handle (if configured)
 
-The client pays through the respective app, then your admin clicks **Record Payment** in the web admin (Inspection Details).
+The client pays through the respective app, then your admin clicks **Mark as Paid** in the web admin (Inspection Details). Mark as Paid unlocks the report but does not email it; the office clicks **Deliver** to send it.
 
 ## Agreement status chips
 

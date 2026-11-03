@@ -19,11 +19,11 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Set up how you accept money from clients. 1nspecT supports two paths: card payments through Stripe Connect that land in your own bank account, and manual payments where you share your Venmo, Zelle or Cash App handles with clients. Most firms turn both on.
+Set up how you accept money from clients. 1nspecT supports two paths: card payments through Stripe Connect that land in your own bank account, and manual payments where you share your Venmo, Zelle or Cash App handles with clients. Clients see your manual handles only while Stripe is not connected with card charges enabled; once Stripe can take cards, the portal shows card payment instead.
 
 ## Where to find it
 
-**Business Ops** top-nav › the **Payments** tab (third of seven tabs).
+**Business Ops** top-nav › the **Payments** tab.
 
 ## Stripe Connect
 
@@ -51,13 +51,13 @@ Click **Connect Stripe Account**. The flow:
 
 ### Processing rate
 
-Stripe charges its standard processing rate on every transaction. 1nspecT does not take a cut. Set your Processing Rate (%) and Processing Flat Fee (\$) in **Business Ops › Pricing › Settings** so your fee is captured in the Monthly Reconciliation report.
+Stripe charges its standard processing rate on every transaction. 1nspecT does not take a cut. Set your Processing Rate (%) and Processing Flat Fee (\$) in **Business Ops › Pricing › Settings** if you bill pass-through ancillaries: 1nspecT grosses those fees up by your rate so the processing cost is covered. The Monthly Reconciliation report does not use these settings; it shows Stripe's actual fee where available and otherwise estimates 2.9% + \$0.30.
 
 ### What you can do once connected
 
 - Clients pay by card from the client portal
-- Payment auto-unlocks the report when payment lands (if payment-locking is on)
-- Payment Received workflow triggers fire
+- Payment auto-unlocks the report when payment lands
+- Payment Received workflow triggers fire. If the report is already published, the Report Delivered trigger fires instead, so the client gets the report email
 - Stripe Payouts and Monthly Reconciliation reports populate with real deposit data
 - Refunds through 1nspecT reach Stripe
 
@@ -67,7 +67,7 @@ The second section on the Payments page. Header reads **Manual Payment Options**
 
 ### What it does
 
-Shows your Venmo, Zelle and Cash App handles to clients in their client portal. Clients pay you directly through their app of choice; you then mark the order paid in the web admin.
+Shows your Venmo, Zelle and Cash App handles to clients in their client portal, but only while Stripe is not connected with card charges enabled. Clients pay you directly through their app of choice; you then mark the order paid in the web admin.
 
 ### Fields
 
@@ -85,16 +85,16 @@ When a manual payment comes in:
 
 1. Open the order on the Inspections list
 2. Click **Mark as Paid** on the Inspection Details page
-3. The Mark Paid modal captures amount, date, and an optional note
-4. Save — the order is marked paid
+3. The modal asks for **Amount paid**, **Date paid** and **Payment method** (Cash, Check, Zelle, Venmo or Offline Credit Card)
+4. Click **Record Payment** — the order is marked paid
 
-The Payment Received trigger fires, the report link unlocks (if payment-locking is on), and the Monthly Reconciliation report picks up the payment.
+The Payment Received trigger fires, the report link unlocks, and the Monthly Reconciliation report picks up the payment. No report email goes out: click **Deliver** to email the report to the client.
 
 See [Manual payments](/1nspect/features/manual-payments) for the client-side experience and [Managing orders](/1nspect/workflows/managing-orders) for the Mark as Paid flow.
 
 ## Payment-locked reports
 
-Every published report is locked until the inspection is marked paid; both the client and the agent link return a Payment Required page. There is no setting to disable this. See [Payment-locked reports](/1nspect/features/payment-locked-reports).
+Every published report is locked until the inspection is marked paid; both the client and the agent link are locked. There is no setting to disable this. See [Payment-locked reports](/1nspect/features/payment-locked-reports).
 
 ## Related
 

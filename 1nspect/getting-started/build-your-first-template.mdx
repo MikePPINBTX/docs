@@ -29,14 +29,14 @@ A template is the blueprint for an inspection: the sections and subsections that
 
 ## What ships with your account
 
-When you sign up and pick your inspection standard, 1nspecT seeds your account with the matching residential template plus two phase-inspection templates:
+When you sign up and pick your inspection standard, 1nspecT seeds your account with the matching residential template plus two phase-inspection templates. Each template name starts with your account ID (shown as `{account}` below):
 
 | Template | When it's seeded | Based on |
 | --- | --- | --- |
-| **TREC 7-6** residential | You chose TREC at signup | TREC 7-6 (Texas Real Estate Commission) |
-| **InterNACHI** residential | You chose InterNACHI (or anything other than TREC) at signup | InterNACHI Residential standard |
-| **Phase 1 Pre-Pour Foundation Inspection** | Always seeded | Phase 1 Pre-Pour standard |
-| **Phase 2 Pre-Drywall Inspection** | Always seeded | Phase 2 Pre-Drywall standard |
+| **{account} TREC 7-6** (residential) | You chose TREC at signup | TREC 7-6 (Texas Real Estate Commission) |
+| **{account} InterNACHI** (residential) | You chose InterNACHI (or anything other than TREC) at signup | InterNACHI Residential standard |
+| **{account} Phase 1 Pre-Pour** | Always seeded | Phase 1 Pre-Pour standard |
+| **{account} Phase 2 Pre-Drywall** | Always seeded | Phase 2 Pre-Drywall standard |
 
 You can use these as-is, clone them to customize, or build a completely custom template of your own.
 
@@ -51,7 +51,7 @@ In the web admin top bar, click **Templates**. The page header reads **Universal
 - The version
 - A blue **Schema Linked** badge when the template is bound to a schema
 - Created-by and date
-- Action icons at the bottom of the card: Edit, Rename, Upload Schema, Clone, Preview and Delete (there is no Design icon; Preview currently opens a blank page)
+- Action icons at the bottom of the card: Edit, Rename, Upload Schema, Clone, Preview and Delete (there is no Design icon; Preview opens a read-only view of the template's sections, subsections and fields, with each field's type, whether it is required, and its options)
 
 ## Starting a new template
 

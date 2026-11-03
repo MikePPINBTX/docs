@@ -19,6 +19,33 @@ Starting with the November 2026 catch-up below, release notes are published to t
 
 ---
 
+## November 2026 — Settings folded into Business Ops
+
+### Business Ops
+
+- **Settings is now part of Business Ops.** The separate Settings page and its top-nav item are gone. Business Ops has nine tabs: Company Info, Users, Billing, Pricing, Payments, Contracts, Communications, Quotes and Integrations. **Users** and **Billing** are visible to admins and owners only. Old `/settings` links open Company Info, and `/settings/billing` still opens Billing. See [Business Operations](/1nspect/admin-operator/company-and-pricing/company-settings).
+- **Logo upload on Company Info.** Click **Upload logo** (or **Replace logo**) and pick a PNG or JPEG. The logo saves as soon as it uploads.
+- **Preset themes on Company Info.** 1nspecT (Default), Professional Blue, Forest Green and Corporate Gray fill in your three brand colors in one click; Save Changes applies them, with no reload needed.
+- **One White-Label switch.** **Enable White-Label Mode** on Company Info is now the only white-label setting, and it saves to your account.
+- **"Embed Your Wizard" removed.** The old embed snippet on the Settings page did not work and is gone. To put booking on your website, use the **Public Booking Form** embed (iframe) on Company Info. See [Company Info](/1nspect/admin-operator/company-and-pricing/company-info).
+- The header palette icon (**Company & Branding**) now opens Company Info, and connecting a Google Calendar returns you to Business Ops › Users.
+
+### Contracts and templates
+
+- **Contracts Test Send emails only you.** It renders the agreements for the inspection ID you enter and emails the PDFs to the logged-in user. It writes nothing to the inspection and never contacts the client. See [Contracts](/1nspect/admin-operator/contracts-cockpit).
+- **Template Preview works.** The Preview icon on a template card opens a read-only view of the template's sections, subsections and fields, with each field's type, whether it is required, and its options.
+
+### AI credits
+
+- **Clearer out-of-credit messages.** When you don't have enough AI credits, the message names the feature, what it costs and your balance, for example: "Not enough AI credits for Finish & Draft: it uses 50 and you have 12." It links to Billing and reminds you that purchased credits never expire. In the mobile app, Vision Scan shows this message with an **Open Billing** button; AI Generate shows an **AI Unavailable** notice and fills in a template narrative instead.
+- Dashboard low-balance items now say "AI credits" and link straight to Billing.
+
+### Mobile
+
+- **Complete Inspection is now Readiness Audit (rolling out).** On the Review and Ratings tabs, the **✓ Complete Inspection** button is being renamed **✓ Readiness Audit** to match what it does: it runs the readiness check only. It does not complete, upload or notify anyone. Older app versions still show Complete Inspection until they update.
+
+---
+
 ## November 2026 — Help center overhaul and audit catch-up
 
 This release is primarily a documentation release that catches the help center up to the product state as of November 2026. Highlights from the past six months of product work covered in the refreshed docs:
@@ -70,7 +97,7 @@ This release is primarily a documentation release that catches the help center u
 
 ### Billing
 
-- **Self-serve Billing page** at `/settings/billing` — plan change, credit packs, inspection packs (Solo only), seats.
+- **Self-serve Billing page** (now Business Ops › Billing; `/settings/billing` still works) — plan change, credit packs, inspection packs (Solo only), seats.
 - **Plans** — Solo / Professional / Team (names updated from Starter / Pro / Team).
 - **AI Credits** is the rolling-out label for 1nspecTokens / IT. Billing already uses the new label; a few UI corners still show the old one during the transition.
 

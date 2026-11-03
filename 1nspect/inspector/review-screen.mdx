@@ -42,7 +42,7 @@ At the bottom of the Review screen:
 
 | Action | What it does |
 | --- | --- |
-| **✓ Complete Inspection** (being renamed **Readiness Audit**) | Only runs the completion check. It does not complete the inspection, upload anything or notify anyone. |
+| **✓ Readiness Audit** (shown as Complete Inspection on older app versions) | Only runs the readiness check. It does not complete the inspection, upload anything or notify anyone. |
 | **📷 Resume Inspection** | Jump back into the Capture screen for this inspection. |
 | **☁️ Sync to Cloud** | Push your captures and data to the server without drafting or publishing. The alert reads: _"Pending photos and videos uploaded to the cloud. The inspection is not marked complete, use Finish & Draft or Publish when ready."_ |
 | **✨ Finish & Draft Report** | Send everything for batch narrative generation. The AI drafts every blank narrative on the server. 50 AI credits per report. This is what marks the job completed and moves it to Archived. Most inspectors use this on the drive back to the office. |
@@ -50,7 +50,7 @@ At the bottom of the Review screen:
 
 ### Publishing from the field
 
-**Publish Report** is controlled by a company switch first: **Allow Publishing Reports from Mobile** in Business Ops › Company Info, which is **off by default**. When it is on, an admin can still opt a specific user out in Settings › Users. If you don't see Publish Report, that's by design — talk to your admin.
+**Publish Report** is controlled by a company switch first: **Allow Publishing Reports from Mobile** in Business Ops › Company Info, which is **off by default**. When it is on, an admin can still opt a specific user out in Business Ops › Users. If you don't see Publish Report, that's by design — talk to your admin.
 
 ## QA that runs on Publish
 
@@ -60,7 +60,7 @@ When you tap Publish Report, the app:
 - Confirms every finding has a narrative (or has been signed off as Publish without narrative)
 - Confirms required SoP items are complete
 - Runs the narrative compliance review
-- Then publishes the report to the client's permanent URL and fires the Report Published workflow trigger
+- Then publishes the report to the client's permanent URL and fires the matching workflow trigger: Report Published when the order is paid, or the awaiting-payment variant (`report.published.payment_pending`) when it is not
 
 If any item is unresolved, the audit shows the blockers so you can resolve them before Publish will go.
 

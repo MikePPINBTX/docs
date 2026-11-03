@@ -37,7 +37,7 @@ Each successful Stripe refund fires the `refund.issued` workflow trigger. You ca
 
 ## One refund per inspection
 
-A single inspection carries at most one refund record. If you refund twice (for example, remove one ancillary and then cancel the order), the second refund updates the existing record rather than adding a second entry.
+A single inspection can be refunded through Stripe only once. If you trigger a second refund on the same inspection (for example, remove one ancillary and then cancel the order), 1nspecT does not issue a second Stripe refund; it returns the first refund unchanged. Refund any further amount directly in your Stripe dashboard.
 
 ## What's not supported
 
@@ -54,12 +54,12 @@ The product deliberately keeps the refund surface small:
 For a Stripe refund:
 
 - The money returns to the client's card through Stripe's standard timeline (typically 5 to 10 business days)
-- The invoice PDF regenerates (`isPaid` flips back to `false` if the whole order refunded)
+- The invoice PDF regenerates. The inspection stays marked paid, even after a full refund
 - If you set up the `refund.issued` trigger with an email, the client gets a notice
 
 ## Partial refunds
 
-Removing a single ancillary from a paid order yields a partial refund for that ancillary's amount. The order stays active for the remaining services; the balance adjusts.
+Removing a single ancillary from a paid order yields a partial refund for that ancillary's amount (as long as it is the first refund on that inspection). The order stays active for the remaining services; the balance adjusts.
 
 Cancelling a single phase in a multi-phase order partially refunds that phase.
 

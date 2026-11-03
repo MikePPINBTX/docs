@@ -1,7 +1,7 @@
 ---
 id: "start-here-add-your-team"
 title: "Add your team"
-description: "Add inspectors and admins at Settings › Users. Set roles, working hours, Google Calendar, TREC sponsor information and mileage origin."
+description: "Add inspectors and admins at Business Ops › Users. Set roles, working hours, Google Calendar, TREC sponsor information and mileage origin."
 sidebarTitle: "Add your team"
 keywords: ["users", "team", "inspectors", "admins", "roles", "seats", "calendar", "TREC"]
 persona: ["admin-operator"]
@@ -11,15 +11,15 @@ status: "stable"
 last_verified_against_code: "2026-10-30"
 ---
 
-Your team of inspectors and admins is managed on the Settings page under the Users tab. The Add Team Member dialog captures what each user needs to work in the field: license number, role, working hours, calendar connection, TREC sponsor information and mileage origin.
+Your team of inspectors and admins is managed on the Business Ops page under the Users tab. The Add Team Member dialog captures what each user needs to work in the field: license number, role, working hours, calendar connection, TREC sponsor information and mileage origin.
 
 <Info>
-**Required** to run your first inspection: at least one user with the **Inspector** toggle turned on. If an inspector isn't showing up on your booking form or on the mobile phone, this toggle is almost always why.
+**Required** to run your first inspection: at least one user with the **Inspector** toggle turned on. The toggle controls who appears in the inspector roster on your booking form and when creating orders. It is on by default for new users.
 </Info>
 
 ## Where to find it
 
-In the top bar, click **Settings**, then click the **Users** tab (one of three tabs: Company, Users and Billing). The page header reads **User Management**.
+In the top bar, click **Business Ops**, then click the **Users** tab. The section header reads **User Management**. The Users tab is visible only to admins and owners.
 
 ## Add a team member
 
@@ -31,13 +31,13 @@ Click **Add Team Member**. The dialog is titled **Add Team Member** (it switches
 | --- | --- |
 | Display Name | Required. The name shown in the UI and on reports. |
 | Email | Required. The address the user signs in with. Immutable after creation. |
-| Password | New users receive an invite email with a password-setup link; they set their own password on first sign-in rather than being handed a temporary one. |
+| Temporary Password | Required for a new user, at least 6 characters. Share it with the user; they can change it with **Forgot Password** on the login screen. An invite email with a password-setup link is also sent. |
 | License Number | Optional. Inspector license number. Placeholder: `26408`. |
 | Role | Inspector or Admin. The owner role cannot be assigned. |
 
 ### Toggles
 
-- **Inspector**: turn on for anyone who conducts inspections or should appear on your booking form. This is the toggle most often forgotten.
+- **Inspector**: on by default. Leave it on for anyone who conducts inspections and should appear on your booking form and the order inspector roster; turn it off for office-only admins.
 - The second toggle is **mobile publishing**: a per-user opt-out that matters only when the company switch **Allow Publishing Reports from Mobile** (Business Ops › Company Info, off by default) is on.
 
 ### Google Calendar
@@ -65,7 +65,7 @@ Set working hours per day of the week, with a **Timezone** dropdown (US timezone
 
 | Field | Notes |
 | --- | --- |
-| Signature Image URL | A URL to the inspector's signature image. Shows on reports where a signature line is called for. Placeholder: `https://storage.googleapis.com/signatures/signature.png`. |
+| Signature Image URL | A URL to the inspector's signature image. It is saved on the user's profile but is not currently used on reports. Placeholder: `https://storage.googleapis.com/signatures/signature.png`. |
 
 ## Seats and your plan
 
@@ -75,7 +75,7 @@ Each plan includes a set number of seats:
 - **Professional**: 1 seat included, add more at a per-seat price
 - **Team**: 3 seats included, add more at a per-seat price
 
-Check your current seat count and buy additional seats on the Billing page (Settings › Billing). To remove a seat, first disable a user in Settings › Users, then remove the seat on Billing.
+Check your current seat count and buy additional seats on **Business Ops › Billing**. To remove a seat, first disable a user in Business Ops › Users, then remove the seat on Billing.
 
 ## Disabled users
 

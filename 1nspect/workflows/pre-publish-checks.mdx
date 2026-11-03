@@ -47,17 +47,17 @@ Publish is a hard gate. Before Publish will accept the report, the completeness 
 
 Unresolved narrative flags from the review panel also **block** Publish until you acknowledge them.
 
-Any missing items are listed as **publish blockers**. Each blocker shows the SoP's required-item ID so you know exactly what the standard asks for and where it belongs in the report. Resolve all of them and Publish will go.
+Any missing items are listed as **publish blockers**. Each blocker shows a **Section → Subsection** label so you know exactly where in the report the missing item belongs. Resolve all of them and Publish will go.
 
 ## Findings without a narrative
 
 If a finding has no narrative when you try to Publish, the Publish action refuses with a clear message:
 
-> _"Cannot publish — N finding(s) have no narrative. Draft them (Draft pass and Polish), or choose 'Publish without narrative' for each one in the review panel."_
+> _"Cannot publish — N finding(s) have no narrative. Draft them (AI Draft & Polish), or choose 'Publish without narrative' for each one in the review panel."_
 
 Two ways to resolve:
 
-1. **Draft the narrative.** Run the Draft pass and Polish (drafts every eligible finding, then Polish Report) or draft the finding individually.
+1. **Draft the narrative.** Run **AI Draft & Polish** (drafts every eligible finding, then Polish Report) or draft the finding individually.
 2. **Publish without narrative.** For a finding that doesn't need a narrative (an observation that's already documented in a related finding, say), open the review panel for that finding and sign off on Publish without narrative. The sign-off is recorded against the caller on the server, so there's an audit trail of who approved publishing without a narrative on which finding.
 
 ## Aged-systems check
@@ -77,7 +77,7 @@ Once every required item is resolved, Publish:
 - Locks the inspection (no more edits without a Republish)
 - Uploads the final PDF to secure storage
 - Generates the client's permanent report URL slug and the agent's view
-- Records the publish event in the Order History
+- Saves a version record for this publish (version number and publish time)
 - Fires the matching workflow trigger (`report.published` when the order is paid, which sends the configured delivery emails, or the payment-pending variant when it is unpaid)
 
 See [Publishing and delivery](/1nspect/workflows/publishing-and-delivery) for what happens after Publish.

@@ -19,7 +19,7 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Some clients want to pay through Venmo, Zelle or Cash App instead of a card. 1nspecT supports that: configure your handles in **Business Ops › Payments**, the client sees them in their portal, and you click **Record Payment** in the web admin when the money arrives.
+Some clients want to pay through Venmo, Zelle or Cash App instead of a card. 1nspecT supports that: configure your handles in **Business Ops › Payments**, the client sees them in their portal, and you click **Mark as Paid** in the web admin when the money arrives.
 
 ## Configuring your handles
 
@@ -45,20 +45,23 @@ Once the money arrives:
 <Step title="Open the order">
 Inspections top-nav then the order.
 </Step>
-<Step title="Click Record Payment">
+<Step title="Click Mark as Paid">
 The payment modal opens.
 </Step>
 <Step title="Enter the details">
 Three fields: **Amount paid**, **Date paid** and **Payment method** (Cash, Check, Zelle, Venmo or Offline Credit Card). There is no note field, and Cash App is not in the method list.
 </Step>
-<Step title="Save">
+<Step title="Click Record Payment">
 The order is marked paid. The report unlocks (reports are always payment-locked until paid), and the Monthly Reconciliation report picks up the payment.
+</Step>
+<Step title="Click Deliver">
+Marking the order paid does not email the report. If the report is already published, click **Deliver** so the client gets the report email.
 </Step>
 </Steps>
 
 ## No partial payments
 
-Record Payment always sets the order to paid. There is no partial state, so wait until the full amount has arrived before you record it.
+Mark as Paid always sets the order to paid. There is no partial state, so wait until the full amount has arrived before you record it.
 
 ## Reconciling manual payments
 

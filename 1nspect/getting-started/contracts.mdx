@@ -1,7 +1,7 @@
 ---
 id: "start-here-contracts"
 title: "Contract templates"
-description: "Create your service agreement in Contracts Cockpit. Insert dynamic tags for client details and signatures, and choose which orders it applies to. Test Send is a real send."
+description: "Create your service agreement in Contracts Cockpit. Insert dynamic tags for client details and signatures, and choose which orders it applies to, and use Test Send to email yourself the rendered PDFs."
 sidebarTitle: "Contracts"
 keywords:
   - "contracts"
@@ -28,7 +28,7 @@ Contracts Cockpit is where you build the service agreements your clients sign. 1
 
 ## Where to find it
 
-In the top bar, click **Business Ops**, then click the **Contracts** tab (fourth of seven tabs). The section inside is labeled **Agreements**.
+In the top bar, click **Business Ops**, then click the **Contracts** tab. The section inside is labeled **Agreements**.
 
 ## Add an agreement
 
@@ -58,11 +58,9 @@ Tags render at send time, so each client sees their own name, address, fee and s
 
 Click **Save Agreement** at the bottom of the editor.
 
-## Test Send is a real send
+## Test Send
 
-<Warning>
-  **Test Send** (next to Save) is not a safe preview. It calls the live send, fires the `contract.sent` trigger and emails the real client on that inspection. Use a test order that carries your own email address.
-</Warning>
+**Test Send** (next to Save) renders every agreement that applies to an inspection and emails the PDFs **only to you**, the logged-in user. It writes nothing to the inspection and never contacts the client, so it is safe to run against a real order.
 
 <Steps>
 <Step title="Open Test Send">
@@ -72,7 +70,7 @@ At the bottom of the Agreement editor, click **Test Send**. A panel opens.
 Enter the ID of an existing inspection. Placeholder: `Inspection ID (e.g. 2026-0062-RS)`.
 </Step>
 <Step title="Send">
-Click **Send**. 1nspecT sends every applicable agreement for that inspection for real, to the client on that inspection.
+Click **Send**. 1nspecT renders every applicable agreement for that inspection and emails the PDFs to you. A confirmation shows the address it was sent to and how many agreements were attached.
 </Step>
 </Steps>
 

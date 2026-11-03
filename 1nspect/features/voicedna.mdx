@@ -27,7 +27,17 @@ VoiceDNA is the AI feature that learns your company's writing voice from a handf
 
 The VoiceDNA page is owner- and admin-only. Inspectors see the tab but it's locked for them.
 
-## The two sections on the page
+## What's on the page
+
+The page is a stack of separate cards.
+
+### Include Analysis in narratives
+
+Whether narratives include a dedicated Analysis section between Condition and Recommendation.
+
+### Narrative format in reports
+
+How narratives are laid out when the report is displayed. Choose **Labelled parts (Condition / Analysis / Recommendation)**, **Bullet points, no labels** or **One paragraph**. A preview shows the result. This is a display setting: it changes how narratives appear in reports, not how the AI writes them.
 
 ### Active Voice DNA Profile
 
@@ -37,13 +47,17 @@ Shows your current profile (if you have one). An **Edit Voice DNA Profile** butt
 
 Independent of the extracted profile; works even with no profile set. Saved through its own endpoint. Tune:
 
-- **Narrative length** (tenant-level axis the AI reads at draft time)
 - **Tone** (how formal or informal the drafts should read)
-- **Narrative format** (bullets, paragraphs, structured, mixed)
-- **Include Analysis** (whether narratives include a dedicated Analysis section between Condition and Recommendation)
-- Other style knobs covered in the editor
+- **Bolding usage**
+- **Narrative length** (tenant-level axis the AI reads at draft time)
+- **Regional terms**
+- **Style notes**
 
 The writing preferences layer on top of the extracted voice: the profile sets the voice; the preferences shape how it comes out on each draft.
+
+### Upload area
+
+Where you drop sample reports to extract a profile (see below).
 
 ## Extracting a profile
 

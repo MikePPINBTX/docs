@@ -23,17 +23,18 @@ Each inspection has **one invoice**. It is not a series of top-up or incremental
 ## Where invoices live
 
 - **On the order**: Inspection Details, on the **Overview** tab's pricing card. The card has **View**, **Regenerate** and **Generate Invoice** actions.
-- **In the client portal**: the client gets **Download Invoice** and, once paid, **Download Receipt**.
+- **In the client portal**: the client gets a **Download Invoice** button, which reads **Download Receipt** once paid.
+- **Multi-phase orders**: besides each phase's own invoice, the master order gets a consolidated package invoice covering every phase. The client portal offers it as **Package Invoice**.
 - **In reports**: the [All Invoices](/1nspect/features/all-invoices) report lists one row per inspection with a PDF link.
 
 ## How the invoice changes as the order changes
 
 | Event | What happens |
 | --- | --- |
-| Order created or agreement signed | The invoice can be generated from the pricing card (**Generate Invoice**) |
+| Agreement signed | The invoice is generated automatically. You can also generate it any time from the pricing card (**Generate Invoice**) |
 | Order edited, service added or removed, price changes | Billing is recomputed and the invoice is regenerated in place. Click **Regenerate** if you need to force a fresh PDF |
 | Price drops below what was already paid | The order is only flagged as needing a refund. Nothing is refunded automatically |
-| Payment recorded (Stripe or **Record Payment**) | The order is marked paid and the client can download a receipt |
+| Payment recorded (Stripe or **Mark as Paid**) | The order is marked paid, the invoice is regenerated automatically, and the client can download a receipt |
 
 There are no credit notes and no automatic refunds from a price drop. Stripe refunds happen only from **Cancel Order** or **Remove Ancillary**. See [Refunds](/1nspect/features/refunds).
 
@@ -46,13 +47,13 @@ The invoice PDF includes:
 - The itemized services with per-line prices
 - Any discounts and surcharges applied
 - The grand total
-- Payment status
+- Payment status, plus a **Payments** section listing payments received, with **Net Paid** and **Balance**
 
 The invoice PDF has **no tax line** and **no payment instructions**. It does not carry your Stripe link or your Venmo or Zelle handles; clients find those in the portal.
 
 ## No partial states
 
-**Record Payment** always marks the order paid in full. There is no partial-payment state, no running balance on the invoice, and no top-up invoice for the difference.
+**Mark as Paid** always marks the order paid in full. There is no partial-payment state and no top-up invoice for the difference. The invoice's Payments section shows Net Paid and Balance, but the order's paid status is all-or-nothing.
 
 ## Related
 

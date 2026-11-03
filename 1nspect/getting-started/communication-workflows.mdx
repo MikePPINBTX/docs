@@ -19,7 +19,7 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-A workflow step says: when **this event** happens on an order, send **this template** to **these recipients** after **this Send Offset**. 1nspecT has a long list of trigger events, from the first quote submission all the way through to the review request after the report is published. There are about 27 triggers, plus Manual and Custom.
+A workflow step says: when **this event** happens on an order, send **this template** to **these recipients** after **this Send Offset**. 1nspecT has a long list of trigger events, from the first quote submission all the way through to the review request after the report is published. There are 24 triggers, plus Manual and Custom.
 
 ## Where to find it
 
@@ -87,14 +87,14 @@ Each step can go to one or more of:
 - Primary Client
 - Secondary Client
 - Buyer's Agent (the agent who booked the inspection)
-- Listing Agent (where applicable, usually on Report Published and Ancillary Report Uploaded)
+- Listing Agent (if you add the listing agent to a Report Published or Ancillary Report Uploaded step, the editor warns that in Texas and many other states listing agents are typically not entitled to the inspection report; verify with your client first)
 - Assigned Inspector (your team)
 - Subscriber (You)
 - Also Send To (additional addresses)
 
 Workflow emails have no reply-to, so replies do not land in your inbox.
 
-Some triggers automatically restrict recipient options to the ones that make sense (for example, a listing agent cannot receive a Booking Confirmed email on an order they are not on).
+Every trigger offers the same recipient options; nothing filters them by trigger. Pick only the recipients that make sense for the event.
 
 ## Enable and test
 

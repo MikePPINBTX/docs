@@ -57,7 +57,7 @@ A modifier on AI Generate, not a separate button. Arm Vision Scan, then tap AI G
 
 ### Scan Label / Reading
 
-Reads values off a photo (a furnace data plate, a thermometer, an app screenshot) or routes a typed `field label: value` into the matching field on the Ratings screen. Always shows a confirm screen before applying.
+Reads values off a photo (a furnace data plate, a thermometer, an app screenshot) or routes a typed `field label: value` into the matching field on the Ratings screen. A live scan shows a confirm screen before applying. A scan that was queued (for example, taken offline) applies its results automatically when it finishes and shows a review pill so you can check what it filled.
 
 - **Where:** Capture screen
 - **Best for:** Any time you would otherwise type a reading. One screenshot of a Fieldpiece or similar tool extracts every reading on screen in a single call.
@@ -65,7 +65,7 @@ Reads values off a photo (a furnace data plate, a thermometer, an app screenshot
 
 ### Smart Search
 
-Semantic search across your narrative library. Pulls a narrative you have already written and refined. Faster than regenerating when your library has a close match.
+A free keyword search of your narrative library, cached on the phone so it works offline. Pulls a narrative you have already written and refined. Faster than regenerating when your library has a close match.
 
 - **Where:** Capture screen on the finding
 - **Best for:** Repeat findings where the wording you have already approved is better than anything the AI would write fresh
@@ -76,7 +76,7 @@ Not AI, but it works hand in hand with the AI. Marks a finding for the report's 
 
 ### Finish & Draft Report
 
-The batch call. One tap syncs everything from the phone and asks the AI to draft every blank narrative on the server. The inspector gets a notification when the drafts are back.
+The batch call. One tap syncs everything from the phone and asks the AI to draft every blank narrative on the server. When the drafts are back, a short banner appears on the Review screen. There is no push notification.
 
 - **Where:** Review screen
 - **Best for:** The drive back to the office. Most inspectors leave light drafting for the field and let Finish & Draft handle the rest.
@@ -138,7 +138,7 @@ Drafts a professional opinion for a system from every finding in that section. A
 
 ### VoiceDNA
 
-Learns your company's writing voice from sample reports (up to 8). Future AI Generate calls produce narratives that match that voice. Adjust tone and length with simple dials; narrative format control (bullets, paragraphs, structured, mixed) is on the roadmap. Owners and admins run VoiceDNA.
+Learns your company's writing voice from sample reports (up to 8). Future AI Generate calls produce narratives that match that voice. Adjust tone and length with simple dials, and choose how narratives are laid out in reports under **Narrative format in reports**. Owners and admins run VoiceDNA.
 
 ### Repair Request narratives (included)
 
@@ -188,8 +188,8 @@ The AI adjusts how it frames findings for each inspection type. The **service or
 | Pre-pour | Pre-construction scope language, references to drawings and plans |
 | Pre-drywall | In-progress scope language, reservations about covered systems |
 | 11-month warranty | Builder-warranty voice |
-| Historical | Era-aware, references to typical construction of the period |
-| Commercial | Business-ready scope language |
+| Historical | Era-aware, references to typical construction of the period (on AI Generate; Vision Scan and batch drafting use the standard tone) |
+| Commercial | No specific framing; uses the standard tone |
 | Reinspection | Repair-verification voice (confirming completion, flagging incomplete) |
 
 ## Where this does not go

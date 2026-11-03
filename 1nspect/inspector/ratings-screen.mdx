@@ -19,7 +19,7 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-The Ratings tab is the overview of your inspection: every area with its rating, its progress bar, and the editable system-info fields. Add area comments with library suggestions. An area rated I with no D and no findings gets a "no deficiencies" comment automatically. The readiness check runs from here (and from Review).
+The Ratings tab is the overview of your inspection: every area with its rating, an overall progress bar, and the editable system-info fields. Add area comments with library suggestions. An area rated I with no D and no findings gets a "no deficiencies" comment automatically. The readiness check (**✓ Readiness Audit**) runs from here (and from Review).
 
 ## Where to find it
 
@@ -30,13 +30,13 @@ The Ratings tab is the overview of your inspection: every area with its rating, 
 - **Area Ratings** — screen title at the top
 - **Address subtitle** — the inspection property address
 - **Rating System** — a quick-reference legend of the SoP's rating options (TREC: I / NI / NP / D with their colors and labels)
-- **Area list** — one row per area in the inspection, in SoP section order. Each area shows its current rating, a progress bar for required items, and (expanded) the system-info fields and area-comment editor.
+- **Progress bar** — one bar in the header, reading _"Progress: X/Y (N%)"_, counting how many areas are rated
+- **Area list** — one row per area in the inspection, in SoP section order. Each area shows its current rating and (expanded) the system-info fields and area-comment editor.
 
 ## What each area row carries
 
 - Area name
 - Current rating (from your SoP: TREC shows I / NI / NP / D)
-- Progress bar showing how many required items are filled
 - System-info fields for the area (equipment specs, locations, counts)
 
 ## Setting ratings
@@ -55,20 +55,20 @@ Below the area header, tap **\+ Add Comments** to open the area comment editor. 
 
 When you rate an area **I** with no **D** rating and no findings, 1nspecT automatically adds the area **comment**: _"[area name]: inspected following current standards of practice, no deficiencies noted."_ You do not have to type it.
 
-This auto-adds the comment only. **It does not auto-set the rating.** You still rate the area yourself from the mobile Ratings tab or the Capture screen. If an area is unrated, the completion check blocks finishing until you set its rating.
+This auto-adds the comment only. **It does not auto-set the rating.** You still rate the area yourself from the mobile Ratings tab or the Capture screen. If an area is unrated, the readiness check flags it until you set its rating.
 
-## Completion check
+## Readiness Audit
 
-The Ratings tab also carries the completion check (also on Review). Only these block completion:
+The Ratings tab also carries the readiness check (also on Review): the **✓ Readiness Audit** button at the bottom (shown as Complete Inspection on older app versions). It only runs the check; it does not complete the inspection, upload anything or notify anyone. Only these are flagged as blockers:
 
 - Any subsection that takes a rating is unrated
 - A required field is empty
 
 A missing narrative is only a soft warning. The alert lists up to 15 items.
 
-## Generate SPO
+## Performance Opinion
 
-The screen offers **Generate SPO** (System Performance Opinion), which costs 10 AI credits.
+Where your SoP has a performance-opinion field, the screen shows a card titled with that field's label (by default **Performance Opinion**, for example "Foundation Performance Opinion"). Inside it, **⚡ Generate AI Opinion (10 AI credits)** drafts the opinion for 10 AI credits.
 
 ## Related
 

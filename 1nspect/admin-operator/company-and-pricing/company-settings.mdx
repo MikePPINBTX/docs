@@ -1,12 +1,15 @@
 ---
 id: "admin-business-operations"
 title: "Business Operations"
-description: "The seven-tab operations container: Company Info, Pricing, Payments, Contracts, Communications, Quotes, Integrations. Everything you set up to run the business lives here."
+description: "The nine-tab home for everything you set up to run the business: Company Info, Users, Billing, Pricing, Payments, Contracts, Communications, Quotes and Integrations."
 sidebarTitle: "Business Operations"
 keywords:
   - "business operations"
   - "business ops"
   - "company settings"
+  - "settings"
+  - "users"
+  - "billing"
   - "tabs"
   - "pricing"
   - "payments"
@@ -23,27 +26,32 @@ status: "stable"
 last_verified_against_code: "2026-11-02"
 ---
 
-Business Operations is the container for everything you set up to run the business: company identity, pricing, payments, contracts, communications, quotes, and integrations. Open from the **Business Ops** top-nav. The page header reads **Business Operations**.
+Business Operations is the container for everything you set up to run the business: company identity and branding, your team, billing, pricing, payments, contracts, communications, quotes, and integrations. Open from the **Business Ops** top-nav. The page header reads **Business Operations**.
 
-## The seven tabs
+<Note>
+  The separate Settings page is gone; everything it held now lives here. Old `/settings` links open **Company Info**, and `/settings/billing` still opens **Billing**. The palette icon in the header (tooltip **Company & Branding**) also opens Company Info.
+</Note>
 
-Across the top of the page:
+## The nine tabs
+
+Across the top of the page, in this order:
 
 | Tab | What's inside |
 | --- | --- |
-| [**Company Info**](/1nspect/admin-operator/company-and-pricing/company-info) | Company name, phone, address, support email, brand colors, logo URL, white-label, inspection defaults, mobile publishing, camera roll, booking slug, review links, Public Booking Form |
+| [**Company Info**](/1nspect/admin-operator/company-and-pricing/company-info) | Company name, account ID, booking slug, office address, support email, phone, inspection defaults, logo upload, review links, brand colors and preset themes, installed-app status-bar color, white-label, Dynamic Rating UI, mobile publishing, camera roll, Public Booking Form |
+| [**Users**](/1nspect/admin-operator/users) | User Management: add team members, roles, working hours, Google Calendar connections. Admins and owners only. |
+| **Billing** | Your plan, AI credit balance and credit purchases. Admins and owners only. See [AI Credits](/1nspect/features/it-tokens). |
 | [**Pricing**](/1nspect/admin-operator/company-and-pricing/pricing-manager) | Pricing Manager with 6 sub-tabs: Primary Services, Ancillary Services, Packages, Discounts, Surcharges, Settings |
 | **Payments** | [Stripe Connect setup](/1nspect/admin-operator/payments-and-contracts) and [Manual Payment Options](/1nspect/features/manual-payments) |
-| [**Contracts**](/1nspect/admin-operator/contracts-cockpit) | Service agreements, dynamic tags (Test Send sends a real email) |
+| [**Contracts**](/1nspect/admin-operator/contracts-cockpit) | Service agreements, dynamic tags. Test Send emails the agreement PDFs only to you. |
 | [**Communications**](/1nspect/admin-operator/comms-cockpit) | Email Templates and Workflow sub-tabs |
 | **Quotes** | Quote-specific settings |
 | [**Integrations**](/1nspect/features/integrations-overview) | Haven integration (plus other integrations that have per-tenant configuration) |
 
+Inspectors see the same page without the Users and Billing tabs.
+
 ## What is not here
 
-- **Billing** — lives at `/settings/billing` under the **Settings** top-nav, not under Business Ops
-- **Users** — lives in **Settings › Users**, not under Business Ops
-- **Branding (color scheme, white-label, embed)** — these also exist in **Business Ops › Company Info** (brand colors, white-label, and the working booking embed under Public Booking Form), as well as in **Settings** (Company tab). The Settings embed snippet is broken; use the Business Ops one.
 - **Templates, Narrative Management, SoP Manager, Cover Designer, Reports** — each has its own top-nav item
 
 ## Related

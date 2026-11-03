@@ -25,13 +25,15 @@ Timing matters more than wording:
 | 1 week after Publish | Diminishing returns |
 | 1 month after Publish | Rare |
 
-**Set your workflow step to fire on the dedicated Review Request trigger with a Send Offset such as `+1d` or `+2d`.** The Review Request trigger fires on every publish, so the offset gives the client time to read the report, share it with their agent and build a repair request while the experience is still fresh.
+**Set your workflow step to fire on the dedicated Review Request trigger with a Send Offset such as `+1d` or `+2d`.** The Review Request trigger fires on every publish, including unpaid publishes and republishes, so the offset gives the client time to read the report, share it with their agent and build a repair request while the experience is still fresh.
 
 <Warning>
   Do not use **Report Delivered** for review requests. That trigger fires only when a Stripe payment unlocks a published report, or when someone clicks the manual Deliver button. In the normal pay-first flow it never fires, so the review request would never go out.
 </Warning>
 
-Avoid **Report Published** as the trigger too: it fires immediately, with no offset control tied to the review, and an unpaid client cannot read the report yet.
+**Report Published** is not a good fit either. It fires only when the order is already paid at publish time (an unpaid publish fires Payment Pending instead), so clients who pay after the report is published would never get the ask. Every workflow step has a Send Offset, so timing is not the issue; coverage is.
+
+Because Review Request also fires on a republish, a client whose report you republish will get the request again unless your workflow accounts for it.
 
 ## What to say in the email
 
