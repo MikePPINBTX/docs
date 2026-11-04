@@ -47,6 +47,12 @@ See [Licenses and certifications](/1nspect/features/inspector-licenses).
 - **Converted inspections start as Pending**, like wizard orders, instead of Scheduled. The Dashboard no longer counts an unsigned converted order as contract-signed.
 - **Older multi-phase quotes:** check each phase's price in Review & Send before sending. See [Quote page › Converting the quote to an order](/1nspect/features/quote-page#converting-the-quote-to-an-order).
 
+### Google Calendar
+
+- **Converted quotes get a calendar event.** Converting a single-inspection quote with an inspector and a booked date now writes the event to the inspector's Google Calendar, as wizard orders always have.
+- **Reassigning moves the event.** Assigning a different inspector removes the event from the old inspector's calendar and adds it to the new one's, instead of leaving a duplicate.
+- **Real event length.** Events last the inspection's estimated duration instead of a fixed 3 hours. See [Google Calendar](/1nspect/getting-started/google-calendar#what-syncs).
+
 ### History
 
 - **Order History works.** The order's History tab shows the order's own events plus every inspection's, with an **Inspection** filter and links back to each inspection.

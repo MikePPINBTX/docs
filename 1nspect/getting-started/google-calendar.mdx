@@ -15,7 +15,7 @@ surfaces:
   - "web"
 category: "getting-started"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-04"
 ---
 
 Connecting Google Calendar is the one integration setup most subscribers care about on day one. Once an inspector connects their calendar, booking honors their real availability and inspection events are written to the calendar automatically. Nothing double-books, nothing shows up on a day they already blocked for a dentist appointment.
@@ -55,7 +55,12 @@ When Calendar is connected:
 
 - **Availability** — bookings on the public form read every calendar the inspector owns or can write to, and only show open slots inside their Working Schedule
 - **Event creation** — when an order is created (order wizard or Field Quote, or when a public-booking lead is converted to an order; a public booking on its own creates only a lead, so no event is written until it becomes an order), 1nspecT writes an event to the inspector's primary calendar titled `Order No- {id}`, with the clients, agents, services and fees in the description
+  - **Converted quotes:** converting a single-inspection quote writes the event, if the quote names an inspector and has a booked date. A multi-phase order gets one event per phase from **Review & Send**.
+  - **Length:** the event lasts the inspection's estimated duration, including the scheduling buffer. An inspection with no booked date gets no event.
 - **Event updates** — rescheduling an inspection updates the event; cancelling removes it
+- **Reassigning** — assigning a different inspector moves the event: it's deleted from the old inspector's calendar and created on the new one's. If the new inspector hasn't connected Google Calendar, the old event is still removed and no new one is written.
+
+Calendar writes never block your work. If Google can't be reached, the conversion or assignment still goes through without the event.
 
 ## What does not sync
 
