@@ -15,7 +15,7 @@ surfaces:
   - "web"
 category: "features"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-04"
 ---
 
 Tax Summary is the year-end revenue report. Pick a year and you get your gross revenue, inspection count, service mix and a month-by-month breakdown. Export to CSV and hand to your CPA.
@@ -38,7 +38,7 @@ Tax Summary is the year-end revenue report. Pick a year and you get your gross r
 
 ### Headline stats
 
-- **Gross revenue** — total billed revenue for the year
+- **Gross revenue** — total billed revenue for the year, less refunds
 - **Total inspections** — count of completed inspections
 - **Service categories** — count of distinct service types sold
 - **Avg per inspection** — revenue divided by inspection count
@@ -60,6 +60,10 @@ Revenue broken down by service type:
 - Revenue
 - Share of total
 
+## Refunds
+
+Each inspection counts as its total minus any refunds, never below $0. The refund comes off in the inspection's completion month and under its service type, not the month you issued it. See [Refunds](/1nspect/features/refunds).
+
 ## Export to CSV
 
 Click the **CSV** button to download the report (monthly table + by-category table) in one file.
@@ -69,7 +73,7 @@ Click the **CSV** button to download the report (monthly table + by-category tab
 - Not a sales tax report. 1nspecT does not compute collected or owed sales tax here.
 - Not a profit-and-loss statement.
 - Not a 1099 summary.
-- Not a refund-aware report. Orders count by status only: completed, delivered, report published or paid. Cancelled orders drop out, but a refunded order whose status is still one of those counts at its full amount, and there are no refund entries called out.
+- Not a refund list. Refunds reduce revenue (see Refunds above), but they don't appear as separate entries.
 
 ## For your CPA
 
