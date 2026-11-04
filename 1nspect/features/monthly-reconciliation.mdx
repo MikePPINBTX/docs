@@ -8,7 +8,7 @@ persona: ["admin-operator"]
 surfaces: ["web"]
 category: "features"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-04"
 ---
 
 Monthly Reconciliation is the report your bookkeeper will open first every month. It matches each order you billed against the money that actually landed in the bank, so you can confirm nothing fell through the cracks. Stripe processing fees are broken out per order, so your gross billing and your net deposit always tie.
@@ -26,7 +26,7 @@ Monthly Reconciliation is the report your bookkeeper will open first every month
 
 ## What the report shows
 
-At the top, a stat grid with the period totals: **Gross billed**, **Stripe fees (estimated)**, **3rd-party cost**, **Gross profit**, **Net deposited** and **Outstanding A/R**.
+At the top, a stat grid with the period totals: **Gross billed**, **Stripe fees (estimated)**, **3rd-party cost**, **Gross profit**, **Net deposited** and **Outstanding A/R**. A **Refunded** card appears too when the period has refunds. **Gross profit** is net of refunds.
 
 Below, a table with **one row per inspection**, with:
 
@@ -37,8 +37,19 @@ Below, a table with **one row per inspection**, with:
 - Method (Stripe or manual)
 - Gross amount billed
 - Stripe fee (0 for manual payments)
-- Net amount deposited
+- Refunded
+- Net amount deposited: gross minus the Stripe fee minus refunds
 - Status (received, pending or unpaid)
+
+## Refunds
+
+Refunds are netted out of **Net** and **Gross profit**:
+
+- **Stripe keeps its fee on a refund**, so the Stripe fee still shows on a refunded inspection.
+- **A refund shows on the inspection it belongs to**, in that inspection's completion month, not the month you issued the refund.
+- **Every refund is included**: those made with **Issue Refund**, and the earlier card refunds from Cancel Order and Remove Ancillary, including ones from before November 2026.
+
+See [Refunds](/1nspect/features/refunds).
 
 ## Export to CSV
 
