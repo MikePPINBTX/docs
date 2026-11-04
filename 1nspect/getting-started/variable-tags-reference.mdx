@@ -12,13 +12,16 @@ keywords:
   - "ClientNames"
   - "InspectionDate"
   - "ReportLink"
+  - "InspectorLicenses"
+  - "license tags"
+  - "RefundAmount"
 persona:
   - "admin-operator"
 surfaces:
   - "web"
 category: "getting-started"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-04"
 ---
 
 Two editors in 1nspecT use variable tags: **Contract templates** (Business Ops › Contracts) and **Communication templates** (Business Ops › Communications › Email Templates). Both share the same `$TagName` syntax and a core set of names, but each engine has its own resolver. **A tag from one engine does not work in the other.** This page is the full reference, organized by engine, with a column that calls out tags shared across both.
@@ -26,6 +29,26 @@ Two editors in 1nspecT use variable tags: **Contract templates** (Business Ops �
 <Info>
 **Send-time behavior differs.** Contract sends are blocked if a required tag would come out blank, and are blocked if the template contains any unrecognized `$Tag`. Communication templates refuse to save with an unknown tag, and any unknown tag is dropped at send time. Nothing prints as typed.
 </Info>
+
+## License tags (both engines)
+
+Every license type your company offers in **Business Ops › Users › License Types** has its own tag, and the same tags work in contracts, emails and on report covers. See [Licenses and certifications](/1nspect/features/inspector-licenses).
+
+| Tag | Purpose |
+| --- | --- |
+| `$InspectorLicense` | The assigned inspector's license that applies to this inspection's type (for example a commercial license on a Commercial inspection), otherwise their primary license. **Required to send** a contract. |
+| `$InspectorLicenses` | Every license the inspector holds that is marked **Show on reports**, one per line (`InterNACHI CPI #NACHI12345`). |
+| `$LicenseTREC` | TREC Professional Inspector number. |
+| `$LicenseInterNACHI` | InterNACHI CPI number. |
+| `$LicenseASHI` | ASHI Certified Inspector number. |
+| `$LicenseMoldAssessor` | TDLR Mold Assessment Consultant number. |
+| `$LicenseNAWT` | NAWT number. |
+| `$LicenseState` | State Home Inspector License number. |
+| `$License` plus your own type's tag key | One per license type you add, for example `$LicenseCommercialPropertyInspector`. The tag is shown next to the type on the License Types screen. |
+
+A `$License…` tag prints blank when the inspector doesn't hold that license. In a **contract**, that blocks the send: an agreement that prints a `$License…` tag goes out only when the assigned inspector holds it. A `$License…` tag must match a license type **exactly**. A misspelt one (`$LicenseTRECX`) blocks a contract send and can't be saved in an email template.
+
+Both pickers list these under **Licenses**: **All Licenses** first, then one entry per license type your company offers.
 
 ## Contracts tags
 
@@ -69,13 +92,13 @@ These resolve to a value only on reinspection agreements. On any other agreement
 | Tag | Purpose | Also in Comms |
 | --- | --- | --- |
 | `$InspectorName` | The assigned inspector. Never falls back to the owner's name, to avoid misrepresentation on a legal document. **Required to send.** | Yes |
-| `$InspectorLicense` | Inspector's license number (TREC or other). **Required to send.** | Yes |
+| `$InspectorLicense` | The license that applies to this inspection's type, else the inspector's primary license. **Required to send.** More license tags are in [License tags](#license-tags-both-engines). | Yes |
 | `$CompanyName` | Company name. | Yes |
 | `$CompanyLogo` | Logo image from Company Info, or nothing if no logo has been uploaded. | — |
 
 ### Signature fields (double-bracket syntax)
 
-Use these to drop a signature, date or initials block into the agreement. Single-bracket syntax is also accepted. In the Contracts **Insert Tag** picker these sit in the groups **Signature — Client** and **Signature — Co-Client**, each including Date and Initials. (The other groups are Order Fields, Reinspection and Inspector / Company.)
+Use these to drop a signature, date or initials block into the agreement. Single-bracket syntax is also accepted. In the Contracts **Insert Tag** picker these sit in the groups **Signature — Client** and **Signature — Co-Client**, each including Date and Initials. (The other groups are Order Fields, Reinspection, Inspector / Company and Licenses.)
 
 | Tag | Purpose |
 | --- | --- |
@@ -119,8 +142,17 @@ Used in email templates built in **Business Ops › Communications › Email Tem
 | `$InspectionDate` | Scheduled date. | Yes |
 | `$InspectionTime` | Scheduled time. | Yes |
 | `$InspectorName` | Assigned inspector. | Yes |
-| `$InspectorLicense` | Inspector's license number. | Yes |
+| `$InspectorLicense` | The license that applies to this inspection's type, else the primary. See [License tags](#license-tags-both-engines). | Yes |
 | `$CompanyName` | Company name. | Yes |
+
+### Refunds
+
+For the **Refund Issued** trigger. Both describe the most recent refund on the inspection.
+
+| Tag | Purpose |
+| --- | --- |
+| `$RefundAmount` | The amount of the most recent refund (`$150.00`). It can be less than what was paid. |
+| `$RefundReason` | The reason picked when issuing it: Settlement, Cancellation, Overpayment, Service not performed or Other. |
 
 ### Links
 
@@ -173,9 +205,9 @@ As a quick lookup:
 
 **Only in Contracts:** every fee tag (`$TripFee`, `$InspectionFee`, `$BaseFee`, `$ServiceFee`), every fee table (`$TripFeeTable`, `$AllOrderFeesTable`, `$InspectionFeeTable`), the schedule table (`$InspectionScheduleTable`), the reinspection tags, `$CompanyLogo`, `$ContractDate`, and every signature field (`[[sig|...]]`, `[[date|...]]`).
 
-**Only in Communications:** every agent tag (`$BuyerAgent*`, `$ListingAgent*`), every link tag (`$ContractLink`, `$PaymentLink`, `$ReportLink`, `$AgentReportLink`, `$PortalLink`, `$ClientPortalLink`, `$BookingLink`, `$GoogleReviewLink`, `$YelpLink`), every manual payment handle, every quote tag, and the three hidden tags above.
+**Only in Communications:** every agent tag (`$BuyerAgent*`, `$ListingAgent*`), every link tag (`$ContractLink`, `$PaymentLink`, `$ReportLink`, `$AgentReportLink`, `$PortalLink`, `$ClientPortalLink`, `$BookingLink`, `$GoogleReviewLink`, `$YelpLink`), every manual payment handle, every quote tag, the refund tags (`$RefundAmount`, `$RefundReason`), and the three hidden tags above.
 
-**Available in both:** `$ClientNames`, `$ClientFirstNames`, `$ClientFirstName`, `$ClientLastName`, `$Client2FirstName`, `$Client2LastName`, `$InspectionAddress`, `$InspectionDate`, `$InspectionTime`, `$InspectorName`, `$InspectorLicense`, `$CompanyName`.
+**Available in both:** `$ClientNames`, `$ClientFirstNames`, `$ClientFirstName`, `$ClientLastName`, `$Client2FirstName`, `$Client2LastName`, `$InspectionAddress`, `$InspectionDate`, `$InspectionTime`, `$InspectorName`, `$InspectorLicense`, `$InspectorLicenses`, every `$License…` tag, `$CompanyName`.
 
 ## Related
 

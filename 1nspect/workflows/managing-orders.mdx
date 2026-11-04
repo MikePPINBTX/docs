@@ -17,7 +17,7 @@ surfaces:
   - "web"
 category: "workflows"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-04"
 ---
 
 Orders rarely stay unchanged after they are placed. Clients add services, properties come in bigger than expected, dates slip. 1nspecT has a dedicated action for each of the common mid-stream edits. Some of them change the price, and a price change voids the signed agreement so the client can re-sign on the new terms.
@@ -28,8 +28,8 @@ Open the order: **Inspections** top nav, click into the order. You land on the o
 
 | Where | Actions |
 |---|---|
-| **Order header** (top right, under the total and amount due) | **Edit**, **Edit Order**, **Add Service**, **Mark as Paid**, **Cancel Order** (plus **Mark Complete** or **Reopen Order** when they apply) |
-| **The child inspection's Overview tab › Quick Actions card** (open the inspection from the order's **Inspections** tab) | **Change Status**, **Edit Order**, **Mark as Paid**, **Assign Inspector**, **Reschedule**, **Create Reinspection**, **Cancel This Inspection** |
+| **Order header** (top right, under the total and amount due) | **Edit**, **Edit Order**, **Add Service**, **Mark as Paid**, **Issue Refund** (once paid), **Cancel Order** (plus **Mark Complete** or **Reopen Order** when they apply) |
+| **The child inspection's Overview tab › Quick Actions card** (open the inspection from the order's **Inspections** tab) | **Change Status**, **Edit Order**, **Mark as Paid**, **Issue Refund** (once paid), **Assign Inspector**, **Reschedule**, **Create Reinspection**, **Cancel This Inspection** |
 | **The child inspection's Communications tab** | **Send Contract Bundle** / **Resend Bundle** |
 
 **Edit** on the order header toggles in-place editing of the order's tabs (client info, scheduling); **Save Changes** saves it. **Edit Order** opens the full Edit Order dialog described below.
@@ -46,7 +46,7 @@ Use **Edit Order** when you need to change the property fields or the services o
 
 ### Billing recompute
 
-Edit Order re-prices the order against your current pricing rules and **regenerates the order's single invoice in place**. There are no top-up invoices. If the new total is lower than what was paid, the order is only flagged as needing a refund; nothing is refunded automatically. Stripe refunds happen only from Cancel Order or Remove Ancillary.
+Edit Order re-prices the order against your current pricing rules and **regenerates the order's single invoice in place**. There are no top-up invoices. If the new total is lower than what was paid, the order is only flagged as needing a refund; nothing is refunded automatically. Use **Issue Refund** to give the difference back (see [Refunds](/1nspect/features/refunds)).
 
 ### Edit Order voids the contract when the price or services move
 
@@ -72,9 +72,22 @@ Cancellation cascades: the inspection is removed from the inspector's calendar a
 
 To remove a single ancillary service, click the small **X** next to that service's line in the fee breakdown on the inspection's Overview tab. This opens the **Remove Ancillary** modal (not Cancel Order). It refunds through Stripe when the order was paid by Stripe, and, like Edit Order, it voids the contract because the price moves, so send an updated bundle afterwards. The X is hidden once the inspection is completed, published or cancelled.
 
+## Issue Refund
+
+Use **Issue Refund** (order header, or the inspection's Quick Actions card) to give some or all of a payment back. It appears once the inspection is paid. A card payment is refunded through Stripe. Any other payment is recorded as a refund you return yourself. You can refund more than once, up to the amount paid, and the report never locks again. See [Refunds](/1nspect/features/refunds).
+
 ## Reschedule
 
-**Reschedule** is in the inspection's Overview Quick Actions card. It moves that inspection to a new date and time. 1nspecT checks the inspector's Google Calendar availability for the new slot. The calendar event is updated automatically. If your workflow has an Inspection Rescheduled trigger, the matching email fires.
+**Reschedule** is in the inspection's Overview Quick Actions card. It opens **Reschedule Inspection**, which moves that inspection to a new date and time. 1nspecT checks the inspector's Google Calendar availability for the new slot.
+
+When you click **Reschedule**:
+
+- The calendar event is updated.
+- The old **Inspection Reminder** is cancelled (its Communications row shows *skipped*, reason *rescheduled*), and a new one is queued for the new date.
+- The **Inspection Rescheduled** trigger fires. Existing accounts were given a default Inspection Rescheduled email (to the client, co-client and buyer's agent) in November 2026. If yours has none, add a step on that trigger.
+- History records *Rescheduled from the old date to the new date* under your name.
+
+Quotes can be rescheduled too. They have no reminders.
 
 ## Mark as Paid
 
@@ -91,7 +104,7 @@ The order page has four tabs:
 - **Overview** — the contract banners and the **Order Summary**: order number, created date, property, the inspections, the fee breakdown, and Total Fees, Paid and Balance Due
 - **Client & Realtor Info**
 - **Inspections** — every inspection in the order (one for a single-phase order, several for new construction). Click into any inspection to open its own detail page and its Report Workspace.
-- **History** — a placeholder for now. A full order audit trail is not built yet.
+- **History** — **Order History**: the order's own events plus every inspection's, newest first. See [History](/1nspect/admin-operator/inspection-details#history).
 
 ## What you cannot change
 

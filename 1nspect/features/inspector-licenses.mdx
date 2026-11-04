@@ -1,0 +1,137 @@
+---
+id: "feature-inspector-licenses"
+title: "Licenses and certifications"
+description: "Record every license and certification each inspector holds (TREC, InterNACHI, ASHI, mold, NAWT, commercial or your own types) and print the right number on reports, contracts and emails."
+sidebarTitle: "Licenses and certifications"
+keywords:
+  - "license"
+  - "license number"
+  - "certification"
+  - "InterNACHI"
+  - "ASHI"
+  - "TREC"
+  - "mold assessor"
+  - "NAWT"
+  - "commercial license"
+  - "license types"
+  - "InspectorLicense"
+  - "InspectorLicenses"
+  - "expiry"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-04"
+---
+
+An inspector often holds more than one credential: a state license, an InterNACHI or ASHI membership, a mold assessor license, a NAWT certification, a separate commercial license. 1nspecT records each one and can print any of them on your reports, contracts and emails.
+
+It works in two layers:
+
+- **License types** are set once for the whole company. They decide which licenses every team member's record offers, and what each one is called, so the names stay the same across your team.
+- **License numbers** are entered per inspector, against those types.
+
+Admins and owners manage both. Inspectors can't edit their own licenses.
+
+## Set up your license types
+
+In the top bar, click **Business Ops**, then the **Users** tab, then **License Types** (top right, above **Add Team Member**).
+
+### Standard types
+
+Six types are built in:
+
+| Type | Tag |
+| --- | --- |
+| TREC Professional Inspector | `$LicenseTREC` |
+| InterNACHI CPI | `$LicenseInterNACHI` |
+| ASHI Certified Inspector | `$LicenseASHI` |
+| TDLR Mold Assessment Consultant | `$LicenseMoldAssessor` |
+| NAWT | `$LicenseNAWT` |
+| State Home Inspector License | `$LicenseState` |
+
+Untick **Offer on team members** to hide a type your company doesn't use. For example, a company outside Texas can hide TREC. A hidden type is no longer offered on new entries, but any number already saved against it keeps printing.
+
+### Your own license types
+
+Click **Add license type** for anything not in the list, such as a commercial inspector license, a radon or pool certification, or a second state's license. You can add as many as you need. Each one has:
+
+- **Name**: what the team member form and your reports show, for example `Commercial Property Inspector`.
+- **Issuing body**: optional, and pre-fills the issuer on each team member.
+- **Tag**: generated from the name as you type (`$LicenseCommercialPropertyInspector`). You can change it before you save, using letters and digits only.
+
+<Warning>
+**A type's tag is fixed once you save.** Your templates print it, so renaming the type later changes the name everywhere but never the tag. A saved type can't be deleted, only **retired**: it stops being offered on team members, while numbers already saved and its tag keep working. **Restore** brings it back.
+</Warning>
+
+### Applies to (residential vs. commercial)
+
+Each type has an optional **Applies to** row of inspection types (Residential Resale, Commercial, New Construction phases, 11-Month Warranty and so on). On an inspection of a type you pick, `$InspectorLicense` and the report's **License #** print this license instead of the inspector's primary one.
+
+For example, set your commercial license type to apply to **Commercial**. A commercial inspection then prints the commercial number, and every other inspection prints the primary license.
+
+Click **Save license types** when you're done.
+
+## Enter each inspector's licenses
+
+Open **Business Ops › Users** and edit a team member (or click **Add Team Member**). The **Licenses & Certifications** section has one row for every license type your company offers. Fill in the ones this person holds and leave the rest blank.
+
+| Field | Notes |
+| --- | --- |
+| Number | The license or certification number. Leave it blank if they don't hold it. |
+| Issuer | Optional. Pre-filled from the type's issuing body. |
+| Expiry date | Optional. Turns on expiry warnings (below). |
+| Primary | The default **License #** everywhere a single number is printed. If you don't pick one, the first license entered is the primary. |
+| Show on reports | On by default. Controls whether this license appears in the "all licenses" list on reports, contracts and emails. Its own per-type tag still prints either way. |
+
+**Manage license types** at the top of the section takes you to the License Types screen.
+
+An inspector who had a license number before this feature keeps it as their **primary** license: a **TREC** license if your office is in Texas, otherwise a **State Home Inspector License**. Nothing changes on their reports until you save their licenses.
+
+A license whose type was later hidden or retired still appears on the inspector's record, in a dashed box, so a save never drops it.
+
+## Print licenses on reports, contracts and emails
+
+The same tags work in contract templates, email templates and report covers:
+
+| Tag | Prints |
+| --- | --- |
+| `$License` plus the type's tag key, e.g. `$LicenseInterNACHI` | The assigned inspector's number for that one license. Blank if they don't hold it. |
+| `$InspectorLicenses` | Every license marked **Show on reports**, one per line, e.g. `InterNACHI CPI #NACHI12345`. |
+| `$InspectorLicense` | The license that **applies to** this inspection's type; otherwise the primary. |
+
+Find them under **Licenses** in the Contracts **Insert Tag** menu and the Communications **Insert Variable** menu. See the [variable tags reference](/1nspect/getting-started/variable-tags-reference).
+
+- **Contracts:** an agreement that prints a `$License…` tag can't be sent unless the assigned inspector holds that license. It also can't be sent if no license type defines that tag. Nothing prints blank or as typed in a signed agreement. On a multi-phase order, each phase's agreement is checked against that phase's inspector.
+- **Emails:** a `$License…` tag must match a type exactly. A misspelt one (`$LicenseTRECX`) can't be saved in a template, and an older template carrying one sends without it.
+- **Report cover:** the [Cover Designer](/1nspect/admin-operator/cover-designer) has a **Licenses** group with one field per license type, plus **All Licenses** in the field tokens.
+- **TREC reports:** the TREC header's license field prints the inspector's TREC license specifically, never an InterNACHI or commercial number.
+- **Online report:** the report's general information shows a **Licenses** row listing every license marked Show on reports.
+
+### What a published report keeps
+
+When you publish, the inspector's licenses are saved with that report. Later changes to the inspector's record don't alter a report that's already out, whether that's a new number, a renewal or a removed license. When you re-publish (an amendment), the report picks up the inspector's current licenses.
+
+## Expiry warnings
+
+When a license has an expiry date:
+
+- The Users table shows **Expires soon** (amber) within 30 days of the date, and **Expired** (red) after it.
+- Admins and owners see a one-line notice on the Dashboard listing each license that needs renewing, with a link to **Users**.
+
+No emails are sent about expiring licenses.
+
+## Good to know
+
+- **One number per license type per inspector.** For licenses from two states, add a type for each state, for example `Oklahoma Home Inspector`.
+- **Company licenses aren't covered yet.** Licenses here belong to individual inspectors. A company-level license (for example a pest-control business license) is planned.
+- **Mobile is unchanged.** The mobile app keeps showing each inspector's primary license.
+
+## Related
+
+- [User management](/1nspect/admin-operator/users)
+- [Add your team](/1nspect/getting-started/add-your-team)
+- [Variable tags reference](/1nspect/getting-started/variable-tags-reference)
+- [Cover Designer](/1nspect/admin-operator/cover-designer)

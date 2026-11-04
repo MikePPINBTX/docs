@@ -16,7 +16,7 @@ surfaces:
   - "web"
 category: "getting-started"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-04"
 ---
 
 A workflow step says: when **this event** happens on an order, send **this template** to **these recipients** after **this Send Offset**. 1nspecT has a long list of trigger events, from the first quote submission all the way through to the review request after the report is published. There are 24 triggers, plus Manual and Custom.
@@ -56,8 +56,8 @@ Save with **Save Step** at the bottom of the editor.
 | Contract Sent | The service agreement is sent to the client |
 | Contract Signed | The client signs the agreement |
 | Inspection Scheduled | The inspection date is set or confirmed |
-| Inspection Rescheduled | The inspection date is moved |
-| Inspection Reminder | A set number of days or hours before the inspection |
+| Inspection Rescheduled | The inspection is moved with **Reschedule** (Quick Actions › **Reschedule Inspection**). Changing the date through the order header's **Edit** does not send it, though the reminder still follows the new date |
+| Inspection Reminder | Before the inspection, by the step's Send Offset (for example `-24h`, From inspection date). Queued whenever a booking gets its date, re-queued on reschedule, and skipped if the inspection moved or was cancelled |
 | Inspection Completed | An admin sets the inspection status to Completed in the web status picker (it does not fire on its own from mobile) |
 | Inspection Cancelled | The inspection is cancelled |
 | Payment Received — before report exists | A payment comes in before the report is published |
@@ -68,7 +68,7 @@ Save with **Save Step** at the bottom of the editor.
 | Review Request | Fires on every publish; use a Send Offset such as `+7d`. This is the right trigger for review requests |
 | Service Added | A service is added to an order |
 | Service Removed | A service is removed from an order |
-| Refund Issued | A Stripe refund is issued from Cancel Order or Remove Ancillary |
+| Refund Issued | Each refund: **Issue Refund** (by card or recorded), or a card refund from Cancel Order or Remove Ancillary. Use `$RefundAmount` and `$RefundReason` |
 | Reinspection Requested | A reinspection order is created |
 | New Build Warranty Reminder | Fires on first publish, scoped by the step's Service Types |
 | Order Closed | The order is marked closed (it can only be picked by hand; nothing sets it automatically) |
@@ -77,8 +77,15 @@ Save with **Save Step** at the bottom of the editor.
 | Custom Trigger | A custom trigger name you define |
 
 <Tip>
-For inspection reminders, set the Offset Anchor to the inspection date, not to the trigger time. A "2 days before" reminder lands correctly only if the offset is measured from the inspection date.
+For the **Inspection Reminder**, set **Send Offset** to `-24h` and **Offset Anchor** to **From inspection date** (the other option is **From trigger time (default)**). The time is the inspection's local time, so a 9:00 AM inspection gets its reminder at 9:00 AM the day before.
+
+- A booking made after the send time has passed (for example, booked this afternoon for tomorrow morning) gets no reminder.
+- Before sending, the reminder checks the inspection's current date. If the inspection was moved or cancelled, it's skipped, and the Communications tab says why.
 </Tip>
+
+<Note>
+**"Client already contracted externally"** orders still get every email here. Only the automatic agreement send is skipped. See [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard#client-already-contracted-externally).
+</Note>
 
 ## Recipients
 

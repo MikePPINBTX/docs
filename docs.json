@@ -207,6 +207,7 @@
               "1nspect/admin-operator/contacts",
               "1nspect/admin-operator/sop-manager",
               "1nspect/admin-operator/users",
+              "1nspect/features/inspector-licenses",
               "1nspect/admin-operator/company-and-pricing/company-info",
               "1nspect/admin-operator/company-and-pricing/company-settings",
               "1nspect/admin-operator/company-and-pricing/pricing-manager",

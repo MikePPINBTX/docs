@@ -36,7 +36,7 @@ If it persists across browsers and networks, there may be a Firebase outage. Che
 Multiple causes:
 
 - **Workflow step disabled** — **Business Ops › Communications › Workflow**, open the step, flip Enabled on
-- **Reminder time anchored wrong** — reminders ("2 days before") need a **Send Offset** measured from the inspection date via the Offset Anchor, not from the trigger time
+- **Reminder time anchored wrong** — the Inspection Reminder needs **Send Offset** `-24h` (or similar) with **Offset Anchor** set to **From inspection date**, not from the trigger time. A same-day booking whose send time has already passed gets no reminder, and a reminder for an inspection that was moved or cancelled is skipped (its Communications row says why)
 - **Template has an unknown tag** — unknown tags are refused on save and dropped on send; reinsert tags from the **Insert Variable** dropdown
 - **Wrong trigger** — Report Delivered fires only on a Stripe payment after publish or the manual Deliver button; use the Review Request trigger for review emails
 - **Email bounced** — see below

@@ -1,17 +1,21 @@
 ---
 id: "start-here-add-your-team"
 title: "Add your team"
-description: "Add inspectors and admins at Business Ops › Users. Set roles, working hours, Google Calendar, TREC sponsor information and mileage origin."
+description: "Add inspectors and admins at Business Ops › Users. Set roles, licenses and certifications, working hours, Google Calendar, TREC sponsor information and mileage origin."
 sidebarTitle: "Add your team"
-keywords: ["users", "team", "inspectors", "admins", "roles", "seats", "calendar", "TREC"]
+keywords: ["users", "team", "inspectors", "admins", "roles", "seats", "calendar", "TREC", "license", "InterNACHI", "certifications"]
 persona: ["admin-operator"]
 surfaces: ["web"]
 category: "getting-started"
 status: "stable"
-last_verified_against_code: "2026-10-30"
+last_verified_against_code: "2026-11-04"
 ---
 
-Your team of inspectors and admins is managed on the Business Ops page under the Users tab. The Add Team Member dialog captures what each user needs to work in the field: license number, role, working hours, calendar connection, TREC sponsor information and mileage origin.
+Your team of inspectors and admins is managed on the Business Ops page under the Users tab. The Add Team Member dialog captures what each user needs to work in the field: licenses and certifications, role, working hours, calendar connection, TREC sponsor information and mileage origin.
+
+<Tip>
+Before adding your team, click **License Types** on the Users tab and pick the licenses your company uses (TREC, InterNACHI, ASHI, mold, NAWT, State, or your own, such as a commercial license). Every team member's form then offers the same list with the same names. See [Licenses and certifications](/1nspect/features/inspector-licenses).
+</Tip>
 
 <Info>
 **Required** to run your first inspection: at least one user with the **Inspector** toggle turned on. The toggle controls who appears in the inspector roster on your booking form and when creating orders. It is on by default for new users.
@@ -32,8 +36,21 @@ Click **Add Team Member**. The dialog is titled **Add Team Member** (it switches
 | Display Name | Required. The name shown in the UI and on reports. |
 | Email | Required. The address the user signs in with. Immutable after creation. |
 | Temporary Password | Required for a new user, at least 6 characters. Share it with the user; they can change it with **Forgot Password** on the login screen. An invite email with a password-setup link is also sent. |
-| License Number | Optional. Inspector license number. Placeholder: `26408`. |
 | Role | Inspector or Admin. The owner role cannot be assigned. |
+
+### Licenses & Certifications
+
+One row for each license type your company offers. Fill in the licenses this person holds and leave the others blank.
+
+| Field | Notes |
+| --- | --- |
+| Number | The license or certification number. |
+| Issuer | Optional. Pre-filled from the license type. |
+| Expiry date | Optional. Shows **Expires soon** / **Expired** on the Users list and a renewal notice on the Dashboard. |
+| Primary | The default **License #** on reports, contracts and emails. Defaults to the first license entered. |
+| Show on reports | On by default. Includes the license in the "all licenses" list (`$InspectorLicenses`). |
+
+A license type can be set to apply to certain inspection types, such as a commercial license for Commercial inspections. That license then prints instead of the primary on those inspections. See [Licenses and certifications](/1nspect/features/inspector-licenses).
 
 ### Toggles
 
@@ -88,5 +105,6 @@ The Users tab shows disabled users in a separate section below active ones. Disa
 
 ## Related
 
+- [Licenses and certifications](/1nspect/features/inspector-licenses)
 - [Company profile](/1nspect/getting-started/company-profile)
 - [Branding](/1nspect/getting-started/branding)
