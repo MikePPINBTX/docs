@@ -14,7 +14,7 @@ surfaces:
   - "web"
 category: "features"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-04"
 ---
 
 When you text a quote from the field (via **Field Quote** on mobile) or send one from the web, the client receives a link to a branded quote page. The page shows the services, the itemized price, and an Accept action. One tap marks the quote accepted; your office then converts the lead to an order.
@@ -45,6 +45,14 @@ Accept does not create an order or send an agreement:
 2. The **Quote Accepted** and **Booking Confirmed** triggers fire (if your workflow has steps on them)
 3. Your office still converts the lead to an order, and the agreement goes out from there
 4. The quote link now shows the accepted state
+
+## Converting the quote to an order
+
+When your office converts the lead, the order is priced exactly as quoted, including surcharges such as mileage or multi-unit and any excess square footage fee. The new inspections start as **Pending**, like orders made in the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard).
+
+<Note>
+**Multi-phase quotes saved before October 2026** don't carry a price for each phase. When one is converted, the order total still matches the quote, but the base fee is split evenly across the phases, the discount goes on the last phase and order-level surcharges go on the first. Check each phase's price in **Review & Send** before you send the agreements.
+</Note>
 
 ## When a quote expires
 
