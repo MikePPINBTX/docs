@@ -29,7 +29,7 @@ Open the order: **Inspections** top nav, click into the order. You land on the o
 | Where | Actions |
 |---|---|
 | **Order header** (top right, under the total and amount due) | **Edit**, **Edit Order**, **Add Service**, **Mark as Paid**, **Issue Refund** (once paid), **Cancel Order** (plus **Mark Complete** or **Reopen Order** when they apply) |
-| **The child inspection's Overview tab › Quick Actions card** (open the inspection from the order's **Inspections** tab) | **Change Status**, **Edit Order**, **Mark as Paid**, **Issue Refund** (once paid), **Assign Inspector**, **Reschedule**, **Create Reinspection**, **Cancel This Inspection** |
+| **The child inspection's Overview tab › Quick Actions card** (open the inspection from the order's **Inspections** tab) | **Change Status**, **Edit Order**, **Mark as Paid**, **Mark as No Charge** (unpaid only), **Issue Refund** (once paid), **Assign Inspector**, **Reschedule**, **Create Reinspection**, **Cancel This Inspection** |
 | **The child inspection's Communications tab** | **Send Contract Bundle** / **Resend Bundle** |
 
 **Edit** on the order header toggles in-place editing of the order's tabs (client info, scheduling); **Save Changes** saves it. **Edit Order** opens the full Edit Order dialog described below.
@@ -57,6 +57,8 @@ If the edit moves any fee line or changes the services, in either direction, 1ns
 Use **Add Service** on the **order header** when the client wants to add another **primary** service (an extra phase, or an 11-month warranty inspection) to an order. It is added as its own inspection on the order, with its own agreement and its own bill, and the original signed agreement is **not** voided.
 
 Add Service adds primary services only. To add an ancillary service, use **Edit Order** (which voids the contract on a price change, see above).
+
+Tick **No charge (comped)** in the Add Service dialog to add the service at $0. The manual discount field is hidden while it's ticked. See [No charge (comped)](#no-charge-comped).
 
 ### Resend Bundle
 
@@ -92,6 +94,28 @@ Quotes can be rescheduled too. They have no reminders.
 ## Mark as Paid
 
 Use **Mark as Paid** (on the order header, or in the inspection's Quick Actions card) when a client pays outside Stripe. The button is hidden once the order is paid. The dialog has three fields: **Amount paid**, **Date paid** and **Payment method** (Cash, Check, Zelle, Venmo or Offline Credit Card), and you confirm with **Record Payment**. There is no note field. The order is always marked paid in full (there is no partial state) and the report link unlocks for the client, since reports are locked until paid.
+
+## No charge (comped)
+
+Use **No charge (comped)** when you're doing an inspection for free, for example a warranty courtesy visit or a make-good. A comped inspection costs $0 and counts as paid, so its report isn't locked. There are three ways to comp:
+
+| Where | When |
+| --- | --- |
+| **No charge (comped)** checkbox above **Confirm & Create Order** in the [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard) | Every inspection on the new order is comped. |
+| **No charge (comped)** checkbox in **Add Service** | The service you're adding is comped. |
+| **Mark as No Charge** in the inspection's Overview Quick Actions card | An existing, **unpaid** inspection. |
+
+**Mark as No Charge** on an existing inspection:
+
+- **Voids an agreement already sent or signed.** Then send the $0 agreement from the inspection's **Communications** tab.
+- **Won't comp a paid inspection.** Use **Issue Refund** instead.
+- **Won't comp a whole multi-phase order.** Comp each phase from its own inspection.
+
+What changes on a comped inspection:
+
+- **The agreement** shows the normal price, then a **No charge** line, for a total of $0.00.
+- **Issue Refund** is hidden, since nothing was paid.
+- **Reports:** [Monthly Reconciliation](/1nspect/features/monthly-reconciliation) leaves out $0 inspections, and [Tax Summary](/1nspect/features/tax-summary) counts them as inspections with $0 revenue.
 
 ## Create Reinspection
 
