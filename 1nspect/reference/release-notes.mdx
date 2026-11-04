@@ -8,7 +8,7 @@ persona: ["admin-operator", "inspector"]
 surfaces: ["web", "mobile"]
 category: "reference"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-04"
 ---
 
 What's new in 1nspecT. Updated as features ship. For workflow and email events, see the [Activity Log](/1nspect/features/activity-log) report.
@@ -16,6 +16,40 @@ What's new in 1nspecT. Updated as features ship. For workflow and email events, 
 <Note>
 Starting with the November 2026 catch-up below, release notes are published to this page as features ship. If a dot in the UI isn't where you remembered it, this page is where you'll find out why.
 </Note>
+
+---
+
+## November 2026 — Licenses, refunds, order History and reminders
+
+### Licenses and certifications
+
+- **Record every license an inspector holds.** Business Ops › Users has a new **License Types** button. Six types are built in (TREC, InterNACHI CPI, ASHI, TDLR Mold Assessor, NAWT, State), and you can add as many of your own as you need, for example a commercial license. Each team member gets a **Licenses & Certifications** section with number, issuer, expiry, **Primary** and **Show on reports**.
+- **A tag for every license.** `$LicenseInterNACHI`, `$LicenseASHI`, your own `$LicenseCommercialPropertyInspector` and so on, plus `$InspectorLicenses` for all of them. They work in contracts, emails and on the report cover. `$InspectorLicense` now prints the license that applies to the inspection's type, so a commercial inspection prints the commercial license.
+- **Published reports keep their licenses.** Changing an inspector's licenses later doesn't alter a report already out. A republish picks up the current ones.
+- **Expiry warnings.** The Users list flags licenses expiring within 30 days, and admins see a renewal notice on the Dashboard.
+- **Re-enabling a user keeps their details.** Re-enabling a disabled team member no longer clears their sponsor, home address and signature.
+
+See [Licenses and certifications](/1nspect/features/inspector-licenses).
+
+### Refunds
+
+- **Issue Refund.** A new button on the order header and the inspection's Quick Actions, once paid. It refunds a card payment through Stripe, or records a refund you return yourself (cash, check, Zelle, Venmo). You can make several partial refunds up to the amount paid.
+- **The report never locks again after a refund.** Each refund adds a History row and can send a **Refund Issued** email (`$RefundAmount`, `$RefundReason`). See [Refunds](/1nspect/features/refunds).
+
+### History
+
+- **Order History works.** The order's History tab shows the order's own events plus every inspection's, with an **Inspection** filter and links back to each inspection.
+- **Emails in History.** Every email shows as sent, scheduled, failed or skipped. A delayed email no longer shows twice.
+- **More events, with names.** Report published and delivered, Finish & Draft from mobile, order created (web, mobile or from a quote), inspector assigned, reschedules and refunds are now logged, each under the name of the person who did it. Older orders aren't back-filled. See [Inspection Details › History](/1nspect/admin-operator/inspection-details#history).
+
+### Reminders and rescheduling
+
+- **Inspection reminders send.** Reminders are queued whenever a booking gets its date, and sent at the inspection's local time: set **Send Offset** `-24h` and **Offset Anchor** **From inspection date**. A reminder is skipped if the inspection moved or was cancelled.
+- **Reschedule moves the reminder.** **Reschedule** now cancels the old reminder, queues a new one, fires **Inspection Rescheduled** and logs the change in History.
+
+### Contracted externally
+
+- **"Client already contracted externally" now skips only the agreement.** Confirmation, reminder, payment, review and report emails still go out, and the job still shows on the inspector's phone. Orders booked with the box before November 4 keep their old behavior: automated emails stay off, except report and review-request emails. See [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard#client-already-contracted-externally).
 
 ---
 

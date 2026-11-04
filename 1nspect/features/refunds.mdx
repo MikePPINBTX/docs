@@ -1,12 +1,15 @@
 ---
 id: "payments-refunds"
 title: "Refunds"
-description: "1nspecT issues Stripe refunds automatically from Cancel Order and Remove Ancillary when the inspection was paid through Stripe. There's no direct-refund button and no manual-refund record."
+description: "Issue a full or partial refund from the order with Issue Refund: through Stripe when the client paid by card, or recorded when you return the money yourself. Cancel Order and Remove Ancillary still refund card payments automatically."
 sidebarTitle: "Refunds"
 keywords:
   - "refunds"
   - "refund"
+  - "issue refund"
+  - "partial refund"
   - "stripe refund"
+  - "offline refund"
   - "cancel order"
   - "remove ancillary"
 persona:
@@ -15,65 +18,83 @@ surfaces:
   - "web"
 category: "features"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-04"
 ---
 
-Refunds in 1nspecT are narrow by design: Stripe refunds, issued automatically, from exactly two actions on the order. If you need to refund a manually-paid order (Venmo, Zelle, check), that happens outside 1nspecT and is not recorded in the product.
+Use **Issue Refund** to give some or all of a payment back. If the client paid by card, 1nspecT refunds the card through Stripe. If they paid another way (cash, check, Zelle, Venmo, offline card), 1nspecT records the refund and you return the money yourself. Either way it shows in History, and a **Refund Issued** email can go out.
 
-## When a refund fires
+## Issue a refund
 
-Two paths trigger a Stripe refund:
+**Issue Refund** appears in two places, next to **Mark as Paid**:
 
-| Action | When | What refunds |
-| --- | --- | --- |
-| **Cancel Order** | You cancel the whole order or a single phase from Inspection Details | The paid amount for the cancelled scope |
-| **Remove Ancillary** | You remove an ancillary service from a paid order | The ancillary's portion of the paid amount |
+- The order page header.
+- A single inspection's **Overview** tab, under **Quick Actions**.
 
-Both only issue a refund when the inspection was paid through Stripe. If payment came in by Venmo, Zelle, Cash App or an offline card entry, no Stripe refund happens.
+It shows only once the inspection is paid, and disappears once the full amount has been refunded.
 
-## The `refund.issued` event
+Clicking it opens **Issue Refund — inspection number**. The top line tells you which kind of refund this will be:
 
-Each successful Stripe refund fires the `refund.issued` workflow trigger. You can wire up an email on this trigger in **Business Ops › Communications › Workflow** to notify the client that a refund is on the way.
+- *Refunds the client's card through Stripe.* when a card payment is on file.
+- *No card payment on file — this records a refund you return yourself (cash, check, Zelle…).* otherwise.
 
-## One refund per inspection
+Below that, a summary reads *Paid $X · already refunded $Y · up to $Z can be refunded.*
 
-A single inspection can be refunded through Stripe only once. If you trigger a second refund on the same inspection (for example, remove one ancillary and then cancel the order), 1nspecT does not issue a second Stripe refund; it returns the first refund unchanged. Refund any further amount directly in your Stripe dashboard.
+| Field | Notes |
+| --- | --- |
+| Refund amount | Defaults to everything still refundable. Enter the agreed amount; it can be less than what was paid. |
+| Reason | Settlement, Cancellation, Overpayment, Service not performed or Other. Shown in History and available to emails as `$RefundReason`. |
+| Refunded by | Only for a refund you return yourself: Cash, Check, Zelle, Venmo, Offline Credit Card or Other. |
+| Internal note (optional) | History only. Never sent to the client. |
 
-## What's not supported
+Click **Refund $X** to finish.
 
-The product deliberately keeps the refund surface small:
+### Limits
 
-- **No direct Refund button** on the order. You can only refund through Cancel Order or Remove Ancillary.
-- **No goodwill refund** for an arbitrary amount. If you want to refund a client for a non-cancellation reason, process the refund directly in your Stripe dashboard.
-- **No credit note PDF.** The order's invoice is regenerated in place; it does not spawn a separate credit note.
-- **No manual-refund record.** If you send money back through Venmo/Zelle/Cash App/check, there is nowhere in 1nspecT to log that refund. Track it in your bookkeeping.
-- **No refund entries in the reports.** Monthly Reconciliation, All Invoices and Tax Summary all read the current state of the inspection, not refund events.
+- **You can refund more than once.** Several partial refunds are fine, up to the amount paid in total. Over that, the amount field shows *More than the $X left to refund.*
+- **A double-click refunds once.** Clicking the button twice, or retrying after a slow connection, doesn't refund twice.
+- **There's no role restriction.** Anyone on your team who can open the order can issue a refund.
 
-## What the client experiences
+## What the client sees
 
-For a Stripe refund:
+- **The report stays available.** A refund, even a full one, never locks the report again, and the payment status doesn't change.
+- **Card refunds take Stripe's usual time** to reach the client, typically 5 to 10 business days.
+- **The invoice isn't regenerated** and doesn't show the refund.
+- **A Refund Issued email** goes out for each refund if you have the step switched on (below).
 
-- The money returns to the client's card through Stripe's standard timeline (typically 5 to 10 business days)
-- The invoice PDF regenerates. The inspection stays marked paid, even after a full refund
-- If you set up the `refund.issued` trigger with an email, the client gets a notice
+## Refund Issued email
 
-## Partial refunds
+Each refund fires the **Refund Issued** trigger in **Business Ops › Communications › Workflow**. Existing accounts were given a default **Refund Issued** template and step in November 2026 (to the client and co-client, sent immediately). If yours has none, create a template and a step on the **Refund Issued** trigger.
 
-Removing a single ancillary from a paid order yields a partial refund for that ancillary's amount (as long as it is the first refund on that inspection). The order stays active for the remaining services; the balance adjusts.
+The email can use:
 
-Cancelling a single phase in a multi-phase order partially refunds that phase.
+- `$RefundAmount`: the amount of the most recent refund, for example `$150.00`.
+- `$RefundReason`: the reason you picked.
 
-## For manual-payment refunds
+The default wording leaves the reason out, since reasons such as "Settlement" read as internal. Add `$RefundReason` if you want it.
 
-If the client originally paid by Venmo, Zelle, Cash App or an offline card entry:
+## History
 
-1. Send the money back to the client through the same channel
-2. Keep a note in your own bookkeeping that this inspection was refunded
-3. Cancel the order or remove the service in 1nspecT so the record matches reality (no Stripe refund will fire, but the order state updates)
+Each refund adds a **REFUND ISSUED** row to the inspection's and order's History, under the name of the person who issued it. For example:
+
+- *Refund of $150.00 issued via Stripe (re_…). Reason: Settlement.*
+- *Refund of $150.00 recorded (Zelle).*
+
+The internal note appears on the row too.
+
+## Cancel Order and Remove Ancillary
+
+These still refund **card payments automatically**, as before:
+
+| Action | What refunds |
+| --- | --- |
+| **Cancel Order** (the whole order or one phase) | The paid amount for the cancelled scope |
+| **Remove Ancillary** (the X on an ancillary fee line, on a paid order) | That service's share of the paid amount |
+
+They only refund through Stripe. If the order was paid another way, they tell you no refund was made, and they never record one. Use **Issue Refund** to record the money you return.
 
 ## Related
 
-- [Managing orders](/1nspect/workflows/managing-orders) (Cancel Order and Remove Ancillary)
+- [Managing orders](/1nspect/workflows/managing-orders) (Cancel Order, Remove Ancillary, History)
 - [Payments setup](/1nspect/admin-operator/payments-and-contracts)
-- [Monthly Reconciliation](/1nspect/features/monthly-reconciliation)
-- [Communication workflows](/1nspect/getting-started/communication-workflows) (`refund.issued` trigger)
+- [Communication workflows](/1nspect/getting-started/communication-workflows) (Refund Issued trigger)
+- [Variable tags reference](/1nspect/getting-started/variable-tags-reference)

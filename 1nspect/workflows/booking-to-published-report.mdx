@@ -103,7 +103,7 @@ A reinspection is a special child of a completed inspection, created from the co
 
 Clients add a service, properties come in bigger than expected, dates slip. The order flexes:
 
-- **Edit Order** changes clients, co-clients, property, services, pricing. Billing is recomputed and the order's single invoice is regenerated in place; a price drop only flags a refund, and Stripe refunds happen only from Cancel Order or Remove Ancillary.
+- **Edit Order** changes clients, co-clients, property, services, pricing. Billing is recomputed and the order's single invoice is regenerated in place; a price drop only flags a refund; give money back with **Issue Refund** (see [Refunds](/1nspect/features/refunds)).
 - **Edit Order** voids the signed contract whenever it moves the price or the services; you then send an updated contract bundle for the client to re-sign.
 - **Add Service** adds another primary service (an extra phase or warranty inspection) to the order with its own agreement and bill, without voiding the original agreement. Ancillaries are added through Edit Order.
 - **Resend Bundle** (on the inspection's Communications tab) re-sends the agreement bundle.

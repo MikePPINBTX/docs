@@ -1,14 +1,14 @@
 ---
 id: "admin-users"
 title: "User management"
-description: "The Business Ops › Users tab. Add team members, set roles, working hours, Google Calendar connections, TREC sponsor info and mileage origin. Owner- and admin-only."
+description: "The Business Ops › Users tab. Add team members, set roles, licenses and certifications, working hours, Google Calendar connections, TREC sponsor info and mileage origin. Owner- and admin-only."
 sidebarTitle: "Users"
-keywords: ["users", "user management", "team members", "roles", "inspector toggle", "trec sponsor", "working hours"]
+keywords: ["users", "user management", "team members", "roles", "inspector toggle", "trec sponsor", "working hours", "licenses", "license types", "certifications"]
 persona: ["admin-operator"]
 surfaces: ["web"]
 category: "admin-operator"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-04"
 ---
 
 User management is where you add and manage every team member on your account: inspectors, admins, owners. Lives under Business Ops as the Users tab.
@@ -24,7 +24,11 @@ The tab shows two sections:
 - **Active users** — current team members
 - **Disabled users** — team members who have been disabled; shown below Active users in a separate section
 
-Each row shows: display name, email, role chip, connected calendar status.
+Each row shows the display name and email, the **License** (the primary license number, its type and "+N more" when the person holds several, plus an **Expires soon** or **Expired** badge), the role chips and the TREC sponsor.
+
+## License Types
+
+Top right, above **Add Team Member**: the **License Types** button. It sets which licenses and certifications every team member's record offers, and their names. Six types are built in, and you can add your own. See [Licenses and certifications](/1nspect/features/inspector-licenses).
 
 ## Add Team Member
 
@@ -35,7 +39,7 @@ Fields covered in [Add your team](/1nspect/getting-started/add-your-team):
 - Display Name (required)
 - Email (required; immutable after creation)
 - Password (new users receive an **invite email** with a password-setup link; they set their own password)
-- License Number
+- Licenses & Certifications: one row per license type, with number, issuer, expiry, **Primary** and **Show on reports** ([details](/1nspect/features/inspector-licenses))
 - Role
 - Inspector toggle
 - Mobile publishing option: a per-user opt-out that applies only when the company switch **Allow Publishing Reports from Mobile** (Business Ops › Company Info) is on
@@ -48,6 +52,7 @@ Fields covered in [Add your team](/1nspect/getting-started/add-your-team):
 ## Disabling vs. deleting
 
 - **Disable** moves the user to the Disabled section and frees their seat for a new user. Past history on their orders stays intact.
+- **Re-enable** brings them back with everything on their record (licenses, sponsor, home address, signature) as it was.
 - **Delete** is not supported; disabling is the final state. This preserves the audit trail of inspections they completed.
 
 ## Seats
@@ -68,5 +73,6 @@ Fine-grained role gating is covered in each feature's doc where it applies.
 ## Related
 
 - [Add your team](/1nspect/getting-started/add-your-team) (Start Here walk-through)
+- [Licenses and certifications](/1nspect/features/inspector-licenses)
 - [Google Calendar](/1nspect/features/calendar-integration)
 - [Business Operations](/1nspect/admin-operator/company-and-pricing/company-settings)

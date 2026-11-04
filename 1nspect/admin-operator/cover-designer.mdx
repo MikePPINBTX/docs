@@ -55,7 +55,16 @@ The template name input at the top has placeholder `Cover template name`. Save w
 
 ## Dynamic tokens
 
-Text layers can carry any of **21 tokens** that fill in at render time, including the property address, client name(s), inspection date, inspector name, company name and company logo. The full list is in the designer's token picker.
+Text layers can carry any of **22 field tokens** that fill in at render time, including the property address, client name(s), inspection date, inspector name, company name and company logo. The full list is in the designer's token picker.
+
+### License fields
+
+Two ways to put inspector licenses on the cover:
+
+- **All Licenses** (in Field Tokens): every license the inspector holds that is marked **Show on reports**, one per line.
+- The **Licenses** group, below the field tokens: one field per license type your company offers (TREC, InterNACHI, your commercial license…). Each prints the inspector's number for that one license, or nothing if they don't hold it.
+
+**License Number** prints the license that applies to the inspection's type, otherwise the primary. See [Licenses and certifications](/1nspect/features/inspector-licenses).
 
 Tokens render per-report so your cover auto-populates for every inspection using this template.
 

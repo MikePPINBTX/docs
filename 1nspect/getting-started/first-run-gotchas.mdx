@@ -49,7 +49,7 @@ Separately, a job with no template shows a **Setup Required** card instead of be
 
 **The fix 1:** The workflow step is not enabled. Starter steps are seeded **disabled**. Open **Business Ops › Communications › Workflow**, open the step, and turn on **Enabled**.
 
-**The fix 2:** For reminders ("2 days before the inspection"), the **Send Offset** must be measured from the inspection date, not the trigger time. Open the workflow step and change the **Offset Anchor** if needed.
+**The fix 2:** For the **Inspection Reminder**, set **Send Offset** to `-24h` (or `-48h`) and **Offset Anchor** to **From inspection date**, not the trigger time. The send time is the inspection's local time: a 9:00 AM inspection with `-24h` gets its reminder at 9:00 AM the day before. A booking made too late for the send time (for example, booked today for tomorrow morning) gets no reminder, and a reminder is skipped if the inspection was moved or cancelled.
 
 **The fix 3:** The template is empty or has a typo in a required field. Open the matching template under **Email Templates** and check the subject and body for unknown tags. Unknown tags are refused on save and dropped on send. There is no preview with sample data.
 

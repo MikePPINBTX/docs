@@ -17,7 +17,7 @@ surfaces:
   - "web"
 category: "admin-operator"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-04"
 ---
 
 Inspection Details is the per-order page. Open any order from the Inspections list and land here. All of the order's actions, data, inspections, communications and payment history live on this page.
@@ -45,7 +45,26 @@ Three stats:
 
 ## History
 
-The order-level **History** tab is a placeholder for now; it doesn't show events yet. For a timeline, open a child inspection and use its **History** tab, which lists status changes, emails and their delivery status, and notes you add by hand, with filters by type.
+Both the order and each inspection have a **History** tab, newest first:
+
+- **Inspection History** (on an inspection) shows that inspection's events.
+- **Order History** (on the order) shows the order's own events plus every inspection's. Each row carries a chip: **Order**, or the inspection number and service. Click an inspection chip to open that inspection on its History tab. An extra **Inspection** filter narrows the list to All, Order or one inspection.
+
+**Type filter** (both views): All, Status, Reports, Contracts, Financial, Comms, Notes. Each row's type shows as a chip, such as **REPORT PUBLISHED** or **COMMUNICATION SENT**.
+
+What appears:
+
+| Kind | Rows |
+| --- | --- |
+| Status | Status changes, rescheduled (old → new date), inspector assigned or changed, order created (web or mobile), order created from a quote, and *Finish & Draft from the mobile app: inspection completed and AI drafting started.* |
+| Reports | Report published or republished (with the version), and report delivered (with the recipients) |
+| Financial | Payments and each refund (amount, Stripe or how you returned it, reason, internal note) |
+| Comms | Every email: **COMMUNICATION SENT** (with recipients, and any bounce), **COMMUNICATION SCHEDULED** (with the send time, Central), **COMMUNICATION FAILED** and **COMMUNICATION SKIPPED**. A delayed email appears once: its "scheduled" row is replaced when it sends. |
+| Notes | Notes you add with **Add Note** (**Add Order Note** on the order, **Add Inspection Note** on an inspection) |
+
+Every row shows who did it, *by* the signed-in user's name. Rows from before November 4, 2026 were not back-filled, so older orders show fewer events.
+
+Per-structure panels (AI baseline, site conditions, era materials) appear on the inspection's view only.
 
 ## Inspections in this Order
 
@@ -68,8 +87,9 @@ For multi-phase orders, each phase appears as its own row.
 | **Add Service** | Add a primary or ancillary service to a signed order without voiding the agreement. |
 | **Resend Bundle** | Re-send the applicable agreements. Used after Add Service or when a client lost the original email. |
 | **Cancel Order** | Cancel the whole order or one phase (**Cancel This Inspection**). Removing one ancillary uses the separate **Remove Ancillary** modal. Covered in [Managing orders](/1nspect/workflows/managing-orders). |
-| **Record Payment** | Record a manual payment: Amount paid, Date paid and Payment method (Cash, Check, Zelle, Venmo or Offline Credit Card). |
-| **Reschedule** | Move an inspection to a new date and time. |
+| **Mark as Paid** | Record a manual payment: Amount paid, Date paid and Payment method (Cash, Check, Zelle, Venmo or Offline Credit Card), confirmed with **Record Payment**. |
+| **Issue Refund** | Refund some or all of a payment: through Stripe for a card payment, otherwise recorded. Appears once paid. See [Refunds](/1nspect/features/refunds). |
+| **Reschedule** | Move an inspection to a new date and time. Moves the reminder and fires Inspection Rescheduled. |
 | **Create Reinspection** | On the Overview tab for completed inspections. See [Reinspections](/1nspect/workflows/reinspections). |
 
 ## Communications tab

@@ -42,6 +42,21 @@ Working top to bottom:
 
 **Review & Send** is not a step on this form. It is the contract modal that opens after the order is created, where you review and send the agreements per your Communications workflow.
 
+## Client already contracted externally
+
+Tick **Client already contracted externally** when the client signed an agreement somewhere else, for example a booking you're moving over from another platform. 1nspecT then skips **only its own agreement send**. Everything else runs as usual:
+
+- the booking confirmation, if you have one set up
+- the inspection reminder and any reschedule notices
+- payment, inspection completed and review request emails
+- the report emails
+
+The job shows on the inspector's phone and can be started without an agreement. On Inspection Details, the agreement line reads **Agreement handled outside 1nspect**.
+
+<Note>
+The help text under the box still says it "skips all automated emails, contracts, and workflow triggers". That text is out of date; only the agreement is skipped. Orders booked with this box before November 4, 2026 keep the old behavior: automated emails stay off, except report and review-request emails. They show **Externally contracted (automation off)**.
+</Note>
+
 ## Multi-phase orders
 
 Selecting more than one primary service turns the order into a multi-phase bundle. Each phase has its own date, inspector and inspection record. (The **Bundle Agreement Group** field on primary services is saved but not used today.)
