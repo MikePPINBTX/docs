@@ -56,9 +56,9 @@ When Calendar is connected:
 - **Availability** — bookings on the public form read every calendar the inspector owns or can write to, and only show open slots inside their Working Schedule
 - **Event creation** — when an order is created (order wizard or Field Quote, or when a public-booking lead is converted to an order; a public booking on its own creates only a lead, so no event is written until it becomes an order), 1nspecT writes an event to the inspector's primary calendar titled `Order No- {id}`, with the clients, agents, services and fees in the description
   - **Converted quotes:** converting a single-inspection quote writes the event, if the quote names an inspector and has a booked date. A multi-phase order gets one event per phase from **Review & Send**.
-  - **Length:** the event lasts the inspection's estimated duration, including the scheduling buffer. An inspection with no booked date gets no event.
+  - **Length:** the event lasts the inspection's estimated duration, plus any travel/setup buffer added to that order. An inspection with no booked date gets no event.
 - **Event updates** — rescheduling an inspection updates the event; cancelling removes it
-- **Reassigning** — assigning a different inspector moves the event: it's deleted from the old inspector's calendar and created on the new one's. If the new inspector hasn't connected Google Calendar, the old event is still removed and no new one is written.
+- **Reassigning** — on an inspection with a booked date, assigning a different inspector moves the event: it's deleted from the old inspector's calendar and created on the new one's. If the new inspector hasn't connected Google Calendar, the old event is still removed and no new one is written.
 
 Calendar writes never block your work. If Google can't be reached, the conversion or assignment still goes through without the event.
 
@@ -66,7 +66,7 @@ Calendar writes never block your work. If Google can't be reached, the conversio
 
 - Non-Google calendars (Outlook, iCal, Apple Calendar) are not supported today
 - Events are one-way from 1nspecT to Google. Editing an event in Google does not change the 1nspecT inspection.
-- There is no per-user scheduling buffer. The hours concept is the inspector's Working Schedule.
+- There is no per-user scheduling buffer. The hours concept is the inspector's Working Schedule. You can add a travel/setup buffer to an individual order instead: **Add buffer (travel / setup)** in the Order Creation Wizard's Inspection Time step (None, +15, +30, +45 or +60 minutes). It's included in the calendar event's length. The public booking form doesn't offer it.
 - 1nspecT asks Google for two scopes: `calendar.events` and `calendar.readonly`.
 
 ## Troubleshooting
