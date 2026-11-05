@@ -18,7 +18,7 @@ surfaces:
   - "web"
 category: "admin-operator"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-05"
 ---
 
 The Report Workspace is the per-inspection review and publish surface. Open any inspection from Inspection Details, then open its **Reports** tab to land here. Two top-level tabs across the page, every finding reviewable inline, AI tools above and per-finding, and the Publish and Deliver actions at the top.
@@ -54,6 +54,18 @@ Each finding is editable inline:
 - Photos and video (add, replace, reorder, move between sections, link)
 - Reference snippet (if attached)
 - Summary flag
+
+## Multiple units
+
+Sections that can hold several pieces of the same equipment (Heating Equipment, Cooling Equipment, water heaters) show a column per unit on their **Technical Specifications** card, once the section has two or more units.
+
+- **+ Add Unit** (next to the card title) adds a unit. Adding a unit to Heating also adds it to the matching Cooling section, with the same labels, and the other way round. That only happens when the other section's units run up to the number just below: adding Cooling Unit 3 adds Heating Unit 3 if Heating has Units 1–2, but not if Heating has only Unit 1, since unit numbers never skip. If the other section already has that unit, it only picks up labels it doesn't have yet.
+- **✎ Edit** (in a unit's column header) opens a dialog with **Area served** and **Location** for that unit. The change applies to this section only. The matching Heating or Cooling section picks up the labels only where it has none yet.
+- **Remove Unit N** (red, in the Edit dialog) appears only for the section's last unit, never Unit 1. After you confirm, it clears that unit's values in this section only.
+
+Heating and Cooling keep separate unit lists, so a house with one wall heater and three window units shows one heating column and three cooling columns. Units are no longer copied to **Duct Systems, Chases, and Vents** or **Other**.
+
+On the PDF and the published report, Heating and Cooling each print their own unit columns, with their own **Location** and **Area Served** rows. Inspections done earlier look the same until someone edits a section's units.
 
 ## Narrative Review Panel
 
