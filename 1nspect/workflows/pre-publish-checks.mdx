@@ -8,7 +8,7 @@ persona: ["admin-operator"]
 surfaces: ["web"]
 category: "workflows"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-06"
 ---
 
 Before a report is published, 1nspecT runs rule-based checks (not AI) against the standard of practice the inspection follows. Flags surface in the Report Workspace so you can act on them before Publish. Required items block Publish entirely until resolved. This page describes what the checks do, how to read them, and how to resolve the common ones.
@@ -33,8 +33,15 @@ As you work through the report, the Narrative Review Panel evaluates each narrat
 - Jargon that should be plain-language
 - Hedging dropped by the AI that your field note included
 - Specialist rules for HVAC, electrical, plumbing, site and grading, gas and fire safety
+- A passing finding with no Recommendation when your field note asks for an action (see below)
 
 Each flag links to the finding so you can jump straight to it, fix the wording, and move on.
+
+### Passing finding is missing the action your note asks for
+
+This flag is for review only and never blocks Publish. It appears when a finding rated as acceptable has no Recommendation, but your field note asks for an action ("recommend", "replace", "repair", "service", "monitor", "adjust", "clean" and similar). The message reads: _"This passing finding has no Recommendation, but the field note asks for an action. Add the Recommendation the note asks for."_
+
+If the note doesn't ask for an action, the draft gets _"No action is required at this time."_ as the Recommendation automatically.
 
 ## Completeness gate
 
@@ -45,7 +52,7 @@ Publish is a hard gate. Before Publish will accept the report, the completeness 
 - The FPO check
 - Every finding has either a narrative, or an explicit "publish without narrative" sign-off
 
-Unresolved narrative flags from the review panel also **block** Publish until you acknowledge them.
+Unresolved narrative flags from the review panel also **block** Publish until you acknowledge them, except review-only flags such as [Passing finding is missing the action your note asks for](#passing-finding-is-missing-the-action-your-note-asks-for).
 
 Any missing items are listed as **publish blockers**. Each blocker shows a **Section → Subsection** label so you know exactly where in the report the missing item belongs. Resolve all of them and Publish will go.
 
