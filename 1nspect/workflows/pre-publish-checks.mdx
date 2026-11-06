@@ -39,7 +39,7 @@ Each flag links to the finding so you can jump straight to it, fix the wording, 
 
 ### Passing finding is missing the action your note asks for
 
-This flag is for review only and never blocks Publish. It appears when a finding rated as acceptable has no Recommendation, but your field note asks for an action ("recommend", "replace", "repair", "service", "monitor", "adjust", "clean" and similar). The message reads: _"This passing finding has no Recommendation, but the field note asks for an action. Add the Recommendation the note asks for."_
+This flag is for review only and never blocks Publish. It appears when a passing finding tagged **Acceptable Performance** has no Recommendation, but your field note asks for an action ("recommend", "replace", "repair", "service", "monitor", "adjust", "clean" and similar). The message reads: _"This passing finding has no Recommendation, but the field note asks for an action. Add the Recommendation the note asks for."_
 
 If the note doesn't ask for an action, the draft gets _"No action is required at this time."_ as the Recommendation automatically.
 
@@ -52,7 +52,7 @@ Publish is a hard gate. Before Publish will accept the report, the completeness 
 - The FPO check
 - Every finding has either a narrative, or an explicit "publish without narrative" sign-off
 
-Unresolved narrative flags from the review panel also **block** Publish until you acknowledge them, except review-only flags such as [Passing finding is missing the action your note asks for](#passing-finding-is-missing-the-action-your-note-asks-for).
+Unresolved narrative violations from the review panel also **block** Publish until you acknowledge them. Flags marked for review only, such as [Passing finding is missing the action your note asks for](#passing-finding-is-missing-the-action-your-note-asks-for), never block Publish.
 
 Any missing items are listed as **publish blockers**. Each blocker shows a **Section → Subsection** label so you know exactly where in the report the missing item belongs. Resolve all of them and Publish will go.
 
