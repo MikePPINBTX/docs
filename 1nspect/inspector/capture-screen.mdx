@@ -17,7 +17,7 @@ surfaces:
   - "mobile"
 category: "inspector"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-06"
 ---
 
 The Capture screen is the heart of the mobile app. It is built so you never leave it: photo, caption, rating, AI tools and save all in one scroll. This page walks the screen top to bottom, then covers each piece in detail.
@@ -111,6 +111,16 @@ A private, unformatted note under the caption. The AI reads field notes when it 
 ## Multi-instance subsections
 
 Some subsections are multi-instance (two HVAC units, three water heaters). The subsection header shows an instance switcher. Each instance has its own location and system info; findings are tagged to the right instance.
+
+### Heating and cooling units
+
+On Heating and Cooling, the unit strip on the Capture and Ratings screens manages that section's units:
+
+- **Add Unit** adds the next unit. It's also added to the matching Heating or Cooling section when that section already has every unit before it.
+- **✎ Edit** changes the unit's **Area served** and **Location**, in this section only.
+- **Remove Unit N** removes the section's last unit (never Unit 1), after you confirm.
+
+Heating and Cooling keep separate unit lists, so one wall heater and three window units come out right on the report. A unit change only counts once 1nspecT confirms it. If it isn't confirmed, the app shows an alert. Unit edits made on the web show up on the phone.
 
 ## Reference snippets
 
