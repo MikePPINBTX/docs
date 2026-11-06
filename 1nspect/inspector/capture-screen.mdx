@@ -138,15 +138,20 @@ If you tap a library entry that lives in a different subsection, the app jumps t
 
 ## "Belongs in" suggestion
 
-As you type a caption, the app checks whether it fits the subsection you're in. If the caption clearly belongs somewhere else, a **Belongs in: Section › Subsection** chip appears under the caption box. Example: you're in Foundations and type "GFCI missing at kitchen counter".
+As you type a caption, the app checks whether it fits the subsection you're in. If the caption clearly belongs somewhere else, a **Belongs in: Section › Subsection** chip appears under the caption box. For example, typing "GFCI missing at kitchen counter" while you're in Foundations brings up an **Electrical › Branch Circuits…** chip. Long section names are shortened on the chip ("Electrical", "Plumbing", "HVAC").
 
-- **Tap the chip** to move there. Your caption and photos come with you, and the **Moved to … · Undo** banner lets you go back.
-- **Two chips** (**Belongs in one of:**) means two subsections are about equally likely. Tap the right one.
+- **Tap the chip** to switch the Capture screen to that subsection. The caption and photos you're working on stay in the form, so the finding saves there. Unit tags and reference snippets picked for the old subsection are cleared, the same as when you tap a subsection yourself. The **Moved to … · Undo** banner lets you go back.
+- **Two chips** (**Belongs in one of:**) appear when two subsections are close. The best guess is first. Tap the right one.
 - **✕** hides the suggestion for the caption you're typing.
 
-Nothing moves until you tap. No chip appears when the caption already fits the current subsection, while you edit a saved finding, or during a reinspection.
+Nothing changes until you tap. No chip appears when the caption already fits the subsection you're in, while you edit a saved finding, or while you re-inspect a specific item from the original inspection. New findings you capture during a reinspection do get the chip.
 
-The suggestion comes from captions in your library that read almost the same, and from keywords for your standard (TREC or InterNACHI). It works offline and costs no AI credits. The chip uses your template's section and subsection names, including any you've renamed.
+The suggestion checks, in order:
+
+1. A caption in your caption library that reads almost the same.
+2. Keywords from the built-in table for your standard (TREC or InterNACHI), plus keywords the phone learns from your own caption library and subsection titles. Templates without a built-in table rely on your library and titles.
+
+It works offline and costs no AI credits. The chip uses your template's section and subsection names, including any you've renamed.
 
 ## Inspection-aware autocorrect
 
