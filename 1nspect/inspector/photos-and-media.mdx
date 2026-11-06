@@ -17,16 +17,43 @@ surfaces:
   - "mobile"
 category: "inspector"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-06"
 ---
 
 Capture takes photos and up to 60-second videos directly from the Capture screen. Media is stored on the device and uploaded in the background. iPhone HEIC photos convert automatically. If an upload fails, a banner on the Review screen gives you Retry, Export and Delete.
 
 ## Photo capture
 
-Tap the camera on the Capture screen. The native camera opens. Take the shot, confirm, and the photo attaches to the current finding. You can take several photos per finding; each becomes part of the finding.
+Tap the camera on the Capture screen. The native camera opens. Take the shot, confirm, and the photo attaches to the current finding as its main photo. To add more photos to the same finding, use [Extra photos](#extra-photos).
 
 The media buttons are icon-only: 📷 (photo), 🎥 (video) and 📁 (import from the camera roll).
+
+## Extra photos
+
+A finding can have up to **4 extra photos** beside its main photo, such as a close-up or a wider context shot. You add them while you capture the finding, so you don't need **Save + New** or to find the finding again afterwards.
+
+<Steps>
+  <Step title="Take the main photo or video">
+    A **＋ Photo** tile appears under the photo controls, with the note _"Add up to 4 more photos"_.
+  </Step>
+  <Step title="Tap ＋ Photo">
+    Choose **Take Photo** or **Choose from Library**. The photo joins a strip of thumbnails, and the note counts them (_"2 of 4 extra photos"_).
+  </Step>
+  <Step title="Tap a thumbnail (optional)">
+    A panel opens with an optional caption (for example, "Close-up of fitting"), **Markup** (or **Redo Markup**), **Remove** and **Done**. Nothing in it is required, and marking up an extra never changes the main photo's markup.
+  </Step>
+  <Step title="Save the finding">
+    **Save + New** or **Save + Finish** saves the extras with the finding. **Add to Existing Finding** attaches them to the finding you pick instead.
+  </Step>
+</Steps>
+
+To add extras to a finding you've already saved, open it from the Review screen with **Edit** and tap **＋ Photo**.
+
+Extras are printed with the finding on the report, the same as photos added with **Add to Existing Finding › 📷 Extra photo**. They save offline like any other capture and upload when you have a connection.
+
+<Note>
+  Extras are photos only, not video. **＋ Photo** doesn't appear on System Info tags or when you re-inspect a specific item from the original inspection.
+</Note>
 
 <Note>
   iPhone photos are HEIC by default. 1nspecT converts HEIC to JPEG when you import from the camera roll, so published reports render in every browser. You don't need to change your camera settings.
