@@ -8,7 +8,7 @@ persona: ["admin-operator", "inspector"]
 surfaces: ["web", "mobile"]
 category: "features"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-06"
 ---
 
 Property Baseline is 1nspecT's pre-inspection snapshot of a property. It pulls public dataset information from the address and presents it in two subsections: **Site Conditions** (physical hazards and climate) and **Construction-era materials** (what materials are typical for the home's build year and region). The baseline is intelligence for the inspector and the office, not content for the client report. The AI reads it when drafting narratives, especially for shrink-swell, climate zone and flood zone contexts.
@@ -42,7 +42,7 @@ The panel header reads **Site Conditions** with sources listed inline: `USDA NRC
 - **FEMA flood zone** — Zone A, AE, VE and similar require extra attention to grading, drainage, and anything the inspector should flag or disclaim.
 - **EPA radon zone** — Zone 1 counties justify recommending a radon test; Zone 3 counties typically don't.
 - **Termite pressure** — Moderate-to-Heavy or Very Heavy zones justify thorough examination for signs of past or current infestation and installation of termite shields.
-- **Climate zone + attic insulation** — The recommended attic insulation (R-38 in Zone 2A for new construction per the 2024 IECC) is the baseline for grading what you observe. The AI narrative uses this to word insulation findings.
+- **Climate zone + attic insulation** — The recommended attic insulation (R-38 in Zone 2A for new construction per the 2024 IECC) is the baseline for grading what you observe. AI narratives on insulation findings recommend adding insulation "to achieve the recommended level for this climate region". They don't quote an R-value.
 
 ## Construction-era materials subsection
 
