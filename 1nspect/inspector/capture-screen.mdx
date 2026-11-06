@@ -136,6 +136,23 @@ Tap **Add to Summary** on any finding to flag it into the report summary section
 
 If you tap a library entry that lives in a different subsection, the app jumps to that subsection, pre-fills the finding, and offers an Undo if that wasn't what you wanted.
 
+## "Belongs in" suggestion
+
+As you type a caption, the app checks whether it fits the subsection you're in. If the caption clearly belongs somewhere else, a **Belongs in: Section › Subsection** chip appears under the caption box. For example, typing "GFCI missing at kitchen counter" while you're in Foundations brings up an **Electrical › Branch Circuits…** chip. Long section names are shortened on the chip ("Electrical", "Plumbing", "HVAC").
+
+- **Tap the chip** to switch the Capture screen to that subsection. The caption and photos you're working on stay in the form, so the finding saves there. Unit tags and reference snippets picked for the old subsection are cleared, the same as when you tap a subsection yourself. The **Moved to … · Undo** banner lets you go back.
+- **Two chips** (**Belongs in one of:**) appear when two subsections are close. The best guess is first. Tap the right one.
+- **✕** hides the suggestion for the caption you're typing.
+
+Nothing changes until you tap. No chip appears when the caption already fits the subsection you're in, while you edit a saved finding, or while you re-inspect a specific item from the original inspection. New findings you capture during a reinspection do get the chip.
+
+The suggestion checks, in order:
+
+1. A caption in your caption library that reads almost the same.
+2. Keywords from the built-in table for your standard (TREC or InterNACHI), plus keywords the phone learns from your own caption library and subsection titles. Templates without a built-in table rely on your library and titles.
+
+It works offline and costs no AI credits. The chip uses your template's section and subsection names, including any you've renamed.
+
 ## Inspection-aware autocorrect
 
 The app carries a robust dictionary of inspection terms and phrases and auto-corrects common voice-to-text misspellings as you dictate ("the the" → "the", "freeze board" → "frieze board"). This runs on top of your phone's built-in keyboard dictation; there is no separate 1nspecT voice-recognition engine.
