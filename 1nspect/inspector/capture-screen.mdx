@@ -116,11 +116,13 @@ Some subsections are multi-instance (two HVAC units, three water heaters). The s
 
 On Heating and Cooling, the unit strip on the Capture and Ratings screens manages that section's units:
 
-- **Add Unit** adds the next unit. It's also added to the matching Heating or Cooling section when that section already has every unit before it.
-- **✎ Edit** changes the unit's **Area served** and **Location**, in this section only.
-- **Remove Unit N** removes the section's last unit (never Unit 1), after you confirm.
+- **+ Add Unit** (or **+ Add** once there are two or more) adds the next unit. It's also added to the matching Heating or Cooling section when that section already has every unit before it.
+- **✎ Edit Unit N** (a ✎ after the caption when there's only one unit) opens **Edit unit**, where you change the unit's location and area served, in this section only.
+- **Remove Unit N** is in the **Edit unit** dialog. It appears only on the section's last unit, never Unit 1. After you confirm, it removes the unit from this section only and clears its values there.
 
-Heating and Cooling keep separate unit lists, so one wall heater and three window units come out right on the report. A unit change only counts once 1nspecT confirms it. If it isn't confirmed, the app shows an alert. Unit edits made on the web show up on the phone.
+Heating and Cooling keep separate unit lists, so one wall heater and three window units come out right on the report. Unit edits made on the web show up on the phone.
+
+Unit changes start from the latest list in 1nspecT's cloud, and count once the cloud confirms them. If the app can't load the latest list, or the change isn't confirmed yet or fails to send, it shows an alert. Check the units in the [Report Workspace](/1nspect/admin-operator/inspection-reviewer#multiple-units) before publishing.
 
 ## Reference snippets
 
