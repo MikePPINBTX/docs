@@ -17,7 +17,7 @@ surfaces:
   - "web"
 category: "admin-operator"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-08"
 ---
 
 Two tools shape how a template prints on the final report. **Guided Layout** picks a Section Blueprint and a Summary Blueprint, then lets you tune style knobs. **Visual Page Designer** gives you zone-level control over the preamble page, section templates and summary page. Most residential subscribers never need the Visual Page Designer; Guided Layout is enough.
@@ -42,6 +42,15 @@ Click **Guided Layout (pick + tune)** on the Visual Designer tab. Pick:
 The SoP your template is bound to can lock the blueprint choice. TREC and other official standards specify what section pages must look like, so for TREC templates the picker shows the single allowed blueprint with a lock icon. For a custom SoP or an InterNACHI template, you may see several blueprints to pick from.
 
 The lock is enforced per blueprint ID: a template whose SoP's `allowedBlueprintIds` lists one ID shows that one as forced; a template whose SoP allows several lets you choose.
+
+### Photo groups
+
+When a finding has more than one photo, the report draws a thin border around all of that finding's photos so readers can see they belong together. That covers extra photos added with **＋ Photo** on the phone and photos of additional locations. A finding with a single photo isn't boxed. Captions are unchanged. This works with every photo position setting in the Guided Layout Designer.
+
+- **Colour:** the box uses your report's accent colour from the template's **Styles** tab: the template accent, or its primary colour if there's no accent. It doesn't use **Settings › Branding**.
+- **Title (PDF):** the box is titled with the finding's headline, the bold first line of the narrative. When a finding has no separate headline, the photo caption is used instead. With the **Per finding** photo position, the box has no title, because the narrative sits directly above it.
+- **Title (online report and Report Workspace):** there's no box title. The finding's own card, with its headline, is the first card inside the box.
+- **Page layout:** each group starts on a new row, so a partly empty row before or after a group is normal. A large group can continue onto the next page, with the border shown on both pages.
 
 ## Visual Page Designer
 
