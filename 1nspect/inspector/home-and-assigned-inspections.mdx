@@ -17,7 +17,7 @@ surfaces:
   - "mobile"
 category: "inspector"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-10"
 ---
 
 Home is the first thing you see after signing in. It is a menu of three buttons: **Assigned Inspections**, **View Completed Inspections** and **Field Quote**. The job list, readiness badges, the Team QR and the team-join scanner live on the **Assigned Inspections** screen.
@@ -52,22 +52,28 @@ Downloads of the missing pieces happen automatically.
 
 ## Why a job might not appear on the phone
 
-Jobs are hidden from the Assigned Inspections list when any of these are true:
+Jobs are hidden from the Assigned Inspections list when either of these is true:
 
-1. **No agreement has been sent** (unless the inspection is marked externally contracted, or is a reinspection, which shows even without an agreement)
-2. **The job is more than 30 days in the future** — jobs appear only within a 30-day window
-3. **The inspector's display name doesn't exactly match the assigned name** on the inspection
+1. **The job is more than 30 days in the future** — jobs appear only within a 30-day window
+2. **The inspector's display name doesn't exactly match the assigned name** on the inspection
 
-If a job you expect isn't there, check all three. The display-name match is case- and whitespace-sensitive.
+An unsigned agreement doesn't hide a job. If a job you expect isn't there, check both. The display-name match is case- and whitespace-sensitive.
 
 ## Start guards
 
 Once a job is visible, Start requires:
 
 - A **template** and a **narrative collection** on the inspection (caption library is optional; if missing, the mobile autocomplete is empty but the inspection still runs)
-- A **signed agreement**
+- An agreement, depending on your policy (see below)
 
 If the template or the narrative collection is missing, the card shows a "Setup Required" message rather than hiding the job.
+
+Whether an unsigned job can be started depends on your [Signed agreement policy](/1nspect/features/signed-agreement-policy):
+
+- **Signed before the client can view the report** or **Handled outside the app:** the agreement never blocks Start.
+- **Signed before the inspection starts:** Start needs the client's signature in 1nspecT, a recorded outside agreement (**Signed by** and **Date signed**), or an exemption. Ticking **Client already contracted externally** without filling in who signed and when isn't enough. A blocked job is grayed out with an **Agreement Required** label, and tapping Start shows **Signed Agreement Required**.
+
+A reinspection with no agreement of its own counts as signed when the original inspection's agreement is signed.
 
 See [Starting an inspection](/1nspect/inspector/starting-an-inspection) for the setup screen details.
 

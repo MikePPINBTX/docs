@@ -30,7 +30,7 @@ The signed agreement policy is a company setting that decides when the client's 
 
 | Option | What it does |
 | --- | --- |
-| **Signed before the inspection starts** | The report can't be published until the client has signed the agreement, and the client can't open the report until it's signed. An owner or admin can override publishing in an emergency, with a written reason that's recorded. |
+| **Signed before the inspection starts** | Inspectors can't start an inspection on the phone until the client has signed the agreement. The report can't be published until the client has signed the agreement, and the client can't open the report until it's signed. An owner or admin can override publishing in an emergency, with a written reason that's recorded. |
 | **Signed before the client can view the report** | Inspect and publish as usual. The client can't open the report, its PDF or the repair request until the agreement is signed, alongside the payment lock. Once it's signed, the report opens without a republish. |
 | **Handled outside the app** | Agreements are handled outside 1nspecT and nothing is locked. When a booking is marked **Client already contracted externally**, record who signed and when. |
 
@@ -39,6 +39,17 @@ New companies start on **Signed before the client can view the report**.
 <Note>
   The policy is stamped on a report when it's published. Reports published before this setting existed stay open. Changing the policy later never locks or unlocks a report that's already published.
 </Note>
+
+## Starting an inspection on the phone
+
+Every job assigned to an inspector in the next 30 days shows on the phone, signed or not.
+
+Whether an unsigned job can be started depends on your [Signed agreement policy](/1nspect/features/signed-agreement-policy):
+
+- **Signed before the client can view the report** or **Handled outside the app:** the agreement never blocks Start.
+- **Signed before the inspection starts:** Start needs the client's signature in 1nspecT, a recorded outside agreement (**Signed by** and **Date signed**), or an exemption. Ticking **Client already contracted externally** without filling in who signed and when isn't enough. A blocked job is grayed out with an **Agreement Required** label, and tapping Start shows **Signed Agreement Required**.
+
+A reinspection with no agreement of its own counts as signed when the original inspection's agreement is signed.
 
 ## Publishing an unsigned report
 
