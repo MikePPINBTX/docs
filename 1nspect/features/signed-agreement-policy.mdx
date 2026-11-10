@@ -1,0 +1,80 @@
+---
+id: "signed-agreement-policy"
+title: "Signed agreement policy"
+description: "Choose when the client's signed agreement is required: before the inspection starts, before the client can view the report, or handled outside 1nspecT."
+sidebarTitle: "Signed agreement policy"
+keywords:
+  - "signed agreement policy"
+  - "agreement required"
+  - "signed agreement required"
+  - "unsigned agreement"
+  - "contracted externally"
+  - "record outside agreement"
+  - "override and publish"
+persona:
+  - "admin-operator"
+surfaces:
+  - "web"
+category: "features"
+status: "stable"
+last_verified_against_code: "2026-11-09"
+---
+
+The signed agreement policy is a company setting that decides when the client's signed inspection agreement is required. It works alongside the [payment lock](/1nspect/features/payment-locked-reports): a report can wait on payment, on a signature, or on both.
+
+## Where to find it
+
+**Company Settings › Contracts** tab › **Signed agreement policy** card. Owners and admins can change it. You can add an optional reason when you change it, and the **Change history** list below the card shows every change.
+
+## The three options
+
+| Option | What it does |
+| --- | --- |
+| **Signed before the inspection starts** | The report can't be published until the client has signed the agreement, and the client can't open the report until it's signed. An owner or admin can override publishing in an emergency, with a written reason that's recorded. |
+| **Signed before the client can view the report** | Inspect and publish as usual. The client can't open the report, its PDF or the repair request until the agreement is signed, alongside the payment lock. Once it's signed, the report opens without a republish. |
+| **Handled outside the app** | Agreements are handled outside 1nspecT and nothing is locked. When a booking is marked **Client already contracted externally**, record who signed and when. |
+
+New companies start on **Signed before the client can view the report**.
+
+## Publishing an unsigned report
+
+- **Signed before the inspection starts:** an unsigned report can't be published. Owners and admins see **Override and publish**, which needs a written reason. The override is recorded.
+- **Signed before the client can view the report:** you can publish, with a warning: _"The client can't view this report until the agreement is signed."_
+
+## What the client sees
+
+When the report is waiting on a signature, the client's report link shows **Signed Agreement Required**. When it's waiting on both, it shows **Payment and Signed Agreement Required**. A report waiting only on payment still shows **Payment Required**.
+
+The page reads: _"Your inspection report is ready. Sign your inspection agreement to view this report. You can review and sign it in your secure client portal."_ It has a checklist (**Sign your inspection agreement**, **Complete payment**) and a button to the client portal.
+
+In the [client portal](/1nspect/features/portals#agreement-status-chips), the status chip reads **Sign your agreement to unlock your report**, and **View Report** is hidden until the report unlocks.
+
+## What the agent sees
+
+The agent's link shows **Report Locked — Awaiting the Client's Signature**, or **Report Locked — Awaiting Payment and Signature** when it's waiting on both. The message says the report is complete and will be available as soon as the agreement is signed, and to check back shortly or contact the inspector.
+
+## When it unlocks
+
+Signing unlocks the report, as long as payment isn't also outstanding. The report email then goes out automatically, the same as when payment unlocks a report.
+
+Clicking **Deliver** on a report that's still locked sends the client a "sign your agreement" reminder instead of the report.
+
+Scheduled agreement reminders stop once the agreement is signed, recorded as handled outside the app, or not needed.
+
+## Agreements signed outside 1nspecT
+
+To record an agreement the client signed somewhere else:
+
+- **When booking** (web New Order wizard): tick **Client already contracted externally**, then fill in **Signed by** (required), **Date signed** (required) and **Notes** (optional: the agreement date, or a link to the signed agreement, for example on Google Drive). There's no file upload. See [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard#client-already-contracted-externally).
+- **On an existing inspection:** admins use **Record outside agreement** on [Inspection Details](/1nspect/admin-operator/inspection-details), with the same three fields. On a multi-trip order, record it for each trip. It's logged in the order's History under the **Contracts** filter.
+
+## Email trigger
+
+A new trigger, **Report published — awaiting signature** (`report.published.agreement_pending`), fires when a report is published while it's still waiting on the signature. A starter template is included but switched off. Edit it and turn it on in **Business Ops › Communications**. See [Communication workflows](/1nspect/getting-started/communication-workflows#available-triggers).
+
+## Related
+
+- [Payment-locked reports](/1nspect/features/payment-locked-reports)
+- [Publishing and delivery](/1nspect/workflows/publishing-and-delivery)
+- [Client portal](/1nspect/features/portals)
+- [Contracts cockpit](/1nspect/admin-operator/contracts-cockpit)
