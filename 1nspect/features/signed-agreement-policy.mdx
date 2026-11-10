@@ -36,6 +36,10 @@ The signed agreement policy is a company setting that decides when the client's 
 
 New companies start on **Signed before the client can view the report**.
 
+<Note>
+  The policy is stamped on a report when it's published. Reports published before this setting existed stay open. Changing the policy later never locks or unlocks a report that's already published.
+</Note>
+
 ## Publishing an unsigned report
 
 - **Signed before the inspection starts:** an unsigned report can't be published. Owners and admins see **Override and publish**, which needs a written reason. The override is recorded.
@@ -51,22 +55,24 @@ In the [client portal](/1nspect/features/portals#agreement-status-chips), the st
 
 ## What the agent sees
 
-The agent's link shows **Report Locked — Awaiting the Client's Signature**, or **Report Locked — Awaiting Payment and Signature** when it's waiting on both. The message says the report is complete and will be available as soon as the agreement is signed, and to check back shortly or contact the inspector.
+The agent's link is locked too, under either locking option. It shows **Report Locked — Awaiting the Client's Signature**, or **Report Locked — Awaiting Payment and Signature** when it's waiting on both. The message says the report is complete and will be available as soon as the agreement is signed, and to check back shortly or contact the inspector.
 
 ## When it unlocks
 
-Signing unlocks the report, as long as payment isn't also outstanding. The report email then goes out automatically, the same as when payment unlocks a report.
+Signing, or an admin recording an outside agreement, unlocks the report without a republish. This also applies to a report published with **Override and publish**. If the order is paid, the report email (and Haven, if you use it) then goes out automatically, the same as when payment unlocks a report. If it isn't paid yet, payment is still what unlocks and delivers it.
 
 Clicking **Deliver** on a report that's still locked sends the client a "sign your agreement" reminder instead of the report.
 
-Scheduled agreement reminders stop once the agreement is signed, recorded as handled outside the app, or not needed.
+Scheduled agreement reminders stop once the agreement is signed, recorded as handled outside the app, or marked exempt.
+
+A reinspection with no agreement of its own counts as signed when the original inspection's agreement is signed. Sample reports never need one.
 
 ## Agreements signed outside 1nspecT
 
 To record an agreement the client signed somewhere else:
 
 - **When booking** (web New Order wizard): tick **Client already contracted externally**, then fill in **Signed by** (required), **Date signed** (required) and **Notes** (optional: the agreement date, or a link to the signed agreement, for example on Google Drive). There's no file upload. See [Order Creation Wizard](/1nspect/admin-operator/order-creation-wizard#client-already-contracted-externally).
-- **On an existing inspection:** admins use **Record outside agreement** on [Inspection Details](/1nspect/admin-operator/inspection-details), with the same three fields. On a multi-trip order, record it for each trip. It's logged in the order's History under the **Contracts** filter.
+- **On an existing inspection:** owners and admins use **Record outside agreement** on [Inspection Details](/1nspect/admin-operator/inspection-details), with the same three fields. It's available under every policy whenever the agreement hasn't been signed in the app, and reads **Edit outside agreement** once one is recorded. On a multi-trip order, record it on each trip, not on the order itself. It's logged in the order's History under the **Contracts** filter.
 
 ## Email trigger
 
