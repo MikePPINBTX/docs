@@ -16,7 +16,7 @@ surfaces:
   - "web"
 category: "getting-started"
 status: "stable"
-last_verified_against_code: "2026-11-04"
+last_verified_against_code: "2026-11-09"
 ---
 
 A workflow step says: when **this event** happens on an order, send **this template** to **these recipients** after **this Send Offset**. 1nspecT has a long list of trigger events, from the first quote submission all the way through to the review request after the report is published. There are 24 triggers, plus Manual and Custom.
@@ -63,6 +63,7 @@ Save with **Save Step** at the bottom of the editor.
 | Payment Received — before report exists | A payment comes in before the report is published |
 | Report Published — already paid | The report is published and the order is already paid |
 | Report Published — awaiting payment | The report is published but payment is not yet received |
+| Report published — awaiting signature | The report is published but is locked until the agreement is signed (`report.published.agreement_pending`). A starter template is included, switched off. See [Signed agreement policy](/1nspect/features/signed-agreement-policy) |
 | Report Delivered — after payment unlock | A Stripe payment unlocks a published report, or someone clicks the manual Deliver button. In the normal pay-first flow this does not fire; do not use it for review requests |
 | Ancillary Report Uploaded | A third-party ancillary report is attached to the order |
 | Review Request | Fires on every publish; use a Send Offset such as `+7d`. This is the right trigger for review requests |

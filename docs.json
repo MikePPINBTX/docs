@@ -150,6 +150,7 @@
               "1nspect/admin-operator/payments-and-contracts",
               "1nspect/features/manual-payments",
               "1nspect/features/payment-locked-reports",
+              "1nspect/features/signed-agreement-policy",
               "1nspect/features/invoices",
               "1nspect/features/refunds"
             ]

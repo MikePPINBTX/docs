@@ -8,7 +8,7 @@ persona: ["admin-operator"]
 surfaces: ["web"]
 category: "workflows"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-09"
 ---
 
 Publishing locks the report and makes it available at a permanent URL. Delivery emails that URL to the client (and the agent) with a message you can personalize. Every report stays locked until the order is paid; the client and agent links return a Payment Required page until payment lands.
@@ -68,9 +68,18 @@ Send when the preview looks right.
 
 ## Payment-locked reports
 
-Every published report is locked until the inspection is marked paid. Both the client's link and the agent's link return a Payment Required page until payment is recorded (via Stripe webhook or manual **Mark as Paid**). There is no setting to disable this.
+Every published report is locked until the inspection is marked paid. Both the client's link and the agent's link return a Payment Required page until payment is recorded (via Stripe webhook or manual **Mark as Paid**). There is no setting to disable this. A report can also be locked until the agreement is signed; see [Agreement-locked reports](#agreement-locked-reports).
 
 See [Payment-locked reports](/1nspect/features/payment-locked-reports).
+
+## Agreement-locked reports
+
+Your [Signed agreement policy](/1nspect/features/signed-agreement-policy) can also lock a report until the client signs the agreement:
+
+- **Signed before the inspection starts:** an unsigned report can't be published. Owners and admins can use **Override and publish**, with a written reason that's recorded.
+- **Signed before the client can view the report:** you can publish, with the warning _"The client can't view this report until the agreement is signed."_ The client and agent see a signature-required page until it's signed.
+
+On a report that's still waiting on a signature, **Deliver** sends a "sign your agreement" reminder instead of the report. Signing unlocks the report and sends the report email automatically.
 
 ## Haven
 

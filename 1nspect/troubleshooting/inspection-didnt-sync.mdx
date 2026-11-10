@@ -19,16 +19,15 @@ surfaces:
   - "mobile"
 category: "troubleshooting"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-10"
 ---
 
 An inspection was created on the web but the inspector cannot find it in Assigned Inspections on mobile. This is the single most common first-run problem and almost always comes down to one of the causes below. Walk this page top to bottom.
 
 ## 1. The real reasons a job doesn't appear on the phone
 
-Three conditions hide a job from the Assigned Inspections list on mobile. Check them in order:
+Two conditions hide a job from the Assigned Inspections list on mobile. An unsigned or unsent agreement doesn't hide it. Check them in order:
 
-- **No agreement has been sent** to the client (unless the inspection is marked externally contracted). Send the agreement and the job appears on the next pull-to-refresh.
 - **The inspection is more than 30 days in the future.** The Assigned Inspections list only shows jobs within a 30-day window. A booking two months out stays hidden until it enters the window.
 - **The inspector's display name doesn't exactly match the assigned name on the inspection.** The match is case- and whitespace-sensitive. If the inspector's user profile has "Jane Smith" but the inspection says "Jane  Smith" (two spaces) or "jane smith", the job is hidden.
 
@@ -50,10 +49,16 @@ The **Inspector** toggle affects the booking roster (who can be booked), **not**
 
 ## 4. The agreement is unsigned (blocks starting, not syncing)
 
-If the inspection is on the phone but Start is disabled, the agreement hasn't been signed yet. The sync works; the start-guard is separate.
+If the job is grayed out with an **Agreement Required** label, it's waiting on the agreement. The sync works; the start check is separate.
 
-- The client needs to open their portal link and sign the agreement
-- Once signed, the inspector can tap Start on the phone
+Whether an unsigned job can be started depends on your [Signed agreement policy](/1nspect/features/signed-agreement-policy):
+
+- **Signed before the client can view the report** or **Handled outside the app:** the agreement never blocks Start.
+- **Signed before the inspection starts:** Start needs the client's signature in 1nspecT, a recorded outside agreement (**Signed by** and **Date signed**), or an exemption. Ticking **Client already contracted externally** without filling in who signed and when isn't enough. A blocked job is grayed out with an **Agreement Required** label, and tapping Start shows **Signed Agreement Required**.
+
+A reinspection with no agreement of its own counts as signed when the original inspection's agreement is signed.
+
+To unblock it, have the client sign in their portal, or record an outside agreement on Inspection Details (**Record outside agreement**). Then the inspector pulls to refresh.
 
 ## Mobile-side verification
 

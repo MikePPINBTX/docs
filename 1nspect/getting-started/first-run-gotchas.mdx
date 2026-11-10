@@ -8,7 +8,7 @@ persona: ["admin-operator", "inspector"]
 surfaces: ["web", "mobile"]
 category: "getting-started"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-10"
 ---
 
 Almost every new subscriber hits one of these on their first test run. None of them are complicated to fix, but they are easy to miss. Scan this page before you start your dry run so you recognize the symptom when you see it.
@@ -17,9 +17,8 @@ Almost every new subscriber hits one of these on their first test run. None of t
 
 **Symptom:** You created the test order on the web but the inspector cannot find it in Assigned Inspections on mobile.
 
-**The fix:** The phone hides a job for one of three reasons:
+**The fix:** The phone hides a job for one of two reasons (an unsigned agreement doesn't hide it):
 
-- **No agreement has been sent yet.** Send the agreement from Inspection Details (unless the job is marked externally contracted).
 - **The inspection is more than 30 days out.** It appears once it is within 30 days.
 - **The display name doesn't match.** The inspector's display name must exactly match the name assigned on the order or template default. Fix the spelling or assign the exact name.
 
@@ -63,7 +62,7 @@ Separately, a job with no template shows a **Setup Required** card instead of be
 
 **Symptom:** The inspector taps Start Inspection and gets blocked.
 
-**The fix:** Starting an inspection needs a signed agreement, so check the agreement first: if it has been sent but is unsigned, open the client portal link, sign it, and retry. If it was never sent, the job is hidden from Assigned Inspections entirely (see the first item above). Also confirm the inspection is within 30 days and the inspector's display name exactly matches the assigned name.
+**The fix:** If the job is grayed out with **Agreement Required**, your [Signed agreement policy](/1nspect/features/signed-agreement-policy) is **Signed before the inspection starts** and the agreement isn't signed yet. Open the client portal link and sign it, or use **Record outside agreement** on Inspection Details (fill in **Signed by** and **Date signed**; the "contracted externally" tick alone isn't enough). Then pull to refresh and retry. Under the other two policies, the agreement never blocks Start.
 
 ## Clients see a day I had blocked on my calendar
 
