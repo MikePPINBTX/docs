@@ -8,7 +8,7 @@ persona: ["admin-operator"]
 surfaces: ["web"]
 category: "workflows"
 status: "stable"
-last_verified_against_code: "2026-11-06"
+last_verified_against_code: "2026-11-10"
 ---
 
 Before a report is published, 1nspecT runs rule-based checks (not AI) against the standard of practice the inspection follows. Flags surface in the Report Workspace so you can act on them before Publish. Required items block Publish entirely until resolved. This page describes what the checks do, how to read them, and how to resolve the common ones.
@@ -34,6 +34,7 @@ As you work through the report, the Narrative Review Panel evaluates each narrat
 - Hedging dropped by the AI that your field note included
 - Specialist rules for HVAC, electrical, plumbing, site and grading, gas and fire safety
 - A passing finding with no Recommendation when your field note asks for an action (see below)
+- A narrative written by the backup AI model, whose headline tag needs a second look (see below)
 
 Each flag links to the finding so you can jump straight to it, fix the wording, and move on.
 
@@ -42,6 +43,14 @@ Each flag links to the finding so you can jump straight to it, fix the wording, 
 This flag is for review only and never blocks Publish. It appears when a passing finding tagged **Acceptable Performance** has no Recommendation, but your field note asks for an action ("recommend", "replace", "repair", "service", "monitor", "adjust", "clean" and similar). The message reads: _"This passing finding has no Recommendation, but the field note asks for an action. Add the Recommendation the note asks for."_
 
 If the note doesn't ask for an action, the draft gets _"No action is required at this time."_ as the Recommendation automatically.
+
+### Drafted by the backup AI
+
+If the main AI model is unavailable when a narrative is drafted, a backup model writes it instead, so the draft still arrives. This is rare. The finding then shows the flag **Drafted by the backup AI — check the Safety / Structural tag**, with the message: _"Drafted by the backup AI model while Gemini was unavailable. Check the headline tag — especially whether it should be a Safety or Structural Deficiency — before publishing."_
+
+The backup model is less reliable at choosing the headline tag, so check that the tag matches the finding, especially for Safety and Structural Deficiencies. Fix the tag if it's wrong. The flag is for review only and never blocks Publish.
+
+The flag shows only in the web Report Workspace, not in the mobile app.
 
 ## Completeness gate
 
@@ -52,7 +61,7 @@ Publish is a hard gate. Before Publish will accept the report, the completeness 
 - The FPO check
 - Every finding has either a narrative, or an explicit "publish without narrative" sign-off
 
-Unresolved narrative violations from the review panel also **block** Publish until you acknowledge them. Flags marked for review only, such as [Passing finding is missing the action your note asks for](#passing-finding-is-missing-the-action-your-note-asks-for), never block Publish.
+Unresolved narrative violations from the review panel also **block** Publish until you acknowledge them. Flags marked for review only, such as [Passing finding is missing the action your note asks for](#passing-finding-is-missing-the-action-your-note-asks-for) and [Drafted by the backup AI](#drafted-by-the-backup-ai), never block Publish.
 
 Any missing items are listed as **publish blockers**. Each blocker shows a **Section → Subsection** label so you know exactly where in the report the missing item belongs. Resolve all of them and Publish will go.
 
