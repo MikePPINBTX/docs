@@ -95,18 +95,31 @@ Use Republish sparingly: once a client has read a report and acted on it, changi
 
 If you want the PDF but don't want to lock the inspection yet (for a walk-through with the client, for a draft review), use **Preview PDF**. It generates the PDF without locking, warns if there are publish blockers, and skips the slug generation.
 
+## Preview client view
+
+**Preview client view**, next to **Preview PDF** in the Report Workspace header, opens the online report in a new tab as your client will see it once it's published. An amber banner reads _"Preview: this is what your client will see once the report is published"_. Nothing is published or shared.
+
 ## What the client sees
 
 The client opens the report link in any browser. The report is a mobile-first web viewer with:
 
 - Section-by-section navigation
 - Summary filter
+- **Findings at a Glance** tiles at the top (see below)
 - Photo lightbox
 - Equipment specs
 - Reinspection results (if this is a reinspection report)
 - A PDF download button for the official document
 
 The PDF is the compliant deliverable; the web viewer is the easier-to-read version.
+
+### Findings at a Glance in the online report
+
+When the report's PDF includes [Findings at a Glance](/1nspect/admin-operator/templates/template-designer#findings-at-a-glance), the online report (and the agent's report link) shows a **Findings at a Glance** card at the top with the same tiles. The client taps a tile to show only those findings, and taps it again to show all. The active tile also appears as a chip in the **Show** filter bar, where the client can remove it.
+
+To link straight to a filtered view, add `?filter=stats:safety` to the report link. `structural`, `functional`, `maintenance` and `limitation` also work.
+
+The tiles are fixed for each published version. If the PDF doesn't include the block, the card doesn't appear.
 
 ## Related
 
