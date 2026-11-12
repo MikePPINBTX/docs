@@ -34,7 +34,7 @@ Both tools are **Professional and Team only**. Open the template in **Templates*
 Click **Guided Layout (pick + tune)** on the Visual Designer tab. Pick:
 
 - A **Section Layout Blueprint** — the printed structure for each inspection section (how findings are grouped on the page, where photos go, how multi-unit systems render)
-- A **Summary Layout Blueprint** — the structure of the executive summary at the start of the report
+- A **Summary** layout — what the report's summary contains and where it appears (see [Summary](#summary))
 - **Style knobs** — fonts, colors and spacing within what the blueprint allows
 
 ### SoP-locked blueprints
@@ -42,6 +42,40 @@ Click **Guided Layout (pick + tune)** on the Visual Designer tab. Pick:
 The SoP your template is bound to can lock the blueprint choice. TREC and other official standards specify what section pages must look like, so for TREC templates the picker shows the single allowed blueprint with a lock icon. For a custom SoP or an InterNACHI template, you may see several blueprints to pick from.
 
 The lock is enforced per blueprint ID: a template whose SoP's `allowedBlueprintIds` lists one ID shows that one as forced; a template whose SoP allows several lets you choose.
+
+### Summary
+
+The **Summary** step sets what the report's summary contains and where it goes.
+
+**Layout.** Pick one:
+
+- **Deficiency Summary**: the table of findings marked for the summary.
+- **Findings at a Glance only**: count tiles for every reported deficiency (see [Findings at a Glance](#findings-at-a-glance)).
+- **Findings at a Glance + Deficiency Summary**: both.
+
+**Priority List** has been retired, because it printed the same table as Deficiency Summary.
+
+**Findings at a Glance: count findings by.** **Kind** (Safety, Structural & Movement, Functional, Maintenance & Monitoring) or **Report section** (one tile per section). It only appears for layouts that include Findings at a Glance.
+
+**Where should the summary appear?** **At the end of the report**, **Before the inspection sections** or **Right after the cover page**. Only the positions your standard allows are offered. TREC allows the summary only at the end of the report, and the step says so.
+
+### Findings at a Glance
+
+A block on the summary page that counts the report's deficiencies, headed **Findings at a Glance** (you can change the heading). It has these tiles:
+
+- **Total Deficiencies Reported**
+- **Safety**
+- **Structural & Movement**
+- **Functional**
+- **Maintenance & Monitoring**
+
+With **Report section** grouping, the tiles are your section names instead.
+
+Under the tiles are **Inspection Limitations: N**, an optional **Informational Notes: N** line, and _"N of these M deficiencies are listed in the Deficiency Summary."_
+
+It counts every reported deficiency, not only the ones marked for the summary. It never counts equipment spec captures, findings tagged Acceptable Performance, limitations or informational notes.
+
+When the PDF includes the block, the client's online report shows the same tiles at the top. See [Publishing and delivery](/1nspect/workflows/publishing-and-delivery#findings-at-a-glance-in-the-online-report).
 
 ### Photo groups
 
@@ -77,6 +111,19 @@ A **zone** is a named region on a page. The zone-based report generator stamps i
 - Dynamic finding cards (per subsection or per rating)
 - Static text (your boilerplate)
 - Static images (your brand elements)
+
+### Findings at a Glance on the Summary page
+
+On the Summary page, the zone palette has a **Findings at a Glance** zone. Its settings are:
+
+- **Heading**.
+- **Group findings by** (Kind or Report section).
+- Switches: **Show the tags inside each group**, **Show Inspection Limitations line**, **Show Informational Notes line**, **Show "N of these are listed in the Deficiency Summary"** and **Show Counts**.
+- **Icon Style**.
+
+The toolbar's **Summary appears** dropdown sets where the summary goes. On TREC it reads **Summary appears: at the end (required)**.
+
+If the template uses a Guided Layout summary, a warning says your canvas edits won't print. Click **Use this canvas page** to print the canvas instead.
 
 ### When to use the Visual Page Designer
 
