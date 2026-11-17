@@ -44,6 +44,27 @@ Above **Confirm & Create Order**, tick **No charge (comped)** to make every insp
 
 **Review & Send** is not a step on this form. It is the contract modal that opens after the order is created, where you review and send the agreements per your Communications workflow.
 
+In Review & Send, each phase's date picker shows the inspector's open times. While it loads it reads _"Checking availability…"_. If a time overlaps another phase on the order, it warns _"Overlaps <phase>."_ The warning doesn't stop you from picking that time. Click **Enter a custom time instead** to type a time, or **← Use slot picker** to go back to the open times. The Reschedule dialog uses the same picker.
+
+Ticking **Waive travel** on a phase lowers that phase's price in the Fee Preview and adds a _"travel waived (−$X.XX)"_ note.
+
+## Manual adjustments
+
+Owners and admins can add a one-off discount or surcharge that isn't in your [discount rules](/1nspect/getting-started/packages-discounts-surcharges), in the **Manual Adjustments** panel or the adjustment rows in the pricing sidebar. Clients never see this panel on the public booking form.
+
+For each adjustment, pick **Discount** or **Surcharge**, then **$ Fixed** or a percentage, and add a **Label** (shown to the client, for example "Loyalty discount" or "Rush fee"). The **Internal note** isn't shown to the client.
+
+On a single-phase order, a percentage is a percentage of the order total (**% Percent**, or **% of total** in the sidebar).
+
+On a [multi-phase order](#multi-phase-orders), each phase is priced and paid separately, so an adjustment lands on the phases themselves. Use **Applies to** to choose where:
+
+| Applies to | Percentage (**% of phase fee**) | Fixed amount |
+| --- | --- | --- |
+| **All phases** (the default) | That percentage of each phase's fee (base fee plus surcharges minus discounts; ancillaries aren't included) | Split evenly across the phases, with any leftover cent on the last phase |
+| **Phase N: <service>** | That percentage of that phase's fee only | The whole amount on that phase |
+
+Each phase's amount due includes its adjustment. The quote total, the booked order total and the wizard preview all use the same calculation. In the agreement's fee table and in the Review & Send Fee Preview, each phase lists its adjustments under it, as _"- Label"_ for a discount or _"+ Label"_ for a surcharge.
+
 ## Client already contracted externally
 
 Tick **Client already contracted externally** when the client signed an agreement somewhere else, for example a booking you're moving over from another platform. 1nspecT then skips **only its own agreement send**. Everything else runs as usual:

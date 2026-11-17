@@ -35,6 +35,7 @@ As you work through the report, the Narrative Review Panel evaluates each narrat
 - Specialist rules for HVAC, electrical, plumbing, site and grading, gas and fire safety
 - A passing finding with no Recommendation when your field note asks for an action (see below)
 - A narrative written by the backup AI model, whose headline tag needs a second look (see below)
+- Headline and movement wording, punctuation, and findings that may belong in the summary (see below)
 
 Each flag links to the finding so you can jump straight to it, fix the wording, and move on.
 
@@ -52,16 +53,32 @@ The backup model isn't tuned as closely to your Standard of Practice as the main
 
 The flag shows only in the web Report Workspace, not in the mobile app.
 
+### Headline, movement and summary flags
+
+| Flag | Blocks Publish? | What it means |
+| --- | --- | --- |
+| **Cause named in the headline** | Yes, until you acknowledge it | The headline names a cause, such as "causing…". _"A headline states the condition only — describe each condition, and leave the connection to the Analysis (hedged) or the trade."_ "Not causing" isn't flagged. |
+| Movement dated as active, ongoing or historical | On a Movement Indicator, or when your field note says "active": review only. Otherwise: yes | A narrative never says whether movement is active, ongoing or historical, even when your field note does. Describe what you observed. The engineer decides whether movement is active. |
+| **Doubled period (..)** | No | Two periods in a row, usually from pasting one sentence after another. An ellipsis (…) isn't flagged. |
+| **Headline ends in a period** | No | _"Headlines are labels, not sentences — remove it."_ |
+| **Safety Deficiency not in the summary** | No | A Safety Deficiency isn't in the Deficiency Summary. Add it, or leave it out on purpose. |
+| **Movement Indicator not in the summary (at threshold)** | No | The report has reached your Movement Indicator threshold, and this one isn't in the Deficiency Summary. |
+| **Non-functional system not in the summary** | No | A system didn't operate, and the finding isn't in the Deficiency Summary. |
+
+A finding gets at most one of the three summary reminders.
+
 ## Completeness gate
 
 Publish is a hard gate. Before Publish will accept the report, the completeness gate checks:
 
 - Subsection ratings (every subsection that requires a rating has one)
-- Required fields
+- Required fields. On TREC 7-6 templates these include **Location of water meter** and **Location of main water supply valve**.
 - The FPO check
 - Every finding has either a narrative, or an explicit "publish without narrative" sign-off
 
 Unresolved narrative violations from the review panel also **block** Publish until you acknowledge them. Flags marked for review only, such as [Passing finding is missing the action your note asks for](#passing-finding-is-missing-the-action-your-note-asks-for) and [Drafted by the backup AI](#drafted-by-the-backup-ai), never block Publish.
+
+If a required field is empty, Publish stops with _"Cannot publish — N required field(s) empty"_ and lists each one as **Section → Subsection → field**. Use NP for a subsection that isn't present or doesn't apply.
 
 Any missing items are listed as **publish blockers**. Each blocker shows a **Section → Subsection** label so you know exactly where in the report the missing item belongs. Resolve all of them and Publish will go.
 
@@ -79,6 +96,16 @@ Two ways to resolve:
 ## Aged-systems check
 
 Separately from narrative review, 1nspecT runs an aged-systems check that looks at equipment age fields (HVAC units, water heaters) and flags any equipment past its typical service life that doesn't have a related finding. This is informational, not a publish blocker: it's a prompt to confirm you intended to publish without flagging the aged equipment.
+
+### Aged Equipment Advisory findings
+
+A finding about aged equipment, such as a water heater or air handler, is headed **Aged Equipment Advisory**. It's informational, not a deficiency. The tag is applied when the caption:
+
+- is "Aged Equipment Advisory";
+- says the unit is past, beyond or exceeds its expected, typical or estimated service life;
+- or is an age caption such as "Water Heater Age — 14", which the phone suggests when an age field is above your template's range.
+
+The Recommendation is always: _"Budget for replacement of the [unit]. A licensed plumber (or HVAC technician, or qualified contractor) should perform routine maintenance in the interim."_ Aged piping stays Informational.
 
 ## Preview PDF before publishing
 
