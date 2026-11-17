@@ -44,7 +44,7 @@ Above **Confirm & Create Order**, tick **No charge (comped)** to make every insp
 
 **Review & Send** is not a step on this form. It is the contract modal that opens after the order is created, where you review and send the agreements per your Communications workflow.
 
-In Review & Send, each phase's date picker shows the inspector's open times. While it loads it reads _"Checking availability…"_. If a time overlaps another phase on the order, it warns _"Overlaps <phase>."_ The warning doesn't stop you from picking that time. Click **Enter a custom time instead** to type a time, or **← Use slot picker** to go back to the open times. The Reschedule dialog uses the same picker.
+In Review & Send, each phase's date picker shows the inspector's open times. While it loads it reads _"Checking availability…"_. If a time overlaps another phase on the order, it warns _"Overlaps"_ followed by the other phase's name. The warning doesn't stop you from picking that time. Click **Enter a custom time instead** to type a time, or **← Use slot picker** to go back to the open times. The Reschedule dialog uses the same picker.
 
 Ticking **Waive travel** on a phase lowers that phase's price in the Fee Preview and adds a _"travel waived (−$X.XX)"_ note.
 
@@ -61,9 +61,9 @@ On a [multi-phase order](#multi-phase-orders), each phase is priced and paid sep
 | Applies to | Percentage (**% of phase fee**) | Fixed amount |
 | --- | --- | --- |
 | **All phases** (the default) | That percentage of each phase's fee (base fee plus surcharges minus discounts; ancillaries aren't included) | Split evenly across the phases, with any leftover cent on the last phase |
-| **Phase N: <service>** | That percentage of that phase's fee only | The whole amount on that phase |
+| **Phase N:** and the service name | That percentage of that phase's fee only | The whole amount on that phase |
 
-Each phase's amount due includes its adjustment. The quote total, the booked order total and the wizard preview all use the same calculation. In the agreement's fee table and in the Review & Send Fee Preview, each phase lists its adjustments under it, as _"- Label"_ for a discount or _"+ Label"_ for a surcharge.
+Each phase's amount due includes its adjustment. The quote total, the booked order total and the wizard preview all use the same calculation. The agreement's fee table lists each adjustment (under its phase on a multi-phase order) as _"- Label"_ for a discount or _"+ Label"_ for a surcharge. An adjustment with no label shows as _"Adjustment (discount)"_ or _"Adjustment"_. The Review & Send Fee Preview lists them under each phase with the amount, for example _"− Loyalty discount ($25.00)"_.
 
 ## Client already contracted externally
 
