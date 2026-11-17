@@ -88,6 +88,23 @@ See [Licenses and certifications](/1nspect/features/inspector-licenses).
 - **Finish & Draft skips a lone air temperature reading.** A supply or return air temperature with no note is no longer drafted on its own. The temperature-difference finding still gets its narrative.
 - **A newer AI model drafts narratives.** If it's unavailable, a backup model writes the draft, and the finding gets a review flag in the Report Workspace: **Drafted by the backup AI — check the Safety / Structural tag**. Check the headline tag before you publish. The flag doesn't block Publish. See [Pre-publish checks](/1nspect/workflows/pre-publish-checks#drafted-by-the-backup-ai).
 - **More time for drafts.** A single draft, on the web or with AI Generate on the phone, now waits up to 40 seconds for the AI before it retries. If the AI still doesn't answer, the backup model writes the draft. Finish & Draft can take longer than before to finish a full report.
+- **Aged Equipment Advisory.** Aged water heaters, air handlers and similar equipment get an **Aged Equipment Advisory** headline (informational, not a deficiency) and a fixed Recommendation to budget for replacement. See [Pre-publish checks › Aged Equipment Advisory findings](/1nspect/workflows/pre-publish-checks#aged-equipment-advisory-findings).
+- **New review flags.** The panel now flags a cause named in the headline (blocks Publish until acknowledged), movement described as active, ongoing or historical, doubled periods, headlines ending in a period, and Safety Deficiencies, Movement Indicators and non-functional systems left out of the Deficiency Summary. See [Pre-publish checks › Headline, movement and summary flags](/1nspect/workflows/pre-publish-checks#headline-movement-and-summary-flags).
+- **Sharper drafting.** In-range water pressure is Acceptable Performance. A hazard word in your field note makes a Safety Deficiency, and a one-word "Movement" note makes a Movement Indicator. Movement Indicator recommendations no longer add "and refinish to match". Slab-on-grade homes no longer get floor-framing wording. Hardwired smoke and CO alarms go to a licensed electrician, and rodents to licensed pest control.
+- **Foundation Performance Opinion.** "Not Performing / Deficient" now reads **Not performing as intended** in the PDF, the online report and the Report Workspace. The phone still shows the old label for now. 11-month warranty inspections no longer have a Foundation Performance Opinion. See [Phase inspections › 11-month warranty inspection](/1nspect/features/phase-inspections#11-month-warranty-inspection).
+- **Two more required fields on TREC 7-6.** **Location of water meter** and **Location of main water supply valve** must be filled in before you publish. See [Pre-publish checks › Completeness gate](/1nspect/workflows/pre-publish-checks#completeness-gate).
+
+### Report Workspace and online report
+
+- **Mark up photos on the web.** Each finding photo in the Report Workspace has a brush button for arrows, circles, rectangles and lines. The original is kept, so you can remove the markup. See [Report Workspace › Marking up a photo on the web](/1nspect/admin-operator/inspection-reviewer#marking-up-a-photo-on-the-web).
+- **Rating pills once per subsection.** In the online report, the subsection's ratings show once, beside its title, instead of on every finding. Reinspection findings still show their own result.
+- **Text-only readings no longer get a tile** in the online report, matching the PDF. Area comments keep their paragraph breaks in both.
+- **Show Duplicates finds reworded entries.** In a narrative collection, duplicates are grouped as identical or similar, and **Keep this one** deletes the rest. See [Narrative collections › Duplicate finder](/1nspect/admin-operator/intelligence-hub/narrative-collections#duplicate-finder).
+
+### Orders and pricing
+
+- **Manual adjustments on multi-phase orders.** A percentage adjustment is now a percentage of each phase's fee (**% of phase fee**), and **Applies to** puts it on all phases or on one. Each phase lists its adjustments in the agreement fee table and Fee Preview, and the amount each phase charges includes them. See [Order creation wizard › Manual adjustments](/1nspect/admin-operator/order-creation-wizard#manual-adjustments).
+- **Review & Send shows open times for each phase,** warns when phases overlap, and **Waive travel** now lowers the phase price in the Fee Preview.
 
 ### Mobile
 

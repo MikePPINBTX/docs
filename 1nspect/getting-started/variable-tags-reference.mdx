@@ -73,7 +73,7 @@ Used in agreements built in **Business Ops › Contracts**. Values are filled in
 | `$BaseFee` | Base inspection fee only, without ancillaries. | — |
 | `$ServiceFee` | Fee for the service this agreement is scoped to. Falls back to the order total if the agreement has no service scope. | — |
 | `$TripFeeTable` | Itemized table for this trip: base, its ancillaries, discounts and total. Use on per-service agreements. | — |
-| `$AllOrderFeesTable` | Itemized table for the whole order: every phase plus a grand total. | — |
+| `$AllOrderFeesTable` | Itemized table for the whole order: every phase plus a grand total. On a multi-phase order, each phase's [manual adjustments](/1nspect/admin-operator/order-creation-wizard#manual-adjustments) are listed under that phase. | — |
 | `$InspectionFeeTable` | Legacy, hidden from the picker. Identical to `$AllOrderFeesTable`. Kept so older templates still work. | — |
 | `$ContractDate` | The date the agreement was generated (`November 2, 2026`). | — |
 
