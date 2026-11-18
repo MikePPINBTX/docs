@@ -37,11 +37,19 @@ For subscribers who want booking right on their company website, 1nspecT provide
 
 ### Where to copy the embed snippet
 
-Open **Business Ops › Company Info** and find the **Public Booking Form** section. It provides an iframe of your booking page (`/book/{slug}`). Paste it into any HTML page on your site.
+Open **Business Ops › Company Info** and find the **Public Booking Form** card. Copy the **Embed Code (iframe)** below the **Direct Link** (the **Copy** button copies all of it), and paste it into any HTML page on your site. Paste the whole snippet: it has two lines, the iframe of your booking page (`/book/{slug}`) and a short script.
 
 ### Sizing
 
-The snippet's default height is 900px. You can adjust `height` to fit your layout. The iframe is responsive on `width="100%"`.
+The script makes the embed grow to fit the form, so visitors never scroll inside a box. It also scrolls the page to the quote after the client submits. The form starts at 900px high and the script resizes it from there. The iframe is full width (`width="100%"`).
+
+<Note>
+  If you embedded the form before November 18, 2026, your site has the old one-line iframe. It still works, but stays a fixed 900px high. Copy the new snippet and replace the old one to get the automatic height.
+</Note>
+
+### Wix, Squarespace and other website builders
+
+Some website builders put custom code inside their own fixed-height box (for example Wix, or Squarespace code blocks), and some remove the script. There the embed can't grow: it stays 900px high and the client scrolls inside it. On those builders' **mobile** layout, hide the embed and add a "Get a Quote" button that opens your **Direct Link** instead. That's the best experience on a phone.
 
 ## What clients see
 
@@ -53,6 +61,8 @@ The public booking page walks a client through:
 4. The live price (from your pricing rules)
 5. Client details and a date and time (checked against inspector Working Schedules and calendars)
 6. Submission, which creates a lead (pending review) and fires the Quote Submitted trigger. No order is created and no agreement is sent until your office converts the lead.
+
+On a phone, or in an embed narrower than about 760px, the form is a single column: contact details, property, services, then date and time. The Quote Summary and the **Submit Quote Request** button come last. After the client submits, the page scrolls up to show their quote. On a wider screen, the layout is unchanged.
 
 The page uses your logo, your colors and your branding (set in [Branding and white-label](/1nspect/getting-started/branding)).
 
