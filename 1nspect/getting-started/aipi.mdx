@@ -1,36 +1,60 @@
 ---
 id: "start-here-aipi"
 title: "Additional Information Provided by Inspector (AIPI)"
-description: "Some SoPs allow inspectors to add context to the published report. AIPI is where that content lives, with a separate variant for reinspections."
+description: "Some SoPs allow inspectors to add context to the published report. AIPI is that content. Write it per inspection type in the Limitations Text (AIPI) tab, or per narrative collection as the fallback, with a separate variant for reinspections."
 sidebarTitle: "AIPI"
-keywords: ["aipi", "additional information", "inspector", "reinspection", "limitations", "disclosure"]
+keywords: ["aipi", "additional information", "inspector", "reinspection", "limitations", "limitations text", "inspection type", "disclosure"]
 persona: ["admin-operator", "inspector"]
 surfaces: ["web"]
 category: "getting-started"
 status: "stable"
-last_verified_against_code: "2026-11-02"
+last_verified_against_code: "2026-11-24"
 ---
 
-Some Standards of Practice allow (or require) inspectors to add their own information to the published report: installer qualifications, scope caveats, specific limitations, product-specific notes. 1nspecT stores this content as **Additional Information Provided by Inspector (AIPI)**, attached to the narrative collection a report uses. Inspectors who run reinspections can add a **separate reinspection-specific AIPI** that prints on reinspection reports in place of the standard one.
+Some Standards of Practice allow (or require) inspectors to add their own information to the published report: installer qualifications, scope caveats, specific limitations, product-specific notes. 1nspecT stores this content as **Additional Information Provided by Inspector (AIPI)**. You can write it in two places:
+
+- **Per inspection type**, in the **Limitations Text (AIPI)** tab. Use this when two kinds of inspection share a template and a narrative collection but need different limitations text, such as Residential Resale and Pre-Listing / Seller's.
+- **Per narrative collection**, on the collection's card in the Narrative Library. This is the fallback, used when the inspection type has no text of its own.
+
+Both places have a **Standard** text and a separate **Reinspection** text that prints on reinspection reports.
 
 <Note>
 AIPI is optional. Whether it is available (and how much it can say) depends on the SoP your template uses. Check your SoP's rules before adding one.
 </Note>
 
-## Where to find it
+## Per inspection type: Limitations Text (AIPI)
 
-In the top bar, click **Narrative Management**, then open the **Narrative Library** tab. Find the narrative collection's **card** and use its buttons: **Add/Edit Additional Information** and **Add/Edit Reinspection Additional Information**. A check mark shows once configured. These buttons are on the narrative-library cards, not on the Collection Detail page, and they are not available for caption libraries.
+In the top bar, click **Narrative Management**, then open the **Limitations Text (AIPI)** tab. Only Owners and Admins can edit it.
 
-## Two variants per collection
+There's one row per inspection type: Residential Resale, Pre-Listing / Seller's, New Construction (Final, Pre-Pour, Pre-Drywall), 11-Month Warranty, Historical Home, Limited Scope — Foundation/Structural, Commercial, Re-inspection and Custom. Each row has a **Standard** text and a **Reinspection** text.
 
-A collection can carry two AIPIs:
+- **Write** or **Edit** opens the AIPI editor (see [Editing an AIPI](#editing-an-aipi)).
+- Before the text is saved, a dialog lists the inspections of that type that aren't published yet and will print it. It also says how many published reports keep their current text.
+- **Use collection text** removes the type's text, so that type goes back to the narrative collection's AIPI.
 
-| Variant | When it prints |
+An inspection's type is its **Inspection Type**. It's set from the primary service when the order is created, and you can change it in Inspection Details. See [Primary services](/1nspect/getting-started/primary-services).
+
+## Per narrative collection (fallback)
+
+In the top bar, click **Narrative Management**, then open the **Narrative Library** tab. Find the narrative collection's **card** and use its buttons: **Add/Edit Additional Information** and **Add/Edit Reinspection Additional Information**. A check mark shows once configured. The editor carries the note _"Used when the inspection type has no text of its own"_. These buttons are on the narrative-library cards, not on the Collection Detail page, and they are not available for caption libraries.
+
+| Variant | Dialog title |
 | --- | --- |
-| **Standard AIPI** | On every published report that uses this collection. Dialog title: _"Additional Information Provided by Inspector"_. |
-| **Reinspection AIPI** | On reinspection reports only, in place of the standard AIPI. Dialog title: _"Reinspection — Additional Information Provided by Inspector"_. |
+| **Standard AIPI** | _"Additional Information Provided by Inspector"_ |
+| **Reinspection AIPI** | _"Reinspection — Additional Information Provided by Inspector"_ |
 
-If a collection has no reinspection AIPI, reinspection reports use the standard AIPI (same wording as the original inspection). If the collection has both, 1nspecT uses the right one for the report type automatically.
+## Which text prints
+
+The same text prints in the PDF, the client's online report and the Report Workspace preview. 1nspecT uses the first one that exists:
+
+| Report | Order used |
+| --- | --- |
+| **Original inspection** | 1. The inspection type's Standard text. 2. The narrative collection's Standard AIPI. |
+| **Reinspection** | 1. The inspection type's Reinspection text. 2. The collection's Reinspection AIPI. 3. The inspection type's Standard text. 4. The collection's Standard AIPI. |
+
+If **Skip additional info** is set on an inspection, no AIPI prints.
+
+Nothing changes until you write a type's text. Published reports never change: a new or edited text applies to reports published or republished from then on.
 
 ## Editing an AIPI
 
@@ -42,7 +66,7 @@ The AIPI editor is a rich-text dialog with the standard formatting tools:
 - Font size
 - Line spacing
 
-Write the content you want to print on the report. Save when done. The editor validates that the content isn't empty before saving.
+Write the content you want to print on the report. Save when done. The editor won't save empty content. Before saving, it asks you to tick **I understand and accept responsibility**, then click **Confirm & Save**.
 
 ### Reinspection framing
 
@@ -54,6 +78,7 @@ Typical uses:
 
 - **Installer qualifications** that the SoP asks the inspector to disclose for specific equipment types
 - **Scope caveats** when the inspection covered less than the standard (concealed areas, inaccessible systems, weather-constrained observations)
+- **Limited-scope limitations**, such as a foundation/structural-only inspection (use the **Limited Scope — Foundation/Structural** row)
 - **Reinspection limitations** that are different from an original inspection (one-visit scope, no new findings scope, follow-up fee structure)
 - **Product-specific notes** that recur across many of your inspections (a known manufacturer defect, a disclosure your attorney has drafted)
 
@@ -74,3 +99,4 @@ AIPI is not the right place for:
 - [Attach caption and narrative libraries](/1nspect/getting-started/attach-libraries)
 - [Choose your Standard of Practice](/1nspect/getting-started/choose-your-sop)
 - [Build your inspection template](/1nspect/getting-started/build-your-first-template)
+- [Primary services](/1nspect/getting-started/primary-services)
