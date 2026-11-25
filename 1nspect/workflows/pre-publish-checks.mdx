@@ -72,10 +72,12 @@ A finding gets at most one of the three summary reminders.
 
 A Recommendation names the trade and one direct action, for example _"A qualified contractor should repair the caulking as needed."_ Use "should evaluate … and repair as needed" only when the cause or scope is unknown. None of these flags blocks Publish.
 
+**New AI drafts are shortened automatically.** On a new AI draft (a single draft or Finish & Draft), a Recommendation addressed to a trade is cut down to the short form. This happens when it lists repair steps, says "repair or replace", uses a verb other than repair, replace or install, repeats the location, or restates the component's full name. For example, it becomes _"A qualified contractor should repair the door as needed."_ The rewrite only removes words. If it can't produce a clean sentence, the draft is left as it was and the **Recommendation lists repair steps** flag shows. Your own edits and AI Polish are never rewritten. The fixed Recommendations (Standards Update, limitations, Acceptable Performance, Aged Equipment Advisory and the Movement Indicator engineer referral) are never changed.
+
 | Flag | What it means |
 | --- | --- |
 | **Recommendation adds a purpose or verify step** | The Recommendation ends with a purpose or verification clause. Name the trade and one action. A new AI draft has this clause removed automatically, so the flag mostly appears on text you've edited by hand. |
-| **Recommendation lists repair steps** | The Recommendation lists several repair steps. Use one direct verb without describing the method ("should repair … as needed"). This one is never rewritten for you. |
+| **Recommendation lists repair steps** | The Recommendation lists several repair steps. Use one direct verb without describing the method ("should repair … as needed"). A new AI draft is shortened automatically (see below), so the flag mostly appears on text you've edited by hand, on AI Polish output, or on a draft that couldn't be shortened cleanly. |
 | **Unit has no serial number** | An equipment unit has a capacity or manufacturer recorded but no serial number. A repeated data-plate scan on an older app version could add a unit that isn't there. Remove the extra unit, or add the serial number from the data plate. |
 | **Auxiliary heat may have staged** | In heat pump mode, the supply temperature (125°F or more) or the temperature rise (45°F or more) is high enough that auxiliary heat may have come on during the test. The reading is still judged against the 15°F heat pump floor. You can add _"Auxiliary heat staging during the test could not be ruled out."_ to the Condition if you choose. |
 
