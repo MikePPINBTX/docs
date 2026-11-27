@@ -40,6 +40,7 @@ Click the add action to open the Agreement editor. Fill in:
 | Scope | **All orders** or specific services. This is a choice, not a trigger. |
 | Active | Toggle to enable or disable the agreement. |
 | Require co-client to sign | When on, the co-client must sign as well. |
+| Signed once per order | _"One signature covers every trip on the order. The client portal shows it once, above the trips. The services ticked above still decide which trips it is sent with."_ Use it for an agreement that only needs one signature per order, such as a data-sharing agreement. |
 | Agreement Body | The rich-text body of the agreement. Use **Insert Tag** to insert dynamic fields. |
 
 ### Insert Tag
@@ -83,6 +84,10 @@ For companies that run multiple service types, you can have more than one agreem
 - An ancillary agreement for a specific ancillary (if that ancillary has **Own Agreement** turned on in [Ancillary services](/1nspect/getting-started/ancillary-services))
 
 1nspecT sends every applicable agreement as a bundle when the triggering event fires.
+
+### Multi-trip orders
+
+On an order with more than one trip, each trip gets its own agreements. A signature on one trip counts for another trip only for an agreement marked **Signed once per order** or set to **All orders**. Every other agreement (a TREC agreement, a Phase 1 or Phase 2 agreement, a warranty agreement) needs each trip's own signature. The same applies to a trip added later with **Add Service**. See [Managing orders › Agreements on multi-trip orders](/1nspect/workflows/managing-orders#agreements-on-multi-trip-orders).
 
 ## Deleting an agreement
 
