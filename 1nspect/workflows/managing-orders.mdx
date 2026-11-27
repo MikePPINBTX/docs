@@ -60,11 +60,30 @@ Add Service adds primary services only. To add an ancillary service, use **Edit 
 
 Tick **No charge (comped)** in the Add Service dialog to add the service at $0. The manual discount field is hidden while it's ticked. See [No charge (comped)](#no-charge-comped).
 
+### Agreements on multi-trip orders
+
+On an order with two or more trips, the order's Overview tab shows an agreements panel in place of the "Contracts sent" banner. It reads **Agreements — X of Y trips signed**, with one chevron per trip in date order (for example P1 › P2 › P3 › WA). Each chevron reflects that trip's own agreements:
+
+| Colour | Means |
+| --- | --- |
+| Green | Every agreement on the trip is signed, or the trip is cleared by a recorded outside agreement, an exemption or **Contracted externally** |
+| Amber | Sent, awaiting signature |
+| Grey | Not sent yet |
+| Red | Unsigned, and the trip is within 7 days, past its date or already performed |
+
+Hover a chevron to see that trip's agreements and their signed dates. Click it to open the trip. **Resend Bundle** sits in the panel until every trip is green.
+
+While the order is at the contract stage, the status badge in the order header reads **AGREEMENTS X/Y SIGNED**: amber until every trip is signed, then green. Cancelled trips aren't counted. After the contract stage, the badge shows the order's normal status. The [Inspections list](/1nspect/admin-operator/inspections-list#columns) shows the same chevrons in its Status column.
+
+A signature on one trip counts for another trip only for agreements marked **Signed once per order** or set to **All orders**. See [Contract templates › Multi-trip orders](/1nspect/getting-started/contracts#multi-trip-orders).
+
+A single-trip order keeps the "Contracts sent" banner. The "Contracts pending review" and "Contract voided" banners are unchanged.
+
 ### Resending agreements
 
 There are two ways to resend agreements:
 
-- **The whole order:** **Resend Bundle** on the order's Overview tab, in the "Contracts sent" banner (shown while the order is awaiting signature). It opens Review & Send and regenerates every trip's agreements, each at its own fee. Use it when the client lost the email.
+- **The whole order:** **Resend Bundle** on the order's Overview tab. On a multi-trip order it's in the agreements panel until every trip is signed. On a single-trip order it's in the "Contracts sent" banner while the order is awaiting signature. It opens Review & Send and regenerates every trip's agreements, each at its own fee. Use it when the client lost the email.
 - **One trip:** the child inspection's **Communications** tab. The button reads **Send This Trip's Agreements**, or **Resend This Trip's Agreements** once they're out for signature. It regenerates only that trip's own agreements, leaves the other trips alone, and sends the client portal link. It's disabled once the agreement is signed. Use it to refresh one trip's agreement, for example after rescheduling that trip.
 
 ## Cancel Order
