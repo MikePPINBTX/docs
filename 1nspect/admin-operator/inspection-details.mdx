@@ -85,7 +85,7 @@ For multi-phase orders, each phase appears as its own row.
 | --- | --- |
 | **Edit Order** | Change clients, property, services, discounts, surcharges, detached structures. Recomputes billing and regenerates the invoice in place. See [Managing orders](/1nspect/workflows/managing-orders). |
 | **Add Service** | Add a primary or ancillary service to a signed order without voiding the agreement. |
-| **Resend Bundle** | Re-send the applicable agreements. Used after Add Service or when a client lost the original email. |
+| **Resend Bundle** | On the Overview tab's "Contracts sent" banner, shown while the order is awaiting signature (not in the header). Re-sends the agreements for the whole order. Opens Review & Send and regenerates every trip's agreements at its own fee. Used after Add Service or when a client lost the original email. To resend one trip only, use that inspection's Communications tab. |
 | **Cancel Order** | Cancel the whole order or one phase (**Cancel This Inspection**). Removing one ancillary uses the separate **Remove Ancillary** modal. Covered in [Managing orders](/1nspect/workflows/managing-orders). |
 | **Record outside agreement** | Owners and admins, when the agreement hasn't been signed in the app (**Edit outside agreement** once recorded). Records an agreement the client signed outside 1nspecT: **Signed by**, **Date signed** and optional **Notes**. On a multi-trip order, record it for each trip. Logged in History under **Contracts**. See [Signed agreement policy](/1nspect/features/signed-agreement-policy#agreements-signed-outside-1nspect). |
 | **Mark as Paid** | Record a manual payment: Amount paid, Date paid and Payment method (Cash, Check, Zelle, Venmo or Offline Credit Card), confirmed with **Record Payment**. |
@@ -96,7 +96,7 @@ For multi-phase orders, each phase appears as its own row.
 
 ## Communications tab
 
-On a child inspection, the **Communications** tab shows each email with its per-recipient delivery status. It has **Fire Workflow Trigger** and **Send/Resend Contract Bundle** actions. There is no per-email resend.
+On a child inspection, the **Communications** tab shows each email with its per-recipient delivery status. It has **Fire Workflow Trigger** and **Send This Trip's Agreements** (**Resend This Trip's Agreements** once sent) actions. The agreements button sends only that trip's own agreements, not the rest of the order. There is no per-email resend.
 
 If an email bounces, a **bounce banner** appears at the top of the page and you also get a bounce notice email. See [Resend email](/1nspect/features/resend-email).
 
