@@ -34,6 +34,7 @@ Each agreement captures:
 - **Agreement name** — placeholder `Agreement name (e.g. Primary Service Agreement)`
 - **Scope** — **All orders** or specific services (a choice, not a trigger)
 - **Active** toggle and **Require co-client to sign** option on each agreement
+- **Signed once per order** — one signature covers every trip on the order, and the client portal shows it once, above the trips. The services ticked still decide which trips it's sent with. See [Contract templates › Multi-trip orders](/1nspect/getting-started/contracts#multi-trip-orders).
 - **Agreement Body** — rich-text with **Insert Tag** dropdown
 - **Save Agreement** at the bottom
 - **Test Send** — expands a panel with an Inspection ID input (placeholder `Inspection ID (e.g. 2026-0062-RS)`) and a **Send** action. It renders every agreement that applies to that inspection and emails the PDFs **only to you** (the logged-in user). It writes nothing to the inspection and never contacts the client.
@@ -56,7 +57,7 @@ A tenant can have multiple agreements, each scoped to the orders it applies to:
 - A reinspection agreement that applies to Reinspections only
 - An ancillary-specific agreement (if that ancillary has Own Agreement turned on in Pricing Manager)
 
-1nspecT bundles the applicable agreements at send time via **Resend Bundle** on each order.
+1nspecT bundles the applicable agreements at send time. To resend them, use **Resend Bundle** on the order (see [Managing orders › Resending agreements](/1nspect/workflows/managing-orders#resending-agreements)).
 
 ## Deleting an agreement
 
