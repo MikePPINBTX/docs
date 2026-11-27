@@ -37,6 +37,7 @@ As you work through the report, the Narrative Review Panel evaluates each narrat
 - A narrative written by the backup AI model, whose headline tag needs a second look (see below)
 - Headline and movement wording, punctuation, and findings that may belong in the summary (see below)
 - Recommendation wording and equipment data (see below)
+- Two findings that describe the same condition (see below)
 
 Each flag links to the finding so you can jump straight to it, fix the wording, and move on.
 
@@ -95,6 +96,18 @@ These are never rewritten:
 | **Recommendation lists repair steps** | The Recommendation lists several repair steps. Use one direct verb without describing the method ("should repair … as needed"). A new AI draft is shortened automatically (see below), so the flag mostly appears on text you've edited by hand, on AI Polish output, or on a draft that couldn't be shortened cleanly. |
 | **Unit has no serial number** | An equipment unit has a capacity or manufacturer recorded but no serial number. A repeated data-plate scan on an older app version could add a unit that isn't there. Remove the extra unit, or add the serial number from the data plate. |
 | **Auxiliary heat may have staged** | In heat pump mode, the supply temperature (125°F or more) or the temperature rise (45°F or more) is high enough that auxiliary heat may have come on during the test. The reading is still judged against the 15°F heat pump floor. You can add _"Auxiliary heat staging during the test could not be ruled out."_ to the Condition if you choose. |
+
+### Two narratives for one condition
+
+This flag is for review only and never blocks Publish. It shows on both findings of a pair in the same subsection (and the same unit, if units are recorded) when:
+
+- an out-of-range reading the app wrote up duplicates your own finding for the same reading;
+- a data record, such as _"Main water supply valve location: … access blocked by mulch"_, describes the same condition as a finding beside it;
+- a "set at" or "set to" caption sits beside a temperature reading of the same thing, such as _"Water heater thermostat set at 140°F"_ next to _"Hot water temperature: 134°F at the kitchen sink"_;
+- a caption records an action taken, such as _"The furnace was turned off at the thermostat and the gas supply disabled"_, beside the finding it belongs to;
+- or two Safety Deficiencies have the same Recommendation and overlapping headlines.
+
+Keep one finding and move the other's photo to it. For an action taken, add the action to the kept finding's Condition. If the finding you delete was in the Deficiency Summary, the workspace offers to move the summary flag to the one you keep.
 
 ## Completeness gate
 
