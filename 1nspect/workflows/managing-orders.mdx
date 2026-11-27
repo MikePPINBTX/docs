@@ -30,7 +30,7 @@ Open the order: **Inspections** top nav, click into the order. You land on the o
 |---|---|
 | **Order header** (top right, under the total and amount due) | **Edit**, **Edit Order**, **Add Service**, **Mark as Paid**, **Issue Refund** (once paid), **Cancel Order** (plus **Mark Complete** or **Reopen Order** when they apply) |
 | **The child inspection's Overview tab › Quick Actions card** (open the inspection from the order's **Inspections** tab) | **Change Status**, **Edit Order**, **Mark as Paid**, **Mark as No Charge** (unpaid only), **Issue Refund** (once paid), **Assign Inspector**, **Reschedule**, **Create Reinspection**, **Cancel This Inspection** |
-| **The child inspection's Communications tab** | **Send Contract Bundle** / **Resend Bundle** |
+| **The child inspection's Communications tab** | **Send This Trip's Agreements** / **Resend This Trip's Agreements** |
 
 **Edit** on the order header toggles in-place editing of the order's tabs (client info, scheduling); **Save Changes** saves it. **Edit Order** opens the full Edit Order dialog described below.
 
@@ -60,9 +60,12 @@ Add Service adds primary services only. To add an ancillary service, use **Edit 
 
 Tick **No charge (comped)** in the Add Service dialog to add the service at $0. The manual discount field is hidden while it's ticked. See [No charge (comped)](#no-charge-comped).
 
-### Resend Bundle
+### Resending agreements
 
-The agreement bundle is sent from the child inspection's **Communications** tab. The button reads **Send Contract Bundle**, or **Resend Bundle** once a bundle is out for signature. It is disabled once the agreement is signed. While contracts are out, the order's Overview tab also shows a "Contracts sent" banner with its own **Resend Bundle** button, which resends the bundle for the whole order. Use it when the client lost the email.
+There are two ways to resend agreements:
+
+- **The whole order:** the order page's **Resend Bundle** button, including the one on the "Contracts sent" banner on the Overview tab. It opens Review & Send and regenerates every trip's agreements, each at its own fee. Use it when the client lost the email.
+- **One trip:** the child inspection's **Communications** tab. The button reads **Send This Trip's Agreements**, or **Resend This Trip's Agreements** once they're out for signature. It regenerates only that trip's own agreements, leaves the other trips alone, and sends the client portal link. It's disabled once the agreement is signed. Use it to refresh one trip's agreement, for example after rescheduling that trip.
 
 ## Cancel Order
 
